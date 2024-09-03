@@ -1,0 +1,7 @@
+\contentsline {section}{\numberline {1}Introduction}{1}{}%
+\contentsline {section}{\numberline {2}background}{1}{}%
+\contentsline {subsection}{\numberline {2.1}neural networks and deep learning}{1}{}%
+\contentsline {subsection}{\numberline {2.2}paleoecology}{1}{}%
+\contentsline {section}{\numberline {3}data methods etc}{1}{}%
+\contentsline {section}{\numberline {4}results}{1}{}%
+\contentsline {section}{\numberline {5}conclusion}{1}{}%

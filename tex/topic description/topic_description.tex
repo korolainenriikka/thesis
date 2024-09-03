@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage[style=numeric,bibstyle=numeric,backend=biber,natbib=true,maxbibnames=99,giveninits=true,uniquename=init]{biblatex}
+
+\addbibresource{../bibliography.bib}
+\title{Master's thesis topic description: Fine-tuned optical character recognition for dental fossil markings}
+\author{Riikka Korolainen}
+\date{014926659}
+
+\begin{document}
+
+
+\maketitle
+
+\section{General problem area}
+
+paleoecology: data analysis on fossil data points
+
+what we are able to learn: makeup of species of past ecosystems, reactions
+of species to environmental changes
+
+since 80's KNM has stored handwritten notes on found fossil specimens in 
+Kenya/Ethiopia. approx 4,500 pages with approx 50 specimens in the catalogue
+
+digitisation of hand-written fossil catalogues of the National Museum of Kenya
+
+digitisation with Azure AI Vision services done, but that model could 
+not read the special characters in the "element" column
+
+
+\section{Research questions}
+
+how well few-shot transfer learning methods perform at transfer from reading 
+regular handwritten characters to reading charaters that have lower and 
+upper script numbers
+
+insert here image (ota element-sarake ja element csv ja toothrecords)
+
+%\newgeometry{left=0.2cm,right=0.2cm}
+%\begin{center}
+%    \includegraphics*[scale=0.43]{data_sample.png}
+%\end{center}
+%\restoregeometry
+
+\section{Methologies}
+
+Literature review: find and compare the most successful OCR models for 
+handwriting with bounding boxes given (we have them with azure vision)
+
+Literature review: best few-shot transfer learning methods 
+
+Hand-label data or request from Kenya 
+
+Experiment: combinations of best OCR models + transfer techniques
+keep track of experiments with MLflow
+
+Train + store best method as a publicly available ML model. Submit to be 
+used by KNM + stakeholders. Also run model on catalogues, get out cleaned
+tooth records column
+
+\section{Key references}
+
+\begin{itemize}
+    \item \cite{li2021trocr} presents a promising base model for fine-tuning
+    \item \cite{Žliobaitė2023} the NOW database of fossil mammals
+\end{itemize}
+
+\printbibliography
+\end{document}
