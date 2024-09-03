@@ -21,24 +21,26 @@
 paleoecology: data analysis on fossil data points
 
 what we are able to learn: makeup of species of past ecosystems, reactions
-of species to environmental changes
+of species to environmental changes, early human lifestyles \cite{Žliobaitė2023}
 
 since 80's KNM has stored handwritten notes on found fossil specimens in 
-Kenya/Ethiopia. approx 4,500 pages with approx 50 specimens in the catalogue
+Kenya/Ethiopia. approx 4,500 pages with approx 50 specimens in the catalogue. 
 
 digitisation of hand-written fossil catalogues of the National Museum of Kenya
+digitizing these will make all fossil data analysis more accurate
+also allows integrating this data to larger collections of fossil data such as the NOW database \cite{Žliobaitė2023}
 
 digitisation with Azure AI Vision services done, but that model could 
 not read the special characters in the "element" column
 
+insert here a sample image of element column content and then
+regular expression solution
 
 \section{Research questions}
 
 how well few-shot transfer learning methods perform at transfer from reading 
 regular handwritten characters to reading charaters that have lower and 
 upper script numbers
-
-insert here image (ota element-sarake ja element csv ja toothrecords)
 
 %\newgeometry{left=0.2cm,right=0.2cm}
 %\begin{center}
@@ -84,10 +86,11 @@ using standard python data science libraries (pytorch, MLflow) and
 \section{Key references}
 
 \begin{itemize}
-    \item \cite{li2021trocr} presents a promising base model for fine-tuning
+    \item \cite{li2021trocr} a promising base model for fine-tuning
     \item \cite{Žliobaitė2023} the NOW database of fossil mammals
     \item \cite{9151144} A survey on optical character recognition methods 
     \item \cite{10.1145/3582688} A survey on few-shot transfer learning
+    \item \cite{Faith_Lyman_2019} A thorough reference and bibliography on paleoecology
 \end{itemize}
 
 \printbibliography
