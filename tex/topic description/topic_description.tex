@@ -46,27 +46,48 @@ insert here image (ota element-sarake ja element csv ja toothrecords)
 %\end{center}
 %\restoregeometry
 
-\section{Methologies}
+\section{Methodologies}
 
-Literature review: find and compare the most successful OCR models for 
-handwriting with bounding boxes given (we have them with azure vision)
+%Hand-label data or request from Kenya 
 
-Literature review: best few-shot transfer learning methods 
+%Experiment: combinations of best OCR models + transfer techniques + 
+%related problem solutions
+%keep track of experiments with MLflow
 
-Hand-label data or request from Kenya 
+%Train + store best method as a publicly available ML model. Submit to be 
+%used by KNM + stakeholders. Also run model on catalogues, get out cleaned
+%tooth records column
 
-Experiment: combinations of best OCR models + transfer techniques
-keep track of experiments with MLflow
+The thesis will consist of a literature review and an experimental section.
+The literature review will consist of a synthesis of the relevant background 
+information on deep learning, optical character recognition, transfer learning and 
+paleoecology.
+The main part of the literature review will consist of comparing
+solutions to related problems of digitizing handwritten text that contains 
+more unconventional characters. This part of the review can be divided into three partially overlapping review 
+questions:
 
-Train + store best method as a publicly available ML model. Submit to be 
-used by KNM + stakeholders. Also run model on catalogues, get out cleaned
-tooth records column
+\begin{itemize}
+    \item What is the best OCR model architecture?
+    \item What is the best few-shot transfer learning method?
+    \item Which solutions have previous works on related problems applied?
+\end{itemize}
+
+The goal of the literature review will be to choose a small set of solutions, which will be 
+benchmarked in the experimental section. This part of the work will consist of attempting 
+different combinations of approaches, and then comparing performance metrics. This will require a 
+diligent experiment tracking system and hand-annotating data. The experiments will be performed 
+using standard python data science libraries (pytorch, MLflow) and
+ data from the fossil catalogues and specimen cards from the National Museum of Kenya. As a final deliverable,
+ the fine-tuned model will be stored and made publicly available to be used by the museum.
 
 \section{Key references}
 
 \begin{itemize}
     \item \cite{li2021trocr} presents a promising base model for fine-tuning
     \item \cite{Žliobaitė2023} the NOW database of fossil mammals
+    \item \cite{9151144} A survey on optical character recognition methods 
+    \item \cite{10.1145/3582688} A survey on few-shot transfer learning
 \end{itemize}
 
 \printbibliography
