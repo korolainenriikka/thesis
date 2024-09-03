@@ -1,3 +1,6 @@
 Things to test
 
 - data augmentation
+
+next: baseline: trocr outputs using an annotated tooth record test set
+BUT: how to annotate? how to map special characters to typed characters?

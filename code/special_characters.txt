@@ -1,0 +1,10 @@
+ᴬ ᴮ ᴰ ᴱ ᴳ ᴴ ᴵ ᴶ ᴷ ᴸ ᴹ ᴺ ᴼ ᴾ ʳ ˢ ᵀ ᵁ ᵛ ᵂ ᵉ ᶠ ᵍ ʰ ⁱ ʲ ᵏ ˡ ᵐ ⁿ ᵒ ᵖ ʳ ˢ ᵗ ᵘ ᵛ ʷ ˣ ʸ ᶻ
+⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹
+₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉
+ₐ ₑ ₒ ₓ ₔ ₕ ₖ ₗ ₘ ₙ ₚ ₛ ₜ
+
+superscript dash: ˗
+lowerscript dash: _
+macron overline letters
+
+next up: define exact set of characters found in the catalogues & find unicode character for each of them.
