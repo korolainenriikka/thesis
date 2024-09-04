@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{caption}
 \usepackage{geometry}
 \usepackage[style=numeric,bibstyle=numeric,backend=biber,natbib=true,maxbibnames=99,giveninits=true,uniquename=init]{biblatex}
 
@@ -18,35 +19,56 @@
 
 \section{General problem area}
 
-paleoecology: data analysis on fossil data points
+The research area of paleoecology studies past environments based on fossil remains.
+Relying on ecological principles and statistical methods it is possible to learn various
+traits of past ecosystems, such as what past climates were like, how species reacted 
+to environmental changes and how early humans lived \cite{Faith_Lyman_2019}.
 
-what we are able to learn: makeup of species of past ecosystems, reactions
-of species to environmental changes, early human lifestyles \cite{Žliobaitė2023}
+%paleoecology: data analysis on fossil data points
 
-since 80's KNM has stored handwritten notes on found fossil specimens in 
-Kenya/Ethiopia. approx 4,500 pages with approx 50 specimens in the catalogue. 
+%what we are able to learn: makeup of species of past ecosystems, reactions
+%of species to environmental changes, early human lifestyles \cite{Žliobaitė2023}
 
-digitisation of hand-written fossil catalogues of the National Museum of Kenya
-digitizing these will make all fossil data analysis more accurate
-also allows integrating this data to larger collections of fossil data such as the NOW database \cite{Žliobaitė2023}
+The National Museum of Kenya stores handwritten notes on found fossil specimens in the 
+museum archives with the earliest being from the 1980's. The catalogue consists of 
+approximately 90,000 unpublished specimens and an ongoing project is to digitize 
+and publish the data. Accurately digitizing the data points will extend a paramount dataset 
+to paleoecological research from the East African region and allow the data to be integrated 
+to larger collections of fossil data, such as the NOW database \cite{Žliobaitė2023}.
+%since 80's KNM has stored handwritten notes on found fossil specimens in 
+%Kenya/Ethiopia. approx 4,500 pages with approx 50 specimens in the catalogue. 
 
-digitisation with Azure AI Vision services done, but that model could 
-not read the special characters in the "element" column
+%digitisation of hand-written fossil catalogues of the National Museum of Kenya
+%digitizing these will make all fossil data analysis more accurate
+%also allows integrating this data to larger collections of fossil data such as the NOW database \cite{Žliobaitė2023}
 
-insert here a sample image of element column content and then
-regular expression solution
+%digitisation with Azure AI Vision services done, but that model could 
+%not read the special characters in the "element" column
+Most of this digitisation effort was completed in a previous project using commercial 
+Azure AI Vision services. However, this model could not read the special characters found 
+in the data denoting tooth fragments. The aim of this thesis is to fine-tune an 
+optical character recognition (OCR) model to recognize these markings. A sample of the markings and 
+the Azure Vision output can be found in Figure \ref{image:data_sample}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.43]{sample.png}
+    \includegraphics[scale=0.43]{azure_result.png}
+    \caption{Sample from the tooth notation and corresponding Azure AI output}
+    \label{image:data_sample}
+\end{figure}
 
 \section{Research questions}
 
-how well few-shot transfer learning methods perform at transfer from reading 
-regular handwritten characters to reading charaters that have lower and 
-upper script numbers
+The main research question is the following:
 
-%\newgeometry{left=0.2cm,right=0.2cm}
-%\begin{center}
-%    \includegraphics*[scale=0.43]{data_sample.png}
-%\end{center}
-%\restoregeometry
+Which base model and fine-tuning method is most accurate for recognizing the special 
+characters found in dental fossil notation?
+
+The special characters consist of lower- and upper script numbers and letters with 
+a line on top or underscoring. Additionally, there are multiple conventions for denoting the 
+same tooth. For the fine-tuning, the methods are likely limited to few-shot transfer learning 
+methods, since the data needs to be hand-labeled.
 
 \section{Methodologies}
 
@@ -86,8 +108,8 @@ using standard python data science libraries (pytorch, MLflow) and
 \section{Key references}
 
 \begin{itemize}
-    \item \cite{li2021trocr} a promising base model for fine-tuning
-    \item \cite{Žliobaitė2023} the NOW database of fossil mammals
+    \item \cite{li2021trocr} A promising base model for fine-tuning
+    \item \cite{10478003} \cite{10.1145/3075645} \cite{10.1145/3542954.3542957} Solutions to similar problems
     \item \cite{9151144} A survey on optical character recognition methods 
     \item \cite{10.1145/3582688} A survey on few-shot transfer learning
     \item \cite{Faith_Lyman_2019} A thorough reference and bibliography on paleoecology
