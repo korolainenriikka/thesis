@@ -5,6 +5,7 @@
 \usepackage{amssymb}
 \usepackage{geometry}
 \usepackage[style=numeric,bibstyle=numeric,backend=biber,natbib=true,maxbibnames=99,giveninits=true,uniquename=init]{biblatex}
+\usepackage[utf8]{inputenc}
 
 \addbibresource{../bibliography.bib}
 \title{Thesis notes}
@@ -71,8 +72,31 @@ Add here description of teeth: types and different notation styles in fossil cat
 
 \section{data methods etc}
 
-things to try
-data augmentation
+\subsection{Unicode characters used for data labeling}
+
+explain: unicode has graphenes with code points. eg a is one graphene one code point,
+à is one graphene two code points (dot on top and the letter). the top thing -like characters will be called 
+"modifiers".
+
+markings contain letters and numbers with no line, line on top or line at the bottom.
+Each character can be lower- or upper script. The modifiers used are: 
+macron with lower ($\bar{\mathrm{A}}$) and upper variant.
+
+Unicode \cite{unicode_homepage} has characters that are for example upper script, but 
+these were not used for two reasons:
+
+- lower and upper script character set is incomplete for this purpose (eg 3 with upper macron and lower script needed)
+
+- from the model perspective 3 and $_3$ are no more similar than A and B, however, 
+three combined with lower script modifier and 3 with upper script modifier 
+all contain the same unicode character 3 with only the modifier changing. The 
+problem here is that there is no lower or upper case modifiers in unicode. Therefore,
+the caret ($\check{\mathrm{A}}$) was chosen as the lower script modifier, and the circumflex accent ($\hat{\mathrm{A}}$)
+as upper script. These were chosen since the arrow-like modifier pointing up or down
+is maybe the most logical placeholder for the missing modifier. More traditional 
+workarounds of missing upper or lower script, the underscore "\_" and separate 
+caret character "\^ " were not used to keep one unicode graphene represent one character 
+on the page.
 
 \section{results}
 
