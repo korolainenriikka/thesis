@@ -2,6 +2,10 @@
 \contentsline {section}{\numberline {2}background}{1}{}%
 \contentsline {subsection}{\numberline {2.1}neural networks and deep learning}{1}{}%
 \contentsline {subsection}{\numberline {2.2}paleoecology}{1}{}%
-\contentsline {section}{\numberline {3}data methods etc}{1}{}%
-\contentsline {section}{\numberline {4}results}{1}{}%
-\contentsline {section}{\numberline {5}conclusion}{1}{}%
+\contentsline {subsubsection}{\numberline {2.2.1}Basics on ecology}{1}{}%
+\contentsline {subsubsection}{\numberline {2.2.2}Paleoenvironmental reconstruction}{1}{}%
+\contentsline {subsubsection}{\numberline {2.2.3}Diets, evolution, etc}{1}{}%
+\contentsline {subsubsection}{\numberline {2.2.4}Animal teeth notation}{2}{}%
+\contentsline {section}{\numberline {3}data methods etc}{2}{}%
+\contentsline {section}{\numberline {4}results}{2}{}%
+\contentsline {section}{\numberline {5}conclusion}{2}{}%
