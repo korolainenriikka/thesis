@@ -3,4 +3,9 @@ Things to test
 - data augmentation
 
 next: baseline: trocr outputs using an annotated tooth record test set
-BUT: how to annotate? how to map special characters to typed characters?
+
+Ways to improve
+- also use data from other types of specimen cards
+
+Setup decisions
+- annotating: use modifiers not special unicode characters (3+lowerscript modifier instead of lowerscript 3)
