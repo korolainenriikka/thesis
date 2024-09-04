@@ -96,7 +96,11 @@ as upper script. These were chosen since the arrow-like modifier pointing up or 
 is maybe the most logical placeholder for the missing modifier. More traditional 
 workarounds of missing upper or lower script, the underscore "\_" and separate 
 caret character "\^ " were not used to keep one unicode graphene represent one character 
-on the page.
+on the page. Also on the other hand using one modifier for all lowercase characters allows 
+the model to understand that there is a similarity between all lowercase characters.
+The intention is that one idea about a character is encoded as one code point, so that 
+the model can learn the mapping from the image of the character to the code point 
+combination
 
 \section{results}
 
