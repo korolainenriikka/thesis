@@ -7,4 +7,5 @@
 *.log
 *.run.xml
 *.gz
+*.toc
 */venv/*
