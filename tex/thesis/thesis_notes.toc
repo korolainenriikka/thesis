@@ -3,10 +3,10 @@
 \contentsline {subsection}{\numberline {2.1}neural networks and deep learning}{1}{}%
 \contentsline {subsection}{\numberline {2.2}paleoecology}{1}{}%
 \contentsline {subsubsection}{\numberline {2.2.1}Basics on ecology}{1}{}%
-\contentsline {subsubsection}{\numberline {2.2.2}Paleoenvironmental reconstruction}{1}{}%
-\contentsline {subsubsection}{\numberline {2.2.3}Diets, evolution, etc}{1}{}%
-\contentsline {subsubsection}{\numberline {2.2.4}Animal teeth notation}{2}{}%
+\contentsline {subsubsection}{\numberline {2.2.2}Paleoenvironmental reconstruction}{2}{}%
+\contentsline {subsubsection}{\numberline {2.2.3}Diets, evolution, etc}{2}{}%
+\contentsline {subsubsection}{\numberline {2.2.4}Dental fossils}{2}{}%
 \contentsline {section}{\numberline {3}data methods etc}{2}{}%
 \contentsline {subsection}{\numberline {3.1}Unicode characters used for data labeling}{2}{}%
-\contentsline {section}{\numberline {4}results}{2}{}%
-\contentsline {section}{\numberline {5}conclusion}{2}{}%
+\contentsline {section}{\numberline {4}results}{3}{}%
+\contentsline {section}{\numberline {5}conclusion}{3}{}%
