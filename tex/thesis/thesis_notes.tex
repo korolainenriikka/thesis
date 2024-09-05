@@ -90,7 +90,35 @@ Add here description of teeth: types and different notation styles in fossil cat
 
 \section{data methods etc}
 
-\subsection{Unicode characters used for data labeling}
+\subsection{data description}
+
+\subsubsection{Notes on creating the dataset}
+
+Hand-labeled
+
+Data was extracted from scans by getting bounding boxes from Azure Vision API,
+finding the correct column (nature of specimen or element), and cropping the image 
+according to bounding boxes.
+
+Non-tooth samples were not discarded since they contain 
+bone fossil related words and good samples of the handwriting style of this dataset.
+
+smudged-over "L" was labeled as "R", and other way around: it seems that later 
+someone found it was the opposite side after all. Hope of this is that the model 
+would learn to map "messy L" as "R". snudged "left" or "right" was not noted as the 
+opposite as there were too few such samples.
+
+Superscript seems much more rare than lower script
+
+Data was labeled not by individual characters but as full tooth descriptions
+to preserve context where tooth special characters are more likely to occur
+
+Some have been corrected by writing on top and thus are very hard 
+even for humans to read, this is also an example of smudged-over correction: 
+
+\includegraphics*[scale=0.2]{superambiguous_data_sample.png}
+
+\subsubsection{Unicode characters used for data labeling}
 
 explain: unicode has graphenes with code points. eg a is one graphene one code point,
 à is one graphene two code points (dot on top and the letter). the top thing -like characters will be called 
@@ -109,7 +137,7 @@ these were not used for two reasons:
 three combined with lower script modifier and 3 with upper script modifier 
 all contain the same unicode character 3 with only the modifier changing. The 
 problem here is that there is no lower or upper case modifiers in unicode. Therefore,
-the caret ($\check{\mathrm{A}}$) was chosen as the lower script modifier, and the circumflex accent ($\hat{\mathrm{A}}$)
+the caron ($\check{\mathrm{A}}$) was chosen as the lower script modifier, and the circumflex accent ($\hat{\mathrm{A}}$)
 as upper script. These were chosen since the arrow-like modifier pointing up or down
 is maybe the most logical placeholder for the missing modifier. More traditional 
 workarounds of missing upper or lower script, the underscore "\_" and separate 

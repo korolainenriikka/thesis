@@ -7,6 +7,8 @@
 \contentsline {subsubsection}{\numberline {2.2.3}Diets, evolution, etc}{2}{}%
 \contentsline {subsubsection}{\numberline {2.2.4}Dental fossils}{2}{}%
 \contentsline {section}{\numberline {3}data methods etc}{2}{}%
-\contentsline {subsection}{\numberline {3.1}Unicode characters used for data labeling}{2}{}%
+\contentsline {subsection}{\numberline {3.1}data description}{2}{}%
+\contentsline {subsubsection}{\numberline {3.1.1}Notes on creating the dataset}{2}{}%
+\contentsline {subsubsection}{\numberline {3.1.2}Unicode characters used for data labeling}{3}{}%
 \contentsline {section}{\numberline {4}results}{3}{}%
 \contentsline {section}{\numberline {5}conclusion}{3}{}%
