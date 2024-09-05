@@ -1,17 +1,5 @@
-ᴬ ᴮ ᴰ ᴱ ᴳ ᴴ ᴵ ᴶ ᴷ ᴸ ᴹ ᴺ ᴼ ᴾ ʳ ˢ ᵀ ᵁ ᵛ ᵂ ᵉ ᶠ ᵍ ʰ ⁱ ʲ ᵏ ˡ ᵐ ⁿ ᵒ ᵖ ʳ ˢ ᵗ ᵘ ᵛ ʷ ˣ ʸ ᶻ
-⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹
-₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉
-ₐ ₑ ₒ ₓ ₔ ₕ ₖ ₗ ₘ ₙ ₚ ₛ ₜ
-
-superscript dash: ˗
-lowerscript dash: _
-macron overline letters
-
-next up: define exact set of characters found in the catalogues & find unicode character for each of them.
-
-ainaki on poskihampaat
-etuhampaat kulmahampaat
-montako hammasta?
+problems
+1/2 as fraction found in dataset, current label 1/2. occurences: 2
 
 unicode nits. use utf 8 encoding
 one grapheme with many code points. so it is one tooth notation unit
@@ -34,17 +22,14 @@ dataset
 2. pick pages that have a sample of all kinds of markings
 3. manually annotate
 
-A̱  (A + U+0331)             a̱  (a + U+0331)
-Ā  (A + U+0304)             ā  (a + U+0304)
-Ǎ  (A + U+030C)             ǎ  (a + U+030C)
-Â  (A + U+0302)             â  (a + U+0302)
-Ǎ̱ (A + U+0331 + U+030C)    ǎ̱ (a + U+0331 + U+030C)
-Â̱ (A + U+0331 + U+0302)    â̱ (a + U+0331 + U+0302)
-Ā̌ (A + U+0304 + U+030C)    ā̌ (a + U+0304 + U+030C)
-Ǎ̱ (A + U+0331 + U+030C)    ǎ̱ (a + U+0331 + U+030C)
 
-0̱ (0 + U+0331)      0̄ (0 + U+0304)      0̌ (0 + U+030C)      0̂ (0 + U+0302)
-0̱̌ (0 + U+0331 + U+030C)    0̱̂ (0 + U+0331 + U+0302)    0̄̌ (0 + U+0304 + U+030C)
+1̌1̂1̄̌
+2̌2̂2̄̌2̱̂
+3̌3̂3̱̌3̄̌3̱̂
+4̌4̂4̱̂4̄̌
+
+M̱ḺC̱C̄
+
 
 -̌ (- + U+030C)
 -̂ (- + U+0302)
@@ -58,9 +43,6 @@ Macron Below: A̱ (A + U+0331)
 B:
 Macron Above: B̄ (B + U+0304)
 Macron Below: Ḇ (B + U+0331)
-C:
-Macron Above: C̄ (C + U+0304)
-Macron Below: C̱ (C + U+0331)
 D:
 Macron Above: D̄ (D + U+0304)
 Macron Below: Ḏ (D + U+0331)
