@@ -86,7 +86,25 @@ Fossils occur when animal / plant remains are deposited in a sediment in a way t
 some part of its original form. Since teeth are the hardest material in animals, large fraction
 of found parts are teeth.
 
-Add here description of teeth: types and different notation styles in fossil catalogues
+specimen can be either one tooth or fragments of the jaw bone where there are multiple teeth (markings like M1-3)
+
+from \cite{Hillson_2005}
+
+lower jaw bones: mandibles
+
+right and left sides are always symmetrical, denoted simply L or R or Lt or Rt or left or right. left is left looking from the animal, not the observers perspective
+
+Identicality also causes that sometimes tooth fossils are misidentified to the wrong side and corrected (ei lähteestä vaan nähty datasta koska l ja r on sutattu aika monta kertaa ja vaihettu
+
+four classes, front to back: three incisors (I), one canine (C), four premolars (P), three molars (M). top bottom left right. top/bottom noting upper jaw as superscript lower jaw as lower script, 
+sometimes lower jaw as line on top and upper jaw as line on bottom, sometimes both are used: upper script number with line on bottom. Line is "the other jaw"
+
+deciduous (D), nonpermanent "milk" teeth (laita vaan jos löytyy d-hampaita)
+
+if there are less of a type of teeth eg two premolars, they might be no 1 and 2 or no 3 and 4
+
+give some example listing of all possible teeth in a mammal, both line and 
+super sub script notation. give image for this
 
 \section{data methods etc}
 
@@ -116,7 +134,7 @@ to preserve context where tooth special characters are more likely to occur
 Some have been corrected by writing on top and thus are very hard 
 even for humans to read, this is also an example of smudged-over correction: 
 
-\includegraphics*[scale=0.2]{superambiguous_data_sample.png}
+\includegraphics*[scale=0.2]{../images/superambiguous_data_sample.png}
 
 \subsubsection{Unicode characters used for data labeling}
 
@@ -147,6 +165,20 @@ the model to understand that there is a similarity between all lowercase charact
 The intention is that one idea about a character is encoded as one code point, so that 
 the model can learn the mapping from the image of the character to the code point 
 combination
+
+\subsubsection{Data preprocessing}
+
+Convert to black and white since text reading should not change when color of writing / background changes?
+
+Convert to background completely white, foreground completely black? Either there is a line or not?
+
+\subsection{Methods}
+
+\subsubsection{Encoding prior knowledge}
+Priors. base model already knows the output should be a word, eg "jdaslkjflkds" is a highly unlikely
+correct answer.
+Bone notation has a very small subset of possible english words, eg. the word "beach ball" cannot ever be a correct 
+answer for a reading
 
 \section{results}
 

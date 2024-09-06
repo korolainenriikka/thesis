@@ -1,5 +1,5 @@
 problems
-1/2 as fraction found in dataset, current label 1/2. occurences: 2
+1/2 as fraction found in dataset, current label 1/2. occurences: 2 joku special modifier 2 yllä
 
 unicode nits. use utf 8 encoding
 one grapheme with many code points. so it is one tooth notation unit

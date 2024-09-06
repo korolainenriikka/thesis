@@ -1,6 +1,11 @@
 Things to test
 
 - data augmentation
+- convert images to black and white (rgb values dont mean anything)
+- make area either fully white (background) or fully black (foreground)?
+    - but: smudged L / R maybe will not show
+- evaluation: check for systematic error -> concept drift because of notation style changing over time?
+
 
 next: baseline: trocr outputs using an annotated tooth record test set
 
