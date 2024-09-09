@@ -2,10 +2,11 @@ Things to test
 
 - data augmentation
 - convert images to black and white (rgb values dont mean anything)
-- make area either fully white (background) or fully black (foreground)?
+- make area either fully white (background) or fully black (foreground)? (szeliski book)
     - but: smudged L / R maybe will not show
+    - after making binary, morphology can be used (szeliski 3.3.3)
 - evaluation: check for systematic error -> concept drift because of notation style changing over time?
-
+- use words instead of whole element text as text to detect (word bounding box instead of line)
 
 next: baseline: trocr outputs using an annotated tooth record test set
 
@@ -14,3 +15,19 @@ Ways to improve
 
 Setup decisions
 - annotating: use modifiers not special unicode characters (3+lowerscript modifier instead of lowerscript 3)
+
+Evaluation metrics
+- trocr paper: correct matches / words. But: words in teeth are a bit ambiguous
+eg M3, m2, p3. whether spaces are detected does not really matter for accuracy
+--> remove spaces from output and label. count correct words
+    but: if one word is missing, all are wrong because of a drift eg generated: A- Proximal # distal end right femur, correct Proximal & distal end right femur
+    is entirely false. spaces here are very varying, so word correctness like this does not work well
+    also word completely off is worse than a one-character off word, should be captured
+so: would like to have words with conventional word correctness.
+but dental characters with char by char correctness 
+problem: no way to delineate
+
+for now. emulate trocr paper. 
+precision = correct matches / number of detected words 
+recall = correct matches / number of ground truth words
+f1 = (2xprecision*recall)/(precision+recall)
