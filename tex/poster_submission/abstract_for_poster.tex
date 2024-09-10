@@ -1,0 +1,79 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{geometry}
+%\usepackage[style=numeric,bibstyle=numeric,backend=biber,natbib=true,maxbibnames=99,giveninits=true,uniquename=init]{biblatex}
+\usepackage[utf8]{inputenc}
+
+\title{Fine-tuned optical character recognition for dental fossil markings}
+\author{Riikka Korolainen}
+\date{Sep 10 2024}
+
+\begin{document}
+
+\maketitle
+
+\section{Abstract}
+%Maximum of 2000 characters for the main text
+%No figures or tables are allowed
+%Maximum of 4 references in the text, which should be listed at the end
+
+
+%(background) 1 sentence: background
+% digitize and uniformize structure of handwritten fossil record will greatly increase sample sizes, leading to more accurate analysis of paleontological data.
+%90, 000 + written fossil records in knm, need to be inserted to a database for better accessibility of data
+Digitizing and uniformizing the structure of handwritten fossil records exhibits a great 
+potential for increasing the accuracy of paleontological data analysis by increasing sample sizes. 
+Approximately 90, 000 of such samples reside in the archives of the National Museum of Kenya, and 
+an ongoing effort is to store this data in a digital format for better accessibility.
+%(what has been done)
+%digitization with a commercial ocr model
+%generalist reader model does not know special tooth notation characters, which causes loss of information on eg upper or lower jaw, left or right
+%and is not able to utilize prior knowledge on data containing fossil related vocabulary
+A previous project utilized a commercial optical character recognition service for automated reading of these catalogues. This generalist
+handwriting detection model lacked the ability to detect special characters used to denote tooth samples, and could not utilize prior knowledge 
+of the vocabulary that is more likely to be present in the data, leading to loss of information and detection mistakes.
+%what is done (scope)
+%state of the art optical character recognition model is fine-tuned with few-shot transfer learning and 
+%handlabeled fossil data to be better at interpreting the fossil catalogue
+%compare character recognition accuracy of vairants of  cnn \& transformers (eg trocr) combined with previously successful transfer learning methods (eg tibetan script)
+
+This thesis aims to build a specialist character recognition model to increase the accuracy of 
+the bone or tooth type specifying column of the digitized data by fine-tuning a state-of-the-art optical 
+character recognition model with few-shot transfer learning. This is performed by first finding most accurate
+recognition models, variants of convolutional neural networks or vision transformers, and most successful 
+transfer learning methods for adapting a model to a new character set. Then, the character 
+recognition accuracy of combinations of these methods are benchmarked using handlabeled image segments from the 
+fossil catalogues. The final aim of this work is to use the best-performing model 
+to obtain an accurate reading of the catalogues of the National Museum of Kenya, and publish the final model to be used 
+by the paleontological community for further digitization efforts.
+
+%what having this done enables (conclusion)
+%aim of this is to significantly improve the precision of element column, which body part / tooth part it is, in the digitized dataset
+
+\section{Keywords}
+%Include 4-6 keywords at the end of the abstract
+Optical character recognition,
+Few-shot transfer learning,
+Vision transformers,
+Convolutional neural networks,
+Paleontological databases
+
+\section{Address, acknowledgements}
+%Please list all relevant coauthors and include institutional addresses
+%Acknowledgements are allowed and encouraged at the end of the abstract
+Institutional Address:
+
+University of Helsinki, Faculty of Science
+P. O. Box 68 (Pietari Kalmin katu 5)
+00014 University of Helsinki
+
+Acknowledgements: The previous project on digitization of 
+the handwritten fossil catalogues was supervised jointly by Kari Lintulaakso from the natural history museum LUOMUS 
+in Helsinki and collection curator Stephen Maikweki from the National Museum of Kenya.
+The student group working on the project was Max Väistö, Riikka Korolainen, Janne Tuukkanen, Yinong Li and Axel Wester.
+The initial phases of the thesis work have been instructed by professors Indrė Žliobaitė and Arto Klami from the Department 
+of Computer Science at the University of Helsinki.
+\end{document}

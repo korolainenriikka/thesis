@@ -14,6 +14,10 @@
 
 \tableofcontents
 
+\section{Abstract}
+
+Keywords: Optical character recognition, Few-shot transfer learning, Vision transformers, Paleontological databases
+
 \section{Introduction}
 
 \section{background}
@@ -46,7 +50,7 @@ keywords to explain (maybe) from \cite{li2021trocr}
 	- recall 
 	- f1
 
-\subsection{paleoecology}
+\subsection{Fundamentals on paleoecology}
 
 This section will have a summary on what fossil data can be used for.
 
@@ -74,17 +78,29 @@ Theory that the data analysis relies on
 
 \subsubsection{Paleoenvironmental reconstruction}
 
-maybe, how the data is used (this maybe overlaps with previous)
+purpose of this section: how the data can be used
 
-\subsubsection{Diets, evolution, etc}
+ch5 things
+
+fundamental idea: you have a list of taxa occurring in a place at certain geological time.
+how to map this list to an environment?
+
+presence/absence approach: use information on what species were present, to lesser extent those absent (absence has many reasons so not as reliable)
+either fix species or place. fix species: find where this set of species lives now (climate maps \& areas of sympatry), this indicates 
+that historical locality had this climate. place-fixing: analyze how which species show up in this place
+ changes over time, reduce species showing up data to lower dimension
+(like pca), eg how many warm-climate vs cold-climate species show up, this gives ideas on changes in climate over time.
+
+\subsubsection{Diets and evolution}
 
 maybe, how the data is used
 
-\subsubsection{Dental fossils}
+\subsubsection{Composition of mammal teeth}
 
 Fossils occur when animal / plant remains are deposited in a sediment in a way that preserves 
 some part of its original form. Since teeth are the hardest material in animals, large fraction
-of found parts are teeth.
+of found parts are teeth. Fossil finding is followed by identification to most specific taxon possible
+largely a technical skill (ch5)
 
 specimen can be either one tooth or fragments of the jaw bone where there are multiple teeth (markings like M1-3)
 
