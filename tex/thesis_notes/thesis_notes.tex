@@ -20,7 +20,23 @@ Keywords: Optical character recognition, Few-shot transfer learning, Vision tran
 
 \section{Introduction}
 
-\section{background}
+% outline of an introduction
+% introduce the broad research area, why this is interesting
+% explanation of the specific problem
+% brief review of standard solutions to this (or related) problem(s) and their limitation in this case (incl. reference key papers)
+% outline of the new solution
+% how the solution was evaluated, what were the results of this evaluations
+
+% relevance for other work: why was this specific problem? how can this be concretely used?
+relevance of this work: any field that does ocr on unconventional characters, or constrained vocabulary.
+direct relevance to museums digitizing fossil data specifically, but could be any old handwriting.
+
+% organization
+The rest of this thesis is organized as follows.
+
+\section{Background}
+
+% introduction to chapter
 
 \subsection{neural networks and deep learning}
 keywords to explain (maybe) from \cite{li2021trocr}
@@ -122,7 +138,11 @@ if there are less of a type of teeth eg two premolars, they might be no 1 and 2 
 give some example listing of all possible teeth in a mammal, both line and 
 super sub script notation. give image for this
 
-\section{data methods etc}
+% summary of chapter
+
+\section{Experimental setup}
+
+% introduction to chapter
 
 \subsection{data description}
 
@@ -182,13 +202,13 @@ The intention is that one idea about a character is encoded as one code point, s
 the model can learn the mapping from the image of the character to the code point 
 combination
 
-\subsubsection{Data preprocessing}
+\subsection{Data preprocessing}
 
 Convert to black and white since text reading should not change when color of writing / background changes?
 
 Convert to background completely white, foreground completely black? Either there is a line or not?
 
-\subsection{Methods}
+\subsection{Methods: base models and transfer learning tehniques}
 
 \subsubsection{Encoding prior knowledge}
 Priors. base model already knows the output should be a word, eg "jdaslkjflkds" is a highly unlikely
@@ -196,9 +216,15 @@ correct answer.
 Bone notation has a very small subset of possible english words, eg. the word "beach ball" cannot ever be a correct 
 answer for a reading
 
-\section{results}
+% summary of chapter
 
-\section{conclusion}
+\section{Results and discussion}
+
+% introduction to chapter
+
+% summary of chapter
+
+\section{Conclusions}
 
 \printbibliography
 

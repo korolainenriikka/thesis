@@ -26,6 +26,7 @@ eg M3, m2, p3. whether spaces are detected does not really matter for accuracy
 so: would like to have words with conventional word correctness.
 but dental characters with char by char correctness 
 problem: no way to delineate
+evaluation: reward for all correct code points?
 
 for now. emulate trocr paper. 
 precision = correct matches / number of detected words 

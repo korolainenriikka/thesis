@@ -58,8 +58,80 @@ Keywords: Optical character recognition, Few-shot transfer learning, Vision tran
 
 \subsubsection{Notes on creating the dataset}
 
+\subsubsection{Unicode characters used in data labeling}
 
-\subsubsection{Unicode characters used for data labeling}
+% section todo: add images referred (one for images of chard + one for images & labels)
+
+%tricks to label to make model work easier
+To label the text found in cropped-out tooth fragment handwriting images, a few nonobvious 
+conventions had to be set in place to construct a labeling system that can be assumed to 
+be easier to learn for a machine learning model. The main guiding rule in these decisions was 
+to encode each feature in the text in one consistent manner. What is meant by features and manners 
+of denoting is explained next.
+
+%\cite{unicode_homepage}
+%expain unicode: graphene & code point 
+%    explain: unicode has graphenes with code points. eg a is one graphene one code point,
+%    à is one graphene two code points (dot on top and the letter). the top thing -like characters will be called 
+%    "modifiers".
+%general aim: one concept, one code point -> model able to figure out the connection between image and concept 
+%concept: "number 2" "a character with a line on top"
+%Also on the other hand using one modifier for all lowercase characters allows 
+%the model to understand that there is a similarity between all lowercase characters.
+%The intention is that one idea about a character is encoded as one code point, so that 
+%the model can learn the mapping from the image of the character to the code point 
+%combination
+The unicode system \cite{unicode_homepage} constructs all known characters as signs called graphenes.
+Each graphene can consist of any number of code points, with each code point having an unique identifier, denoted with "U+code point id".
+Examples of graphenes with one code point are latin letters, such as 'K', special characters, such as '@', '\%' and '+',
+or letters from different writing systems, such as %'ま', '朝' or 'Д'.
+ Examples of multi-code point graphenes 
+are latin letters with accents, such as '$\hat{\text{e}}$', or emoji characters with non-default skin tone, such as %'👍🏿'.
+Code points added to the main code point, such as the circumflex accent '\^ ' are called modifiers.
+
+The guiding principle in labeling the data was to encode each concept in the text as one unicode code point. A concept could be, for 
+instance, the number two, or a character being positioned in subscript. The aim of this decision is to allow the model 
+to find common image traits between characters of a similar type: a subscript character has dark pixels in lower positions, and shapes of all 
+number two's have similar curvatures, for instance. As a second principle, it was chosen that each single character in the image, such as "letter C" 
+or "a subscript four with a horizontal top line", would always be labeled as one graphene. 
+These rules makes the encoding choices nonobvious: for example, 
+a subscript number two would intuitively be labeled as the unicode code point '$_2$', but this was not done, 
+since this graphene does not contain the code point for number two, 
+and as a one code point graphene has no code point to extract to be used among the other subscript numbers.
+Another intuitive choice, '\_2', would violate the one graphene per character rule.
+
+%data characters:
+%markings contain letters and numbers with no line, line on top or line at the bottom.
+%Each character can be lower- or upper script.
+%insert here example img of characters
+The special characters in the dental fossil handwriting consist of sub- and superscript numbers, and characters with a horizontal line on 
+top or bottom. Additionally, these two modifiers sometimes co-occur. Both denote which jaw the fragment is from: 
+subscript and horizontal line on top of the character denote lower jaw, whereas superscript or line at the bottom of character 
+signal upper jaw. In a few rare occurences, fractions are present 
+to denote which proportion of the tooth is remaining in the sample. A sample of each type of notation can be found in Figure .
+Note that ambiguous notations of for instance subscript number with a horizontal line at the bottom are allowed with this writing system.
+The labeling notation chosen preserves the option to label these ambiguities.
+
+%The modifiers used for these: 
+%macron with lower ($\bar{\mathrm{A}}$) and upper variant.
+%super/subscript: lower and upper script character set is incomplete for this purpose (eg 3 with upper macron and lower script needed)
+%- from the model perspective 3 and $_3$ are no more similar than A and B, however, 
+% therefore:  Therefore, modifier was used.
+% there is no lower or upper case modifiers in unicode
+%the caron ($\check{\mathrm{A}}$) was chosen as the lower script modifier, and the circumflex accent ($\hat{\mathrm{A}}$)
+%as upper script. These were chosen since the arrow-like modifier pointing up or down
+%is maybe the most logical placeholder for the missing modifier. More traditional 
+%workarounds of missing upper or lower script, the underscore "\_" and separate 
+%caret character "\^ " were not used because they would violate the one graphene one character rule
+
+The following code points were chosen to denote the tooth marking system in the data labels.
+The base code point modified with unicode modifiers was always chosen to be the latin letter or number present in the character. In the case of 
+fractions, the number in the denominator was chosen as the base code point. The horizontal line on top of a character was denoted with the
+combining macron modifier (U+0304, eg. $\bar{\text{A}}$), the line at the bottom respectively with the combining macron below (U+0331, eg. \underline{A}).
+A subscript character was denoted with the combining caron (U+030C, eg. $\check{\mathrm{A}}$), and respectively the superscript with the combining
+circumflex accent (U+0302, eg. $\hat{\text{A}}$). For fraction nominators, a modifier was chosen for each digit present in the dataset (TODO: add here after chosen).
+These choices were made to improve human readability of the dataset, as the modifier choices are not relevant from the model perspective. A summary of the 
+characters found and their labels can be found in image ....
 
 \subsubsection{Data preprocessing}
 
