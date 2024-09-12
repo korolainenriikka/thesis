@@ -13,8 +13,11 @@ next: baseline: trocr outputs using an annotated tooth record test set
 Ways to improve
 - also use data from other types of specimen cards
 - different loss functions (possibly CTC loss?)
+	https://medium.com/@natsunoyuki/ocr-with-the-ctc-loss-efa62ebd8625
+	- width axis needs to be first in tensor (ctc loss assumes time-evolving axis to be first)
 - pad image to be of equal sizes instead of interpolating
 - f1 somehow more robust toward word spacings being wrong, currently penalizes too much
+- word wise or character wise?
 
 Setup decisions (hyperparameters to test)
 - pytorch resize interpolation strategy (https://pytorch.org/vision/stable/generated/torchvision.transforms.Resize.html#resize). current: default
@@ -35,7 +38,3 @@ but dental characters with char by char correctness
 problem: no way to delineate
 evaluation: reward for all correct code points?
 
-for now. emulate trocr paper. 
-precision = correct matches / number of detected words 
-recall = correct matches / number of ground truth words
-f1 = (2xprecision*recall)/(precision+recall)
