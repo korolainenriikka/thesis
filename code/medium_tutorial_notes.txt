@@ -1,3 +1,5 @@
+
+1
 https://medium.com/@natsunoyuki/ocr-with-the-ctc-loss-efa62ebd8625
 ctc loss
 	- width axis needs to be first in tensor (ctc loss assumes time-evolving axis to be first)
@@ -7,5 +9,8 @@ label = char_to_ind(tf.strings.unicode_split(label,
                                 input_encoding = "UTF-8"))
 sanity check: plot the loss!!
 
-sequence comparison: difflib.sequencematcher
 When using models pre-trained on ImageNet, many articles recommend normalizing the input images using Noramlize(mean=(0.485,0.456,0.406), std=(0.229,0.224,0.225)), which are mean and standard deviation of the ImageNet images.
+
+#2
+https://medium.com/@lucrece.shin/chapter-3-transfer-learning-with-resnet50-from-dataloaders-to-training-seed-of-thought-67aaf83155bc
+- tru
