@@ -2,6 +2,7 @@ Things to test
 
 - data augmentation
 - convert images to black and white (rgb values dont mean anything)
+    - current: catalogues are converted to rgd before saving
 - make area either fully white (background) or fully black (foreground)? (szeliski book)
     - but: smudged L / R maybe will not show
     - after making binary, morphology can be used (szeliski 3.3.3)
