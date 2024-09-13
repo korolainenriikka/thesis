@@ -22,13 +22,15 @@ dataset
 2. pick pages that have a sample of all kinds of markings
 3. manually annotate
 
-
+x̲x̄ (use lowercase x for all "i dont know the number of this tooth so i noted x" -cases)
+for now: denote without sub/superscript, x location until now has been the same no matter up or down
 1̌1̂1̄̌
 2̌2̂2̄̌2̱̂
 3̌3̂3̱̌3̄̌3̱̂
 4̌4̂4̱̂4̄̌
 
-M̱ḺC̱C̄
+M̱ḺC̱C̄I̲
+• (for any dots)
 
 
 -̌ (- + U+030C)
