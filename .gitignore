@@ -9,3 +9,5 @@
 *.gz
 *.toc
 */venv/*
+code/output
+code/ml*
