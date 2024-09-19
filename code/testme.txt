@@ -19,8 +19,9 @@ Ways to improve
     - would allow having variable length labels
 - pad image to be of equal sizes instead of interpolating
 - f1 somehow more robust toward word spacings being wrong, currently penalizes too much
-- word wise or character wise?
-- try not fine tuning all parameters (medium notes #2)
+- word wise or character wise? (see tibetan scripts paper, allows defining set of characters possible)
+	- idea form tibetan scripts: 1. classifier: tooth or not? 2. tooth model that classifies only teeth if tooth 3. untuned trocr if is not tooth, "divide and conquer"
+- try not fine tuning all parameters (medium notes #2, tibetan scripts paper)
 
 Setup decisions (hyperparameters to test)
 - pytorch resize interpolation strategy (https://pytorch.org/vision/stable/generated/torchvision.transforms.Resize.html#resize). current: default

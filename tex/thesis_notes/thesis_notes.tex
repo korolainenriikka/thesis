@@ -83,6 +83,10 @@ used for classification problems. eg. is this letter in this image an 'a' or a '
 correct probabilities eg .1 and .9 for a or b. model says .2 and .8. discretisized cross entropy computes 
 it as .2*log.1+.8*log.9, log in base 2.
 
+word detection models: have a predefined vocabulary, layer for probability of each word.
+loss is cross entropy for these probabilities compared to target probability distribution, where correct word has probability 1 and 
+all other have probability 0
+
 - CTC loss
 
 \subsubsection{Evaluating model performance}
@@ -109,6 +113,8 @@ max pooling / average pooling operations
 \subsubsection{Autoencoders}
 
 - encoder/decoder
+
+sequence to sequence \cite{sutskever2014sequence}
 
 \subsection{Techniques and heuristics for improving performance}
 
