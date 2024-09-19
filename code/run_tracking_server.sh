@@ -1,1 +1,4 @@
-mlflow ui --port 8080 --backend-store-uri sqlite:///mlruns.db
+mlflow server \
+  --backend-store-uri sqlite:///mlflow.db \
+  --default-artifact-root ./mlartifacts \
+  --host 0.0.0.0 --port 8080

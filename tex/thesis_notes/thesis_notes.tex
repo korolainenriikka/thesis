@@ -34,49 +34,106 @@ direct relevance to museums digitizing fossil data specifically, but could be an
 % organization
 The rest of this thesis is organized as follows.
 
-\section{Background}
+
+\section{Deep Neural Networks for Optical Character Recognition}
 
 % introduction to chapter
+% point of this section: present relevant deep learning theory
+% running example: reading characters from images (optical character recognition, OCR)
 
-\subsection{neural networks and deep learning}
-keywords to explain (maybe) from \cite{li2021trocr}
-- knowledge distillation
-- generalist models
-	- large unsupervised training data sets
-- transformers
-- cnns
-- deep neural networks
-- self attention
-- convolution
-- transfer learning
-- encoder/decoder
-- model compression
-- loss functions
-	- cross-entropy 
-- data augmentation
+separate problems: character classification (easy, kNN, SVM), reading variable-length text (harder) \cite{ocr_survey}
+introduce the problem of ocr, example: fossil catalogue
+
+%miscellaneous keywords to explain (maybe somewhere) from \cite{li2021trocr}
+%- knowledge distillation
+%- model compression
+%- image patches
+
+\subsection{Deep Neural Networks: basics}
+
 - training/validation/test data sets
+- neurons and activation functions. maybe examples of activation functions: relu, sigmoid, softmax
+- feed forward, backpropagation
+- weight initialization
+
+\subsection{Training neural networks}
+
 - learning rate
 - batch size
-- tokenizing
-- image patches
-- self-attention
-- multi-head self-attention
+
+\subsubsection{Loss functions}
+
+Loss function is a function from model predictions and ground truth labels that describes with a single 
+scalar value how good the match was, low number describing a good match \cite{princebook}.
+These functions are constructed to be equivalent with maximum likelihood solution, think the model would 
+output a conditional distribution of outputs, p(y|x).
+each ground truth label in the training set should have a high probability in this distribution. Product of all 
+these probabilities is called likelihood. Find parameters that maximize the likelihood of the training data set.
+Loss functions are derived so that parameters bringing loss to zero is equivalent to the parameters with maximum likelihood.
+Derivations are out of scope.
+
+- cross-entropy loss 
+kullback-leibler divergence of correct conditional probability and conditional probability parametrized by current model parameters.
+(show formula, 5.27), correct is not dependent on parameters so is omitted. show 5.29, what is left from that 
+(until here from \cite{princebook})
+
+then: how cross-entropy loss is computed
+% from https://machinelearningmastery.com/cross-entropy-for-machine-learning/, find a proper reference
+used for classification problems. eg. is this letter in this image an 'a' or a 'b'.
+correct probabilities eg .1 and .9 for a or b. model says .2 and .8. discretisized cross entropy computes 
+it as .2*log.1+.8*log.9, log in base 2.
+
+- CTC loss
+
+\subsubsection{Evaluating model performance}
+
 - performance metrics
 	- precision
 	- recall 
 	- f1
+    - cer (character error rate)
 
-\subsection{Optical Character Recognition}
+\subsection{Architectures}
 
-separate problems: character classification (easy, kNN, SVM), reading variable-length text (harder) \cite{ocr_survey}
+\subsubsection{Convolutional layers}
 
-\subsection{Fundamentals on paleoecology}
+convolution (cross-correlation)
+max pooling / average pooling operations
+
+\subsubsection{Transformers}
+
+- self-attention
+- multi-head self-attention
+- tokenizing and the cls token
+
+\subsubsection{Autoencoders}
+
+- encoder/decoder
+
+\subsection{Techniques and heuristics for improving performance}
+
+miscellaneous points, like
+
+- data augmentation
+
+\subsection{Transfer learning}
+
+basics: what it is 
+initialize weights to those that suit a related task, it is assumed that the starting point is already very good
+catastrophic forgetting = forgetting the previously learned after finetuning
+
+\subsubsection{Foundation models}
+
+- generalist models
+	- large unsupervised training data sets
+
+\section{Fundamentals on paleoecology}
 
 This section will have a summary on what fossil data can be used for.
 
 the why: why do this at all? why is accurate dental data relevant, in general?
 
-\subsubsection{Basics on ecology}
+\subsection{Basics on ecology}
 
 Nature is highly complicated -> models, approximate laws and assumptions enable drawing conclusions from
 known distributions of species. Assumptions hold usually, not always, in reality but need to be in place 
@@ -96,11 +153,9 @@ environment is constructed with a coarse resolution such as how many 10cm's of p
 
 Theory that the data analysis relies on
 
-\subsubsection{Paleoenvironmental reconstruction}
+\subsection{Paleoenvironmental reconstruction}
 
 purpose of this section: how the data can be used
-
-ch5 things
 
 fundamental idea: you have a list of taxa occurring in a place at certain geological time.
 how to map this list to an environment?
@@ -111,11 +166,11 @@ that historical locality had this climate. place-fixing: analyze how which speci
  changes over time, reduce species showing up data to lower dimension
 (like pca), eg how many warm-climate vs cold-climate species show up, this gives ideas on changes in climate over time.
 
-\subsubsection{Diets and evolution}
+\subsection{Diets and evolution}
 
 maybe, how the data is used
 
-\subsubsection{Composition of mammal teeth}
+\subsection{Composition of mammal teeth}
 
 Fossils occur when animal / plant remains are deposited in a sediment in a way that preserves 
 some part of its original form. Since teeth are the hardest material in animals, large fraction
