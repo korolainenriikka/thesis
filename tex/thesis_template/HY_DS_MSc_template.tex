@@ -6,7 +6,7 @@
 \documentclass[english,twoside,openright]{HYgraduMLDS}
 %finnish,swedish
 
-%\usepackage[utf8]{inputenc} % For UTF8 support. Use UTF8 when saving your file.
+\usepackage[utf8]{inputenc} % For UTF8 support. Use UTF8 when saving your file.
 \usepackage{lmodern} % Font package
 \usepackage{textcomp} % Package for special symbols
 \usepackage[pdftex]{color, graphicx} % For pdf output and jpg/png graphics
@@ -230,6 +230,27 @@ An illustration of the mammal tooth system is presented in Figure~\ref{image:mam
     \caption{Dental marking styles, Example: first molar. Line notation displayed in common style combining sub- and superscripts.}
     \label{table:jaw_notation}
 \end{table}
+
+\section{Unicode notation}
+
+The unicode system \cite{unicode_homepage} constructs all known characters as signs called graphenes.
+Each graphene can consist of any number of code points, with each code point having an unique identifier, denoted with "U+code point id".
+Examples of graphenes with one code point are latin letters, such as 'K', special characters, such as '@', '\%' and '+',
+or letters from different writing systems, such as '$\omega$', '$\aleph$' or '$\mathfrak{A}$'.
+ Examples of multi-code point graphenes 
+are latin letters with accents, such as '$\hat{\text{e}}$', or emoji characters with non-default skin tone, such as {\twemoji{thumbs up: dark skin tone}}.
+Code points added to the main code point, such as the circumflex accent '\^ ' are called modifiers.
+
+The guiding principle in labeling the data was to encode each concept in the text as one unicode code point. A concept could be, for 
+instance, the number two, or a character being positioned in subscript. The aim of this decision is to allow the model 
+to find common image traits between characters of a similar type: a subscript character has dark pixels in lower positions, and shapes of all 
+number two's have similar curvatures, for instance. As a second principle, it was chosen that each single character in the image, such as "letter C" 
+or "a subscript four with a horizontal top line", would always be labeled as one graphene. 
+These rules makes the encoding choices nonobvious: for example, 
+a subscript number two would intuitively be labeled as the unicode code point '$_2$', but this was not done, 
+since this graphene does not contain the code point for number two, 
+and as a one code point graphene has no code point to extract to be used among the other subscript numbers.
+Another intuitive choice, '\_2', would violate the one graphene per character rule.
 
 \begin{table}[h!]
     \centering
