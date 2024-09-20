@@ -112,6 +112,72 @@ The thesis should have an introduction chapter. Other chapters can be named acco
 
 \chapter{Figures and Tables}
 
+\section{Figures on teeth}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.43]{../images/teeth_img_hillson_book.png}
+    \caption{Mammal teeth composition, from Hillson \cite{Hillson_2005}.}
+    \label{image:mammal_teeth}
+\end{figure}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Term}       & \textbf{Meaning}                                   & \textbf{Shorthands}       \\ \hline
+        Mandible            & Lower jaw bone                                     & mand.                     \\ %\hline
+        Maxilla, Premaxilla & Upper jaw bones                                    &                           \\ %\hline
+        Deciduous           & 'Milk teeth'                                       & D, d                      \\ %\hline
+        Incisor             & Tooth type (front, middle)                         & I, i                      \\ 
+        Canine              & Tooth type (between incisor and premolar)          & C, c                      \\ %\hline
+        Premolar            & Tooth type (between canine and molar)              & P, p                      \\ %\hline
+        Molar               & Tooth type (back of tooth row)                     & M, m                      \\ %\hline
+        Distal              & Far from body center / mouth                       & dist.                     \\ %\hline
+        Mesial              & Close to the mouth                                 &                           \\ %\hline
+        Proximal            & Close to body center                               & prox.                     \\ \hline
+    \end{tabular}
+    \caption{Terminology related to mammal teeth with corresponding shorthands}
+    \label{table:terminology}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Jaw}      & \textbf{Line Notation} & \textbf{Sub/Superscript Notation} & \textbf{Digital Notation} \\ \hline
+        Upper         & $\text{M}^{\underline{1}}$      & m\textsuperscript{1}              & M1                        \\ 
+        Lower         & $\text{M}_{\overline{1}}$ & m\textsubscript{1}                & m1                        \\ \hline
+    \end{tabular}
+    \caption{Dental marking styles, Example: first molar. Line notation displayed in common style combining sub- and superscripts.}
+    \label{table:jaw_notation}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Input Image} & \textbf{Label} \\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/canine.png} & Lt. \underline{C} frag. \\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/lowjawincisor.png} & Rt. I$\bar{\check{2}}$ frag. \\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/multipleteeth.png} & Lt. Md. frag. wt dP$\check{\bar{3}}$, P$\check{\bar{4}}$-M$\check{\bar{1}}$\\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/nontooth.png} & Prox. phalanx \\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/smudged.png} & P$\hat{\underline{\text{3}}}$ frag. (Crown) \\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/underlinedx.png} & ? M$\hat{\underline{\text{x}}}$ frag. \\
+        \hline
+    \end{tabular}
+    \caption{Samples of input images and their corresponding labels.}
+    \label{table:input_images}
+\end{table}
+
+\subsubsection{Data preprocessing}
+
 \section{Figures}
 Figure~\ref{fig:logo} gives an example how to add figures to the document. Remember always to cite the figure in the main text. There are many ways to cite, for example: University of Helsinki has a nice logo (see Fig.~\ref{fig:logo}).
 \begin{figure}[h!] 
