@@ -5,6 +5,7 @@
 \usepackage{amssymb}
 \usepackage{geometry}
 \usepackage{twemojis}
+\usepackage{subcaption}
 \usepackage[style=numeric,bibstyle=numeric,backend=biber,natbib=true,maxbibnames=99,giveninits=true,uniquename=init]{biblatex}
 \usepackage[utf8]{inputenc}
 
@@ -171,8 +172,6 @@ An illustration of the mammal tooth system is presented in Figure~\ref{image:mam
 
 \subsubsection{Unicode characters used in data labeling}
 
-% section todo: add images referred (one for images of chard + one for images & labels)
-
 %tricks to label to make model work easier
 To label the text found in cropped-out tooth fragment handwriting images, a few nonobvious 
 conventions had to be set in place to construct a labeling system that can be assumed to 
@@ -219,7 +218,7 @@ The special characters in the dental fossil handwriting consist of sub- and supe
 top or bottom. Additionally, these two modifiers sometimes co-occur. Both denote which jaw the fragment is from: 
 subscript and horizontal line on top of the character denote lower jaw, whereas superscript or line at the bottom of character 
 signal upper jaw. In a few rare occurences, fractions are present 
-to denote which proportion of the tooth is remaining in the sample. A sample of each type of notation can be found in Figure (TODO).
+to denote which proportion of the tooth is remaining in the sample. 
 Note that ambiguous notations of for instance subscript number with a horizontal line at the bottom are allowed with this writing system.
 The labeling notation chosen preserves the option to label these ambiguities.
 
@@ -241,8 +240,32 @@ fractions, the number in the denominator was chosen as the base code point. The 
 combining macron modifier (U+0304, eg. $\bar{\text{A}}$), the line at the bottom respectively with the combining macron below (U+0331, eg. \underline{A}).
 As the unicode system lacks sub- or superscript modifiers, other accent modifiers were used instead. A subscript character was denoted with the combining caron (U+030C, eg. $\check{\mathrm{A}}$), and respectively the superscript with the combining
 circumflex accent (U+0302, eg. $\hat{\text{A}}$). For fraction nominators, a modifier was chosen for each digit present in the dataset (TODO: add here after chosen).
-These choices were made to improve human readability of the dataset, as the modifier choices are not relevant from the model perspective. A summary of the 
-characters found and their labels can be found in table (todo)
+These choices were made to improve human readability of the dataset, as the modifier choices are not relevant from the model perspective. A sample of the handlabeled 
+dataset can be found in Figure~\ref{table:input_images}.
+
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Input Image} & \textbf{Label} \\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/canine.png} & Lt. \underline{C} frag. \\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/lowjawincisor.png} & Rt. I$\bar{\check{2}}$ frag. \\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/multipleteeth.png} & Lt. Md. frag. wt dP$\check{\bar{3}}$, P$\check{\bar{4}}$-M$\check{\bar{1}}$\\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/nontooth.png} & Prox. phalanx \\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/smudged.png} & P$\hat{\underline{\text{3}}}$ frag. (Crown) \\
+        \hline
+        \includegraphics[width=0.3\textwidth]{../images/data_samples/underlinedx.png} & ? M$\hat{\underline{\text{x}}}$ frag. \\
+        \hline
+    \end{tabular}
+    \caption{Samples of input images and their corresponding labels.}
+    \label{table:input_images}
+\end{table}
 
 \subsubsection{Data preprocessing}
 
