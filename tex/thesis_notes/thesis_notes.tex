@@ -370,6 +370,16 @@ classifying characters has been essentially solved, easy problem
 also classifying to tooth or not tooth should be easy 
 --> focus on model ensemble with tooth or not classifier + trocr + tooth classifier
 
+\subsubsection{Base model selection}
+
+initial sequence learning attempts done with \cite{li2021trocr}, proof of concept so no real exhaustive comparison literature review
+
+Chosen public dataset was EMNIST \cite{emnist} because it is the closest to my problem: a large dataset of labeled letters and numbers.
+
+According to \cite{emnistclassifiersurvey}, this model was the best: \cite{jamilemnist}, was chosen as the base model.
+they trained on emnist-balanced, so no difference between upper -and lower case letters. not a problem for us since 
+in the handwritten catalogues, upper or lowercase was not used to distinguish upper and lower jaw
+
 \subsubsection{Encoding prior knowledge}
 Priors. base model already knows the output should be a word, eg "jdaslkjflkds" is a highly unlikely
 correct answer.

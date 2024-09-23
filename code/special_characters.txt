@@ -37,160 +37,35 @@ M̱ḺC̱C̄I̲
 -̂ (- + U+0302)
 -
 
+characters in EMNIST-balanced:
+Characters 48 to 57 (U+0030 to U+0039):
 
-Uppercase Letters:
-A:
-Macron Above: Ā (U+0100)
-Macron Below: A̱ (A + U+0331)
-B:
-Macron Above: B̄ (B + U+0304)
-Macron Below: Ḇ (B + U+0331)
-D:
-Macron Above: D̄ (D + U+0304)
-Macron Below: Ḏ (D + U+0331)
-E:
-Macron Above: Ē (U+0112)
-Macron Below: E̱ (E + U+0331)
-F:
-Macron Above: F̄ (F + U+0304)
-Macron Below: F̱ (F + U+0331)
-G:
-Macron Above: Ḡ (G + U+0304)
-Macron Below: G̱ (G + U+0331)
-H:
-Macron Above: H̄ (H + U+0304)
-Macron Below: H̱ (H + U+0331)
-I:
-Macron Above: Ī (U+012A)
-Macron Below: I̱ (I + U+0331)
-J:
-Macron Above: J̄ (J + U+0304)
-Macron Below: J̱ (J + U+0331)
-K:
-Macron Above: K̄ (K + U+0304)
-Macron Below: Ḵ (K + U+0331)
-L:
-Macron Above: L̄ (L + U+0304)
-Macron Below: Ḻ (L + U+0331)
-M:
-Macron Above: M̄ (M + U+0304)
-Macron Below: M̱ (M + U+0331)
-N:
-Macron Above: N̄ (N + U+0304)
-Macron Below: Ṉ (N + U+0331)
-O:
-Macron Above: Ō (U+014C)
-Macron Below: O̱ (O + U+0331)
-P:
-Macron Above: P̄ (P + U+0304)
-Macron Below: P̱ (P + U+0331)
-Q:
-Macron Above: Q̄ (Q + U+0304)
-Macron Below: Q̱ (Q + U+0331)
-R:
-Macron Above: R̄ (R + U+0304)
-Macron Below: Ṟ (R + U+0331)
-S:
-Macron Above: S̄ (S + U+0304)
-Macron Below: S̱ (S + U+0331)
-T:
-Macron Above: T̄ (T + U+0304)
-Macron Below: Ṯ (T + U+0331)
-U:
-Macron Above: Ū (U+016A)
-Macron Below: U̱ (U + U+0331)
-V:
-Macron Above: V̄ (V + U+0304)
-Macron Below: V̱ (V + U+0331)
-W:
-Macron Above: W̄ (W + U+0304)
-Macron Below: W̱ (W + U+0331)
-X:
-Macron Above: X̄ (X + U+0304)
-Macron Below: X̱ (X + U+0331)
-Y:
-Macron Above: Ȳ (Y + U+0304)
-Macron Below: Y̱ (Y + U+0331)
-Z:
-Macron Above: Z̄ (Z + U+0304)
-Macron Below: Ẕ (Z + U+0331)
-Lowercase Letters:
-a:
-Macron Above: ā (U+0101)
-Macron Below: a̱ (a + U+0331)
-b:
-Macron Above: b̄ (b + U+0304)
-Macron Below: ḇ (b + U+0331)
-c:
-Macron Above: c̄ (c + U+0304)
-Macron Below: c̱ (c + U+0331)
-d:
-Macron Above: d̄ (d + U+0304)
-Macron Below: ḏ (d + U+0331)
-e:
-Macron Above: ē (U+0113)
-Macron Below: e̱ (e + U+0331)
-f:
-Macron Above: f̄ (f + U+0304)
-Macron Below: f̱ (f + U+0331)
-g:
-Macron Above: ḡ (g + U+0304)
-Macron Below: g̱ (g + U+0331)
-h:
-Macron Above: h̄ (h + U+0304)
-Macron Below: ẖ (h + U+0331)
-i:
-Macron Above: ī (U+012B)
-Macron Below: i̱ (i + U+0331)
-j:
-Macron Above: j̄ (j + U+0304)
-Macron Below: j̱ (j + U+0331)
-k:
-Macron Above: k̄ (k + U+0304)
-Macron Below: ḵ (k + U+0331)
-l:
-Macron Above: l̄ (l + U+0304)
-Macron Below: ḻ (l + U+0331)
-m:
-Macron Above: m̄ (m + U+0304)
-Macron Below: m̱ (m + U+0331)
-n:
-Macron Above: n̄ (n + U+0304)
-Macron Below: ṉ (n + U+0331)
-o:
-Macron Above: ō (U+014D)
-Macron Below: o̱ (o + U+0331)
-p:
-Macron Above: p̄ (p + U+0304)
-Macron Below: p̱ (p + U+0331)
-q:
-Macron Above: q̄ (q + U+0304)
-Macron Below: q̱ (q + U+0331)
-r:
-Macron Above: r̄ (r + U+0304)
-Macron Below: ṟ (r + U+0331)
-s:
-Macron Above: s̄ (s + U+0304)
-Macron Below: s̱ (s + U+0331)
-t:
-Macron Above: t̄ (t + U+0304)
-Macron Below: ṯ (t + U+0331)
-u:
-Macron Above: ū (U+016B)
-Macron Below: u̱ (u + U+0331)
-v:
-Macron Above: v̄ (v + U+0304)
-Macron Below: v̱ (v + U+0331)
-w:
-Macron Above: w̄ (w + U+0304)
-Macron Below: w̱ (w + U+0331)
-x:
-Macron Above: x̄ (x + U+0304)
-Macron Below: x̱ (x + U+0331)
-y:
-Macron Above: ȳ (y + U+0304)
-Macron Below: y̱ (y + U+0331)
-z:
-Macron Above: z̄ (z + U+0304)
-Macron Below: ẕ (z + U+0331)
+These are the digits 0–9.
+Example: U+0030 is the digit '0', U+0039 is the digit '9'.
+Characters 58 to 64 (U+003A to U+0040):
 
+Punctuation and symbols:
+U+003A: Colon (:)
+U+003B: Semicolon (;)
+U+003C: Less than (<)
+U+003D: Equals (=)
+U+003E: Greater than (>)
+U+003F: Question mark (?)
+U+0040: At sign (@)
+Characters 65 to 90 (U+0041 to U+005A):
+
+These are the uppercase Latin alphabet letters A–Z.
+Example: U+0041 is 'A', U+005A is 'Z'.
+Characters 91 to 96 (U+005B to U+0060):
+
+More punctuation and symbols:
+U+005B: Left square bracket ([)
+U+005C: Backslash (\)
+U+005D: Right square bracket (])
+U+005E: Caret (^)
+U+005F: Underscore (_)
+U+0060: Grave accent/backtick (```)
+Characters 97 to 116 (U+0061 to U+0074):
+
+These are the lowercase Latin alphabet letters from a to t.
+Example: U+0061 is 'a', U+0074 is 't'.
