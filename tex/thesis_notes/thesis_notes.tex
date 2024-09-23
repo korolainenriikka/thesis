@@ -136,46 +136,95 @@ catastrophic forgetting = forgetting the previously learned after finetuning
 
 \section{Fundamentals on paleoecology}
 
-This section will have a summary on what fossil data can be used for.
+Nature is highly complicated -> models, approximate models and assumptions enable drawing conclusions from
+known distributions of species. 
 
-the why: why do this at all? why is accurate dental data relevant, in general?
+each assumption / model can be questioned but they hold as a rule. only 
+models briefly presented here, all statements here can be questioned to some extent 
+
+idea: what fossil/dental data can be used for. how fossil/dental data is used
+
+to highlight why accurate, fine-resolution (ie specific) and large magnitude of 
+fossil, esp dental fossil data is genuinely useful.
+
+chapter overview: review ecology and assumptions the analysis is based on. 
+then, short overview of main techniques for paleoenvironmental reconstruction, the main 
+application area of fossil data. last, mammal teeth row is presented to introduce terminology 
+present in the data.
 
 \subsection{Basics on ecology}
 
-Nature is highly complicated -> models, approximate laws and assumptions enable drawing conclusions from
-known distributions of species. Assumptions hold usually, not always, in reality but need to be in place 
-because nothing could be known without them
+basic laws: theory that the data analysis relies on
 
 Tolerances and niches (fundamental + realized): basis for environmental reconstruction \cite{Faith_Lyman_2019} ch 2
 
-Assume that nearest living relative has same tolerances now -> get past environment (ch3)
+tolerance = range of an environmental variable that is hospitable for the species, 
+eg. imaginary small mammal (come up with some imaginary name) can live when avg temperature is +10-+15.
+Niche = set of tolerances the species has. fundamental niche = possible environments for the species, 
+realized niche = where it lives. center of tolerances is better than the edge (ch2)
 
-Presence/absence/abundance: (ch3) species living somewhere -> environment matches the fundamental niche. absent more complicated,
-environment may or may not be suitable (eg a fossil sample was simply not found). abundance estimation harder, but more
-fine-resolution environmental analysis
+main assumption uniformitarism (the fact that tolerances constraint things has not changed)
+niche conservatism: Assume that nearest living relative has same tolerances now -> get past environment (ch3, lyman 2017),
 
-transfer function: paleobiotic data -> environment (ch2)
+this presents a mapping from taxa to environmental variables -> basis of analysis 
+of past environments.
 
-environment is constructed with a coarse resolution such as how many 10cm's of precipitation (ch2)
+modern alternative to this: transfer functions: mappings from taxa data to enviroment 
+learned using machine learning / statistical models (ch9, birks 1995)
 
-Theory that the data analysis relies on
+benefit instead of tolerances/niches: they have subjective interpretation problems (book ch 9)
+
+esp. teeth: dental ecometrics = inference of transfer functions given dental data (ch9 liu et al 2012)
+
+next, turn to how to solve the problem of information to environment given the 
+taxomic information to environmetal indicators mapping
 
 \subsection{Paleoenvironmental reconstruction}
 
-purpose of this section: how the data can be used
+why: get information of what is to come with climate change (faith ch2)
 
-fundamental idea: you have a list of taxa occurring in a place at certain geological time.
-how to map this list to an environment?
+definition of the problem: whan ancient habitats were like and what changes they 
+underwent at which times (ch2)
 
-presence/absence approach: use information on what species were present, to lesser extent those absent (absence has many reasons so not as reliable)
-either fix species or place. fix species: find where this set of species lives now (climate maps \& areas of sympatry), this indicates 
+overview main tehcniques: presence/absence, abundance, taxon free, diversity based,
+size clines
+
+presence absence (ch5):
+dataset is list of taxa that are present. absence is also indicator 
+but worse since might be that the species just was not preserved / found. two approaches: 
+fix location or fix set of species.
+fix species: find where this set of species lives now (climate maps \& areas of sympatry), this indicates 
 that historical locality had this climate. place-fixing: analyze how which species show up in this place
  changes over time, reduce species showing up data to lower dimension
-(like pca), eg how many warm-climate vs cold-climate species show up, this gives ideas on changes in climate over time.
+(like pca), eg how many warm-climate vs cold-climate species show up, this gives ideas on changes in climate over time
 
-\subsection{Diets and evolution}
+abundance 
+get relative NISP (number of species in sample): percent of species in sample is of this taxon (grayson 1984b, ch6)
+do like presence absence but weigh signal according to abundance
+and assume abundant species lives more toward center of tolerance 
+grayson 1981: fossil accumulation affects datasets -> use with caution
 
-maybe, how the data is used
+taxon free 
+cornelis van der klaauw 1948 (p 160) relation of traits of animals and livelihood = ecomorphology:
+ eg what the animal eats also eg how diverse the place is. for environment mostly diet -> what plants grew and habitat -> climate etc
+helps with not having to assume that closest relative tolerances were the same. (ch7)
+eg usage of teeth: dental microwear. calandra and merceron 2016: analyze miniscratches on the surface to get diet to get vegetation and climate
+    oma: to conduct this you need many samples of the same bone
+    need to know exactly which bone it is since different teeth used for different things
+
+diversity and size clines as enviromnental indicators
+andrews et al 1979: how diverse also has a mapping to environment eg tropical is more diverse than arctic 
+coarse indicators of the environment
+lyman 2008: strong sample size effects: bigger sample is more diverse
+so to do this you need equal size samples from all time periods analyzed
+size clines basic idea: coarse indicators for size of bone -> environment eg larger libs warmer climate (mayr 1970)
+also dental measures correlate with environment, eg mandibles (faith et al 2016). for that you need sufficient 
+tooth samples and correct identification which tooth it is
+
+end lesson: sample sizes and data precision are important. therefore it is superimportant 
+to get more data / improve accuracy, which is the main goal of the digitization effort.
+scale sense: faith lyman ch 4 said 1000 is solid 10 000 whopping sample size
+dataset in question in this work has 90,000 so the value is pretty clear
 
 \subsection{Composition of mammal teeth}
 
@@ -293,6 +342,33 @@ Convert to black and white since text reading should not change when color of wr
 Convert to background completely white, foreground completely black? Either there is a line or not?
 
 \subsection{Methods: base models and transfer learning tehniques}
+
+the sequence or character per character recognition question:
+sequence is a mapping from image to variable-length phrase
+character per character approach, inspired by \cite{tibetan_ocr}:
+train a classifier: is this word a tooth or not? then give non-tooth to the untuned
+trocr, which works very well. Then few shot transfer learn a classifier from an image
+with only a tooth marking (letter and one number) to tooth. Possibly extend classifier to 
+be able to recognize multiple teeth (eg M1-3). Target could be multivariate: first would
+be tooth (which i1-3,c,p1-4,m1-3), second would be jaw (upper, lower, unknown), third side 
+(left, right, unknown). Separating 'l/r/lt' from the letter+number tooth notation is 
+fairly trivial: noncursive handwriting can be separated by finding a vertical line where there 
+is no black. Image processing: convert to black and white, then find x coordinate with no black 
+and split there.
+
+sequence benefits: adaptable to many kinds and lengths of input, possible to get good inferences 
+for surprising marking styles 
+sequence bad sides: finetuning just one layer on 80 training images for two epochs took about 15 minutes
+-> all hyperparameter optimization etc is out of question with this heavy training.
+Also: not domain adaptation (adapting same task to different dataset), but task adaptation ie. 
+the target set of characters has changed. Encoding this to the large encoder decoder transformers would 
+require rewriting parts of the preprocessor and model which is too complex given the level of this work.
+
+character by character benefits: feasible given available data and computing resources
+possible to encode the classes (ie, teeth)
+classifying characters has been essentially solved, easy problem 
+also classifying to tooth or not tooth should be easy 
+--> focus on model ensemble with tooth or not classifier + trocr + tooth classifier
 
 \subsubsection{Encoding prior knowledge}
 Priors. base model already knows the output should be a word, eg "jdaslkjflkds" is a highly unlikely
