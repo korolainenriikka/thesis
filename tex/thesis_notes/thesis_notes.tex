@@ -20,21 +20,76 @@
 Keywords: Optical character recognition, Few-shot transfer learning, Vision transformers, Paleontological databases
 
 \section{Introduction}
+ 
+% use 'we' in intro
 
 % outline of an introduction
-% introduce the broad research area, why this is interesting
+% introduce the broad research area, why this is interesting. 1-2 paragraphs. context, anyone should be able to understand.
+% first sentences: state the topic clearly
+broad research area: paleontology: data analysis on fossil finds
+dig fossil from the ground. identify:which bone,species,time. write this on a field slip, a slice of
+baking sheet like paper 
+analysis: take set of fossils, use methods for deducing eg climate, habitat, vegetation
+why this is interesting 
+    reactions of ecosystems to climate change
+    what ancient worlds were like 
+    how ancient humans lived
+    mass extinction events
+
+now we have a stack of baking sheets in a room in kenya.
+paleontologists form all over the world want to solve climate change, among other problems
+big data methods would explode what paleoecology can do
+so we need to put the baking sheets on the computer to do analysis on big data
+what is the topic of my work?
+the baking sheets contain weird characters that a normal reader cannot read.
+my topic is to read them
+
 % explanation of the specific problem
+given scanned images and data with bounding boxes of sentences and words where tooth denoting words are 
+badly read, how can tooth element recognition results be improved? Goal is to have both this is what the element 
+/ nature of specimen column says (eg example here) and what/which teeth are found in this specimen in standardized format
+(eg example here)
+
 % brief review of standard solutions to this (or related) problem(s) and their limitation in this case (incl. reference key papers)
+% TODO, once literature review is done
+
 % outline of the new solution
-% how the solution was evaluated, what were the results of this evaluations
+% TODO, likely: tooth or not classifier -> trocr or tooth classifier -> output concatenation
+
+% how the solution was evaluated, what were the results of this evaluations. scope and limitations
+% TODO
+limitations: compute (no HPC utilized), small amount of labeled data, scope is masters thesis so very advanced techniques are not feasible.
 
 % relevance for other work: why was this specific problem? how can this be concretely used?
-relevance of this work: any field that does ocr on unconventional characters, or constrained vocabulary.
-direct relevance to museums digitizing fossil data specifically, but could be any old handwriting.
+relevance of this work: KNM is able to have way more precise dental element markings
+to other catalogues: previous project + this a complete solution to digitizing the handwritten data 
+relevance of this work: any field that does:
+- ocr on unconventional characters
+- ocr where each character has a multivariate output (eg. this is an a. it is underlined could be letter and underlined /not underlined)
+
+The direct impact of this work is an improved precision of the tooth element entries in the digitized 
+fossil catalogues of the National Museum of Kenya, but the results are applicable to a wider domain of problems.
+Intuitively, the results are directly applicable to other fossil archives using similar notation: only a fine-tuning of the 
+models to the new archive data is necessary.
+For other handwritten archives, the results presented can be used to improve recognition accuracy, especially in cases 
+where the data contains characters other than latin letters or arabic numerals. Additionally, this work presents
+a potential solution for when the target character set can be expressed with multivariate output data. This could, for 
+instance, be handwriting with occasional underlinings, where the bivariate output could be the letter and a boolean variable for 
+whether the character was underlined.
 
 % organization
-The rest of this thesis is organized as follows.
-
+The rest of this thesis is organized as follows. First, the necessary background theory is 
+presented. For deep neural networks the following concepts are introduced:
+the basic network structure, how training is conducted, basic building blocks of character-recognizing network architectures, performance-improving 
+heuristics, and transfer learning. For paleoecology, the background covers 
+foundational ecological laws followed by a brief introduction to methods used in
+paleoenvironmental reconstruction, especially focusing on inferences from tooth data.
+As the last background section, the composition of mammal teeth is presented. 
+Second, related work is presented, both on
+handwritten archive digitization and transfer learning with character-recognizer models.
+Next, the experimental setup is introduced, covering dataset creation, labeling and data 
+preprocessing, followed by base model and transfer learning method selection. After this, 
+results of the experiments are presented and discussed. Finally, the work is concluded.
 
 \section{Deep Neural Networks for Optical Character Recognition}
 
@@ -56,6 +111,7 @@ introduce the problem of ocr, example: fossil catalogue
 - neurons and activation functions. maybe examples of activation functions: relu, sigmoid, softmax
 - feed forward, backpropagation
 - weight initialization
+- universal function approximator: present sequence to sequence learning and character classification problems
 
 \subsection{Training neural networks}
 
@@ -119,9 +175,7 @@ sequence to sequence \cite{sutskever2014sequence}
 
 \subsection{Techniques and heuristics for improving performance}
 
-miscellaneous points, like
-
-- data augmentation
+data augmentation
 
 \subsection{Transfer learning}
 
@@ -252,11 +306,19 @@ if there are less of a type of teeth eg two premolars, they might be no 1 and 2 
 
 % summary of chapter
 
+\section{Related work}
+
+\subsection{Approaches to digitization of handwritten archival data}
+
+obvious solution: sit down and type
+
+\subsection{Approaches to character recognition with small target domain datasets}
+
 \section{Experimental setup}
 
 % introduction to chapter
 
-\subsection{data description}
+\subsection{Data description}
 
 has been done by different annotators, no logs on who logged what, everyone 
 had a bit different style of notating. also no clearly defined standard 
@@ -341,6 +403,7 @@ Convert to black and white since text reading should not change when color of wr
 
 Convert to background completely white, foreground completely black? Either there is a line or not?
 
+- data augmentation
 \subsection{Methods: base models and transfer learning tehniques}
 
 the sequence or character per character recognition question:
@@ -380,11 +443,12 @@ According to \cite{emnistclassifiersurvey}, this model was the best: \cite{jamil
 they trained on emnist-balanced, so no difference between upper -and lower case letters. not a problem for us since 
 in the handwritten catalogues, upper or lowercase was not used to distinguish upper and lower jaw
 
-\subsubsection{Encoding prior knowledge}
+\subsubsection{Transfer learning method selection}
 Priors. base model already knows the output should be a word, eg "jdaslkjflkds" is a highly unlikely
 correct answer.
 Bone notation has a very small subset of possible english words, eg. the word "beach ball" cannot ever be a correct 
 answer for a reading
+--> these do not apply if we do character classification
 
 % summary of chapter
 
