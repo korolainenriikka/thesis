@@ -141,19 +141,15 @@ Next, the experimental setup is introduced, covering dataset creation, labeling 
 preprocessing, followed by base model and transfer learning method selection. After this, 
 results of the experiments are presented and discussed. Finally, the work is concluded.
 
-\section{Background}
+\section{Fundamentals on paleoecology}
 
-\subsection{Neural Networks and Deep Learning}
+\subsection{Basics on ecology}
 
-\subsection{Fundamentals on paleoecology}
+\subsection{Paleoenvironmental reconstruction}
 
-\subsubsection{Basics on ecology}
+\subsection{Diets and evolution}
 
-\subsubsection{Paleoenvironmental reconstruction}
-
-\subsubsection{Diets and evolution}
-
-\subsubsection{Composition of mammal teeth}
+\subsection{Composition of mammal teeth}
 
 %Fossils occur when animal / plant remains are deposited in a sediment in a way that preserves 
 %some part of its original form. Since teeth are the hardest material in animals, large fraction
@@ -260,6 +256,177 @@ An illustration of the mammal tooth system is presented in Figure~\ref{image:mam
 
 
 % summary of chapter
+
+\section{Deep Neural Networks for Optical Character Recognition}
+
+% introduction to chapter
+% point of this section: present relevant deep learning theory
+% running example: reading characters from images (optical character recognition, OCR)
+
+This chapter presents relevant background on deep neural networks (DNN), also known 
+in literature as artificial neural networks (ANN) or, for historical reasons, multilayer perceptrons (MLP).
+The aspects presented are constrained to those relevant to the problem at hand, optical character recognition (OCR),
+that is also used as a running example.
+
+\subsection{Deep Neural Networks}
+
+% what is a neural net
+% yes what is a neural network? function?
+% weights in layers: floating point numbers, grouped in groups 
+% activations: connections between weights, nonlinear scalar to scalar functions 
+
+Neural networks are multivariate functions that share a specific form.
+The function parameters, usually floating-point numbers, are called weights and are organized in groups called layers.
+The first layer is called the input layer, after which there are multiple hidden layers, followed by the output layer.
+Weights of adjacent layers are combined by activation functions, that are constrained to nonlinear functions with 
+scalar inputs and outputs \cite{princebook}. Simplest of the activation functions is the rectified
+linear unit ReLU, shown in Equation~\ref{eq:relu}. A neural network is usually visualized with a graph structure, as seen in Figure TODO, where a node represents a 
+weight, and an edge denotes that the value on the first layer is used to compute the value on the latter.
+
+\begin{align}
+\text{ReLU}(x) = \max(0, x)
+\label{eq:relu}
+\end{align}
+
+% - feed forward
+% network computes output from input with the feed forward.
+% you have an input, bunch of numbers
+% then, you compute a linear combination and pass that through an activation function 
+
+The computation of an output based on an input in the network is called the 
+feed-forward, as the computation runs forward layer by layer through the 
+network. The process starts from the input layer, which is simply the input 
+organized as a vector. Each intermediate value on the first hidden layer, noted $h_d$ below,
+is computed by taking a linear combination of the layer weight vector $\mathbf{\theta}$ and 
+the input vector $\mathbf{x}$ of size $N$, adding the 
+bias term $\theta_0$, and passing the result through the activation function $a$:
+
+\begin{align}
+    h_d = a\left[ \theta_{0} + \sum_{i=1}^{N}\theta_{di}x_{i} \right]
+\label{eq:fc_layer}
+\end{align}
+
+% mean that this computation is done in a different manner (conv, transformer)
+Different types of layers, such as convolutional or transformer layers 
+denote that this single-layer computation process is performed differently from 
+the standard form. When many layer types are present, layers using the computation
+in Equation~\ref{eq:fc_layer} are called fully connected or dense layers.
+
+% a is any nonlinear funtion, simplest is the rectified linear unit relu, x=x if x>0, x=0 if x<0.
+% hidden units are taken as inputs to next layer and next and next. thetas = weights
+% largest, deepest: hundreds of layers, hundreds of millions of weights 
+% then last hidden unit output it the output of the network. tadaa.
+The computation proceeds from the first hidden layer in a similar manner: 
+the next layer values, also called activations, are computed using the weights of 
+the layer and the previous layer activations with Equation~\ref{eq:fc_layer}.
+The activations of the output layer is the output of the network.
+More complex networks are generally constructed by increasing the network size to up to 
+hundreds of layers with hundreds of millions of parameters, and by using
+different types of layers.
+
+% - universal function approximator
+% the theory of the universal approximation capacity: this algebraic construct, 
+% given correct weights, activation functions and structure, could approximate 
+% any mapping from input to output. note: input/output dimension can be anything
+The universal function approximator theorem states that functions belonging to the 
+neural network family are capable of approximating any mapping from any type or shape of input
+to any output with arbitrary precision \cite{princebook}. Naturally, due to high computational 
+costs of finding the optimal weights and the large search space of possible networks, 
+this theoretical optimum is rarely reached. Of these input-output mapping problems, the 
+most relevant for the task of digitizing handwritten dental records are presented next.
+
+\subsubsection{Problem formulations for reading of dental records}
+
+% examples from ocr relevant in this case
+% input is always image ie 2d matrix if grayscale or 3d tensor if rgb image.
+The input-output mappings approximated with neural networks in this work are the following, 
+ordered from simplest to most complex: tooth type classification, constrained multilabel classification, 
+and sequence-to-sequence learning. Samples of inputs and corresponding outputs for each of these 
+cases are collected in Figure TODO.
+
+% classification problem, softmax activation
+% image of tooth sample (letter+number) to four classes, M P I or C.
+% input: image, output: four probabilities that sum to 1, probability this is a m
+% p i or c. sum to 1 is achieved with softmax. output is largest probability.
+The problem of tooth type classification takes in an input image of a dental marking,
+such as input in Figure TODO a, and decides which tooth the image denotes.
+As mammals have up to eleven teeth on each side of two jaws, the classes would be 
+these 44 teeth, such as 'rm1', 'lP4' or 'li2', using the computational notation presented in
+Section TODO ref mammal teeth. The last layer of the network would be a 44-element vector of 
+probabilities summing up to one, where each value notes the probability that the image contains 
+the tooth this value is chosen to represent. The final output would then be the largest probability
+found in this vector.
+
+% multilabel classification problem:
+% image of tooth sample. output: first MIPC, second if it is upper or lower jaw
+% output can be two arrays, one like before, other a 0-1 probability for upper jaw. upper if this > 0.5 
+An obvious deficiency in this setting is that the output has no encoding for the fact that 
+all molars have similar input image features, the letter M, or all teeth with index 
+1 share the digit on the image. Therefore, a better approach could be formulating the problem as a multilabel
+problem \cite{multilabel_classification}: the output would be three of the aforementioned 
+probability vectors, one with four elements representing 'M', 'P', 'C' or 'I', one with four elements 
+for tooth indices, and two two-element vectors for left-right and upper-lower jaw. As this 
+formulation lacks the notion that some tooth-type pairs never exist, such as the 4th canine,
+this is a case of constrained multiclass classification, where some label pairs are marked 
+as impossible combinations (ref?).
+
+% present sequence to sequence learning:
+% more complex case: image of sentence
+% output: text on image, variable length. here output layer is a more complex 
+% structure of probabilities for each position in the result sequence.
+
+Generalizing the mapping problem further, one could also input a variable-length image 
+of the entire dental marking comprising of multiple words, and outputting the text on this image.
+Due to the variable output length, a special technique called sequence-to-sequence learning 
+is employed \cite{sutskever2014sequence}. This encodes the fixed-length output layer to variable-length 
+output text. Even though all of the problems presented in this section recognize characters, 
+generally the term 'optical character recognition' is used for this type of mapping. The models 
+for solving these problems are very large, for instance the Microsoft TrOCR has approximately 
+500,000 parameters \cite{li2021trocr}, and employ advanced techniques, thus their adjustment or training
+is out of scope of this work. The general recipe for training a neural network is the subject of the next section.
+
+\subsection{Training neural networks}
+
+% u have encoded the structure, starting weights. data, input/output pairs.
+% training = process that adjusts weights so that network becomes a good 
+% approximator
+
+% 1. take part of data as training data
+% 3 divide to batches, common batch sizes are exponents of 2, 2-32 usually 
+% 4. pass a batch through the network. get output 
+% 5. pass output and correct to loss function: map from output, correct to scalar,
+% 0 is good, large value bad.
+% 6. Compute loss function gradient with respect to network weights using automatic differentiation.
+% algorithm to get this in code is called backpropagation because it moves backward in the network
+% 7. gradient informs how to adjust weights so that loss should decrease. 
+% adjust weights in this direction by preset amount called learning rate. Optimizers
+% are algorithms that determine the specifics of "moving in the direction of decreasing loss"
+% most common stochastic gradient descent (inserts randomness to movement) and 
+% adam (uses previous iteration movements known as momentum in process to make movements more smooth)
+% 8. run  batches until out of data  = epoch. run many epochs, stop according to 
+% stopping condition that is known to be a state when the network weights are good.
+% goal: reach global minimum of loss function, difficult! would be perfect approximation
+% 8. test on unseen test data to see generalization performance
+
+% lots of details on this process, rest is about that
+
+\subsubsection{Loss functions}
+
+\subsubsection{Evaluating model performance}
+
+\subsection{Architectures}
+
+\subsubsection{Convolutional layers}
+
+\subsubsection{Transformers}
+
+\subsubsection{Autoencoders}
+
+\subsection{Techniques and heuristics for improving performance}
+
+\subsection{Transfer learning}
+
+\subsubsection{Foundation models}
 
 \section{data methods etc}
 

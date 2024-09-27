@@ -513,6 +513,10 @@ all these: test first without, then add preprocessing step, then re-test
 
 \subsection{Methods: base models and transfer learning tehniques}
 
+\subsubsection{Problem formulation}
+
+different types of defining inputs and outputs, discussion on what to choose
+
 the sequence or character per character recognition question:
 sequence is a mapping from image to variable-length phrase
 character per character approach, inspired by \cite{tibetan_ocr}:
@@ -539,6 +543,21 @@ possible to encode the classes (ie, teeth)
 classifying characters has been essentially solved, easy problem 
 also classifying to tooth or not tooth should be easy 
 --> focus on model ensemble with tooth or not classifier + trocr + tooth classifier
+
+multilabel class or classifier chains:
+multilabel is difficult because the basic case has just set of labels and you can 
+have any number of any of them. we have 4 types of classes with dependencies (no 4th canine)
+so chains make sense, as constrained multilabel classification with class groups is a 
+complex, nonstandard construct \cite{multilabel_classification}. so, mini model approach 
+
+1. tooth or not: azure output text -> 1/0
+2. MPIC classifier: tooth type, upper lower classifier: 1/0
+3. downstream models: M1-3 classifier, P1-4 classifier, I1-3 classifier
+
+not inspired from any paper but my own idea, felt like a sensible way to formulate the problem, 
+so we have for all models a well-solved well-defined basic classification problem.
+
+reason for this choice: it encodes most prior knowledge in the output structure
 
 \subsubsection{Base model selection}
 
