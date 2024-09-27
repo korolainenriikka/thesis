@@ -1,23 +1,16 @@
 Things to test
 
+MIPC model
+proper mlflow & clean code
+more data
+EMNIST letters dataset
+hyperparameter optimization
+
 - data augmentation
-- convert images to black and white (rgb values dont mean anything)
-    - current: catalogues are converted to rgd before saving
-- make area either fully white (background) or fully black (foreground)? (szeliski book)
-    - but: smudged L / R maybe will not show
-    - after making binary, morphology can be used (szeliski 3.3.3)
 - evaluation: check for systematic error -> concept drift because of notation style changing over time?
-- use words instead of whole element text as text to detect (word bounding box instead of line)
 
 next: baseline: trocr outputs using an annotated tooth record test set
 
-Ways to improve
-- also use data from other types of specimen cards
-- different loss functions (possibly CTC loss?)
-	https://medium.com/@natsunoyuki/ocr-with-the-ctc-loss-efa62ebd8625
-	- width axis needs to be first in tensor (ctc loss assumes time-evolving axis to be first)
-    - would allow having variable length labels
-- pad image to be of equal sizes instead of interpolating
 - f1 somehow more robust toward word spacings being wrong, currently penalizes too much
 - word wise or character wise? (see tibetan scripts paper, allows defining set of characters possible)
 	- idea form tibetan scripts: 1. classifier: tooth or not? 2. tooth model that classifies only teeth if tooth 3. untuned trocr if is not tooth, "divide and conquer"
@@ -42,3 +35,5 @@ but dental characters with char by char correctness
 problem: no way to delineate
 evaluation: reward for all correct code points?
 
+TESTED
+converting to binary image (0 or 255) -> did not work
