@@ -105,20 +105,84 @@ introduce the problem of ocr, example: fossil catalogue
 %- model compression
 %- image patches
 
-\subsection{Deep Neural Networks: basics}
+\subsection{Deep Neural Networks}
 
-- training/validation/test data sets
 - neurons and activation functions. maybe examples of activation functions: relu, sigmoid, softmax
-- feed forward, backpropagation
-- weight initialization
-- universal function approximator: present sequence to sequence learning and character classification problems
+
+what is a neural net
+weights in layers: floating point numbers, grouped in groups 
+activations: connections between weights, nonlinear scalar to scalar functions 
+
+- feed forward
+network computes output from input with the feed forward.
+you have an input, bunch of numbers
+then, you compute a linear combination and pass that through an activation function 
+
+\begin{align}
+h_d = a\left[ \theta_{d0} + \sum_{i=1}^{D_i}\theta_{di}h_{d-1} \right]
+\end{align}
+
+hd, hd-1 are hidden unit values. d is layer index. thetas are weights 
+D is width of previous layer \cite{princebook}
+
+a is any nonlinear funtion, simplest is the rectified linear unit relu, x=x if x>0, x=0 if x<0.
+hidden units are taken as inputs to next layer and next and next. thetas = weights
+largest, deepest: hundreds of layers, hundreds of millions of weights 
+then last hidden unit output it the output of the network. tadaa.
+
+- universal function approximator
+the theory of the universal approximation capacity: this algebraic construct, 
+given correct weights, activation functions and structure, could approximate 
+any mapping from input to output. note: input/output dimension can be anything
+
+examples from ocr relevant in this case
+input is always image ie 2d matrix if grayscale or 3d tensor if rgb image.
+
+classification problem, softmax activation
+image of tooth sample (letter+number) to four classes, M P I or C.
+input: image, output: four probabilities that sum to 1, probability this is a m
+p i or c. sum to 1 is achieved with softmax. output is largest probability.
+
+multilabel classification problem:
+image of tooth sample. output: first MIPC, second if it is upper or lower jaw
+output can be two arrays, one like before, other a 0-1 probability for upper jaw. upper if this > 0.5 
+
+present sequence to sequence learning:
+more complex case: image of sentence
+output: text on image, variable length. here output layer is a more complex 
+structure of probabilities for each position in the result sequence.
+
+insert image example: inputs and outputs of different learnable functions with neural networks
 
 \subsection{Training neural networks}
 
-- learning rate
-- batch size
+u have encoded the structure, starting weights. data, input/output pairs.
+training = process that adjusts weights so that network becomes a good 
+approximator
+
+1. take part of data as training data
+3 divide to batches, common batch sizes are exponents of 2, 2-32 usually 
+4. pass a batch through the network. get output 
+5. pass output and correct to loss function: map from output, correct to scalar,
+0 is good, large value bad.
+6. Compute loss function gradient with respect to network weights using automatic differentiation.
+algorithm to get this in code is called backpropagation because it moves backward in the network
+7. gradient informs how to adjust weights so that loss should decrease. 
+adjust weights in this direction by preset amount called learning rate. Optimizers
+are algorithms that determine the specifics of "moving in the direction of decreasing loss"
+most common stochastic gradient descent (inserts randomness to movement) and 
+adam (uses previous iteration movements known as momentum in process to make movements more smooth)
+8. run  batches until out of data  = epoch. run many epochs, stop according to 
+stopping condition that is known to be a state when the network weights are good.
+goal: reach global minimum of loss function, difficult! would be perfect approximation
+8. test on unseen test data to see generalization performance
+
+lots of details on this process, rest is about that
 
 \subsubsection{Loss functions}
+
+more specific: how do you map output and label to scalar value describing how good the output was?
+ocr point of view
 
 Loss function is a function from model predictions and ground truth labels that describes with a single 
 scalar value how good the match was, low number describing a good match \cite{princebook}.
@@ -146,9 +210,12 @@ all other have probability 0
 
 - CTC loss
 
+maybe
+
 \subsubsection{Evaluating model performance}
 
 - performance metrics
+    - accuracy
 	- precision
 	- recall 
 	- f1
@@ -180,15 +247,38 @@ data augmentation
 \subsection{Transfer learning}
 
 basics: what it is 
+
+task transfer and domain transfere
+
 initialize weights to those that suit a related task, it is assumed that the starting point is already very good
 catastrophic forgetting = forgetting the previously learned after finetuning
+
+- weight initialization
 
 \subsubsection{Foundation models}
 
 - generalist models
 	- large unsupervised training data sets
 
+% end of section
+% this section presented relevant background on neural networks
+% what you should remember from this chapter
+% you have a network that can approximate any input to output mapping
+% the network structure is set up in a way that is known to result in a good 
+% approximation given the input to output mapping we try to achieve
+% training is conducted by constructing output from input with the network
+% computing difference of output and correct output with the loss function,
+% and adjusting the network to a direction that reduces this difference.
+% transfer learning means that you start this process from a network state
+% that can map some related mapping well, so the optimal network for the new 
+% state is closer.
+% how to do this in the image to dental element describing phrase case is our topic
+
 \section{Fundamentals on paleoecology}
+
+% start of section metatext
+% how this relates to the whole this is the application area
+% so understanding the application area maybe gives insights to why things are done like this
 
 Nature is highly complicated -> models, approximate models and assumptions enable drawing conclusions from
 known distributions of species. 
@@ -305,8 +395,16 @@ sometimes lower jaw as line on top and upper jaw as line on bottom, sometimes bo
 if there are less of a type of teeth eg two premolars, they might be no 1 and 2 or no 3 and 4
 
 % summary of chapter
+% what to remember from this chapter
+% it is important to have lots of precise data to do precise paleoecological analysis
+% mammals have 3 molars 4 premolars 1 canine 3 incisors per side of jaw
 
 \section{Related work}
+
+% intro
+% this chapter presents related work from two angles
+% angle 1: neural nets & transfer learning on similar problems
+% angle 2: solutions to digitization of historical documents
 
 Search strategy: few seed papers and snowball search. Related conferences: 
 Frontiers in Handwriting Recognition
@@ -322,6 +420,7 @@ obvious solution: sit down and type
 \section{Experimental setup}
 
 % introduction to chapter
+% this chapter presents how the tests ran for this thesis were conducted
 
 \subsection{Data description}
 
@@ -404,11 +503,14 @@ if model is toothornot classifier + tooth reader -> remove fractions notes
 
 \subsection{Data preprocessing}
 
-Convert to black and white since text reading should not change when color of writing / background changes?
+grayscaling, flipping to back background white foreground
 
-Convert to background completely white, foreground completely black? Either there is a line or not?
+I should especially do random cropping since that occurs in real dataset!
 
-- data augmentation
+I sould do some border contrast decrease center contrast increase because border noise is present and usually less relevant 
+
+all these: test first without, then add preprocessing step, then re-test
+
 \subsection{Methods: base models and transfer learning tehniques}
 
 the sequence or character per character recognition question:
@@ -456,12 +558,16 @@ answer for a reading
 --> these do not apply if we do character classification
 
 % summary of chapter
+% list all methods used for each aspect (preprocessing, base model, 
+% problem formalization, transfer technique) chosen
 
 \section{Results and discussion}
 
 % introduction to chapter
+% present the results from experiments
 
 % summary of chapter
+% takeaway points
 
 \section{Conclusions}
 
