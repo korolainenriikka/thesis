@@ -147,8 +147,6 @@ results of the experiments are presented and discussed. Finally, the work is con
 
 \subsection{Paleoenvironmental reconstruction}
 
-\subsection{Diets and evolution}
-
 \subsection{Composition of mammal teeth}
 
 %Fossils occur when animal / plant remains are deposited in a sediment in a way that preserves 
@@ -335,7 +333,7 @@ costs of finding the optimal weights and the large search space of possible netw
 this theoretical optimum is rarely reached. Of these input-output mapping problems, the 
 most relevant for the task of digitizing handwritten dental records are presented next.
 
-\subsubsection{Problem formulations for reading of dental records}
+% \subsubsection{Problem formulations for reading of dental records}
 
 % examples from ocr relevant in this case
 % input is always image ie 2d matrix if grayscale or 3d tensor if rgb image.
@@ -428,13 +426,34 @@ is out of scope of this work. The general recipe for training a neural network i
 
 \subsubsection{Foundation models}
 
-\section{data methods etc}
+\section{Related work}
 
-\subsection{data description}
+% intro
+% this chapter presents related work from two angles
+% angle 1: neural nets & transfer learning on similar problems
+% angle 2: solutions to digitization of historical documents
+
+Search strategy: few seed papers and snowball search. Related conferences: 
+Frontiers in Handwriting Recognition
+
+Notes on choices: there is math OCR and music OCR, but they use large datasets and no transfer learning, they dont suffer from the limited target data problem. Also, the problem domain is too different from my problem to be informative.
+
+\subsection{Approaches to digitization of handwritten archival data}
+
+obvious solution: sit down and type
+
+\subsection{Approaches to character recognition with small target domain datasets}
+
+
+\section{Experimental setup}
+
+\subsection{Data description}
 
 \subsubsection{Notes on creating the dataset}
 
-\subsubsection{Unicode characters used in data labeling}
+\includegraphics*[scale=0.2]{../images/superambiguous_data_sample.png}
+
+\subsubsection{Unicode characters used for data labeling}
 
 %tricks to label to make model work easier
 To label the text found in cropped-out tooth fragment handwriting images, a few nonobvious 
@@ -531,15 +550,20 @@ dataset can be found in Figure~\ref{table:input_images}.
     \label{table:input_images}
 \end{table}
 
-\subsubsection{Data preprocessing}
 
-\subsection{Methods}
+\subsection{Data preprocessing}
 
-\subsubsection{Encoding prior knowledge}
+\subsection{Methods: base models and transfer learning tehniques}
 
-\section{results}
+\subsubsection{Problem formulation}
 
-\section{conclusion}
+\subsubsection{Base model selection}
+
+\subsubsection{Transfer learning method selection}
+
+\section{Results and discussion}
+
+\section{Conclusions}
 
 \printbibliography
 

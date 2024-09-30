@@ -91,6 +91,131 @@ Next, the experimental setup is introduced, covering dataset creation, labeling 
 preprocessing, followed by base model and transfer learning method selection. After this, 
 results of the experiments are presented and discussed. Finally, the work is concluded.
 
+\section{Fundamentals on paleoecology}
+
+% start of section metatext
+% how this relates to the whole this is the application area
+% so understanding the application area maybe gives insights to why things are done like this
+
+Nature is highly complicated -> models, approximate models and assumptions enable drawing conclusions from
+known distributions of species. 
+
+each assumption / model can be questioned but they hold as a rule. only 
+models briefly presented here, all statements here can be questioned to some extent 
+
+idea: what fossil/dental data can be used for. how fossil/dental data is used
+
+to highlight why accurate, fine-resolution (ie specific) and large magnitude of 
+fossil, esp dental fossil data is genuinely useful.
+
+chapter overview: review ecology and assumptions the analysis is based on. 
+then, short overview of main techniques for paleoenvironmental reconstruction, the main 
+application area of fossil data. last, mammal teeth row is presented to introduce terminology 
+present in the data.
+
+\subsection{Basics on ecology}
+
+basic laws: theory that the data analysis relies on
+
+Tolerances and niches (fundamental + realized): basis for environmental reconstruction \cite{Faith_Lyman_2019} ch 2
+
+tolerance = range of an environmental variable that is hospitable for the species, 
+eg. imaginary small mammal (come up with some imaginary name) can live when avg temperature is +10-+15.
+Niche = set of tolerances the species has. fundamental niche = possible environments for the species, 
+realized niche = where it lives. center of tolerances is better than the edge (ch2)
+
+main assumption uniformitarism (the fact that tolerances constraint things has not changed)
+niche conservatism: Assume that nearest living relative has same tolerances now -> get past environment (ch3, lyman 2017),
+
+this presents a mapping from taxa to environmental variables -> basis of analysis 
+of past environments.
+
+modern alternative to this: transfer functions: mappings from taxa data to enviroment 
+learned using machine learning / statistical models (ch9, birks 1995)
+
+benefit instead of tolerances/niches: they have subjective interpretation problems (book ch 9)
+
+esp. teeth: dental ecometrics = inference of transfer functions given dental data (ch9 liu et al 2012)
+
+next, turn to how to solve the problem of information to environment given the 
+taxomic information to environmetal indicators mapping
+
+\subsection{Paleoenvironmental reconstruction}
+
+why: get information of what is to come with climate change (faith ch2)
+
+definition of the problem: whan ancient habitats were like and what changes they 
+underwent at which times (ch2)
+
+overview main tehcniques: presence/absence, abundance, taxon free, diversity based,
+size clines
+
+presence absence (ch5):
+dataset is list of taxa that are present. absence is also indicator 
+but worse since might be that the species just was not preserved / found. two approaches: 
+fix location or fix set of species.
+fix species: find where this set of species lives now (climate maps \& areas of sympatry), this indicates 
+that historical locality had this climate. place-fixing: analyze how which species show up in this place
+ changes over time, reduce species showing up data to lower dimension
+(like pca), eg how many warm-climate vs cold-climate species show up, this gives ideas on changes in climate over time
+
+abundance 
+get relative NISP (number of species in sample): percent of species in sample is of this taxon (grayson 1984b, ch6)
+do like presence absence but weigh signal according to abundance
+and assume abundant species lives more toward center of tolerance 
+grayson 1981: fossil accumulation affects datasets -> use with caution
+
+taxon free 
+cornelis van der klaauw 1948 (p 160) relation of traits of animals and livelihood = ecomorphology:
+ eg what the animal eats also eg how diverse the place is. for environment mostly diet -> what plants grew and habitat -> climate etc
+helps with not having to assume that closest relative tolerances were the same. (ch7)
+eg usage of teeth: dental microwear. calandra and merceron 2016: analyze miniscratches on the surface to get diet to get vegetation and climate
+    oma: to conduct this you need many samples of the same bone
+    need to know exactly which bone it is since different teeth used for different things
+
+diversity and size clines as enviromnental indicators
+andrews et al 1979: how diverse also has a mapping to environment eg tropical is more diverse than arctic 
+coarse indicators of the environment
+lyman 2008: strong sample size effects: bigger sample is more diverse
+so to do this you need equal size samples from all time periods analyzed
+size clines basic idea: coarse indicators for size of bone -> environment eg larger libs warmer climate (mayr 1970)
+also dental measures correlate with environment, eg mandibles (faith et al 2016). for that you need sufficient 
+tooth samples and correct identification which tooth it is
+
+end lesson: sample sizes and data precision are important. therefore it is superimportant 
+to get more data / improve accuracy, which is the main goal of the digitization effort.
+scale sense: faith lyman ch 4 said 1000 is solid 10 000 whopping sample size
+dataset in question in this work has 90,000 so the value is pretty clear
+
+\subsection{Composition of mammal teeth}
+
+Fossils occur when animal / plant remains are deposited in a sediment in a way that preserves 
+some part of its original form. Since teeth are the hardest material in animals, large fraction
+of found parts are teeth. Fossil finding is followed by identification to most specific taxon possible
+largely a technical skill (ch5), teeth are identified down to type and number, how manyeth the teeth are,
+counting from center to edge or other way round??
+specimen can be either one tooth or fragments of the jaw bone where there are multiple teeth (markings like M1-3)
+
+from \cite{Hillson_2005} what teeth are composed of
+
+ the jaw bones
+lower jaw bones: mandibles
+ permanent and deciduous (D), nonpermanent "milk" teeth (laita vaan jos löytyy d-hampaita)
+
+right and left sides are always symmetrical, denoted simply L or R or Lt or Rt or left or right. left is left looking from the animal, not the observers perspective
+Identicality also causes that sometimes tooth fossils are misidentified to the wrong side and corrected (ei lähteestä vaan nähty datasta koska l ja r on sutattu aika monta kertaa ja vaihettu
+
+four classes, front to back: three incisors (I), one canine (C), four premolars (P), three molars (M). top bottom left right. top/bottom noting upper jaw as superscript lower jaw as lower script, 
+ purpose: incisor -> catching, canine -> stabbing / killing prey, molars are for chewing. premolars are bit like canines bit like molars, function varies lot
+ between taxa including holding, cutting and chewing. also form and number of each present changes between taxa.
+sometimes lower jaw as line on top and upper jaw as line on bottom, sometimes both are used: upper script number with line on bottom. Line is "the other jaw"
+if there are less of a type of teeth eg two premolars, they might be no 1 and 2 or no 3 and 4
+
+% summary of chapter
+% what to remember from this chapter
+% it is important to have lots of precise data to do precise paleoecological analysis
+% mammals have 3 molars 4 premolars 1 canine 3 incisors per side of jaw
+
 \section{Deep Neural Networks for Optical Character Recognition}
 
 % introduction to chapter
@@ -273,131 +398,6 @@ catastrophic forgetting = forgetting the previously learned after finetuning
 % that can map some related mapping well, so the optimal network for the new 
 % state is closer.
 % how to do this in the image to dental element describing phrase case is our topic
-
-\section{Fundamentals on paleoecology}
-
-% start of section metatext
-% how this relates to the whole this is the application area
-% so understanding the application area maybe gives insights to why things are done like this
-
-Nature is highly complicated -> models, approximate models and assumptions enable drawing conclusions from
-known distributions of species. 
-
-each assumption / model can be questioned but they hold as a rule. only 
-models briefly presented here, all statements here can be questioned to some extent 
-
-idea: what fossil/dental data can be used for. how fossil/dental data is used
-
-to highlight why accurate, fine-resolution (ie specific) and large magnitude of 
-fossil, esp dental fossil data is genuinely useful.
-
-chapter overview: review ecology and assumptions the analysis is based on. 
-then, short overview of main techniques for paleoenvironmental reconstruction, the main 
-application area of fossil data. last, mammal teeth row is presented to introduce terminology 
-present in the data.
-
-\subsection{Basics on ecology}
-
-basic laws: theory that the data analysis relies on
-
-Tolerances and niches (fundamental + realized): basis for environmental reconstruction \cite{Faith_Lyman_2019} ch 2
-
-tolerance = range of an environmental variable that is hospitable for the species, 
-eg. imaginary small mammal (come up with some imaginary name) can live when avg temperature is +10-+15.
-Niche = set of tolerances the species has. fundamental niche = possible environments for the species, 
-realized niche = where it lives. center of tolerances is better than the edge (ch2)
-
-main assumption uniformitarism (the fact that tolerances constraint things has not changed)
-niche conservatism: Assume that nearest living relative has same tolerances now -> get past environment (ch3, lyman 2017),
-
-this presents a mapping from taxa to environmental variables -> basis of analysis 
-of past environments.
-
-modern alternative to this: transfer functions: mappings from taxa data to enviroment 
-learned using machine learning / statistical models (ch9, birks 1995)
-
-benefit instead of tolerances/niches: they have subjective interpretation problems (book ch 9)
-
-esp. teeth: dental ecometrics = inference of transfer functions given dental data (ch9 liu et al 2012)
-
-next, turn to how to solve the problem of information to environment given the 
-taxomic information to environmetal indicators mapping
-
-\subsection{Paleoenvironmental reconstruction}
-
-why: get information of what is to come with climate change (faith ch2)
-
-definition of the problem: whan ancient habitats were like and what changes they 
-underwent at which times (ch2)
-
-overview main tehcniques: presence/absence, abundance, taxon free, diversity based,
-size clines
-
-presence absence (ch5):
-dataset is list of taxa that are present. absence is also indicator 
-but worse since might be that the species just was not preserved / found. two approaches: 
-fix location or fix set of species.
-fix species: find where this set of species lives now (climate maps \& areas of sympatry), this indicates 
-that historical locality had this climate. place-fixing: analyze how which species show up in this place
- changes over time, reduce species showing up data to lower dimension
-(like pca), eg how many warm-climate vs cold-climate species show up, this gives ideas on changes in climate over time
-
-abundance 
-get relative NISP (number of species in sample): percent of species in sample is of this taxon (grayson 1984b, ch6)
-do like presence absence but weigh signal according to abundance
-and assume abundant species lives more toward center of tolerance 
-grayson 1981: fossil accumulation affects datasets -> use with caution
-
-taxon free 
-cornelis van der klaauw 1948 (p 160) relation of traits of animals and livelihood = ecomorphology:
- eg what the animal eats also eg how diverse the place is. for environment mostly diet -> what plants grew and habitat -> climate etc
-helps with not having to assume that closest relative tolerances were the same. (ch7)
-eg usage of teeth: dental microwear. calandra and merceron 2016: analyze miniscratches on the surface to get diet to get vegetation and climate
-    oma: to conduct this you need many samples of the same bone
-    need to know exactly which bone it is since different teeth used for different things
-
-diversity and size clines as enviromnental indicators
-andrews et al 1979: how diverse also has a mapping to environment eg tropical is more diverse than arctic 
-coarse indicators of the environment
-lyman 2008: strong sample size effects: bigger sample is more diverse
-so to do this you need equal size samples from all time periods analyzed
-size clines basic idea: coarse indicators for size of bone -> environment eg larger libs warmer climate (mayr 1970)
-also dental measures correlate with environment, eg mandibles (faith et al 2016). for that you need sufficient 
-tooth samples and correct identification which tooth it is
-
-end lesson: sample sizes and data precision are important. therefore it is superimportant 
-to get more data / improve accuracy, which is the main goal of the digitization effort.
-scale sense: faith lyman ch 4 said 1000 is solid 10 000 whopping sample size
-dataset in question in this work has 90,000 so the value is pretty clear
-
-\subsection{Composition of mammal teeth}
-
-Fossils occur when animal / plant remains are deposited in a sediment in a way that preserves 
-some part of its original form. Since teeth are the hardest material in animals, large fraction
-of found parts are teeth. Fossil finding is followed by identification to most specific taxon possible
-largely a technical skill (ch5), teeth are identified down to type and number, how manyeth the teeth are,
-counting from center to edge or other way round??
-specimen can be either one tooth or fragments of the jaw bone where there are multiple teeth (markings like M1-3)
-
-from \cite{Hillson_2005} what teeth are composed of
-
- the jaw bones
-lower jaw bones: mandibles
- permanent and deciduous (D), nonpermanent "milk" teeth (laita vaan jos löytyy d-hampaita)
-
-right and left sides are always symmetrical, denoted simply L or R or Lt or Rt or left or right. left is left looking from the animal, not the observers perspective
-Identicality also causes that sometimes tooth fossils are misidentified to the wrong side and corrected (ei lähteestä vaan nähty datasta koska l ja r on sutattu aika monta kertaa ja vaihettu
-
-four classes, front to back: three incisors (I), one canine (C), four premolars (P), three molars (M). top bottom left right. top/bottom noting upper jaw as superscript lower jaw as lower script, 
- purpose: incisor -> catching, canine -> stabbing / killing prey, molars are for chewing. premolars are bit like canines bit like molars, function varies lot
- between taxa including holding, cutting and chewing. also form and number of each present changes between taxa.
-sometimes lower jaw as line on top and upper jaw as line on bottom, sometimes both are used: upper script number with line on bottom. Line is "the other jaw"
-if there are less of a type of teeth eg two premolars, they might be no 1 and 2 or no 3 and 4
-
-% summary of chapter
-% what to remember from this chapter
-% it is important to have lots of precise data to do precise paleoecological analysis
-% mammals have 3 molars 4 premolars 1 canine 3 incisors per side of jaw
 
 \section{Related work}
 
