@@ -8,6 +8,9 @@
 \usepackage{subcaption}
 \usepackage[style=numeric,bibstyle=numeric,backend=biber,natbib=true,maxbibnames=99,giveninits=true,uniquename=init]{biblatex}
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \addbibresource{../bibliography.bib}
 
@@ -330,87 +333,157 @@ The universal function approximator theorem states that functions belonging to t
 neural network family are capable of approximating any mapping from any type or shape of input
 to any output with arbitrary precision \cite{princebook}. Naturally, due to high computational 
 costs of finding the optimal weights and the large search space of possible networks, 
-this theoretical optimum is rarely reached. Of these input-output mapping problems, the 
-most relevant for the task of digitizing handwritten dental records are presented next.
-
-% \subsubsection{Problem formulations for reading of dental records}
+this theoretical optimum is rarely reached.
 
 % examples from ocr relevant in this case
 % input is always image ie 2d matrix if grayscale or 3d tensor if rgb image.
-The input-output mappings approximated with neural networks in this work are the following, 
+Examples of input-output mappings relevant in this work are the following, 
 ordered from simplest to most complex: tooth type classification, constrained multilabel classification, 
-and sequence-to-sequence learning. Samples of inputs and corresponding outputs for each of these 
-cases are collected in Figure TODO.
-
-% classification problem, softmax activation
-% image of tooth sample (letter+number) to four classes, M P I or C.
-% input: image, output: four probabilities that sum to 1, probability this is a m
-% p i or c. sum to 1 is achieved with softmax. output is largest probability.
-The problem of tooth type classification takes in an input image of a dental marking,
+and sequence-to-sequence learning. The problem of tooth type classification takes in an input image of a dental marking,
 such as input in Figure TODO a, and decides which tooth the image denotes.
 As mammals have up to eleven teeth on each side of two jaws, the classes would be 
 these 44 teeth, such as 'rm1', 'lP4' or 'li2', using the computational notation presented in
-Section TODO ref mammal teeth. The last layer of the network would be a 44-element vector of 
-probabilities summing up to one, where each value notes the probability that the image contains 
+Section TODO ref mammal teeth. The network would output a 44-element discrete probability distribution 
+obtained by using the softmax function~ref{eq:softmaxTODO}, where each value notes the probability that the image contains 
 the tooth this value is chosen to represent. The final output would then be the largest probability
 found in this vector.
 
 % multilabel classification problem:
 % image of tooth sample. output: first MIPC, second if it is upper or lower jaw
 % output can be two arrays, one like before, other a 0-1 probability for upper jaw. upper if this > 0.5 
-An obvious deficiency in this setting is that the output has no encoding for the fact that 
-all molars have similar input image features, the letter M, or all teeth with index 
-1 share the digit on the image. Therefore, a better approach could be formulating the problem as a multilabel
+A better approach that could encode the fact that all teeth of same type share a similar input feature
+, a letter in the image, could be formulating the problem as a multilabel
 problem \cite{multilabel_classification}: the output would be three of the aforementioned 
 probability vectors, one with four elements representing 'M', 'P', 'C' or 'I', one with four elements 
 for tooth indices, and two two-element vectors for left-right and upper-lower jaw. As this 
 formulation lacks the notion that some tooth-type pairs never exist, such as the 4th canine,
 this is a case of constrained multiclass classification, where some label pairs are marked 
-as impossible combinations (ref?).
+as impossible combinations.
 
 % present sequence to sequence learning:
 % more complex case: image of sentence
 % output: text on image, variable length. here output layer is a more complex 
 % structure of probabilities for each position in the result sequence.
-
 Generalizing the mapping problem further, one could also input a variable-length image 
 of the entire dental marking comprising of multiple words, and outputting the text on this image.
 Due to the variable output length, a special technique called sequence-to-sequence learning 
 is employed \cite{sutskever2014sequence}. This encodes the fixed-length output layer to variable-length 
 output text. Even though all of the problems presented in this section recognize characters, 
-generally the term 'optical character recognition' is used for this type of mapping. The models 
-for solving these problems are very large, for instance the Microsoft TrOCR has approximately 
-500,000 parameters \cite{li2021trocr}, and employ advanced techniques, thus their adjustment or training
-is out of scope of this work. The general recipe for training a neural network is the subject of the next section.
+generally the term 'optical character recognition' is used for this type of mapping. Models
+for solving these problems accurately are very large, for instance the Microsoft TrOCR has approximately 
+500,000 parameters \cite{li2021trocr}.
+
+Finding the best network weights for any of these types of input/output mapping problems, training 
+a network, is conducted with the same process.
+The general recipe for training a neural network is the subject of the next section.
 
 \subsection{Training neural networks}
 
 % u have encoded the structure, starting weights. data, input/output pairs.
 % training = process that adjusts weights so that network becomes a good 
 % approximator
+After one has defined a neural network structure, initialized the weights of the network 
+to some initial values and obtained a sufficiently large set of input-output pairs from the problem at hand,
+one can start training the network. Training is an iterative process where inputs are used to 
+predict the output, which is then compared to the ground truth. A more detailed account of these iterations
+is presented next.
 
 % 1. take part of data as training data
 % 3 divide to batches, common batch sizes are exponents of 2, 2-32 usually 
+At the start of training, a small fraction, commonly 10-20\%, is reserved as test data. Cross-validation is 
+generally not used with neural networks due to the computational cost of the training process (ref?). The remainder, 
+the training set, is divided into batches, sizes of which are commonly exponents of 2.
+
 % 4. pass a batch through the network. get output 
 % 5. pass output and correct to loss function: map from output, correct to scalar,
 % 0 is good, large value bad.
 % 6. Compute loss function gradient with respect to network weights using automatic differentiation.
 % algorithm to get this in code is called backpropagation because it moves backward in the network
+In an iteration of neural network training, a batch, stacked in a tensor of dimension one larger than the dataset, 
+is passed through the network: outputs are computed based on the training inputs with the feed forward process.
+After this, a loss function is used to evaluate the quality of the output: the loss function maps the network output and 
+the correct output recorded in the training batch and outputs a scalar value, small value denoting a good 
+match. Loss functions used in optical character recognition are presented in Section~\ref{sect:loss_funcs}.
+After this follows a step called backpropagation: the gradient of the loss function with respect 
+to the neural network weights is computed. The algorithm used in this computation is called automatic differentiation,
+and is able to compute gradients with equal computational complexity as the feed forward by utilizing 
+a variant of the chain rule and by proceeding backward in the network \cite{princebook}.
+
 % 7. gradient informs how to adjust weights so that loss should decrease. 
 % adjust weights in this direction by preset amount called learning rate. Optimizers
 % are algorithms that determine the specifics of "moving in the direction of decreasing loss"
 % most common stochastic gradient descent (inserts randomness to movement) and 
 % adam (uses previous iteration movements known as momentum in process to make movements more smooth)
+Once the gradient is computed, the next step is to choose how to adjust the network weights 
+based on the gradient information. The simplest approach is, given a predefined step size 
+known as the learning rate, to adjust the weights by the magnitude of the learning rate 
+in the direction of fastest decreasing gradient, a heuristic called gradient descent. These approaches 
+are generally called optimizers and finding a suitable one is a fairly complex problem.
+Other known optimizers are stochastic gradient descent (SGD), that inserts randomness 
+to the weight-adjusting steps, and Adam (Adaptive Moment Estimation), that 
+uses moments or gradients obtained in previous steps to add smoothness to the 
+movement trajectory \cite{princebook}. After a weight-adjusting step is completed 
+with the optimizer, the training iteration is completed.
+
 % 8. run  batches until out of data  = epoch. run many epochs, stop according to 
 % stopping condition that is known to be a state when the network weights are good.
 % goal: reach global minimum of loss function, difficult! would be perfect approximation
+The training process consists of repeatedly performing the aforementioned training 
+iterations. Once the all batches of the whole dataset are used for training,
+a training step known as epoch is completed. An usual a training process 
+completes dozens or hundreds of epochs. The training is terminated once a predefined 
+stopping condition, such as a number of epochs or a sufficiently small gradient 
+magnitude, is met. The goal of the training process is to find the global minimum of the loss 
+function with respect to the network weights, as this setting would correspond to 
+the optimal approximation of the input-output mapping. Like with optimizers, 
+determining optimal stopping conditions is a difficult problem area within neural network optimization.
+
 % 8. test on unseen test data to see generalization performance
+After the training is completed, the test dataset laid to the side at the start of 
+training is used to evaluate the predictive power of the network on unseen data, 
+also known as generalization performance. Metrics for measuring the accuracy 
+of a readily-trained model are presented in Section~\ref{sect:eval_metrics}.
+At this point the model should be considered 'frozen', as adjusting it would 
+optimize the model to the small test set, not the general problem. This pitfall is 
+known as 'data leakage' \cite{engbook}.
 
 % lots of details on this process, rest is about that
+% summarize: pseudocode of neural network training process
+As is evident from the generality of the previous description, there are numerous 
+specific aspects to consider when designing highly accurate neural networks. The 
+rest of this chapter presents a snapshot of this problem area, focusing on those 
+relevant to our problem of recognizing handwritten characters, and the rest of the 
+work will experiment with parts of these aspects. A summarizing pseudocode of the 
+neural network training process with gradient descent is presented in Algorithm~\ref{alg:net_training}.
+
+\begin{algorithm}
+    \caption{Neural Network Training}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} training\_data, epochs, learning\_rate
+        \State Initialize weights $W$ randomly
+        \State Initialize biases $b$ randomly
+        
+        \For{epoch = 1 to epochs}
+            \For{each (input, target) in training\_data}
+                \State $output \gets \text{ForwardPropagation}(input, W, b)$
+                \State $loss \gets \text{CalculateLoss}(output, target)$
+                \State $(gradients\_W, gradients\_b) \gets \text{BackwardPropagation}(input, output, target, W, b)$
+                \State $W \gets W - learning\_rate \times gradients\_W$
+                \State $b \gets b - learning\_rate \times gradients\_b$
+            \EndFor
+            \State Print("Epoch:", epoch, "Loss:", loss)
+        \EndFor
+        
+        \State \textbf{Output:} $W, b$  \Comment{Trained weights and biases}
+    \end{algorithmic}
+    \label{alg:net_training}
+\end{algorithm}
 
 \subsubsection{Loss functions}
+\label{sect:loss_funcs}
 
 \subsubsection{Evaluating model performance}
+\label{sect:eval_metrics}
 
 \subsection{Architectures}
 
@@ -443,7 +516,6 @@ Notes on choices: there is math OCR and music OCR, but they use large datasets a
 obvious solution: sit down and type
 
 \subsection{Approaches to character recognition with small target domain datasets}
-
 
 \section{Experimental setup}
 
