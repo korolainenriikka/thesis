@@ -371,19 +371,41 @@ data augmentation
 
 \subsection{Transfer learning}
 
+this sect from \cite{transferlearning_survey}. they initially formalized the problem and uniformized 
+the terminology, before that multiple terms (ref? price/goodfellow?)
+
 basics: what it is 
 
-task transfer and domain transfere
+why: save compute and data labeling (usual constraints in ml model building \cite{engbook})
+
+task (inductive) transfer: tasks differ and domain (transductive) transfer (only data differs)
+
+task transfer relatedness + the more related the better results, negative transfer ie things made worse if 
+things differ too much.
 
 initialize weights to those that suit a related task, it is assumed that the starting point is already very good
 catastrophic forgetting = forgetting the previously learned after finetuning
 
-- weight initialization
+broad methods for inductive transfer: feature representation transfer, parameter transfer; priors or hyperparameters of model are assumed to be shared,
+instance transfer: reuse source data (not considered), relatioal-knowledge-transfer: when data is not i.i.d (not considered here)
+ont considered because does not apply here
+
+feature representation transfer
+seeing model as model doing the feature engineering: all but last layer are like 
+feature extraction that allows a linear model to be fit from features to output. 
+assumption for last layer transfer: reusing the feature extractor should bring good results with little computational cost
+
+basically nowadays it is usually insensible to ever train from scratch (NNDL lectures)
+
 
 \subsubsection{Foundation models}
 
 - generalist models
 	- large unsupervised training data sets
+
+Idea: since transfer learning source task performance is not important, target task is the main point \cite{transferlearning_survey}, 
+you can come up with some nonsensical task such as map image to the same image to get unsupervised task, train 
+massively on massive compute, and use the model for varieties of tasks. idea: do as little as possible in the target domain
 
 % end of section
 % this section presented relevant background on neural networks
@@ -594,6 +616,17 @@ answer for a reading
 
 % summary of chapter
 % takeaway points
+
+table of results could contain:
+rows: base models tested 
+columns: transfer learning method 
+
+transfer learning methods could include 
+
+just training further (ie baseline, dont do anything special)
+train the last layer (inspo from \cite{tibetan_ocr}, test hypothesis of reusing feature extractor)
+what else? find from literature!
+
 
 \section{Conclusions}
 

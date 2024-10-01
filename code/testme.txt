@@ -1,39 +1,13 @@
 Things to test
 
 MIPC model
-proper mlflow & clean code
-more data
-EMNIST letters dataset
-hyperparameter optimization
+upper lower model
 
-- data augmentation
-- evaluation: check for systematic error -> concept drift because of notation style changing over time?
-
-next: baseline: trocr outputs using an annotated tooth record test set
-
-- f1 somehow more robust toward word spacings being wrong, currently penalizes too much
-- word wise or character wise? (see tibetan scripts paper, allows defining set of characters possible)
-	- idea form tibetan scripts: 1. classifier: tooth or not? 2. tooth model that classifies only teeth if tooth 3. untuned trocr if is not tooth, "divide and conquer"
-- try not fine tuning all parameters (medium notes #2, tibetan scripts paper)
-
-Setup decisions (hyperparameters to test)
-- pytorch resize interpolation strategy (https://pytorch.org/vision/stable/generated/torchvision.transforms.Resize.html#resize). current: default
-- annotating: use modifiers not special unicode characters (3+lowerscript modifier instead of lowerscript 3)
-- batch size
-- uniformizing image sizes chosen size: 3000*200, because these were definitely larger than original. to not lose any information
-- loss function: cross entropy (chose the same as trocr paper)
-
-Evaluation metrics
-- trocr paper: correct matches / words. But: words in teeth are a bit ambiguous
-eg M3, m2, p3. whether spaces are detected does not really matter for accuracy
---> remove spaces from output and label. count correct words
-    but: if one word is missing, all are wrong because of a drift eg generated: A- Proximal # distal end right femur, correct Proximal & distal end right femur
-    is entirely false. spaces here are very varying, so word correctness like this does not work well
-    also word completely off is worse than a one-character off word, should be captured
-so: would like to have words with conventional word correctness.
-but dental characters with char by char correctness 
-problem: no way to delineate
-evaluation: reward for all correct code points?
-
-TESTED
-converting to binary image (0 or 255) -> did not work
+ways to improve
+- labeled MIPC data from azure -> retrain with proper dataset size
+- remove background jitter (reasoning: transfer learning survey: transfer succeeds better if distance between source and target are
+reduced. MNIST & EMNIST have perfect black backgrounds, testing on number data on untuned mnist on a tiny sample (N=10): manual removal of background 
+jitter upped recognition of digits from 40 to 100%.
+ also encoding a prior: we know that small fluctuations in background color do not change what the text says)
+- hyperparameter optimize (test if parameter transfer applying (ie not changing hyperparams) is a good idea in this case)
+- get more data
