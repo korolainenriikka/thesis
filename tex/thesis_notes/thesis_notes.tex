@@ -439,6 +439,12 @@ obvious solution: sit down and type
 
 \subsection{Approaches to character recognition with small target domain datasets}
 
+method: snowball search. for a paper to be accepted for use here, i set up these requirements:
+lists best accuracy clearly (percent, which dataset, number of classes)
+specifies the base model used (architecture and source domain dataset)
+specifies how transfer learning was conducted (not just used transfer learning)
+then reputable venue and acceptable quality of text and presentation, super subpar text was a frequent reason to skip a paper, they also often lacked relevant details
+
 \section{Experimental setup}
 
 % introduction to chapter
@@ -574,14 +580,15 @@ have any number of any of them. we have 4 types of classes with dependencies (no
 so chains make sense, as constrained multilabel classification with class groups is a 
 complex, nonstandard construct \cite{multilabel_classification}. so, mini model approach 
 
-1. tooth or not: azure output text -> 1/0
-2. MPIC classifier: tooth type, upper lower classifier: 1/0
-3. downstream models: M1-3 classifier, P1-4 classifier, I1-3 classifier
+1. tooth or not: azure output text matches regexp letter and number or 'c' or 'C' -> 1/0 train using MPIC images
+2. MPI classifier: tooth type (regexp already says c is c), upper lower classifier: 1/0
+3. get number (1-4) from azure output, is generally correct by visual inspection
 
 not inspired from any paper but my own idea, felt like a sensible way to formulate the problem, 
 so we have for all models a well-solved well-defined basic classification problem.
 
-reason for this choice: it encodes most prior knowledge in the output structure
+reason for this choice: it encodes most prior knowledge in the output structure,
+use as much from azure as possible
 
 priors:
 there is also the azure output for the tooth. it is likely to be very good but not constrained to the MPIC case.
