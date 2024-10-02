@@ -339,12 +339,22 @@ maybe
 
 \subsubsection{Evaluating model performance}
 
-- performance metrics
-    - accuracy
-	- precision
-	- recall 
-	- f1
-    - cer (character error rate)
+common in character recognition: accuracy, f1 sometimes also used 
+explain these and differences 
+
+accuracy: correct out of those classified
+
+why one uses precision and recall instead of accuracy
+sometimes simple accuracy is not a good measure, eg cancer screenings: 1 in 500 has cancer.
+then a dummy saying everyone is healthy would be correct 499/500 of the time, accuracy
+99,8\%. measurements anyhow relevant would be 99.8-100, inconvenient range.
+
+precision: fraction of positives identified. dummy would have precision 0
+recall: out of those noted as positives, fraction of correct ones. dummy would have 0 too 
+f1 is an average to lump these together in one number 
+
+going forward: only consider simple accuracy scores as none of the classes are very rare 
+in the fossil case.
 
 \subsection{Architectures}
 

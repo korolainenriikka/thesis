@@ -485,6 +485,57 @@ neural network training process with gradient descent is presented in Algorithm~
 \subsubsection{Evaluating model performance}
 \label{sect:eval_metrics}
 
+% opening sentence: evaluation metrics are used to find which implementation detail works better
+% there are evaluation metrics
+% there are standard problems that are used to evaluate how well some aspect of implementing a 
+% neural network works, such as MNIST classification
+% the standard evaluation metrics enable comparing approaches: better metric value, better solution
+Evaluation metrics, numeric values decribing the generalization performance of the trained neural network 
+on unseen data, are used to compare which techniques for implementing neural networks tend to 
+perform better than others. Using standard metrics 
+and benchmark problems, such as the MNIST problem of handwritten digit 
+classification, has allowed comparisons across large bodies of research.
+
+% common in character recognition: accuracy, f1 sometimes also used 
+% explain these and differences 
+% accuracy: correct out of those classified
+
+% why one uses precision and recall instead of accuracy
+% sometimes simple accuracy is not a good measure, eg cancer screenings: 1 in 500 has cancer.
+% then a dummy saying everyone is healthy would be correct 499/500 of the time, accuracy
+% 99,8\%. measurements anyhow relevant would be 99.8-100, inconvenient range.
+
+The most common evaluation metrics used when classifying handwritten symbols are accuracy and the F1 score.
+Accuracy score simply notes the percentage of test images that were classified to the correct class, expressed 
+as a number between zero and one. The main deficiency of using accuracy is brought to light when 
+considering a problem where the probabilities of a class being correct are highly uneven. This is the case in many 
+medical cases: for instance in a cancer screening, one in 500 patients, 0.2 percent, could have cancer.
+A dummy classifier stating everyone to be healthy would achieve a stellar accuracy of 0.998, but is clearly useless.
+Any useful model should outperform the dummy, thus comparisons between classifiers would be needed to made 
+between values from 0.998 to 1.00, a rather inconvenient range.
+
+% precision: fraction of positives identified. dummy would have precision 0
+% recall: out of those noted as positives, fraction of correct ones. dummy would have 0 too 
+% f1 is an average to lump these together in one number 
+The metrics of precision, recall and F1 are used in these cases. Precision measures the 
+fraction of true positives identified by the model, recall the fraction of true positives out 
+of positives detected by the model. The always-healthy dummy cancer classifier would score zero 
+for both metrics, better describing the uselessness of the approach. The F1 score is the harmonic mean of these 
+scores:
+
+\begin{align}
+    F1 = 2 \times \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
+\end{align}
+
+% going forward: only consider simple accuracy scores as none of the classes are very rare 
+% in the fossil case.
+For the case of classifying dental markings, the accuracy score is used as the evaluation metric, 
+since the distribution of occurences of different tooth types are not highly uneven.
+As the same case applies to most other handwritten symbol classification problems, previous work is 
+also compared using the accuracy score.
+
+TODO: ref for this section
+
 \subsection{Architectures}
 
 \subsubsection{Convolutional layers}
