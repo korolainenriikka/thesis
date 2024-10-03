@@ -417,7 +417,7 @@ a variant of the chain rule and by proceeding backward in the network \cite{prin
 Once the gradient is computed, the next step is to choose how to adjust the network weights 
 based on the gradient information. The simplest approach is, given a predefined step size 
 known as the learning rate, to adjust the weights by the magnitude of the learning rate 
-in the direction of fastest decreasing gradient, a heuristic called gradient descent. These approaches 
+in the direction of fastest decreasing gradient, a heuristic called gradient descent. Different options for this approach 
 are generally called optimizers and finding a suitable one is a fairly complex problem.
 Other known optimizers are stochastic gradient descent (SGD), that inserts randomness 
 to the weight-adjusting steps, and Adam (Adaptive Moment Estimation), that 
@@ -481,6 +481,68 @@ neural network training process with gradient descent is presented in Algorithm~
 
 \subsubsection{Loss functions}
 \label{sect:loss_funcs}
+
+% more specific: how do you map output and label to scalar value describing how good the output was?
+% ocr point of view
+% Loss function is a function from model predictions and ground truth labels that describes with a single 
+% scalar value how good the match was, low number describing a good match \cite{princebook}.
+Loss functions are needed within the neural network training process to evaluate the model output 
+quality in each training iteration. These functions map two equally shaped inputs, the predicted 
+and true labels, to a scalar value describing match quality, a low value representing a good match \cite{princebook}. 
+Thus, for instance, the simple function $f: x,y \rightarrow |x-y|$  would qualify as a loss function.
+The most commonly used loss functions in optical character recognition are cross-entropy for 
+character classification and the CTC loss for sequence learning.
+
+% These functions are constructed to be equivalent with maximum likelihood solution, think the model would 
+% output a conditional distribution of outputs, p(y|x).
+% each ground truth label in the training set should have a high probability in this distribution. Product of all 
+% these probabilities is called likelihood.
+% Loss functions are derived so that parameters bringing loss to zero is equivalent to the parameters with maximum likelihood.
+% Derivations are out of scope.
+Loss functions are constructed usin maximum likelihood estimation. When one frames the neural network as outputting 
+a conditional distribution $P(y|X)$, $y$ being the network output and $X$ the input, each correct label in the 
+training set should have a high probability in this distribution. The likelihood is obtained by taking the product of 
+all ground truth label occurence probabilities, and the training goal becomes maximizing this value. Loss functions are derived 
+from the maximum likelihood formalization, so that the network parametrization associated with zero loss is equivalent to 
+the maximum likelihood parametrization. These derivations are out of scope of this work, but can be found in Prince's book
+section 5.7 \cite{princebook} for cross-entropy and the original paper \cite{ctcloss} for the CTC loss.
+
+% - cross-entropy loss 
+% kullback-leibler divergence of correct conditional probability and conditional probability parametrized by current model parameters.
+% (show formula, 5.27), correct is not dependent on parameters so is omitted. show 5.29, what is left from that 
+% (until here from \cite{princebook})
+The cross-entropy loss function maps pairs of class probability vectors 
+to a loss value. The model output vector describes the probabilities 
+of the input belonging to each of the possible classes and the ground
+ truth vector has the correct 
+class set to one, and all other probabilities to zero. The loss function $L$ 
+is constructed using the Kullback-Leibler divergence between the empirical data distribution $q(y)$,
+a point mass distribution of the correct labels,
+ and the model output distribution 
+$Pr(y|\mathbf{\theta})$:
+
+\begin{align}
+    L(\mathbf{\theta})=\int_{-\infty}^{\infty}q(y)\log[q(y)]dy-\int_{-\infty}^{\infty}q(y)\log[Pr(y|\mathbf{\theta})]dy,
+\end{align}
+
+where the first term is omitted since it has no dependence on the parameters $\mathbf{\theta}$.
+As the distributions are discrete, the loss reduces to
+
+\begin{align}
+    L(\mathbf{\theta})=-\sum_{i=1}^{N}\log[Pr(y_i|f(x_i,\mathbf{\theta}))],
+\end{align}
+
+where $N$ denotes dataset size, $y_i$ the correct label, and $f(x_i, \mathbf{\theta})$ is the neural network output.
+
+% word detection models: have a predefined vocabulary, layer for probability of each word.
+% loss is cross entropy for these probabilities compared to target probability distribution, where correct word has probability 1 and 
+% all other have probability 0
+
+% - CTC loss
+
+TODO: sequence ocr models often measure output quality with the CTC (Connectionist Temporal Classification) loss.
+
+
 
 \subsubsection{Evaluating model performance}
 \label{sect:eval_metrics}
