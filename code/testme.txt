@@ -5,8 +5,8 @@ upper lower model
 
 ways to improve
 - balance classes: upsample P and I (read learning from imbalanced data paper)
-- remove background jitter (reasoning: transfer learning survey: transfer succeeds better if distance between source and target are
-reduced. MNIST & EMNIST have perfect black backgrounds, testing on number data on untuned mnist on a tiny sample (N=10): manual removal of background 
-jitter upped recognition of digits from 40 to 100%.
- also encoding a prior: we know that small fluctuations in background color do not change what the text says)
+- better base model. test jamil EMNIST & alexnet
+    untuned emnist and largest probability of m i or p?
+    reason: our teeth images have lots of redundant signals, mnist does not. imagenet task does so imagenet model could be better
 - hyperparameter optimize (test if parameter transfer applying (ie not changing hyperparams) is a good idea in this case)
+- try to segment out the letter
