@@ -648,6 +648,13 @@ what else? find from literature!
 train unsupervised autoencoder on the target data (reduces domain transfer distance),
 transfer to supervised classification task
 
+cleaning data from original format with gaussian blur and otsu thresholding surprisingly did not 
+change results much 
+
+augmentation to balance classes resulted in a 10\% increase in tooth type classification accuracy 
+using a simple translation. translation also makes sense since that is the main variable changing 
+between images, zoom or rotation changing is more rare as these are scans.
+
 
 \section{Conclusions}
 

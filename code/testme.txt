@@ -4,7 +4,6 @@ MIPC model
 upper lower model
 
 ways to improve
-- balance classes: upsample P and I (read learning from imbalanced data paper)
 - better base model. test jamil EMNIST & alexnet
     untuned emnist and largest probability of m i or p?
     reason: our teeth images have lots of redundant signals, mnist does not. imagenet task does so imagenet model could be better
