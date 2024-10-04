@@ -4,7 +4,7 @@ MIPC model
 upper lower model
 
 ways to improve
-- better base model. test jamil EMNIST & alexnet
+- better base model. test VGG16 & alexnet
     untuned emnist and largest probability of m i or p?
     reason: our teeth images have lots of redundant signals, mnist does not. imagenet task does so imagenet model could be better
 - hyperparameter optimize (test if parameter transfer applying (ie not changing hyperparams) is a good idea in this case)
