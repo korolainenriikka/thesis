@@ -1,27 +1,98 @@
-\documentclass{article}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{amsthm}
-\usepackage{amssymb}
-\usepackage{geometry}
-\usepackage{twemojis}
-\usepackage{subcaption}
-\usepackage[style=numeric,bibstyle=numeric,backend=biber,natbib=true,maxbibnames=99,giveninits=true,uniquename=init]{biblatex}
-\usepackage[utf8]{inputenc}
-\usepackage{amsmath}
+%% Final edits by Jussi Kangasharju and Pirjo Moen
+%% This file is modified by Veli Mäkinen from HY_fysiikka_LuKtemplate.tex authored by Roope Halonen ja Tomi Vainio.
+%% Some text is also inherited from engl_malli.tex by Kutvonen, Erkiö, Mäkelä, Verkamo, Kurhila, and Nykänen.
+
+
+% STEP 1: Choose oneside or twoside
+\documentclass[english,twoside,openright]{UH_DS_MSc}
+%finnish,swedish
+
+%\usepackage[utf8]{inputenc} % For UTF8 support. Use UTF8 when saving your file.
+\usepackage{lmodern} % Font package
+\usepackage{textcomp} % Package for special symbols
+\usepackage[pdftex]{color, graphicx} % For pdf output and jpg/png graphics
+\usepackage[pdftex, plainpages=false]{hyperref} % For hyperlinks and pdf metadata
+\usepackage{fancyhdr} % For nicer page headers
+\usepackage{tikz} % For making vector graphics (hard to learn but powerful)
+%\usepackage{wrapfig} % For nice text-wrapping figures (use at own discretion)
+\usepackage{amsmath, amssymb} % For better math
+%\usepackage[square]{natbib} % For bibliography
+\usepackage[footnotesize,bf]{caption} % For more control over figure captions
+\usepackage{blindtext}
+\usepackage{titlesec}
+\usepackage[titletoc]{appendix}
+\usepackage[nodayofweek,level]{datetime}
+%\usepackage[USenglish]{babel}
+\newcommand{\thesisdate}{\formatdate{19}{12}{2024}}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 
-\addbibresource{../bibliography.bib}
+\onehalfspacing %line spacing
+%\singlespacing
+%\doublespacing
 
-% options: change 'markings' to 'entries'? include 'handwritten'?
+%\fussy 
+\sloppy % sloppy and fussy commands can be used to avoid overlong text lines
+
+% STEP 2:
+% Set up all the information for the title page and the abstract form.
+% Replace parameters with your information.
 \title{Fine-tuned optical character recognition for dental fossil markings}
+\author{Riikka Korolainen}
+\date{\thesisdate}
+\prof{Professor Indr{\.e} \v{Z}liobait{\.e}}
+%\censors{Professor A}{Dr. B}{}
+\censors{}{}{}
+\keywords{Optical character recognition, Transfer learning, Paleontological databases}
+\depositeplace{}
+\additionalinformation{}
+
+
+\classification{\protect{\ \\
+\  Computing methodologies  $\rightarrow$  Machine learning $\rightarrow$ Machine learning approaches $\rightarrow$ Neural Networks \  \\
+\  Computing methodologies $\rightarrow$ Machine learning $\rightarrow$ Learning paradigms $\rightarrow$ Multi-task learning $\rightarrow$ Transfer learning \  \\
+\  Applied computing $\rightarrow$ Physical sciences and engineering $\rightarrow$ Earth and atmospheric sciences \  \\
+}}
+
+% if you want to quote someone special. You can comment this line and there will be nothing on the document.
+%\quoting{Bachelor's degrees make pretty good placemats if you get them laminated.}{Jeph Jacques} 
+
+
+% OPTIONAL STEP: Set up properties and metadata for the pdf file that pdfLaTeX makes.
+% But you don't really need to do this unless you want to.
+\hypersetup{
+    %bookmarks=true,         % show bookmarks bar first?
+    unicode=true,           % to show non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={},            % title
+    pdfauthor={},           % author
+    pdfsubject={},          % subject of the document
+    pdfcreator={},          % creator of the document
+    pdfproducer={pdfLaTeX}, % producer of the document
+    pdfkeywords={something} {something else}, % list of keywords for
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,        % false: boxed links; true: colored links
+    linkcolor=black,        % color of internal links
+    citecolor=black,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
 
 \begin{document}
 
-\tableofcontents
+% Generate title page.
+\maketitle
 
-\section{Abstract}
+% STEP 3:
+% Write your abstract (of course you really do this last).
+% You can make several abstract pages (if you want it in different languages),
+% but you should also then redefine some of the above parameters in the proper
+% language as well, in between the abstract definitions.
+
+\begin{abstract}
 
 Digitizing and uniformizing the structure of handwritten fossil catalogues exhibits a great 
 potential for increasing the accuracy of paleontological data analysis by increasing sample sizes. 
@@ -41,25 +112,18 @@ fossil catalogues. The final aim of this work is to use the best-performing mode
 to obtain an accurate reading of the catalogues of the National Museum of Kenya, and publish the final model to be used 
 by the paleontological community for further digitization efforts.
 
-Keywords: Optical character recognition, Transfer learning, Paleontological databases
+\end{abstract}
 
-\section{Introduction}
+% Place ToC
+\mytableofcontents
 
+\mynomenclature
 
-% use 'we' in intro
-
-% outline of an introduction
-% introduce the broad research area, why this is interesting. 1-2 paragraphs. context, anyone should be able to understand.
-% first sentences: state the topic clearly
-% broad research area: paleontology: data analysis on fossil finds
-% dig fossil from the ground. identify:which bone,species,time. write this on a field slip, a slice of
-% baking sheet like paper 
-% analysis: take set of fossils, use methods for deducing eg climate, habitat, vegetation
-% why this is interesting 
-%     reactions of ecosystems to climate change
-%     what ancient worlds were like 
-%     how ancient humans lived
-%     mass extinction events
+% -----------------------------------------------------------------------------------
+% STEP 4: Write the thesis.
+% Your actual text starts here. You shouldn't mess with the code above the line except
+% to change the parameters. Removing the abstract and ToC commands will mess up stuff.
+\chapter{Introduction}
 
 The field of paleoecology conducts data analysis on fossil specimens.
 Such analysis is quite literally started from the ground: after a fossil specimen has been found, it is 
@@ -69,16 +133,8 @@ collecting such entries, sometimes collected in handwritten tabular catalogues, 
 tests on the sample set. With this analysis, facts from distant past, such as climate, habitats and 
 vegetation can be deduced \cite{Faith_Lyman_2019}. Syntheses of such results consequently allow us to 
 answer larger questions, such as how ecosystems reacted to climate changes, how mass extinction events 
-came about, and what the living world could be like \cite{Žliobaitė2023}. Understandably, answering such 
+came about, and what the living world could be like \cite{Zliobaite2023}. Understandably, answering such 
 questions has become ever more pressing.
-
-% now we have a stack of baking sheets in a room in kenya.
-% paleontologists form all over the world want to solve climate change, among other problems
-% big data methods would explode what paleoecology can do
-% so we need to put the baking sheets on the computer to do analysis on big data
-% what is the topic of my work?
-% the baking sheets contain weird characters that a normal reader cannot read.
-% my topic is to read them
 
 To find answers to large-scale problems, more sophisticated computational data analysis methods have come about,
 relying on large datasets. Due to the infeasibility of collecting stacks of fields slips across sometimes multiple 
@@ -90,35 +146,10 @@ resulting in satisfactory accuracy on conventional handwritten text. However, a 
 approach were the special characters used to denote which teeth each specimen contains. The aim of this work is 
 to digitize these markings accurately.
 
-% explanation of the specific problem
-%given scanned images and data with bounding boxes of sentences and words where tooth denoting words are 
-%badly read, how can tooth element recognition results be improved? Goal is to have both this is what the element 
-%/ nature of specimen column says (eg example here) and what/which teeth are found in this specimen in standardized format
-%(eg example here)
-%the topic of my work is creating a tool that inputs cropped images from the sheets containing
-%handwritten specifications of fossil bones and outputs what the text says
-
 Specifically, this work uses as input data both scan images of the fossil slips and catalogues, and outputs from the Azure AI Vision software \cite{azurevision}. The existing outputs consist of sentence and word-level readings, along with bounding boxes defining 
 the location of each word or sentence. The main research question is the following: 
 
 How, given the input data, can the accuracy of the readings of the tooth markings be improved?
-
-% brief review of standard solutions to this (or related) problem(s) and their limitation in this case (incl. reference key papers)
-% TODO, once literature review is done
-
-
-% outline of the new solution
-% TODO, likely: tooth or not classifier -> trocr or tooth classifier -> output concatenation
-
-% how the solution was evaluated, what were the results of this evaluations. scope and limitations
-% TODO
-
-% relevance for other work: why was this specific problem? how can this be concretely used?
-% relevance of this work: KNM is able to have way more precise dental element markings
-% to other catalogues: previous project + this a complete solution to digitizing the handwritten data 
-% relevance of this work: any field that does:
-% - ocr on unconventional characters
-% - ocr where each character has a multivariate output (eg. this is an a. it is underlined could be letter and underlined /not underlined)
 
 The direct impact of this work is an improved precision of the tooth element entries in the digitized 
 fossil catalogues of the National Museum of Kenya, but the results are applicable to a wider domain of problems.
@@ -130,7 +161,6 @@ a potential solution for when the target character set can be expressed with mul
 instance, be handwriting with occasional underlinings, where the bivariate output could be the letter and a boolean variable for 
 whether the character was underlined.
 
-% organization
 The rest of this thesis is organized as follows. First, the necessary background theory is 
 presented. For deep neural networks, the following concepts are introduced:
 the basic network structure, how training is conducted, basic building blocks of character-recognizing network architectures, performance-improving 
@@ -144,21 +174,13 @@ Next, the experimental setup is introduced, covering dataset creation, labeling 
 preprocessing, followed by base model and transfer learning method selection. After this, 
 results of the experiments are presented and discussed. Finally, the work is concluded.
 
-\section{Fundamentals on paleoecology}
+\chapter{Fundamentals on paleoecology}
 
-\subsection{Basics on ecology}
+\section{Basics on ecology}
 
-\subsection{Paleoenvironmental reconstruction}
+\section{Paleoenvironmental reconstruction}
 
-\subsection{Composition of mammal teeth}
-
-%Fossils occur when animal / plant remains are deposited in a sediment in a way that preserves 
-%some part of its original form. Since teeth are the hardest material in animals, large fraction
-%of found parts are teeth. Fossil finding is followed by identification to most specific taxon possible
-%largely a technical skill (ch5), teeth are identified down to type and number, how manyeth the teeth are,
-%counting from center to edge or other way round??
-%specimen can be either one tooth or fragments of the jaw bone where there are multiple teeth (markings like M1-3)
-% present teeth here
+\section{Composition of mammal teeth}
 
 Since geological events tend to erode organic remains the faster the remain decomposes, the hardest materials in 
 the corpse represent largest fractions of fossil datasets. These hard materials include shells, bones and especially teeth, and 
@@ -169,10 +191,6 @@ derived from dental fossils are the taxon the tooth is from, and which tooth or 
 This section presents the naming and indexing system for mammal teeth commonly used in paleontological datasets,
 as described by Hillson \cite{Hillson_2005}, and some common shorthand versions present in the dataset digitized in this work.
 
-% complete jaw-describing terminology
-% the jaw bones
-%lower jaw bones: mandibles, upper jaw: maxilla, premaxilla
-% permanent and deciduous (D), nonpermanent "milk" teeth (laita vaan jos löytyy d-hampaita)
 Specimens including more complete fragments of the jaw are described with terminology related 
 to the jaw bones. All mammals share the same bone structure around the mouth: the lower jaw consists 
 of two bones called \textit{mandibles}, joining in the middle, whereas the upper jaw consists of bones called 
@@ -181,12 +199,6 @@ A common trait across many mammals is also that the permanent teeth erupt in the
 youth of the animal, replacing the 'milk' or \textit{decidous} teeth. Shorthands commonly used for these 
 terms are 'mand' for mandibles, and capital letter 'D' for the decidous teeth.
 
-% types of mammal teeth
-%four classes, front to back: three incisors (I), one canine (C), four premolars (P), three molars (M). top bottom left right. top/bottom noting upper jaw as superscript lower jaw as lower script, 
-% purpose: incisor -> catching, canine -> stabbing / killing prey, molars are for chewing. premolars are bit like canines bit like molars, function varies lot
-% between taxa including holding, cutting and chewing. also form and number of each present changes between taxa.
-%sometimes lower jaw as line on top and upper jaw as line on bottom, sometimes both are used: upper script number with line on bottom. Line is "the other jaw"
-%if there are less of a type of teeth eg two premolars, they might be no 1 and 2 or no 3 and 4
 The tooth rows of mammals are classified to four classes; \textit{incisor}, \textit{canine}, \textit{premolar}
 and \textit{molar} and indexed with a numbering system. Moving from the middle of the tooth row
 towards the side, there are up to three 
@@ -198,10 +210,6 @@ vary in number between taxa, and are at most three. The numbers are always incre
  the case of missing teeth in a taxon, the numbers do not necessarily start from one: instead, the number is chosen to 
 have teeth with same numbers as alike each other as possible. Thus, a taxon with only two premolars might only have the teeth P3 and P4.
 
-
-% directional terminology
-% distal "far from center of body", proximal "close to center of body", mesial "close to mouth opening"
-%right and left sides are always symmetrical, denoted simply L or R or Lt or Rt or left or right. left is left looking from the animal, not the observers perspective
 Location of the tooth present in the fossil is described with directional terms specifying the side, jaw and the location on the jaw.
 The most
 intuitive are left and right describing the side, where one needs to note that each denotes the side from the viewpoint of the 
@@ -218,7 +226,7 @@ An illustration of the mammal tooth system is presented in Figure~\ref{image:mam
 
 \begin{figure}[h]
     \centering
-    \includegraphics*[scale=0.43]{../images/teeth_img_hillson_book.png}
+    \includegraphics*[scale=0.43]{teeth_img_hillson_book.png}
     \caption{Mammal teeth composition, from Hillson \cite{Hillson_2005}.}
     \label{image:mammal_teeth}
 \end{figure}
@@ -255,26 +263,14 @@ An illustration of the mammal tooth system is presented in Figure~\ref{image:mam
     \label{table:jaw_notation}
 \end{table}
 
-
-% summary of chapter
-
-\section{Deep Neural Networks for Optical Character Recognition}
-
-% introduction to chapter
-% point of this section: present relevant deep learning theory
-% running example: reading characters from images (optical character recognition, OCR)
+\chapter{Deep Neural Networks for Optical Character Recognition}
 
 This chapter presents relevant background on deep neural networks (DNN), also known 
 in literature as artificial neural networks (ANN) or, for historical reasons, multilayer perceptrons (MLP).
 The aspects presented are constrained to those relevant to the problem at hand, optical character recognition (OCR),
 that is also used as a running example.
 
-\subsection{Deep Neural Networks}
-
-% what is a neural net
-% yes what is a neural network? function?
-% weights in layers: floating point numbers, grouped in groups 
-% activations: connections between weights, nonlinear scalar to scalar functions 
+\section{Deep Neural Networks}
 
 Neural networks are multivariate functions that share a specific form.
 The function parameters, usually floating-point numbers, are called weights and are organized in groups called layers.
@@ -307,16 +303,11 @@ bias term $\theta_0$, and passing the result through the activation function $a$
 \label{eq:fc_layer}
 \end{align}
 
-% mean that this computation is done in a different manner (conv, transformer)
 Different types of layers, such as convolutional or transformer layers 
 denote that this single-layer computation process is performed differently from 
 the standard form. When many layer types are present, layers using the computation
 in Equation~\ref{eq:fc_layer} are called fully connected or dense layers.
 
-% a is any nonlinear funtion, simplest is the rectified linear unit relu, x=x if x>0, x=0 if x<0.
-% hidden units are taken as inputs to next layer and next and next. thetas = weights
-% largest, deepest: hundreds of layers, hundreds of millions of weights 
-% then last hidden unit output it the output of the network. tadaa.
 The computation proceeds from the first hidden layer in a similar manner: 
 the next layer values, also called activations, are computed using the weights of 
 the layer and the previous layer activations with Equation~\ref{eq:fc_layer}.
@@ -325,18 +316,12 @@ More complex networks are generally constructed by increasing the network size t
 hundreds of layers with hundreds of millions of parameters, and by using
 different types of layers.
 
-% - universal function approximator
-% the theory of the universal approximation capacity: this algebraic construct, 
-% given correct weights, activation functions and structure, could approximate 
-% any mapping from input to output. note: input/output dimension can be anything
 The universal function approximator theorem states that functions belonging to the 
 neural network family are capable of approximating any mapping from any type or shape of input
 to any output with arbitrary precision \cite{princebook}. Naturally, due to high computational 
 costs of finding the optimal weights and the large search space of possible networks, 
 this theoretical optimum is rarely reached.
 
-% examples from ocr relevant in this case
-% input is always image ie 2d matrix if grayscale or 3d tensor if rgb image.
 Examples of input-output mappings relevant in this work are the following, 
 ordered from simplest to most complex: tooth type classification, constrained multilabel classification, 
 and sequence-to-sequence learning. The problem of tooth type classification takes in an input image of a dental marking,
@@ -348,9 +333,6 @@ obtained by using the softmax function~ref{eq:softmaxTODO}, where each value not
 the tooth this value is chosen to represent. The final output would then be the largest probability
 found in this vector.
 
-% multilabel classification problem:
-% image of tooth sample. output: first MIPC, second if it is upper or lower jaw
-% output can be two arrays, one like before, other a 0-1 probability for upper jaw. upper if this > 0.5 
 A better approach that could encode the fact that all teeth of same type share a similar input feature
 , a letter in the image, could be formulating the problem as a multilabel
 problem \cite{multilabel_classification}: the output would be three of the aforementioned 
@@ -360,10 +342,6 @@ formulation lacks the notion that some tooth-type pairs never exist, such as the
 this is a case of constrained multiclass classification, where some label pairs are marked 
 as impossible combinations.
 
-% present sequence to sequence learning:
-% more complex case: image of sentence
-% output: text on image, variable length. here output layer is a more complex 
-% structure of probabilities for each position in the result sequence.
 Generalizing the mapping problem further, one could also input a variable-length image 
 of the entire dental marking comprising of multiple words, and outputting the text on this image.
 Due to the variable output length, a special technique called sequence-to-sequence learning 
@@ -377,28 +355,18 @@ Finding the best network weights for any of these types of input/output mapping 
 a network, is conducted with the same process.
 The general recipe for training a neural network is the subject of the next section.
 
-\subsection{Training neural networks}
+\section{Training neural networks}
 
-% u have encoded the structure, starting weights. data, input/output pairs.
-% training = process that adjusts weights so that network becomes a good 
-% approximator
 After one has defined a neural network structure, initialized the weights of the network 
 to some initial values and obtained a sufficiently large set of input-output pairs from the problem at hand,
 one can start training the network. Training is an iterative process where inputs are used to 
 predict the output, which is then compared to the ground truth. A more detailed account of these iterations
 is presented next.
 
-% 1. take part of data as training data
-% 3 divide to batches, common batch sizes are exponents of 2, 2-32 usually 
 At the start of training, a small fraction, commonly 10-20\%, is reserved as test data. Cross-validation is 
 generally not used with neural networks due to the computational cost of the training process (ref?). The remainder, 
 the training set, is divided into batches, sizes of which are commonly exponents of 2.
 
-% 4. pass a batch through the network. get output 
-% 5. pass output and correct to loss function: map from output, correct to scalar,
-% 0 is good, large value bad.
-% 6. Compute loss function gradient with respect to network weights using automatic differentiation.
-% algorithm to get this in code is called backpropagation because it moves backward in the network
 In an iteration of neural network training, a batch, stacked in a tensor of dimension one larger than the dataset, 
 is passed through the network: outputs are computed based on the training inputs with the feed forward process.
 After this, a loss function is used to evaluate the quality of the output: the loss function maps the network output and 
@@ -409,11 +377,6 @@ to the neural network weights is computed. The algorithm used in this computatio
 and is able to compute gradients with equal computational complexity as the feed forward by utilizing 
 a variant of the chain rule and by proceeding backward in the network \cite{princebook}.
 
-% 7. gradient informs how to adjust weights so that loss should decrease. 
-% adjust weights in this direction by preset amount called learning rate. Optimizers
-% are algorithms that determine the specifics of "moving in the direction of decreasing loss"
-% most common stochastic gradient descent (inserts randomness to movement) and 
-% adam (uses previous iteration movements known as momentum in process to make movements more smooth)
 Once the gradient is computed, the next step is to choose how to adjust the network weights 
 based on the gradient information. The simplest approach is, given a predefined step size 
 known as the learning rate, to adjust the weights by the magnitude of the learning rate 
@@ -425,9 +388,6 @@ uses moments or gradients obtained in previous steps to add smoothness to the
 movement trajectory \cite{princebook}. After a weight-adjusting step is completed 
 with the optimizer, the training iteration is completed.
 
-% 8. run  batches until out of data  = epoch. run many epochs, stop according to 
-% stopping condition that is known to be a state when the network weights are good.
-% goal: reach global minimum of loss function, difficult! would be perfect approximation
 The training process consists of repeatedly performing the aforementioned training 
 iterations. Once the all batches of the whole dataset are used for training,
 a training step known as epoch is completed. An usual a training process 
@@ -438,7 +398,6 @@ function with respect to the network weights, as this setting would correspond t
 the optimal approximation of the input-output mapping. Like with optimizers, 
 determining optimal stopping conditions is a difficult problem area within neural network optimization.
 
-% 8. test on unseen test data to see generalization performance
 After the training is completed, the test dataset laid to the side at the start of 
 training is used to evaluate the predictive power of the network on unseen data, 
 also known as generalization performance. Metrics for measuring the accuracy 
@@ -447,8 +406,6 @@ At this point the model should be considered 'frozen', as adjusting it would
 optimize the model to the small test set, not the general problem. This pitfall is 
 known as 'data leakage' \cite{engbook}.
 
-% lots of details on this process, rest is about that
-% summarize: pseudocode of neural network training process
 As is evident from the generality of the previous description, there are numerous 
 specific aspects to consider when designing highly accurate neural networks. The 
 rest of this chapter presents a snapshot of this problem area, focusing on those 
@@ -482,10 +439,6 @@ neural network training process with gradient descent is presented in Algorithm~
 \subsubsection{Loss functions}
 \label{sect:loss_funcs}
 
-% more specific: how do you map output and label to scalar value describing how good the output was?
-% ocr point of view
-% Loss function is a function from model predictions and ground truth labels that describes with a single 
-% scalar value how good the match was, low number describing a good match \cite{princebook}.
 Loss functions are needed within the neural network training process to evaluate the model output 
 quality in each training iteration. These functions map two equally shaped inputs, the predicted 
 and true labels, to a scalar value describing match quality, a low value representing a good match \cite{princebook}. 
@@ -493,12 +446,6 @@ Thus, for instance, the simple function $f: x,y \rightarrow |x-y|$  would qualif
 The most commonly used loss functions in optical character recognition are cross-entropy for 
 character classification and the CTC loss for sequence learning.
 
-% These functions are constructed to be equivalent with maximum likelihood solution, think the model would 
-% output a conditional distribution of outputs, p(y|x).
-% each ground truth label in the training set should have a high probability in this distribution. Product of all 
-% these probabilities is called likelihood.
-% Loss functions are derived so that parameters bringing loss to zero is equivalent to the parameters with maximum likelihood.
-% Derivations are out of scope.
 Loss functions are constructed usin maximum likelihood estimation. When one frames the neural network as outputting 
 a conditional distribution $P(y|X)$, $y$ being the network output and $X$ the input, each correct label in the 
 training set should have a high probability in this distribution. The likelihood is obtained by taking the product of 
@@ -507,10 +454,6 @@ from the maximum likelihood formalization, so that the network parametrization a
 the maximum likelihood parametrization. These derivations are out of scope of this work, but can be found in Prince's book
 section 5.7 \cite{princebook} for cross-entropy and the original paper \cite{ctcloss} for the CTC loss.
 
-% - cross-entropy loss 
-% kullback-leibler divergence of correct conditional probability and conditional probability parametrized by current model parameters.
-% (show formula, 5.27), correct is not dependent on parameters so is omitted. show 5.29, what is left from that 
-% (until here from \cite{princebook})
 The cross-entropy loss function maps pairs of class probability vectors 
 to a loss value. The model output vector describes the probabilities 
 of the input belonging to each of the possible classes and the ground
@@ -534,38 +477,14 @@ As the distributions are discrete, the loss reduces to
 
 where $N$ denotes dataset size, $y_i$ the correct label, and $f(x_i, \mathbf{\theta})$ is the neural network output.
 
-% word detection models: have a predefined vocabulary, layer for probability of each word.
-% loss is cross entropy for these probabilities compared to target probability distribution, where correct word has probability 1 and 
-% all other have probability 0
-
-% - CTC loss
-
-TODO: sequence ocr models often measure output quality with the CTC (Connectionist Temporal Classification) loss.
-
-
-
-\subsubsection{Evaluating model performance}
+\subsection{Evaluating model performance}
 \label{sect:eval_metrics}
 
-% opening sentence: evaluation metrics are used to find which implementation detail works better
-% there are evaluation metrics
-% there are standard problems that are used to evaluate how well some aspect of implementing a 
-% neural network works, such as MNIST classification
-% the standard evaluation metrics enable comparing approaches: better metric value, better solution
 Evaluation metrics, numeric values decribing the generalization performance of the trained neural network 
 on unseen data, are used to compare which techniques for implementing neural networks tend to 
 perform better than others. Using standard metrics 
 and benchmark problems, such as the MNIST problem of handwritten digit 
 classification, has allowed comparisons across large bodies of research.
-
-% common in character recognition: accuracy, f1 sometimes also used 
-% explain these and differences 
-% accuracy: correct out of those classified
-
-% why one uses precision and recall instead of accuracy
-% sometimes simple accuracy is not a good measure, eg cancer screenings: 1 in 500 has cancer.
-% then a dummy saying everyone is healthy would be correct 499/500 of the time, accuracy
-% 99,8\%. measurements anyhow relevant would be 99.8-100, inconvenient range.
 
 The most common evaluation metrics used when classifying handwritten symbols are accuracy and the F1 score.
 Accuracy score simply notes the percentage of test images that were classified to the correct class, expressed 
@@ -576,9 +495,6 @@ A dummy classifier stating everyone to be healthy would achieve a stellar accura
 Any useful model should outperform the dummy, thus comparisons between classifiers would be needed to made 
 between values from 0.998 to 1.00, a rather inconvenient range.
 
-% precision: fraction of positives identified. dummy would have precision 0
-% recall: out of those noted as positives, fraction of correct ones. dummy would have 0 too 
-% f1 is an average to lump these together in one number 
 The metrics of precision, recall and F1 are used in these cases. Precision measures the 
 fraction of true positives identified by the model, recall the fraction of true positives out 
 of positives detected by the model. The always-healthy dummy cancer classifier would score zero 
@@ -589,167 +505,46 @@ scores:
     F1 = 2 \times \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
 \end{align}
 
-% going forward: only consider simple accuracy scores as none of the classes are very rare 
-% in the fossil case.
 For the case of classifying dental markings, the accuracy score is used as the evaluation metric, 
 since the distribution of occurences of different tooth types are not highly uneven.
 As the same case applies to most other handwritten symbol classification problems, previous work is 
 also compared using the accuracy score.
 
-TODO: ref for this section
+\section{Architectures}
 
-\subsection{Architectures}
+\subsection{Convolutional layers}
 
-\subsubsection{Convolutional layers}
+\subsection{Transformers}
 
-\subsubsection{Transformers}
+\subsection{Autoencoders}
 
-\subsubsection{Autoencoders}
+\section{Techniques and heuristics for improving performance}
 
-\subsection{Techniques and heuristics for improving performance}
+\section{Transfer learning}
 
-\subsection{Transfer learning}
-
-\subsubsection{Foundation models}
-
-\section{Related work}
-
-% intro
-% this chapter presents related work from two angles
-% angle 1: neural nets & transfer learning on similar problems
-% angle 2: solutions to digitization of historical documents
-
-Search strategy: few seed papers and snowball search. Related conferences: 
-Frontiers in Handwriting Recognition
-
-Notes on choices: there is math OCR and music OCR, but they use large datasets and no transfer learning, they dont suffer from the limited target data problem. Also, the problem domain is too different from my problem to be informative.
-
-\subsection{Approaches to digitization of handwritten archival data}
-
-obvious solution: sit down and type
-
-\subsection{Approaches to character recognition with small target domain datasets}
-
-\section{Experimental setup}
-
-\subsection{Data description}
-
-\subsubsection{Notes on creating the dataset}
-
-\includegraphics*[scale=0.2]{../images/superambiguous_data_sample.png}
-
-\subsubsection{Unicode characters used for data labeling}
-
-%tricks to label to make model work easier
-To label the text found in cropped-out tooth fragment handwriting images, a few nonobvious 
-conventions had to be set in place to construct a labeling system that can be assumed to 
-be easier to learn for a machine learning model. The main guiding rule in these decisions was 
-to encode each feature in the text in one consistent manner. What is meant by features and manners 
-of denoting is explained next.
-
-%\cite{unicode_homepage}
-%expain unicode: graphene & code point 
-%    explain: unicode has graphenes with code points. eg a is one graphene one code point,
-%    à is one graphene two code points (dot on top and the letter). the top thing -like characters will be called 
-%    "modifiers".
-%general aim: one concept, one code point -> model able to figure out the connection between image and concept 
-%concept: "number 2" "a character with a line on top"
-%Also on the other hand using one modifier for all lowercase characters allows 
-%the model to understand that there is a similarity between all lowercase characters.
-%The intention is that one idea about a character is encoded as one code point, so that 
-%the model can learn the mapping from the image of the character to the code point 
-%combination
-The unicode system \cite{unicode_homepage} constructs all known characters as signs called graphenes.
-Each graphene can consist of any number of code points, with each code point having an unique identifier, denoted with "U+code point id".
-Examples of graphenes with one code point are latin letters, such as 'K', special characters, such as '@', '\%' and '+',
-or letters from different writing systems, such as '$\omega$', '$\aleph$' or '$\mathfrak{A}$'.
- Examples of multi-code point graphenes 
-are latin letters with accents, such as '$\hat{\text{e}}$', or emoji characters with non-default skin tone, such as {\twemoji{thumbs up: dark skin tone}}.
-Code points added to the main code point, such as the circumflex accent '\^ ' are called modifiers.
-
-The guiding principle in labeling the data was to encode each concept in the text as one unicode code point. A concept could be, for 
-instance, the number two, or a character being positioned in subscript. The aim of this decision is to allow the model 
-to find common image traits between characters of a similar type: a subscript character has dark pixels in lower positions, and shapes of all 
-number two's have similar curvatures, for instance. As a second principle, it was chosen that each single character in the image, such as "letter C" 
-or "a subscript four with a horizontal top line", would always be labeled as one graphene. 
-These rules makes the encoding choices nonobvious: for example, 
-a subscript number two would intuitively be labeled as the unicode code point '$_2$', but this was not done, 
-since this graphene does not contain the code point for number two, 
-and as a one code point graphene has no code point to extract to be used among the other subscript numbers.
-Another intuitive choice, '\_2', would violate the one graphene per character rule.
-
-%data characters:
-%markings contain letters and numbers with no line, line on top or line at the bottom.
-%Each character can be lower- or upper script.
-%insert here example img of characters
-The special characters in the dental fossil handwriting consist of sub- and superscript numbers, and characters with a horizontal line on 
-top or bottom. Additionally, these two modifiers sometimes co-occur. Both denote which jaw the fragment is from: 
-subscript and horizontal line on top of the character denote lower jaw, whereas superscript or line at the bottom of character 
-signal upper jaw. In a few rare occurences, fractions are present 
-to denote which proportion of the tooth is remaining in the sample. 
-Note that ambiguous notations of for instance subscript number with a horizontal line at the bottom are allowed with this writing system.
-The labeling notation chosen preserves the option to label these ambiguities.
-
-%The modifiers used for these: 
-%macron with lower ($\bar{\mathrm{A}}$) and upper variant.
-%super/subscript: lower and upper script character set is incomplete for this purpose (eg 3 with upper macron and lower script needed)
-%- from the model perspective 3 and $_3$ are no more similar than A and B, however, 
-% therefore:  Therefore, modifier was used.
-% there is no lower or upper case modifiers in unicode
-%the caron ($\check{\mathrm{A}}$) was chosen as the lower script modifier, and the circumflex accent ($\hat{\mathrm{A}}$)
-%as upper script. These were chosen since the arrow-like modifier pointing up or down
-%is maybe the most logical placeholder for the missing modifier. More traditional 
-%workarounds of missing upper or lower script, the underscore "\_" and separate 
-%caret character "\^ " were not used because they would violate the one graphene one character rule
-
-The following code points were chosen to denote the tooth marking system in the data labels.
-The base code point modified with unicode modifiers was always chosen to be the latin letter or number present in the character. In the case of 
-fractions, the number in the denominator was chosen as the base code point. The horizontal line on top of a character was denoted with the
-combining macron modifier (U+0304, eg. $\bar{\text{A}}$), the line at the bottom respectively with the combining macron below (U+0331, eg. \underline{A}).
-As the unicode system lacks sub- or superscript modifiers, other accent modifiers were used instead. A subscript character was denoted with the combining caron (U+030C, eg. $\check{\mathrm{A}}$), and respectively the superscript with the combining
-circumflex accent (U+0302, eg. $\hat{\text{A}}$). For fraction nominators, a modifier was chosen for each digit present in the dataset (TODO: add here after chosen).
-These choices were made to improve human readability of the dataset, as the modifier choices are not relevant from the model perspective. A sample of the handlabeled 
-dataset can be found in Figure~\ref{table:input_images}.
+\subsection{Foundation models}
 
 
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{|c|c|}
-        \hline
-        \textbf{Input Image} & \textbf{Label} \\
-        \hline
-        \includegraphics[width=0.3\textwidth]{../images/data_samples/canine.png} & Lt. \underline{C} frag. \\
-        \hline
-        \includegraphics[width=0.3\textwidth]{../images/data_samples/lowjawincisor.png} & Rt. I$\bar{\check{2}}$ frag. \\
-        \hline
-        \includegraphics[width=0.3\textwidth]{../images/data_samples/multipleteeth.png} & Lt. Md. frag. wt dP$\check{\bar{3}}$, P$\check{\bar{4}}$-M$\check{\bar{1}}$\\
-        \hline
-        \includegraphics[width=0.3\textwidth]{../images/data_samples/nontooth.png} & Prox. phalanx \\
-        \hline
-        \includegraphics[width=0.3\textwidth]{../images/data_samples/smudged.png} & P$\hat{\underline{\text{3}}}$ frag. (Crown) \\
-        \hline
-        \includegraphics[width=0.3\textwidth]{../images/data_samples/underlinedx.png} & ? M$\hat{\underline{\text{x}}}$ frag. \\
-        \hline
-    \end{tabular}
-    \caption{Samples of input images and their corresponding labels.}
-    \label{table:input_images}
-\end{table}
+\chapter{Related work}
+
+\chapter{Experimental setup}
+
+\chapter{Results and discussion}
+
+\chapter{Conclusions\label{chapter:conclusions}}
 
 
-\subsection{Data preprocessing}
+% STEP 5:
+% Uncomment the following lines and set your .bib file and desired bibliography style
+% to make a bibliography with BibTeX.
+% Alternatively you can use the thebibliography environment if you want to add all
+% references by hand.
 
-\subsection{Methods: base models and transfer learning tehniques}
+\cleardoublepage %fixes the position of bibliography in bookmarks
+\phantomsection
 
-\subsubsection{Problem formulation}
-
-\subsubsection{Base model selection}
-
-\subsubsection{Transfer learning method selection}
-
-\section{Results and discussion}
-
-\section{Conclusions}
-
-\printbibliography
+\addcontentsline{toc}{chapter}{\bibname} % This lines adds the bibliography to the ToC
+\bibliographystyle{abbrv} % numbering alphabetic order
+\bibliography{bibliography}
 
 \end{document}
