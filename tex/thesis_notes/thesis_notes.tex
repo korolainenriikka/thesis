@@ -358,22 +358,41 @@ in the fossil case.
 
 \subsection{Architectures}
 
+different ways of constructing layers, makes model pay more attention to desired things 
+and reduces parameter count from fully connected layers.
+
+relevant here: present the ImageNet competition that has initiated many new architectures.
+
 \subsubsection{Convolutional layers}
 
+% todo: read alexnet, googlelenet & vgg papers. get from there a good what is a convolution, why convolution section
+
+% why convolve
+
+% what is a convolution
 convolution (cross-correlation)
+
+% size changes & pooling operations.
 max pooling / average pooling operations
 
+% history bit: imageNet breakthrough models
+historical scetch: alexnet \cite{alexnet} brought this to mainstream in 2012, imagenet 2014 saw GoogleLeNet \cite{googlelenet} and VGG \cite{vgg}.
+these highlighted because the architectures are utilized in handwritten character classification.
+
 \subsubsection{Transformers}
+
+introduced by \cite{attention_is_all_you_need}
 
 - self-attention
 - multi-head self-attention
 - tokenizing and the cls token
 
+historical scetch: the vision transformer \cite{vit} outperformed many cnns in imagenet score when introduced and changed 
+course of image classification research toward transformers
+
 \subsubsection{Autoencoders}
 
 - encoder/decoder
-
-sequence to sequence \cite{sutskever2014sequence}
 
 \subsection{Techniques and heuristics for improving performance}
 
@@ -406,7 +425,8 @@ feature extraction that allows a linear model to be fit from features to output.
 assumption for last layer transfer: reusing the feature extractor should bring good results with little computational cost
 
 basically nowadays it is usually insensible to ever train from scratch (NNDL lectures)
-
+therefore this work definitely transfer learns. also previous work that does not transfer learn is dismissed, 
+as it does not inform this case where target data is scarce
 
 \subsubsection{Foundation models}
 

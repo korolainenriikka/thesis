@@ -280,3 +280,241 @@ author = {Christy, Matthew and Gupta, Anshul and Grumbach, Elizabeth and Mandell
   pages={369--376},
   year={2006}
 }
+
+@online{vit,
+  title = {An {{Image}} Is {{Worth}} 16x16 {{Words}}: {{Transformers}} for {{Image Recognition}} at {{Scale}}},
+  shorttitle = {An {{Image}} Is {{Worth}} 16x16 {{Words}}},
+  author = {Dosovitskiy, Alexey and Beyer, Lucas and Kolesnikov, Alexander and Weissenborn, Dirk and Zhai, Xiaohua and Unterthiner, Thomas and Dehghani, Mostafa and Minderer, Matthias and Heigold, Georg and Gelly, Sylvain and Uszkoreit, Jakob and Houlsby, Neil},
+  date = {2021-06-03},
+  eprint = {2010.11929},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  url = {http://arxiv.org/abs/2010.11929},
+  urldate = {2024-09-26},
+  abstract = {While the Transformer architecture has become the de-facto standard for natural language processing tasks, its applications to computer vision remain limited. In vision, attention is either applied in conjunction with convolutional networks, or used to replace certain components of convolutional networks while keeping their overall structure in place. We show that this reliance on CNNs is not necessary and a pure transformer applied directly to sequences of image patches can perform very well on image classification tasks. When pre-trained on large amounts of data and transferred to multiple mid-sized or small image recognition benchmarks (ImageNet, CIFAR-100, VTAB, etc.), Vision Transformer (ViT) attains excellent results compared to state-of-the-art convolutional networks while requiring substantially fewer computational resources to train.},
+  langid = {english},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning},
+  file = {/home/riikoro/Zotero/storage/BW2BIRJN/Dosovitskiy et al. - 2021 - An Image is Worth 16x16 Words Transformers for Im.pdf}
+}
+
+@inproceedings{alexnet,
+  title = {{{ImageNet Classification}} with {{Deep Convolutional Neural Networks}}},
+  booktitle = {Advances in {{Neural Information Processing Systems}}},
+  author = {Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E},
+  date = {2012},
+  volume = {25},
+  publisher = {Curran Associates, Inc.},
+  url = {https://proceedings.neurips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html},
+  urldate = {2024-10-02},
+  abstract = {We trained a large, deep convolutional neural network to classify the 1.3 million high-resolution images in the LSVRC-2010 ImageNet training set into the 1000 different classes. On the test data, we achieved top-1 and top-5 error rates of 39.7\textbackslash\% and 18.9\textbackslash\% which is considerably better than the previous state-of-the-art results. The neural network, which has 60 million parameters and 500,000 neurons, consists of five convolutional layers, some of which are followed by max-pooling layers, and two globally connected layers with a final 1000-way softmax. To make training faster, we used non-saturating neurons and a very efficient GPU implementation of convolutional nets. To reduce overfitting in the globally connected layers we employed a new regularization method that proved to be very effective.},
+  file = {/home/riikoro/Zotero/storage/KWHYHIE8/Krizhevsky et al. - 2012 - ImageNet Classification with Deep Convolutional Ne.pdf}
+}
+
+@online{vgg,
+  title = {Very {{Deep Convolutional Networks}} for {{Large-Scale Image Recognition}}},
+  author = {Simonyan, Karen and Zisserman, Andrew},
+  date = {2014-09-04},
+  url = {https://arxiv.org/abs/1409.1556v6},
+  urldate = {2024-10-04},
+  abstract = {In this work we investigate the effect of the convolutional network depth on its accuracy in the large-scale image recognition setting. Our main contribution is a thorough evaluation of networks of increasing depth using an architecture with very small (3x3) convolution filters, which shows that a significant improvement on the prior-art configurations can be achieved by pushing the depth to 16-19 weight layers. These findings were the basis of our ImageNet Challenge 2014 submission, where our team secured the first and the second places in the localisation and classification tracks respectively. We also show that our representations generalise well to other datasets, where they achieve state-of-the-art results. We have made our two best-performing ConvNet models publicly available to facilitate further research on the use of deep visual representations in computer vision.},
+  langid = {english},
+  organization = {arXiv.org},
+  file = {/home/riikoro/Zotero/storage/ICYVWXJF/Simonyan and Zisserman - 2014 - Very Deep Convolutional Networks for Large-Scale I.pdf}
+}
+
+@inproceedings{googlelenet,
+  title = {Going {{Deeper With Convolutions}}},
+  author = {Szegedy, Christian and Liu, Wei and Jia, Yangqing and Sermanet, Pierre and Reed, Scott and Anguelov, Dragomir and Erhan, Dumitru and Vanhoucke, Vincent and Rabinovich, Andrew},
+  date = {2015},
+  pages = {1--9},
+  url = {https://www.cv-foundation.org/openaccess/content_cvpr_2015/html/Szegedy_Going_Deeper_With_2015_CVPR_paper.html},
+  urldate = {2024-10-07},
+  eventtitle = {Proceedings of the {{IEEE Conference}} on {{Computer Vision}} and {{Pattern Recognition}}},
+  file = {/home/riikoro/Zotero/storage/GNTVYLMN/Szegedy et al. - 2015 - Going Deeper With Convolutions.pdf}
+}
+
+@article{attention_is_all_you_need,
+  title = {Attention Is {{All}} You {{Need}}},
+  author = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N and Kaiser, Łukasz and Polosukhin, Illia},
+  abstract = {The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 Englishto-German translation task, improving over the existing best results, including ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.0 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature.},
+  langid = {english},
+  file = {/home/riikoro/Zotero/storage/94KQUD7U/Vaswani et al. - Attention is All you Need.pdf}
+}
+
+@article{akhlaghiFarsiHandwrittenPhone2020,
+  title = {Farsi Handwritten Phone Number Recognition Using Deep Learning},
+  author = {Akhlaghi, Maryam and Ghods, Vahid},
+  date = {2020-02-14},
+  journaltitle = {SN Applied Sciences},
+  shortjournal = {SN Appl. Sci.},
+  volume = {2},
+  number = {3},
+  pages = {408},
+  issn = {2523-3971},
+  doi = {10.1007/s42452-020-2222-5},
+  url = {https://doi.org/10.1007/s42452-020-2222-5},
+  urldate = {2024-09-25},
+  abstract = {An application of artificial intelligence in mobile phones which might be widely accepted by users of these phones is the intelligent system used to automatically detect, search and dial phone numbers using an image taken from a handwritten phone number. In this paper, a reliable method is presented for Farsi handwritten phone number recognition using deep neural networks. In order to recognize a Farsi handwritten digit string, the digit string is first converted to single digits using the proposed segmentation algorithm, and then each segment is classified using a single Farsi handwritten digit recognition algorithm. By classifying each segment, finally, the digit string of the Farsi handwritten phone number image is created. Since there is no database for Farsi handwritten phone numbers, this paper first collects a database of Farsi handwritten phone numbers. Accuracy of the proposed algorithm for Farsi handwritten phone number recognition is 94.6\%. After recognizing digits of the phone number, the proposed algorithm is able to search in the phonebook.},
+  langid = {english},
+  keywords = {Artificial Intelligence,Convolutional neural network,Farsi,Phone number,Recognition,Segmentation},
+  file = {/home/riikoro/Zotero/storage/P62LZBTM/Akhlaghi and Ghods - 2020 - Farsi handwritten phone number recognition using d.pdf}
+}
+
+@book{chatterjeeBengaliHandwrittenCharacter2020,
+  title = {Bengali {{Handwritten Character Classification}} Using {{Transfer Learning}} on {{Deep Convolutional Neural Network}}},
+  author = {Chatterjee, Swagato and Dutta, Rwik and Ganguly, Debayan and Chatterjee, Kingshuk and Roy, Sudipta},
+  date = {2020-04-12},
+  doi = {10.1007/978-3-030-44689-5_13},
+  abstract = {In this paper, we propose a solution which uses state-of-the-art techniques in Deep Learning to tackle the problem of Bengali Handwritten Character Recognition (HCR). Our method uses lesser iterations to train than most other comparable methods. We employ Transfer Learning on ResNet 50, a state-of-the-art deep Convolutional Neural Network Model, pretrained on ImageNet dataset. We also use other techniques like a modified version of One Cycle Policy , varying the input image sizes etc. to ensure that our training occurs fast. We use the BanglaLekha-Isolated Dataset for evaluation of our technique which consists of 84 classes (50 Basic, 10 Numerals and 24 Compound Characters). We are able to achieve 96.12\% accuracy in just 47 epochs on BanglaLekha-Isolated dataset. When comparing our method with that of other researchers, considering number of classes and without using Ensemble Learning, the proposed solution achieves state of the art result for Handwritten Bengali Character Recognition. Code and weight files are available at https://github.com/swagato-c/bangla-hwcr-present.},
+  isbn = {978-3-030-44688-8}
+}
+
+@article{goelHandwrittenGujaratiNumerals2023,
+  title = {Handwritten {{Gujarati Numerals Classification Based}} on {{Deep Convolution Neural Networks Using Transfer Learning Scenarios}}},
+  author = {Goel, Parth and Ganatra, Amit},
+  date = {2023},
+  journaltitle = {IEEE Access},
+  volume = {11},
+  pages = {20202--20215},
+  issn = {2169-3536},
+  doi = {10.1109/ACCESS.2023.3249787},
+  url = {https://ieeexplore.ieee.org/abstract/document/10054369},
+  urldate = {2024-09-24},
+  abstract = {In recent years, handwritten numeral classification has achieved remarkable attention in the field of computer vision. Handwritten numbers are difficult to recognize due to the different writing styles of individuals. In a multilingual country like India, negligible research attempts have been carried out for handwritten Gujarati numerals recognition using deep learning techniques compared to the other regional scripts. The Gujarati digit dataset is not available publicly and deep learning requires a large amount of labeled data for the training of the models. If the number of annotated data is not sufficient enough to train Convolutional Neural Networks (CNN) from the scratch, transfer learning can be applied. However, the issue arises by using transfer learning is that how deep to fine-tune the pre-trained convolutional neural network while training the target model. In this paper, we addressed these problems using three deep transfer learning scenarios to classify handwritten Gujarati numerals from the images of zero to nine. We presented transfer learning scenarios using ten pre-trained CNN architectures including LeNet, VGG16, InceptionV3, ResNet50, Xception, ResNet101, MobileNet, MobileNetV2, DenseNet169 and EfficientNetV2S to find the best performing model by freezing and fine-tuning the weight parameters. We implemented the pre-trained models using a self-created handwritten Gujarati digit dataset with 8000 images of zero to nine digits with data augmentation. Exhaustive experiments are performed using various performance evaluation matrices. EfficientNetV2S model showed promising results among all the models including three transfer learning scenarios and achieved 98.39\% training accuracy, 97.92\% testing accuracy, 97.69\% f1-score, and 97.15\% AUC. Our handwritten Gujarati digit dataset is available on https://github.com/Parth-Goel/gujarati-handwritten-digit-dataset/.},
+  eventtitle = {{{IEEE Access}}},
+  keywords = {classification,Convolutional neural networks,deep learning,Deep learning,Feature extraction,Gujarati numerals,handwritten Gujarati digit dataset,Support vector machines,Task analysis,Training data,transfer learning,Transfer learning},
+  file = {/home/riikoro/Zotero/storage/W3AJQILE/Goel and Ganatra - 2023 - Handwritten Gujarati Numerals Classification Based.pdf}
+}
+
+@inproceedings{goelPreTrainedCNNBased2022,
+  title = {A {{Pre-Trained CNN}} Based Framework for {{Handwritten Gujarati Digit Classification}} Using {{Transfer Learning Approach}}},
+  booktitle = {2022 4th {{International Conference}} on {{Smart Systems}} and {{Inventive Technology}} ({{ICSSIT}})},
+  author = {Goel, Parth and Ganatra, Amit},
+  date = {2022-01},
+  pages = {1655--1658},
+  doi = {10.1109/ICSSIT53264.2022.9716483},
+  url = {https://ieeexplore.ieee.org/abstract/document/9716483},
+  urldate = {2024-09-24},
+  abstract = {Digit recognition is a software problem to identify numerals of the specific language using computer system. Digit can be printed or handwritten. Handwritten digit recognition is complex task compare to printed because various writing style, thickness and different curve of handwritten digit are difficult to interpret. Numerous work is performed on the native script of India such as Hindi, Bangla, Gurumukhi, and Tamil. However, research efforts on Gujarati Handwritten digit or character recognition are reported very less. This paper aims to demonstrate the efficiency of transfer learning and utilization of a pre-trained model developed for ImageNet dataset to classify handwritten Gujarati digits from zero to nine. The proposed framework developed from the Convolutional and pooling layers of VGG-16, VGG-19, ResNet50, ResNet101, InceptionV3 and EfficentNet pre-trained CNN networks for the feature extraction and newly defined fully-connected layers and output layer for the classification. The proposed framework is investigated on self-created Gujarati Handwritten Digit Dataset. Experimental results show that EfficientNet achieved highest accuracy (training accuracy − 94.9\% and testing accuracy − 94.98\%) among six pre-trained networks using proposed framework.},
+  eventtitle = {2022 4th {{International Conference}} on {{Smart Systems}} and {{Inventive Technology}} ({{ICSSIT}})},
+  keywords = {classification,CNN,Convolution Neural Networks,Convolutional neural networks,deep learning,Gujarati handwritten digits,Handwriting recognition,Neural networks,pre-trained CNN networks,Software,Training,transfer learning,Transfer learning,Writing},
+  file = {/home/riikoro/Zotero/storage/6WQ4HGDE/Goel and Ganatra - 2022 - A Pre-Trained CNN based framework for Handwritten .pdf;/home/riikoro/Zotero/storage/UYI75I62/9716483.html}
+}
+
+@article{limbachiyaIdentificationHandwrittenGujarati2022,
+  title = {Identification of Handwritten {{Gujarati}} Alphanumeric Script by Integrating Transfer Learning and Convolutional Neural Networks},
+  author = {Limbachiya, Krishn and Sharma, Ankit and Thakkar, Priyank and Adhyaru, Dipak},
+  date = {2022-05-19},
+  journaltitle = {Sādhanā},
+  shortjournal = {Sādhanā},
+  volume = {47},
+  number = {2},
+  pages = {102},
+  issn = {0973-7677},
+  doi = {10.1007/s12046-022-01864-9},
+  url = {https://doi.org/10.1007/s12046-022-01864-9},
+  urldate = {2024-09-24},
+  abstract = {Offline handwriting recognition is an important application of pattern recognition that has attracted a lot of interest from researchers. Transforming any handwritten material into machine-readable text data by extracting hidden patterns and comprehending the texts from the documents is a complex process. There are 22 scheduled languages in India and Gujarati is one among them. There are several optical character recognition issues (OCR) in Gujarati and it is difficult to identify universal invariant patterns and irregularities in handwritten Gujarati script. The lack of a big benchmark dataset is another important issue with handwritten Gujarati script. This issue was identified, and we built a dataset with 75600 images spanning 54 Gujarati character classes. Although, this dataset is reasonably large, it is still not large enough to learn deep neural networks from scratch due to overfitting concerns. To address this problem, we have integrated transfer learning with CNN for Gujarati handwritten character recognition. We have used 5 distinct pre-trained models and have achieved approximately 97\% accuracy on images of 54 different classes.},
+  langid = {english},
+  keywords = {Artificial Intelligence,convolutional neural network,Gujarati character recognition,Handwritten Gujarati script,pre-trained models,transfer learning},
+  file = {/home/riikoro/Zotero/storage/S3D8NHWA/Limbachiya et al. - 2022 - Identification of handwritten Gujarati alphanumeri.pdf}
+}
+
+@article{rasheedHandwrittenUrduCharacters2022,
+  title = {Handwritten {{Urdu Characters}} and {{Digits Recognition Using Transfer Learning}} and {{Augmentation With AlexNet}}},
+  author = {Rasheed, Aqsa and Ali, Nouman and Zafar, Bushra and Shabbir, Amsa and Sajid, Muhammad and Mahmood, Muhammad Tariq},
+  date = {2022},
+  journaltitle = {IEEE Access},
+  volume = {10},
+  pages = {102629--102645},
+  issn = {2169-3536},
+  doi = {10.1109/ACCESS.2022.3208959},
+  url = {https://ieeexplore.ieee.org/abstract/document/9900315},
+  urldate = {2024-09-24},
+  abstract = {Automated recognition of handwritten characters and digits is a challenging task. Although a significant amount of literature exists for automatic recognition of handwritten characters of English and other major languages in the world, there exists a wide research gap due to lack of research for recognition of Urdu language. The variations in writing style, shape and size of individual characters and similarities with other characters add to the complexity for accurate classification of handwritten characters. Deep neural networks have emerged as a powerful technology for automated classification of character patters and object images. Although deep networks are known to provide remarkable results on large-scale datasets with millions of images, however the use of deep networks for small image datasets is still challenging. The purpose of this research is to present a classification framework for automatic recognition of handwritten Urdu character and digits with higher recognition accuracy by utilizing theory of transfer learning and pre-trained Convolution Neural Networks (CNN). The performance of transfer learning is evaluated in different ways: by using pre-trained AlexNet CNN model with Support Vector Machine (SVM) classifier, and fine-tuned AlexNet for extracting features and classification. We have fine-tuned AlexNet hyper-parameters to achieve higher accuracy and data augmentation is performed to avoid over-fitting. Experimental results and the quantitative comparisons demonstrate the effectiveness of the proposed research for recognition of handwritten characters and digits using fine-tuned AlexNet. The proposed research based on fine-tuned AlexNet outperforms the related state-of-the-art research thereby achieving a classification accuracy of 97.08\%, 98.21\%, 94.92\% for urdu characters, digits and hybrid datasets respectively. The presented methods can be applied for research on Urdu characters and in diverse domains such as handwritten text image retrieval, reading postal addresses, bank’s cheque processing, preserving and digitization of manuscripts from old ages.},
+  eventtitle = {{{IEEE Access}}},
+  keywords = {alexnet,Automated recognition,Character recognition,CNN,Convolutional neural networks,Feature extraction,Handwriting recognition,Neural networks,optical character recognition,Optical character recognition,Support vector machines,SVM,transfer learning,urdu HCR systems},
+  file = {/home/riikoro/Zotero/storage/MRH6UDVQ/Rasheed et al. - 2022 - Handwritten Urdu Characters and Digits Recognition.pdf;/home/riikoro/Zotero/storage/RD3HTVAH/9900315.html}
+}
+
+@online{rizkyTextRecognitionImages2023,
+  title = {Text Recognition on Images Using Pre-Trained {{CNN}}},
+  author = {Rizky, Afgani Fajar and Yudistira, Novanto and Santoso, Edy},
+  date = {2023-02-10},
+  eprint = {2302.05105},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2302.05105},
+  url = {http://arxiv.org/abs/2302.05105},
+  urldate = {2024-09-24},
+  abstract = {A text on an image often stores important information and directly carries high level semantics, makes it as important source of information and become a very active research topic. Many studies have shown that the use of CNN-based neural networks is quite effective and accurate for image classification which is the basis of text recognition. It can also be more enhanced by using transfer learning from pre-trained model trained on ImageNet dataset as an initial weight. In this research, the recognition is trained by using Chars74K dataset and the best model results then tested on some samples of IIIT-5K-Dataset. The research results showed that the best accuracy is the model that trained using VGG-16 architecture applied with image transformation of rotation 15\{\textbackslash deg\}, image scale of 0.9, and the application of gaussian blur effect. The research model has an accuracy of 97.94\% for validation data, 98.16\% for test data, and 95.62\% for the test data from IIIT-5K-Dataset. Based on these results, it can be concluded that pre-trained CNN can produce good accuracy for text recognition, and the model architecture that used in this study can be used as reference material in the development of text detection systems in the future},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition},
+  file = {/home/riikoro/Zotero/storage/4A6YI3UG/Rizky et al. - 2023 - Text recognition on images using pre-trained CNN.pdf;/home/riikoro/Zotero/storage/LYG3V23W/2302.html}
+}
+
+@inproceedings{shoponBanglaHandwrittenDigit2016,
+  title = {Bangla Handwritten Digit Recognition Using Autoencoder and Deep Convolutional Neural Network},
+  booktitle = {2016 {{International Workshop}} on {{Computational Intelligence}} ({{IWCI}})},
+  author = {Shopon, Md and Mohammed, Nabeel and Abedin, Md Anowarul},
+  date = {2016-12},
+  pages = {64--68},
+  doi = {10.1109/IWCI.2016.7860340},
+  url = {https://ieeexplore.ieee.org/abstract/document/7860340},
+  urldate = {2024-09-24},
+  abstract = {Handwritten digit recognition is a typical image classification problem. Convolutional neural networks, also known as ConvNets, are powerful classification models for such tasks. As different languages have different styles and shapes of their numeral digits, accuracy rates of the models vary from each other and from language to language. However, unsupervised pre-training in such situation has shown improved accuracy for classification tasks, though no such work has been found for Bangla digit recognition. This paper presents the use of unsupervised pre-training using autoencoder with deep ConvNet in order to recognize handwritten Bangla digits, i.e., 0-9. The datasets that are used in this paper are CMATERDB 3.1.1 and a dataset published by the Indian Statistical Institute (ISI). This paper studies four different combinations of these two datasets-two experiments are done against their own training and testing images, other two experiments are done cross validating the datasets. In one of these four experiments, the proposed approach achieves 99.50\% accuracy, which is so far the best for recognizing handwritten Bangla digits. The ConvNet model is trained with 19,313 images of ISI handwritten character dataset and tested with images of CMATERDB dataset.},
+  eventtitle = {2016 {{International Workshop}} on {{Computational Intelligence}} ({{IWCI}})},
+  keywords = {Autoencoder,Deep Convolutional Neural Network,Electronic mail,Feature extraction,Handwriting recognition,Handwritten Digit Recognition,Image classification,Image recognition,Neural networks,Supervised Learning,Testing,Training,Unsupervised pre-training},
+  file = {/home/riikoro/Zotero/storage/6AAJF259/Shopon et al. - 2016 - Bangla handwritten digit recognition using autoenc.pdf;/home/riikoro/Zotero/storage/NHGEI3W4/7860340.html}
+}
+
+@inproceedings{thuonImprovingIsolatedGlyph2022,
+  title = {Improving {{Isolated Glyph Classification Task}} for~{{Palm Leaf Manuscripts}}},
+  booktitle = {Frontiers in {{Handwriting Recognition}}},
+  author = {Thuon, Nimol and Du, Jun and Zhang, Jianshu},
+  editor = {Porwal, Utkarsh and Fornés, Alicia and Shafait, Faisal},
+  date = {2022},
+  pages = {65--79},
+  publisher = {Springer International Publishing},
+  location = {Cham},
+  doi = {10.1007/978-3-031-21648-0_5},
+  abstract = {Digitization of ancient palm leaf manuscripts is gaining momentum due to the limited datasets and complex features of text images of palm leaf manuscripts. Thus far, the previous studies did not deeply analyze the application of the trending techniques on the palm leaf manuscripts, considering how deep learning approaches require large datasets, while some isolated glyphs contain more than one character with complex grammatical components. Therefore, this paper explores the possibilities and practical methods for improving isolated glyph classification. In particular, we focus on both the front-end and the back-end processes involved in the image classification task. For the front-end analysis, we present multi-task preprocessing techniques, including data augmentation techniques, new datasets extraction, and image enhancement techniques to increase the quality and quantity of datasets. For the back-end side, we aim to study the visual backbones of deep learning techniques, especially CNNs (including VGG, ResNet, and EfficientNet) and attention-based models (including ViT, DeiT, and CvT). Furthermore, the analysis and evaluation examined how data augmentation techniques and preprocessing interact with the amount of data used in training. Evidently, we experimented on three palm leaf manuscripts, including Balinese, Sundanese, and Khmer scripts from the ICFHR contest 2018, SluekRith, AMDI LontarSet, and Sunda datasets. Regarding the quality of research, the experiment delivers an effective way of training palm leaf datasets for the document analysis community.},
+  isbn = {978-3-031-21648-0},
+  langid = {english},
+  keywords = {Historical document analysis,Neural network,Palm leaf manuscript,Vision transformer},
+  file = {/home/riikoro/Zotero/storage/65NT8MJW/Thuon et al. - 2022 - Improving Isolated Glyph Classification Task for P.pdf}
+}
+
+@article{zhaoIncrementalRecognitionMultiStyle2024,
+  title = {Incremental {{Recognition}} of {{Multi-Style Tibetan Character Based}} on {{Transfer Learning}}},
+  author = {Zhao, Guanzhong and Wang, Weilan and Wang, Xiaojuan and Bao, Xun and Li, Huarui and Liu, Meiling},
+  date = {2024},
+  journaltitle = {IEEE Access},
+  volume = {12},
+  pages = {44190--44206},
+  issn = {2169-3536},
+  doi = {10.1109/ACCESS.2024.3381039},
+  url = {https://ieeexplore.ieee.org/document/10478003/?arnumber=10478003},
+  urldate = {2024-09-24},
+  abstract = {Tibetan script possesses a distinctive artistic form of writing, intricate glyph structures, and diverse stylistic variations. In the task of text recognition, effectively handling the recognition of Tibetan script with significantly different stylistic fonts remains a challenge. Existing research has made considerable progress in recognizing Tibetan script within a single style using techniques such as convolutional neural networks and convolutional recurrent neural networks. However, when dealing with multi-style Tibetan script recognition, the standard approach involves training models using a multi-label joint training method. This approach annotates the style and class of different font style samples and merges them into a single dataset for model training. Nevertheless, as the amount of data and performance requirements increase, this approach gradually faces issues such as decreasing accuracy, insufficient generalization capability, and poor adaptability to new style samples. In this paper, we propose a transfer learning-based method for incremental recognition of multi-style Tibetan script, referred to as “multi-style Tibetan script incremental recognition.” In the style recognition stage, we employ a convolutional neural network (CNN) to accurately differentiate between style categories. During the pre-training stage, we train a residual network on the Tibetan Uchen standard style and utilize it as the baseline model. In the multi-style Tibetan script recognition stage, we integrate transfer learning into the model training process to reduce the training time. These three stages collectively accomplish the task of multi-style Tibetan script incremental recognition. The experimental results demonstrate that our approach achieves a significant improvement in overall recognition accuracy, from 90.14\% to 98.40\%, when utilizing the TCDB and HUTD datasets compared to traditional multi- task recognition methods. This method exhibits high accuracy, strong generalization capability, and good adaptability to new style samples in multi-style Tibetan script character recognition. Furthermore, it can be applied to other tasks involving multi-style, multi-font, and multi-script recognition.},
+  eventtitle = {{{IEEE Access}}},
+  keywords = {Adaptation models,Character recognition,Feature extraction,Image recognition,incremental recognition,multi-style recognition,residual networks,Residual neural networks,Task analysis,Text recognition,Tibetan recognition,transfer learning,Transfer learning,Writing},
+  file = {/home/riikoro/Zotero/storage/UJAR4RCN/Zhao et al. - 2024 - Incremental Recognition of Multi-Style Tibetan Cha.pdf;/home/riikoro/Zotero/storage/A5YDH3HZ/10478003.html}
+}
+
+@inproceedings{zunairUnconventionalWisdomNew2018,
+  title = {Unconventional {{Wisdom}}: {{A New Transfer Learning Approach Applied}} to {{Bengali Numeral Classification}}},
+  shorttitle = {Unconventional {{Wisdom}}},
+  booktitle = {2018 {{International Conference}} on {{Bangla Speech}} and {{Language Processing}} ({{ICBSLP}})},
+  author = {Zunair, Hasib and Mohammed, Nabeel and Momen, Sifat},
+  date = {2018-09},
+  pages = {1--6},
+  doi = {10.1109/ICBSLP.2018.8554435},
+  url = {https://ieeexplore.ieee.org/abstract/document/8554435},
+  urldate = {2024-09-24},
+  abstract = {In this modern age, natural language processing (NLP) is evolving due to advances in the field of deep learning and its access to huge amount of data and computation power. Recently a lot of attention has been given to OCR for Bangla, the 5th most widely spoken language in the world. This paper reports on certain rather unconventional transfer learning approaches used to attain 6th place in the Kaggle Numta competition, where the challenge was to classify images of isolated Bangla numerals. The best result reported in this paper is an accuracy of 97.09\% on the NumtaDB Bengali handwritten digit datasets test set, which was obtained by freezing intermediate layers. The unconventional approach used in this paper produces better results than conventional transfer learning while taking less epochs and having almost half the number of trainable narameters.},
+  eventtitle = {2018 {{International Conference}} on {{Bangla Speech}} and {{Language Processing}} ({{ICBSLP}})},
+  keywords = {bengali digit classification,Computational modeling,Computer architecture,convolution neural networks,data augmentation,Data models,deep learning,keras,Neural networks,Numtadb,Task analysis,Testing,Training,transfer learning},
+  file = {/home/riikoro/Zotero/storage/TH45W6ZU/Zunair et al. - 2018 - Unconventional Wisdom A New Transfer Learning App.pdf;/home/riikoro/Zotero/storage/JZZQA4UY/8554435.html}
+}
