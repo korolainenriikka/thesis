@@ -9,3 +9,5 @@ ways to improve
     reason: our teeth images have lots of redundant signals, mnist does not. imagenet task does so imagenet model could be better
 - hyperparameter optimize (test if parameter transfer applying (ie not changing hyperparams) is a good idea in this case)
 - try to segment out the letter
+- proper data augmentation; do things that make sense 
+    - from alexnet: encode prior of intensity invariance by doing intensity based data augmentation
