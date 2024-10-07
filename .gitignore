@@ -12,3 +12,4 @@
 */venv/*
 code/output
 code/ml*
+**/mlruns/

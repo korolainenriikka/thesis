@@ -4,9 +4,10 @@ MIPC model
 upper lower model
 
 ways to improve
-- better base model. test VGG16 & alexnet
+- better base model. test VGG16 & alexnet (now: loaded & froze the model, prepped data. todo: train)
     untuned emnist and largest probability of m i or p?
     reason: our teeth images have lots of redundant signals, mnist does not. imagenet task does so imagenet model could be better
+- get more data (test accuracy should be obtainable up to .5% level so preferably at least 200 test samples.)
 - hyperparameter optimize (test if parameter transfer applying (ie not changing hyperparams) is a good idea in this case)
 - try to segment out the letter
 - proper data augmentation; do things that make sense 
