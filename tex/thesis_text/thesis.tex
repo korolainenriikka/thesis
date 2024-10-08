@@ -599,10 +599,33 @@ also compared using the accuracy score.
 TODO: ref for this section
 
 \subsection{Architectures}
+% different ways of constructing layers, makes model pay more attention to desired things
+% and reduces parameter count from fully connected layers, ie. encode priors \cite{alexnet}
+
+Neural network architectures are alternative ways of constructing the 
+network layer computations for cases where the standard 
+fully connected layer computation presented in Equation~\ref{eq:fc_layer}
+is not ideal. Alternative layer types are used to make the model pay more attention to desired 
+things \cite{alexnet}, such as image structures ignoring the absolute position of these structures in image processing, or 
+character sequences only before a specified position in the sequence in language models.
+By encoding priors, these methods also reduce parameter counts, which makes training large numbers of 
+layers more feasible \cite{princebook}.
+
+% outline of section
+% topic of paragraph: this section presents architectures & first models that are commonly used in image tasks, initially imagenet
+This section presents layer types that are most relevant in image processing 
+along with models that first used them. 
+% relevant here: present the ImageNet competition that has initiated many new architectures.
+Many of these layer types were motivated by the ImageNet image classification competition \cite{imagenet}, that ranks models by their capacity of classifying 
+images retrieved from the web to 1,000 distinct classes. This task, and approaches resulting
+in a good solution on the task have been found valuable in character classification, thus the 
+breakthrough models presented in this section are experimented with in later parts of this work.
+The layer types relevant in this work include convolutional layers, autoencoders, and the multi-head self-attention operation used in transformer 
+architectures, and are presented next.
 
 \subsubsection{Convolutional layers}
 
-\subsubsection{Transformers}
+\subsubsection{Transformers and the multi-head self-attention}
 
 \subsubsection{Autoencoders}
 
