@@ -373,6 +373,8 @@ relevant here: present the ImageNet competition that has initiated many new arch
 convolution (cross-correlation)
 explain stride ie filter sparsity
 
+image size on each layer is fixed \cite{vgg}
+
 % size changes & pooling operations.
 max pooling / average pooling operations
 
@@ -382,11 +384,17 @@ these highlighted because the architectures are utilized in handwritten characte
 
 googlelenet \cite{googlelenet} won 2014 with top 5 error rate  6,75\%.
 method: fixed number of allowed multiple-adds in forward pass, 
-used inception layer: 1x1 3x3 and 5x5 sparse convolutional kernels, also 
+used inception (named after we need to go deeper meme) layer: 1x1 3x3 and 5x5 sparse convolutional kernels, also 
 sparse fully connected layers ie not all weights are connected 
 to save compute. Also inspired by biological visual systems. allowed
 for deeper and wider network, turned out to be great in imagenet and 
 object detection.
+
+vgg \cite{vgg}. achieved 6,8\% with imagenet 2014 postsubmission, submitted 7,3\% thus 
+second in competition. method: simple 3x3 convolutions, tested different depths. best depth 19.
+new that previous best models did big kernels and shallower nets. also good model because of 
+the simplicity + the paper included in appendix that demonstrated vgg as a feature extractor to 
+be used in transfer learning.
 
 \subsubsection{Transformers}
 
@@ -417,7 +425,7 @@ the terminology
 basics: what it is, basic premise: if you start out from a parameter configuration that solves a related 
 task well, there is lesser need to train to solve the new problem.
 
-why: save compute and data labeling (usual constraints in ml model building \cite{engbook})
+why: save compute (imagenet models vgg lenet alexnet training times 5 days to 3 weeks even when using GPUs \cite{vgg}) and data labeling (usual constraints in ml model building \cite{engbook})
 also why: training many parameters on a dataset overfits model to the dataset, so freezing layers prevents overfitting \cite{googlelenet}
 
 task (inductive) transfer: tasks differ and domain (transductive) transfer (only data differs)
