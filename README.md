@@ -2,6 +2,6 @@
 
 Topic: fine-tune optical character recognition for dental fossil markings
 
-/code directory will contain ML experiments.
+/code directory contains ML experiments.
 
-/tex directory will contain the thesis with notes
+/tex directory contains the thesis with notes
