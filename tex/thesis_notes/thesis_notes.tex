@@ -365,22 +365,33 @@ relevant here: present the ImageNet competition that has initiated many new arch
 
 \subsubsection{Convolutional layers}
 
-% todo: read alexnet & vgg papers. get from there a good what is a convolution, why convolution section
-
 % why convolve
 
-% what is a convolution
+encode a prior reduces the need to learn parameters. limit is cpu resources and data so given data 
+and cpu, get as good model as you can requires constraining the problem by making assumptions \cite{alexnet}
+
+prior encoded: move image a bit and it is still an image of the same object (translation invariance)
+and nearby pixels are usually like each other (have a statistical relationship) fully connected nets 
+do not consider input value positions in input vector, how near or far from each other they are, in any way.
+\cite{princebook}
+
+practical use: less parameters required -> less computational complexity
+
+% what is a convolution, todo: notes
 convolution (cross-correlation)
 explain stride ie filter sparsity
 
 image size on each layer is fixed \cite{vgg}
 
-% size changes & pooling operations.
+% size changes & pooling operations. todo: notes
 max pooling / average pooling operations
 
 % history bit: imageNet breakthrough models alexnet, googlelenet, vgg
 historical scetch: alexnet \cite{alexnet} brought this to mainstream in 2012, imagenet 2014 saw GoogleLeNet \cite{googlelenet} and VGG \cite{vgg}.
 these highlighted because the architectures are utilized in handwritten character classification.
+alexnet, top5 error: 17\% best so far
+whats new regularization with dropout, large model, large conv kernels (11x11-3x3 kernels), relu instead of previously popular tanhs sped up training, multiple GPUs used when training, normalization of convolution results, overlapping pooling (areas of pooling for each pixel overlap)
+impact: brought deep learning to center of ml research, deep nets seem to outperform humans in feature engineering.
 
 googlelenet \cite{googlelenet} won 2014 with top 5 error rate  6,75\%.
 method: fixed number of allowed multiple-adds in forward pass, 
@@ -414,6 +425,8 @@ course of image classification research toward transformers
 \subsection{Techniques and heuristics for improving performance}
 
 data augmentation
+
+dropout regularization
 
 \subsection{Transfer learning}
 
@@ -489,6 +502,9 @@ Notes on choices: there is math OCR and music OCR, but they use large datasets a
 
 obvious solution: sit down and type
 
+other solutions: none, some digitization stuff exists but that is 3d imaging of physical specimens
+or classifying images of specimens to eg taxa
+
 \subsection{Approaches to character recognition with small target domain datasets}
 
 method: snowball search. for a paper to be accepted for use here, i set up these requirements:
@@ -516,6 +532,10 @@ the wrong side, seen in data with smudged over l's and r's
 Catalogues have lines between entries. challenge for the model to not mark these as underlined
 in these cases the line is long and spans the entire image, so it should be distinguishable from 
 a single underlined character.
+
+difference to other domains of big data:
+each fossil sample is expensive and human laborous to obtain, thus "big" sample is 
+small compared to other ml applications, 1000 is a lot 10k huge.
 
 \subsubsection{Notes on creating the dataset}
 
@@ -656,6 +676,9 @@ Chosen public dataset was EMNIST \cite{emnist} because it is the closest to my p
 According to \cite{emnistclassifiersurvey}, this model was the best: \cite{jamilemnist}, was chosen as the base model.
 they trained on emnist-balanced, so no difference between upper -and lower case letters. not a problem for us since 
 in the handwritten catalogues, upper or lowercase was not used to distinguish upper and lower jaw
+
+mnist and real world fundamental difference: mnist is perfect world, real images vary much more \cite{alexnet}
+therefore: not e(mnist) as source problem, but imagenet classification.
 
 \subsubsection{Transfer learning method selection}
 Priors. base model already knows the output should be a word, eg "jdaslkjflkds" is a highly unlikely
