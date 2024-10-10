@@ -12,3 +12,7 @@ ways to improve
 - try to segment out the letter
 - proper data augmentation; do things that make sense 
     - from alexnet: encode prior of intensity invariance by doing intensity based data augmentation
+
+extra things to do to improve
+- more data
+- balance upper lower perfectly
