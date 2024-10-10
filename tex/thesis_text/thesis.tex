@@ -624,6 +624,58 @@ The layer types relevant in this work include convolutional layers, autoencoders
 architectures, and are presented next.
 
 \subsubsection{Convolutional layers}
+% % why convolve
+% encode a prior reduces the need to learn parameters. limit is cpu resources and data so given data 
+% and cpu, get as good model as you can requires constraining the problem by making assumptions \cite{alexnet}
+% practical use: less parameters required -> less computational complexity
+
+The primary motivation for the introduction of convolutional layers was to find a way to encode a prior 
+on image processing in general to the network architecture: force the network, by adjusting its computational 
+algorithm, to pay attention to particular aspects while ignoring others. By constraining the problem with 
+this prior assumption allows reducing the network parameter count per layer, which frees up 
+computational resources to training further and with more data \cite{alexnet}.
+
+% prior encoded: move image a bit and it is still an image of the same object (translation invariance)
+% and nearby pixels are usually like each other (have a statistical relationship) fully connected nets 
+% do not consider input value positions in input vector, how near or far from each other they are, in any way.
+% \cite{princebook}
+The two main pieces of prior knowledge are invariance to transformations and local relatedness of pixels.
+Transformation invariance refers to the fact that morphing an image usually keeps the semantic meaning, for instance
+ moving a letter A in an image, 
+rotating it, coloring it red, or squishing it still preserves the fact of it being a letter A. Local relatedness 
+encodes the fact 
+
+% which fact
+% think of space of all images, random numbers. the "snowfall" bug of old televisions. only small subset 
+% could ever be valid images. common to these is that nearby pixels are most of the time of the same color. also
+% that order of pixels does matter. read prince: how fc layers treat locality and explain here. maybe a figure:
+% translation invariance and smoothness (snowfall and an image, m and 1 pixel shifted m)
+
+% % what is a convolution, todo: notes
+
+% % size changes & pooling operations. todo: notes
+
+% % history bit: imageNet breakthrough models alexnet, googlelenet, vgg
+% historical scetch: alexnet \cite{alexnet} brought this to mainstream in 2012, imagenet 2014 saw GoogleLeNet \cite{googlelenet} and VGG \cite{vgg}.
+% these highlighted because the architectures are utilized in handwritten character classification.
+% alexnet, top5 error: 17\% best so far
+% whats new regularization with dropout, large model, large conv kernels (11x11-3x3 kernels), relu instead of previously popular tanhs sped up training, multiple GPUs used when training, normalization of convolution results, overlapping pooling (areas of pooling for each pixel overlap)
+% impact: brought deep learning to center of ml research, deep nets seem to outperform humans in feature engineering.
+
+% googlelenet \cite{googlelenet} won 2014 with top 5 error rate  6,75\%.
+% method: fixed number of allowed multiple-adds in forward pass, 
+% used inception (named after we need to go deeper meme) layer: 1x1 3x3 and 5x5 sparse convolutional kernels, also 
+% sparse fully connected layers ie not all weights are connected 
+% to save compute. Also inspired by biological visual systems. allowed
+% for deeper and wider network, turned out to be great in imagenet and 
+% object detection.
+
+% vgg \cite{vgg}. achieved 6,8\% with imagenet 2014 postsubmission, submitted 7,3\% thus 
+% second in competition. method: simple 3x3 convolutions, tested different depths. best depth 19.
+% new that previous best models did big kernels and shallower nets. also good model because of 
+% the simplicity + the paper included in appendix that demonstrated vgg as a feature extractor to 
+% be used in transfer learning.
+
 
 \subsubsection{Transformers and the multi-head self-attention}
 
