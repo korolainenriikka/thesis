@@ -606,20 +606,14 @@ Neural network architectures are alternative ways of constructing the
 network layer computations for cases where the standard 
 fully connected layer computation presented in Equation~\ref{eq:fc_layer}
 is not ideal. Alternative layer types are used to make the model pay more attention to desired 
-things \cite{alexnet}, such as image structures ignoring the absolute position of these structures in image processing, or 
+aspects \cite{alexnet}, such as image structures ignoring the absolute position of these structures in image processing, or 
 character sequences only before a specified position in the sequence in language models.
-By encoding priors, these methods also reduce parameter counts, which makes training large numbers of 
-layers more feasible \cite{princebook}.
 
 % outline of section
 % topic of paragraph: this section presents architectures & first models that are commonly used in image tasks, initially imagenet
-This section presents layer types that are most relevant in image processing 
-along with models that first used them. 
-% relevant here: present the ImageNet competition that has initiated many new architectures.
-Many of these layer types were motivated by the ImageNet image classification competition \cite{imagenet}, that ranks models by their capacity of classifying 
-images retrieved from the web to 1,000 distinct classes. This task, and approaches resulting
-in a good solution on the task have been found valuable in character classification, thus the 
-breakthrough models presented in this section are experimented with in later parts of this work.
+% missä on relevantteja. näitä arkkitehtuureita käytetään handwritten character classification tasks
+This section presents layer types used in handwritten character classification 
+solutions along with neural networks that first introduced them.
 The layer types relevant in this work include convolutional layers, autoencoders, and the multi-head self-attention operation used in transformer 
 architectures, and are presented next.
 
@@ -629,52 +623,110 @@ architectures, and are presented next.
 % and cpu, get as good model as you can requires constraining the problem by making assumptions \cite{alexnet}
 % practical use: less parameters required -> less computational complexity
 
-The primary motivation for the introduction of convolutional layers was to find a way to encode a prior 
-on image processing in general to the network architecture: force the network, by adjusting its computational 
-algorithm, to pay attention to particular aspects while ignoring others. By constraining the problem with 
-this prior assumption allows reducing the network parameter count per layer, which frees up 
+The primary motivation for the introduction of convolutional layers was to find a way to encode prior information 
+on images in general to the network architecture: force the network, by adjusting its computational 
+algorithm, to pay attention to particular aspects while ignoring others. Constraining the problem with 
+ prior assumptions allows reducing the network parameter count per layer, which frees up 
 computational resources to training further and with more data \cite{alexnet}.
 
 % prior encoded: move image a bit and it is still an image of the same object (translation invariance)
 % and nearby pixels are usually like each other (have a statistical relationship) fully connected nets 
 % do not consider input value positions in input vector, how near or far from each other they are, in any way.
 % \cite{princebook}
-The two main pieces of prior knowledge are invariance to transformations and local relatedness of pixels.
-Transformation invariance refers to the fact that morphing an image usually keeps the semantic meaning, for instance
- moving a letter A in an image, 
-rotating it, coloring it red, or squishing it still preserves the fact of it being a letter A. Local relatedness 
-encodes the fact 
-
 % which fact
 % think of space of all images, random numbers. the "snowfall" bug of old televisions. only small subset 
 % could ever be valid images. common to these is that nearby pixels are most of the time of the same color. also
 % that order of pixels does matter. read prince: how fc layers treat locality and explain here. maybe a figure:
 % translation invariance and smoothness (snowfall and an image, m and 1 pixel shifted m)
 
+The two main pieces of prior knowledge encoded to the convolutional layer computation
+ are invariance to transformations and local relatedness of pixels.
+Transformation invariance refers to the fact that morphing an image usually keeps the semantic meaning: for instance
+ moving a letter A in an image, 
+rotating it, coloring it red, or squishing it still preserves the fact of it being a letter A. Local relatedness 
+encodes the fact that pixels that are next to each other are much more likely to have same intensity values than any other 
+values, and that the pixels cannot be shuffled without losing meaning. A visualization of these assumptions can be found in 
+figure TODO (grid with two image pairs: one that has a translated, rotated, squished letter a, one that has letter a pixels shuffled)
+
 % % what is a convolution, todo: notes
+The convolution operation is filtering with cross correlation.
 
 % % size changes & pooling operations. todo: notes
+Cnns usually do vary the size of the weights a lot and for this pooling is used.
 
+% relevant here: present the ImageNet competition that has initiated many new architectures.
 % % history bit: imageNet breakthrough models alexnet, googlelenet, vgg
+% the what models. most influential
 % historical scetch: alexnet \cite{alexnet} brought this to mainstream in 2012, imagenet 2014 saw GoogleLeNet \cite{googlelenet} and VGG \cite{vgg}.
 % these highlighted because the architectures are utilized in handwritten character classification.
+Many advances in convolutional networks have been motivated by the ImageNet image classification competition \cite{imagenet},
+ that ranks models by their capacity of classifying images retrieved from the web to 1,000 distinct classes.
+ The results are presented as top-1 and top-5 error rates, the percentage of samples 
+where the correct class is not among the one or five most likely classes according to the network. Convolutional architectures
+that have performed well in the competition have been found valuable in handwritten character classification, thus the 
+breakthrough models presented next are experimented with in later parts of this work.
+These most influential convolutional models in the history of the ImageNet challenge,  that
+only rely on the basic convolution operation, are AlexNet \cite{alexnet}, 
+the VGG model family \cite{vgg}, and
+the Inception architecture used in GoogLeNet \cite{googlelenet}.
+
 % alexnet, top5 error: 17\% best so far
-% whats new regularization with dropout, large model, large conv kernels (11x11-3x3 kernels), relu instead of previously popular tanhs sped up training, multiple GPUs used when training, normalization of convolution results, overlapping pooling (areas of pooling for each pixel overlap)
+% whats new regularization with dropout, large model, large conv kernels (11x11-3x3 kernels), 
+% relu instead of previously popular tanhs sped up training, multiple GPUs used when training,
+% normalization of convolution results, overlapping pooling (areas of pooling for each pixel overlap)
 % impact: brought deep learning to center of ml research, deep nets seem to outperform humans in feature engineering.
+The AlexNet convolutional neural network is perhaps the most influential deep learning model of all time, 
+popularizing deep learning as a superior feature extractor compared to human-performed feature engineering (ref?).
+% what was different
+The breakthrough was achieved mainly by speeding up the training process by utilizing graphical processing units (GPU)
+in training, a novel idea at the time, and simplifying the feed forward computation by replacing the previously popular 
+hyperbolic tangent activation with the ReLU function (Equation~\ref{eq:relu}) \cite{alexnet}.
+ This allowed training a larger, deeper network
+with convolutional kernels up to the size 11x11, leading to nearly halving the best top-5 error rate with the score of
+17,0\%. Other, more minor but still highly influential innovations were the normalization of convolution results, 
+overlap in the pooling areas, and using dropout regularization, intruduced in Section~\ref{sect:heuristics}.
 
 % googlelenet \cite{googlelenet} won 2014 with top 5 error rate  6,75\%.
 % method: fixed number of allowed multiple-adds in forward pass, 
-% used inception (named after we need to go deeper meme) layer: 1x1 3x3 and 5x5 sparse convolutional kernels, also 
-% sparse fully connected layers ie not all weights are connected 
+% used inception (named after we need to go deeper meme) layer: 1x1 3x3 and 5x5 s, also 
+% sparse fully connected layers ie not all weights are connected.
+% dimension reduction with 1x1 kernels
 % to save compute. Also inspired by biological visual systems. allowed
 % for deeper and wider network, turned out to be great in imagenet and 
 % object detection.
+The ImageNet competition of 2014 saw the next breakthrough innovation with the winning architecture of the GoogLeNet,
+introducing the idea that smaller convolutional kernels with highly optimized training computation allows deeper,
+and therefore more capable networks \cite{googlelenet}. The layer architecture, named Inception after the 'We 
+need to go deeper' internet meme (see Figure~\ref{image:meme}), only used kernels of size 3x3 and 5x5, and
+employed dimension reduction with 1x1 convolutional kernels. They also introduced sparsity by omitting connections on 
+dense layers inspired by knowledge on the structure of biological visual systems. While these ideas were motivated
+by performance-related reasons, the main aim of the study being to fix multiple-add operations available for training 
+and to reach as high accuracy as possible, the resulting model ended up reaching a new best top-5\% error rate of 6,75\%
+in ImageNet classification.
+% sitten spesifiä. 3x3, 5x5 kernels only 1x1 kernels usage in dimension reduction, sparse dense layers to imitate human visual system
 
 % vgg \cite{vgg}. achieved 6,8\% with imagenet 2014 postsubmission, submitted 7,3\% thus 
 % second in competition. method: simple 3x3 convolutions, tested different depths. best depth 19.
 % new that previous best models did big kernels and shallower nets. also good model because of 
 % the simplicity + the paper included in appendix that demonstrated vgg as a feature extractor to 
 % be used in transfer learning.
+A close runner-up in the 2014 competition, the VGG model family again proved that deep networks 
+with smaller kernels tend to outperform shallow, larger-kernel approaches \cite{vgg}. The approach 
+of the experiments was to fix all kernels to 3x3 size, and to benchmark classification accuracy between 
+different model depths. The deepest model with 19 layers was found to be most accurate, and additionally 
+to be highly competitive as a feature extractor: an appendix of experiments reached new-best results on a variety of 
+further classification tasks. While the 
+best top-5 accuracy of 7,3\% ended up with a second place in the ImageNet 2014 competition, the  structural simplicity
+and diverse learning capacity of the VGG models had a major influence on later deep learning research.
+
+The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Figure TODO.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.2]{../images/ebd.png}
+    \caption{The meme that inspired the Inception architecture in GoogLeNet~\cite{googlelenet}, from~\cite{we_need_to_go_deeper}.}
+    \label{image:meme}
+\end{figure}
 
 
 \subsubsection{Transformers and the multi-head self-attention}
@@ -682,6 +734,7 @@ encodes the fact
 \subsubsection{Autoencoders}
 
 \subsection{Techniques and heuristics for improving performance}
+\label{sect:heuristics}
 
 \subsection{Transfer learning}
 
@@ -793,7 +846,6 @@ circumflex accent (U+0302, eg. $\hat{\text{A}}$). For fraction nominators, a mod
 These choices were made to improve human readability of the dataset, as the modifier choices are not relevant from the model perspective. A sample of the handlabeled 
 dataset can be found in Figure~\ref{table:input_images}.
 
-
 \begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|}
@@ -831,6 +883,93 @@ dataset can be found in Figure~\ref{table:input_images}.
 \section{Results and discussion}
 
 \section{Conclusions}
+
+% why word bounding box worked badly and how it could be improved
+% how this could be continued
+% main problem in working with azure bounding boxes: incorrect identification of word bounding boxes.
+% encoding prior knowledge should work better: M1-3 is a word for instance, azure did stuff like m, 1-, 3
+While this work managed to accurately clean a part of dental markings present in the catalogues, 
+there are several potential directions to significantly improve the digitization of such catalogues in general, the main direction 
+being improving the quality of word-location defining bounding boxes. The main problem in the bounding boxes provided 
+by Azure Vision~\cite{azurevision} was that the dental marking words were often cut across many words or were present 
+as a part of a longer word. This is likely due to the space width varying greatly between different pieces of 
+handwriting. To improve the correctness of handwriting segmentation to words, developing a fine-tuned word detector 
+could improve the result: a specialist model encoded with knowledge on what kinds of words are more likely to be 
+present in the data would likely be much better at finding correct bounding boxes. An example of 
+such case is seen in Figure~\ref{image:hardsentence}: a segmenter with the knowledge of tooth marking notation could 
+easily see that the $\text{dm}_{3-4}$ section is one word, which is difficult to a generalist model 
+due to the spacing between the characters.
+
+% point of this paragraph: object detection is a harder task and has gotten attention from cv research in recent years.
+% on hardness. from computer vision lecture 11 \cite{ruotsalainen2024}
+% object bounding box detection requires higher resolution images and ground truth labels -> labeling effort is 
+% big, compute needed. one idea is to take premade bounding boxes by generalist ocr word detectors and for example
+% infer they are correct by matching with a vocabulary of known correct words to exist in fossil catalogues.
+% pointers to research work on computer vision object detection
+% on recent work. several new advances seem without testing promising, but unfortunately their main problem is differnet from ours so not directly applicable
+%I quickly tested a state of the art object detection model the yolo10, variant of popular object detector yolo\cite{redmonYouOnlyLook2016}
+%  untuned, on huggingface api, the yolo10 \cite{OmouredYOLOv10DocumentLayoutAnalysisHugging2023}. The performance 
+% was poor, see fig, probably since object detection usually does 3d object detection in a 3d scene, so one should either 
+% fine tune or find a ocr bounding box detector. then there is open-vocabulary object detector which you can tell what objects 
+% are present \cite{YOLOWorldRealTimeOpenVocabulary}. we could just say there are teeth and words. 
+% then also a very recent publication on detecting text on images \cite{longHierarchicalTextSpotter2024}.
+% benefit of these is that they are fine-tunable which the commercial azure api is not. 
+% then also detectron \cite{Detectron} from meta for object detection
+% one could also run more sophisticated 
+% tooth or not classification on azure output, which could work very well but relying on a paid service is not ideal 
+% for open access solutions.
+The problem of finding objects in images is much harder than image classification and has attracted attention 
+from the computer vision research community very recently. 
+Main reasons for the difficulty are the labour required to obtain ground truth bounding boxes and 
+the fact that object detection requires better image resolution to work well, therefore requiring more computational resources \cite{ruotsalainen2024}.
+One way to circumvent manual annotation for fossil catalogues could be to automatically detect correct bounding boxes 
+from commercial OCR engine output files for instance by regular expression matching the word readings with a vocabulary of words likely to be 
+present in fossil catalogues, much like the approach implemented in this work.
+For the detection model, several recent advances seem promising, but might not be directly applicable without fine-tuning 
+due to the fact that the standard problem of object detection is to detect three-dimensional objects in 3D scenes, which is 
+quite different from word detection on a flat, scanned document. This is likely the reason why an initial experiment 
+ran on the Hugging Face API version~\cite{OmouredYOLOv10DocumentLayoutAnalysisHugging2023} of YOLO-10~\cite{wang2024yolov10}, a variant of the highly influential object detector YOLO~\cite{redmonYouOnlyLook2016},
+resulted in a very poor segmentation found in Figure~\ref{image:yolo}: the entire image was segmented as one object.
+Some possibly more applicable models, however not as easily testable due to lesser popularity, 
+are the open-vocabulary version of YOLO~\cite{YOLOWorldRealTimeOpenVocabulary},
+ the hierachical text spotter~\cite{longHierarchicalTextSpotter2024}, and the Detectron by Meta~\cite{Detectron}.
+ However, due to the catalogue-specific problem illustrated in Figure~\ref{image:hardsentence}, it is likely that these 
+ models would require well-optimized fine-tuning to work well. Experimenting with such implementations is a 
+ substantial effort and was omitted from this work to keep the scope reasonable.
+
+% % improving MPI/upperlower classification (not as hard so not as relevant perhaps)
+% ways to improve the result of image classification obtained here 
+% test svm after feature extraction instead of the dense layers + softmax. My most recent model was from (insert year),
+% since then imagenet classification has advanced, so try using a newer base model. these can be harder to obtain 
+% since they are not as established, I could just fetch models from torchvision.models, newer ones are not present there.
+% with a good object detector probably we can get to more variaty of tooth marking images (maybe a fig of examples?)
+% so the classification task would become more complicated. Still, the downstream tooth marking image to tooth task 
+% is a relatively easy classification problem comparing to eg imagenet, so the main challenge is definitely finding words and
+% classifying them to tooth or not.
+Another possible line of extending the work would be improving the accuracy of the image classification to tooth type. 
+Some ideas are to use a support vector classifier instead of fully connected layers combined with the softmax activation 
+on the last layer, and to experiment with more recent ImageNet classifiers with better top-5 and top-1 error rates.
+However, using the newer models would require more effort since good pretrained weights are 
+more difficult to find for the less established models, and there is less evidence of their applicability to downstream tasks.
+Improving the model would still be highly useful, since a more sophisticated word object recognizer would result in a more 
+variable set of tooth marking images to be given to the tooth type classifier, making its classifying problem much more difficult. 
+Still, the object detection problem should be given more attention since even the 
+potential harder variants the dental marking classification task are relatively simple image classification problems when comparing 
+them to challenges such as basic ImageNet classification.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.3]{../images/yoloresult.png}
+    \caption{Preliminary object detection test with the YOLO-10 object detector using the Hugging Face inference API~\cite{OmouredYOLOv10DocumentLayoutAnalysisHugging2023}.}
+    \label{image:yolo}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.8]{../images/hardwordsegmentation.png}
+    \caption{Example of a sentence hard to segment to words without context knowledge}
+    \label{image:hardsentence}
+\end{figure}
 
 \printbibliography
 
