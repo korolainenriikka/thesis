@@ -502,12 +502,29 @@ Frontiers in Handwriting Recognition
 
 Notes on choices: there is math OCR and music OCR, but they use large datasets and no transfer learning, they dont suffer from the limited target data problem. Also, the problem domain is too different from my problem to be informative.
 
-\subsection{Approaches to digitization of handwritten archival data}
+\subsection{Approaches to digitization of handwritten fossil data}
 
-obvious solution: sit down and type
+\cite{uhenCardCatalogsComputers2013} reviews various digital paleo data portals. encourages further digitization but 
+does not really mention how one should go about doing that
 
-other solutions: none, some digitization stuff exists but that is 3d imaging of physical specimens
-or classifying images of specimens to eg taxa
+\cite{mallisonDigitizingMethodsPaleontology2011} review of digitizing fossil data. only considers digitizing 
+physical bone pieces to various 3d images. does not take any stand on digitizing handwritten notes on the samples 
+
+\cite{groomImprovedStandardizationTranscribed2019} does identify my problem here: most fossil data is in handwritten paper 
+format with many things already known such as taxon. gives suggestions on data format and management but mostly assuming 
+that there is a human transcriber. presents ocr reading as a possibly one day possible option. closest to automation 
+known in this work was making imaging of physical samples more efficient with a conveyor belt system, which has nothing to 
+do with handwriting ocr. Notes that especially cleaning of automated ocr read data is a hard problem.
+
+only work doing the exact same thing: \cite{shanmugavelHandwrittenOpticalCharacter2018}, but quality of the work is very poor, only 
+presents rudimentary very basic general aspects of image processing such as canny edge detection or contour detection from characters, 
+which is very very far away from working ocr. the paper lists absolutely no results but is an evidence that someone has somewhere at least 
+attempted this.
+
+So: to the best of my knowledge there is no other work successfully reading handwritten fossil scans or cleaning 
+already automatically read systems outside of 2024 spring data science project for KNM, for which this is the 
+continuation. therefore also here i will do the simplest things first, since it is a good idea to start with simple and 
+once successful, proceed to harder problems that would digitize and clean more data.
 
 \subsection{Approaches to character recognition with small target domain datasets}
 
