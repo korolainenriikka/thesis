@@ -11,6 +11,8 @@
 \usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 
 \addbibresource{../bibliography.bib}
 
@@ -151,6 +153,7 @@ results of the experiments are presented and discussed. Finally, the work is con
 \subsection{Paleoenvironmental reconstruction}
 
 \subsection{Composition of mammal teeth}
+\label{sect:mammal_teeth}
 
 %Fossils occur when animal / plant remains are deposited in a sediment in a way that preserves 
 %some part of its original form. Since teeth are the hardest material in animals, large fraction
@@ -280,14 +283,45 @@ Neural networks are multivariate functions that share a specific form.
 The function parameters, usually floating-point numbers, are called weights and are organized in groups called layers.
 The first layer is called the input layer, after which there are multiple hidden layers, followed by the output layer.
 Weights of adjacent layers are combined by activation functions, that are constrained to nonlinear functions with 
-scalar inputs and outputs \cite{princebook}. Simplest of the activation functions is the rectified
-linear unit ReLU, shown in Equation~\ref{eq:relu}. A neural network is usually visualized with a graph structure, as seen in Figure TODO, where a node represents a 
+scalar inputs and outputs~\cite{princebook}. Simplest of the activation functions is the rectified
+linear unit ReLU, shown in Equation~\ref{eq:relu}. A neural network is usually visualized with a graph structure, as seen in Figure~\ref{image:neuralnet}, where a node represents a 
 weight, and an edge denotes that the value on the first layer is used to compute the value on the latter.
 
 \begin{align}
-\text{ReLU}(x) = \max(0, x)
-\label{eq:relu}
+    \text{ReLU}(x) = \max(0, x)
+    \label{eq:relu}
 \end{align}
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[->, shorten >=1pt, auto, node distance=1.5cm, main node/.style={circle, draw, minimum size=0.8cm}]
+
+        \node[main node] (x) {$x$};
+        \node[main node] (h1) [right of=x, xshift=1cm, yshift=1cm] {$h_1$};
+        \node[main node] (h2) [right of=x, xshift=1cm] {$h_2$};
+        \node[main node] (h3) [right of=x, xshift=1cm, yshift=-1cm] {$h_3$};
+
+        \node[main node] (h1') [right of=h1, xshift=1.5cm] {$h_1'$};
+        \node[main node] (h2') [right of=h2, xshift=1.5cm] {$h_2'$};
+        \node[main node] (h3') [right of=h3, xshift=1.5cm] {$h_3'$};
+
+        \node[main node] (y) [right of=h2', xshift=1cm] {$y'$};
+
+        % Edges
+        \foreach \i in {1, 2, 3} {
+            \draw (x) -- (h\i);
+            \draw (h\i) -- (h1');
+            \draw (h\i) -- (h2');
+            \draw (h\i) -- (h3');
+        }
+
+        \foreach \i in {1, 2, 3} {
+            \draw (h\i') -- (y);
+        }
+    \end{tikzpicture}
+\caption{Visualization of a neural network with scalar input and output, and two fully connected layers, redrawn after~\cite{princebook}.}
+\label{image:neuralnet}
+\end{figure}
 
 % - feed forward
 % network computes output from input with the feed forward.
@@ -340,13 +374,22 @@ this theoretical optimum is rarely reached.
 Examples of input-output mappings relevant in this work are the following, 
 ordered from simplest to most complex: tooth type classification, constrained multilabel classification, 
 and sequence-to-sequence learning. The problem of tooth type classification takes in an input image of a dental marking,
+% this figure: see first all background & what samples are needed from tooth data...
 such as input in Figure TODO a, and decides which tooth the image denotes.
 As mammals have up to eleven teeth on each side of two jaws, the classes would be 
 these 44 teeth, such as 'rm1', 'lP4' or 'li2', using the computational notation presented in
-Section TODO ref mammal teeth. The network would output a 44-element discrete probability distribution 
-obtained by using the softmax function~ref{eq:softmaxTODO}, where each value notes the probability that the image contains 
+Section~\ref{sect:mammal_teeth}. The network would output a 44-element discrete probability distribution 
+obtained by using the softmax function (Equation~\ref{eq:softmax}), that takes as input the last layer output
+values and returns an output layer vector of the same length but with values between zero and one and summing to one, 
+thus a valid probability distribution.
+Here, like in other classification tasks, each value notes the probability that the image contains 
 the tooth this value is chosen to represent. The final output would then be the largest probability
 found in this vector.
+
+\begin{align}
+    \text{softmax}_k[\mathbf{z}] = \frac{\exp[z_k]}{\sum_{k'=1}^{K} \exp[z_{k'}]},
+    \label{eq:softmax}
+\end{align}
 
 % multilabel classification problem:
 % image of tooth sample. output: first MIPC, second if it is upper or lower jaw
@@ -646,8 +689,48 @@ Transformation invariance refers to the fact that morphing an image usually keep
 rotating it, coloring it red, or squishing it still preserves the fact of it being a letter A. Local relatedness 
 encodes the fact that pixels that are next to each other are much more likely to have same intensity values than any other 
 values, and that the pixels cannot be shuffled without losing meaning. A visualization of these assumptions can be found in 
-figure TODO (grid with two image pairs: one that has a translated, rotated, squished letter a, one that has letter a pixels shuffled)
+Figure~\ref{fig:conv_assumptions}.
 
+\begin{figure}[h]
+    \centering
+    \resizebox{0.6\linewidth}{!}{%
+        \begin{minipage}[b]{0.45\linewidth}
+            \centering
+            \includegraphics[width=\textwidth]{../images/snowfall.png}
+            \subcaption{An image with no nearby pixel similarity, such as this image made up of random numbers, is assumed to never occur among real-world images.}
+            \label{fig:snowfall}
+        \end{minipage}
+        \hspace{0.5cm}
+        \begin{minipage}[b]{0.45\linewidth}
+            \centering
+            \includegraphics[width=\textwidth]{../images/cataloguesample.png}
+            \subcaption{In a real image, most pixel colors are almost equal to neighboring pixel values. Segment from 
+            the Fort Tenan Catalogue of the National Museum of Kenya.}
+            \label{fig:snowfall2}
+        \end{minipage}
+    }
+
+        \vspace{0.5cm}
+
+    \resizebox{0.6\linewidth}{!}{%
+        \begin{minipage}[b]{0.45\linewidth}
+            \centering
+            \includegraphics[width=\textwidth]{../images/molar.png}
+            \subcaption{Transform invariance: the original tooth notation sample...}
+            \label{fig:snowfall3}
+        \end{minipage}
+        \hspace{0.5cm}
+        \begin{minipage}[b]{0.45\linewidth}
+            \centering
+            \includegraphics[width=\textwidth]{../images/rotated_molar.png}
+            \subcaption{... still keeps its meaning of lower third molar after a transform}
+            \label{fig:snowfall4}
+        \end{minipage}
+    }
+
+    \caption{Visualization of the similarity and transform invariance assumptions encoded in the convolutional layer computation.}
+    \label{fig:conv_assumptions}
+\end{figure}
 % % what is a convolution, todo: notes
 The convolution operation is filtering with cross correlation.
 
@@ -728,6 +811,13 @@ The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Fig
     \label{image:meme}
 \end{figure}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.6]{../images/famouscnns.png}
+    \caption{Architectures of AlexNet~\cite{alexnet}, GoogLeNet~\cite{googlelenet}, and VGG-16, the 
+    VGG model variant with 16 layers~\cite{vgg}, from~\cite{zhangImagebasedMethodsDietary2023}}
+    \label{image:famouscnns}
+\end{figure}
 
 \subsubsection{Transformers and the multi-head self-attention}
 
