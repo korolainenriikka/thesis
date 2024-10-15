@@ -85,12 +85,15 @@ questions has become ever more pressing.
 To find answers to large-scale problems, more sophisticated computational data analysis methods have come about,
 relying on large datasets. Due to the infeasibility of collecting stacks of fields slips across sometimes multiple 
 continents, specimens residing in archives of institutions have been converted to digital, public databases.
-One such institution is the National Museum of Kenya that holds a large fraction of data collected from one 
-of the most valuable fossil sites globally, the lake Turkana. The digitization effort was started by
+One such institution is the National Museum of Kenya, holding a large fraction of data collected from one 
+of the most valuable fossil sites globally, the lake Turkana. The sheer amount of physical samples in the museum storage
+makes keeping them safe a significant challenge, a risk to global heritage now recognized even by the White House and 
+the United Kingdom government, as reported by the Wall Street Journal \cite{hotzMuseumOverflowingPrehistoric2024}.
+ A project digitizing the handwritten catalogues hosted by the NMK was started by
 using commercial optical character recognition software, combined with heuristical and machine learning approaches, 
 resulting in satisfactory accuracy on conventional handwritten text. However, a large hurdle in the existing 
 approach were the special characters used to denote which teeth each specimen contains. The aim of this work is 
-to digitize these markings accurately.
+to continue the project by digitizing these markings accurately.
 
 % explanation of the specific problem
 %given scanned images and data with bounding boxes of sentences and words where tooth denoting words are 
@@ -683,7 +686,7 @@ computational resources to training further and with more data \cite{alexnet}.
 % translation invariance and smoothness (snowfall and an image, m and 1 pixel shifted m)
 
 The two main pieces of prior knowledge encoded to the convolutional layer computation
- are invariance to transformations and local relatedness of pixels.
+ are invariance to transformations and local relatedness of pixels \cite{princebook}.
 Transformation invariance refers to the fact that morphing an image usually keeps the semantic meaning: for instance
  moving a letter A in an image, 
 rotating it, coloring it red, or squishing it still preserves the fact of it being a letter A. Local relatedness 
@@ -731,11 +734,70 @@ Figure~\ref{fig:conv_assumptions}.
     \caption{Visualization of the similarity and transform invariance assumptions encoded in the convolutional layer computation.}
     \label{fig:conv_assumptions}
 \end{figure}
-% % what is a convolution, todo: notes
-The convolution operation is filtering with cross correlation.
 
-% % size changes & pooling operations. todo: notes
-Cnns usually do vary the size of the weights a lot and for this pooling is used.
+%the basic convolution
+% convolution (cross-correlation)
+% you have input and kernel. input: image matrix (2d) kernel: 2n+1 sized matrix (uneven to make it center around the input pixel processed)
+% kernel slides like a sliding window through the input. for each middle position of the kernel:
+% result is the dot product of the pixels in equal positions, eq 10.6
+% if the image is rgb, kernel is 3d with depth 3. (bike fig 10.10 here)
+The layer output computation on a convolutional layer is similar to the fully connected layer computation
+presented in Equation \ref{eq:fc_layer}, but takes as input only a small region around each pixel instead of 
+the whole input, and uses same weight parameters on all input positions. To achieve this, the weights of the 
+layer only consist of a kernel, a small 
+matrix of weights with uneven-numbered size in both the width and height dimensions \cite{princebook}. During the computation, the kernel 
+acts as a sliding window, moving through every possible position on the input image. For each kernel position, an output 
+value is produced by computing the dot product between the kernel and the kernel-sized input region around the processed position, and as usual, a bias term is added and the result is passed through the nonlinear activation function.
+An example of this basic convolution operation on a grayscale image with kernel size 3x3 is given in Equation \ref{eq:convolution}. 
+For a colored image with three color channels, the kernel becomes three-dimensional. An illustration 
+of such case is found in Figure \ref{image:3dkernel}.
+
+\begin{align}
+    h_{ij} = a \left[ \beta + \sum_{m=1}^{3} \sum_{n=1}^{3} \omega_{mn} x_{i+m-2, j+n-2} \right],
+    \label{eq:convolution}
+\end{align}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.4]{../images/3dkernel.png}
+    \caption{An illustration of a convolution computation in the case of a color image, from \cite{princebook}.}
+    \label{image:3dkernel}
+\end{figure}
+
+% % variants of the convolution: design decisions
+% aspects: borders, channels, convolution size, dilation and stride
+% default variant reduces size because border pixels cannot be used
+% to combat that:
+% zero or reflective, padding to keep output and input sizes equal, or valid convolution: dont compute positions where there are not enough previous inputs to use the whole kernel
+% channels: run many convolutions in parallel -> more convolution kernel weights to learn
+% size stride and dilation, figure 10.3
+% size = kernel size
+% stride = step between kernel computation
+% dilation = kernel is interleaved with zeros, large region but less weights
+% stride dilation size fig here
+In implementing a convolutional layer, a few design decisions need to be made: how to handle border 
+pixels, choosing a channel count, and the shape of the convolution kernel \cite{princebook}.
+For the bordering pixels, where some kernel pixels fall outside of the 
+input matrix, the options are to skip these computations, pad the input with zeros, or to pad the input 
+by mirroring bordering pixels, the main difference of these being that not padding the input creates a 
+result smaller than the input matrix. For the channel count, it has been found that sometimes 
+running multiple convolutions side by side creates better results, and the optimal choice of channel count is 
+application-dependent. The resulting channels are much like the familiar red, green and blue in an image, but do not 
+have any human-decipherable meaning. Lastly, considering the kernel, three aspects need to be chosen: size, stride and dilation.
+Size refers to, intuitively, the height and width of the kernel. The stride, commonly 1, controls by how many pixels the 
+kernel is slid forward after each activation computation shown in Equation \ref{eq:convolution}. With dilation, the kernel itself 
+is sparse: the weights are interleaved with a desired count of zeros. This allows for larger kernels without increasing parameter counts \cite{princebook}.
+
+% % pooling
+% usually conv layer followed by pooling layer
+% pooling
+% usually networks are constructed so that  layer by layer layer width decreases and has more depth (more channels, like red green and blue but not with this meaning)
+% changing size more than by the few pixels present at image edges: max pooling. take maximum of 2x2 area, collect these values as the output activations. other, less popular variants: mean and average pooling
+Usually, a convolutional layer is followed by a pooling layer. The pooling layer adds more nonlinearity to the network, 
+and allows halving the layer size. The most common operation is the max pooling operation, where each output pixel is the maximum of
+a 2x2 are in the input. Other, less popular operations include the mean and average pooling operations, where the output naturally 
+is the mean and average of the small area, respectively. These operations allow for the common structure of convolutional networks, 
+where the layer width and height progressively decrease as the computation proceeds \cite{princebook}.
 
 % relevant here: present the ImageNet competition that has initiated many new architectures.
 % % history bit: imageNet breakthrough models alexnet, googlelenet, vgg
@@ -802,7 +864,7 @@ further classification tasks. While the
 best top-5 accuracy of 7,3\% ended up with a second place in the ImageNet 2014 competition, the  structural simplicity
 and diverse learning capacity of the VGG models had a major influence on later deep learning research.
 
-The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Figure TODO.
+The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Figure \ref{image:famouscnns}.
 
 \begin{figure}[h]
     \centering

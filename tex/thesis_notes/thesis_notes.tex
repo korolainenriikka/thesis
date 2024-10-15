@@ -53,6 +53,10 @@ badly read, how can tooth element recognition results be improved? Goal is to ha
 % brief review of standard solutions to this (or related) problem(s) and their limitation in this case (incl. reference key papers)
 % TODO, once literature review is done
 
+new for intro 
+
+motivating why this is relevant, wsj article \cite{hotzMuseumOverflowingPrehistoric2024}
+
 % outline of the new solution
 % TODO, likely: tooth or not classifier -> trocr or tooth classifier -> output concatenation
 
@@ -379,14 +383,30 @@ do not consider input value positions in input vector, how near or far from each
 
 practical use: less parameters required -> less computational complexity
 
-% what is a convolution, todo: notes
+%the basic convolution
 convolution (cross-correlation)
-explain stride ie filter sparsity
+you have input and kernel. input: image matrix (2d) kernel: 2n+1 sized matrix (uneven to make it center around the input pixel processed)
+kernel slides like a sliding window through the input. for each middle position of the kernel:
+result is the dot product of the pixels in equal positions, eq 10.6
+if the image is rgb, kernel is 3d with depth 3. (bike fig 10.10 here)
 
-image size on each layer is fixed \cite{vgg}
+% variants of the convolution: design decisions
+aspects: borders, channels, convolution size, dilation and stride
+default variant reduces size because border pixels cannot be used
+to combat that:
+zero or reflective, padding to keep output and input sizes equal, or valid convolution: dont compute positions where there are not enough previous inputs to use the whole kernel
+channels: run many convolutions in parallel -> more convolution kernel weights to learn
+size stride and dilation, figure 10.3
+size = kernel size
+stride = step between kernel computation
+dilation = kernel is interleaved with zeros, large region but less weights
+stride dilation size fig here
 
-% size changes & pooling operations. todo: notes
-max pooling / average pooling operations
+% pooling
+usually conv layer followed by pooling layer
+pooling
+usually networks are constructed so that  layer by layer layer width decreases and has more depth (more channels, like red green and blue but not with this meaning)
+changing size more than by the few pixels present at image edges: max pooling. take maximum of 2x2 area, collect these values as the output activations. other, less popular variants: mean and average pooling
 
 % history bit: imageNet breakthrough models alexnet, googlelenet, vgg
 historical scetch: alexnet \cite{alexnet} brought this to mainstream in 2012, imagenet 2014 saw GoogleLeNet \cite{googlelenet} and VGG \cite{vgg}.
