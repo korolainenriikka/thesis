@@ -1,18 +1,14 @@
 Things to test
-
-MIPC model
-upper lower model
+ 
+- miks malli on dummy
 
 ways to improve
-- better base model. test VGG16 & alexnet (now: loaded & froze the model, prepped data
-    alexnet with mpi, next up: set up proper data augmentation
-    then: implement training & validation loop -> train
+- vgg 16
+- gpu (!!!)
+- proper data augmentation; do things that make sense 
+    - from alexnet: intensity based, random crop, translation
 - get more data (test accuracy should be obtainable up to .5% level so preferably at least 200 test samples.)
 - hyperparameter optimize (test if parameter transfer applying (ie not changing hyperparams) is a good idea in this case)
-- try to segment out the letter
-- proper data augmentation; do things that make sense 
-    - from alexnet: encode prior of intensity invariance by doing intensity based data augmentation
 
 extra things to do to improve
 - more data
-- balance upper lower perfectly
