@@ -889,6 +889,7 @@ The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Fig
 \label{sect:heuristics}
 
 \subsection{Transfer learning}
+
 % % introduction
 % relation to the coarse level training loop: how to initialize model parameters
 % this sect from \cite{transferlearning_survey}. they initially formalized the problem and uniformized 
@@ -898,20 +899,26 @@ The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Fig
 % basics: what it is, basic premise: if you start out from a parameter configuration that solves a related 
 % task well, there is lesser need to train to solve the new problem \cite{transferlearning_survey}.
 % why: save compute (imagenet models vgg lenet alexnet training times 5 days to 3 weeks even when using GPUs \cite{vgg}) and data labeling (usual constraints in ml model building \cite{engbook})
-% also why: training many parameters on a dataset overfits model to the dataset, so freezing layers prevents overfitting \cite{googlelenet}
+% also why: training many parameters on a dataset overfits model to the dataset, so freezing layers prevents overfitting \cite{googlelenet},
+% optimization idea: using pretraining that makes sense, you start from a parameter configuration in a 'basin of attraction'
+% of a good minimum \cite{erhanWhyDoesUnsupervised2010}, ie a place where gradients point toward a good local minimum
+%     training is strongly influenced by early examples so pretraining prevents overfitting to the supervised task 
+%     get sgd trapped in a parameter space that is better so resulst is better even when target data is abundant \cite{erhanWhyDoesUnsupervised2010}    
 
 % % types of transfer learning
 % inductive transfer, transductive transfer, instance transfer, relational knowledge transfer
 % task (inductive) transfer: tasks differ, data same or different
-% task transfer relatedness + the more related the better results, negative transfer ie things made worse if 
-% things differ too much.
-%     catastrophic forgetting = forgetting the previously learned after finetuning
+% task transfer relatedness + the more related the better results
+%     negative transfer ie things made worse if things differ too much.
+%     super important to consider the distance of transfer ie how similar the tasks are
 % broad methods for inductive transfer: feature representation transfer, parameter transfer; priors or hyperparameters of model are assumed to be shared,
 % instance transfer: reuse source data
 % domain (transductive) transfer (only data differs)
 % central idea in all of these: model first n-1 layers is a feature extractor
 % seeing model as model doing the feature engineering: all but last layer are like 
 % feature extraction that allows a linear model to be fit from features to output.
+%     first layers learn lower level features, higher up more high level \cite{erhanWhyDoesUnsupervised2010}, so how much to freeze is about how
+%     high level features are usable     
 % relational-knowledge-transfer: when data is not i.i.d (not considered here)
 
 % % using the terminology from  transfer learning, define my problem
@@ -926,7 +933,29 @@ The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Fig
 % therefore this work definitely transfer learns. also previous work that does not transfer learn is dismissed, 
 % as it does not inform this case where target data is scarce
 
-\subsubsection{Foundation models}
+% \subsubsection{Foundation models}
+
+% % - generalist models
+% % 	- large unsupervised training data sets
+
+% % why
+% Idea: since transfer learning source task performance is not important, target task is the main point \cite{transferlearning_survey}, 
+% you can come up with some nonsensical task such as map image to the same image to get unsupervised task, train 
+% massively on massive compute, and use the model for varieties of tasks. idea: do as little as possible in the target domain
+% because labeling is the expensive thing \cite{engbook}, this helps because unsupervised or selfsupervised allows 
+% however many labeled samples one wants.
+
+% % what
+% come up with task with no value in itself but learns useful features. eg identity mapping in autoencoders,
+% mask a part of an image and fill it in, get in a pair of images and say whether they are a transformation of one another.
+% save the pretrained model, can be used with transfer learning in manymany tasks
+% \cite{erhanWhyDoesUnsupervised2010}: why unsupervised pretraining works so well
+% analytical analysis: seems to act as a regularizer
+% generalization is better: intuition, model has seen a much larger variety of data 
+
+% % ocr
+% well this is used in ocr as well.
+% so you would take some model trained on a large mass of data and then fine tune it on the characters
 
 \section{Related work}
 
