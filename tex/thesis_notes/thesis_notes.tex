@@ -781,31 +781,30 @@ layer is based on the previous. so never in experiments have a frozen layer belo
 % summary of chapter
 % takeaway points
 
-table of results could contain:
-rows: base models tested 
-columns: transfer learning method 
-
-transfer learning methods could include 
-
-just training further (ie baseline, dont do anything special)
-
 train the last layer (inspo from \cite{tibetan_ocr}, test hypothesis of reusing feature extractor)
 what else? find from literature!
-
-train unsupervised autoencoder on the target data (reduces domain transfer distance),
-transfer to supervised classification task
 
 cleaning data from original format with gaussian blur and otsu thresholding surprisingly did not 
 change results much 
 
 augmentation to balance classes resulted in a 10\% increase in tooth type classification accuracy 
-using a simple translation. translation also makes sense since that is the main variable changing 
+using a simple translation, with mnist base model. translation also makes sense since that is the main variable changing 
 between images, zoom or rotation changing is more rare as these are scans.
 
 initial phase experiments: mnist transfer to mpi since it was thought to be a similar problem. 
 however like noted by \cite{alexnet}, real world image classification is much more complex than digit classification 
 as the benchmark images are ideal cases with eg perfectly even background. Therefore later phases 
 experimented with transfer from imagenet classifiers since that is what most of papers in related work also did.
+
+start with most common ie cnn, most common transfer method ie freeze all but last layer 
+
+test both mnist and imagenet transfer 
+best acc with mnist base: 89.
+
+alexnet without any hyperparameter tuning with imagenet weights: immediately 100 percent on mpi,
+upperlower surprisingly harder, 95 percent
+
+training vgg is slow
 
 \section{Conclusions}
 
