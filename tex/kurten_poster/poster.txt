@@ -1,0 +1,39 @@
+Use a consistent font throughout the poster and make sure it is one that is clear and readable (make the font nice and large)
+Try not to overload the poster, so keep text minimal and use lots of illustrations (~50% or more of the total poster area)
+Try not to use abbreviations or acronyms, or explain them if you do
+Make it clear what direction you want the audience to read the poster in e.g. through arrows or the use of columns and rows
+Include references somewhere on the poster
+
+mitä voisin laittaa
+
+input data
+kuva katalogista & jsoneista
+(vasen ylä)
+
+table inference
+kuva miten suunnilleen tehtiin taulukko (vasen oikee)
+
+element record postprocessing
+high level pipeline kuvina (alavasen)
+
+tooth classifying
+malli kuvana esim. alexnet, sit sillee unfreezattuna vikat connectionssit ja input ja output
+esimerkiksi upper lower (alaoikee)
+
+end result taulukko
+alin keski
+
+name address acknowledgements etc (alin rivi keski)
+Riikka Korolainen
+
+Institutional address
+University of Helsinki, Faculty of Science
+P. O. Box 68 (Pietari Kalmin katu 5)
+00014 University of Helsinki
+
+Acknowledgements
+Data Science project supervision: Kari Lintulaakso (LUOMUS), Stephen Maikweki (ICT officer, National Museum of Kenya. Data Science project group: Max Väistö, Riikka Korolainen, Janne Tuukkanen, Yinong Li and Axel Wester. Thesis supervisor: professor Indr˙e ˇZliobait˙e
+(University of Helsinki, Department of Computer Science)
+
+single main goal
+people understand the process of creating tabular database from table drawn on paper, end to end.
