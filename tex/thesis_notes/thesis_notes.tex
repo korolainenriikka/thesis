@@ -575,103 +575,227 @@ once successful, proceed to harder problems that would digitize and clean more d
 
 \subsection{Approaches to character recognition with small target domain datasets}
 
-method: snowball search. for a paper to be accepted for use here, i set up these requirements:
-lists best accuracy clearly (percent, which dataset, number of classes)
-specifies the base model used (architecture and source domain dataset)
-specifies how transfer learning was conducted (not just used transfer learning)
-then reputable venue and acceptable quality of text and presentation, super subpar text was a frequent reason to skip a paper, they also often lacked relevant details
+review 11 key papers 
+
+present summarizing table of key papers
+
+end of section: summarize to choose what is experimented with
+these vary most in what is the base model and which layers are frozen
+base models
+always imagenet so i will do the same.
+what is the most common solutions
+    imagenet cnn + transfer
+what are unusual solutions given my prior knowledge
+    solutions that don't make sense (freezing a layer below an unfrozen layer)
+        at least this solution lacks a feature representation related or analytical explanation why it works
+    less common ml approaches
+        unsupervised pretraining
+            autoencoder skipped to scope down as it is not that popular of an approach
+        transformer based models
+            but I know transformers outperform cnns on imagenet tasks, therefore I should test transformers as well
+layer freezing 
+    variants in papers:
+    so I test:
 
 \section{Experimental setup}
 
-% introduction to chapter
-% this chapter presents how the tests ran for this thesis were conducted
+introduction paragraph: the point of these experiments
+the hypothesis: doing the pipeline approach and classifying teeth to types with a series of models
+will result in highly accurate cleaned tooth data
+    verify that this is possible
+    experiment with base models and layer freezing to find best accuracy score
+overview of chapter
+    first: formulate the problem ie how to interpret the ambiguous goal of "clean element description tooth markings"
+    to a x to y mapping that can be taught to a deep neural network
+    then: describe how catalogue scans are transformed to a training dataset
+    last: describe training setup: which models are trained in what ways exactly
 
-\subsection{Data description}
+\subsection{Problem formulation}
 
-has been done by different annotators, no logs on who logged what, everyone 
+point of this section:
+present the data and how it should be processed
+explicitly state the goal of the work, deduce which x to y mapping, to be 
+taught to a machine learning model, is best hypothesized to solve the goal
+
+\subsubsection{Data and goal description}
+% what data we are talking about, what has been done, what is my goal now
+
+what the catalogue is exactly
+tabular handwritten log of fossils
+element description column (which part of the animal)
+    handwritten notation from time before standardized computers, so very variable writing with no notation standard
+        -> rare surprise characters occur (eg 1/2 as a one half of a tooth noter)
+photo-to-tabular has been done but:
+    teeth have errors in ocr output (eg tooth types that are not m p i or c)
+    upper lower jaw is unknown since ocr used in table (azure) cannot read up/low jaw notation
+
+my goal
+with the catalogue is to take an element description (give sample image).
+of this description, i should find what teeth are mentioned, and list them as a tuple 
+in another column. (give what teeth there are) and put the cleaned teeth to 
+the description instead of the not clean word
+to aid in this i have also the generalist OCR ouputs from azure
+why standardize
+    you can eg query in a database for all molars in the data 
+    if you for example want to study dental traits present in molars only, such as tooth surface wear.
+
+so: we have the vague goal of catalogue to cleaned element description with teeth tuple extracted.
+
+% vague goal to x -> y
+
+different types of defining inputs and outputs, discussion on what to choose
+generality ease trade off: constrain to simple input output relation causes model to be 
+more accurate (it can be given more prior information on what is present), but less applicable 
+to variability in data.
+example of very constrained setting
+    input: perfect images of teeth letters
+    output: letter
+example of a very unconstrained setting
+    input: the whole catalogue image
+    output: a tabular dataset of all text there perfectly cleaned no matter the anomalies
+A balance between the extremes, closer to the easy side
+why we went for more simple approaches first
+    because the part of data that can be digitized with the tightest constraints and the simplest models are most accurate. Do that first, deal with the remaining later
+    better to clean small subset of data well than large amount of data badly.
+    also: not much done before so it is better to start out simple and build from there
+
+first question: is the input the whole phrase, words or characters? next question
+
+\subsubsection{Sequence or character-by-character recognition}
+
+sequence definition: image to variable-length phrase (text in the image)
+word per word approach, inspired by \cite{tibetan_ocr}:
+    input is image of one word
+        one tooth = one word
+    output is the text on the image
+    chain of models, inspired by \cite{tibetan_ocr}: take in image, tooth or not
+        (tibetan: classify which script style, then recognize so classifier chaining)
+        if tooth give to tooth classifier 
+        if not tooth give to basic word reader
+character by character approach: input character image, output character 
+    we cannot do this because there is no readily made segmentation of image to characters 
+    would also not make much sense because tooth notation letter and number should be kept together
+    -> choose between sequence and word
+
+sequence benefits:
+    adaptable to many kinds and lengths of input
+    also clean the nontooth word outputs at the same time
+
+sequence bad sides:
+    finetuning just one layer on 80 training images for two epochs took about 15 minutes of \cite{li2021trocr}
+        -> all hyperparameter optimization etc is out of question with this heavy training.
+    finetuning on images with tooth data caused errors on words that 
+        (give a sample of confused reading attempts: leftleftleftleft)
+    inductive transfer learning is the case here, target task differs from source task
+        the target set of characters has changed
+            Encoding this to the large encoder decoder transformers would 
+            require rewriting parts of the preprocessor and model which is too complex given the level of this work.
+                only adequately accurate models are large collaboration efforts to create so code is complex 
+                eg trocr is by Microsoft employees
+
+word by word benefits
+feasible given available data and computing resources
+possible to encode the tooth type classes, eg have a class "third molar"
+classifying characters has been essentially solved, easy problem 
+also classifying to tooth or not tooth should be easy 
+
+word by word bad sides
+    not as flexible
+
+so, word by word. next: formulate image of word to correct output more precisely
+
+\subsubsection{Tooth notation image classification}
+
+approach: tooth or not tooth. then classify teeth. 
+not tooth straightforward: use azure output
+tooth less straightforward, topic here
+
+formulation of tooth image to tooth type
+    univariate: m1,m2,m3,p1,p2,p3,p4,c,i1,i2,i3 up and low (22 classes)
+        -: does not encode that all m's share letter m, all ups share traits
+        we have kinda three separate problems: 123, updown, mpic. this does not encode that 
+        but states we have one problem with 22 possible, separate solutions with no relations between solutions
+            (all classes are equally dissimilar to each other) --> incorrect encoding of prior knowledge
+    alternative multivariate: up/down, MPIC, 1234
+        input image, output three vectors: updown, mpic, 1234
+            -: multiclass classification general case does not work like this 
+                general case is like image can have a dog and a cat, but here an image cannot be m and i \cite{multilabel_classification}
+                    so this is special grouped classification -> less prior work as problem is more unusual 
+            -: no such thing as a 3rd canine 
+                so not all variable combinations are possible. no easy well established way to encode that to the model 
+                    what will we do if the model thinks its a 4th canine?
+
+    model ensemble/ chained classifiers to the rescue
+        separate models. mpic model, updown model, m1m2m3 model, i1i2i3 model, p1p2p3p4 model
+            simplify the problem of each model
+            encode the fact that equal likelihood for M to be lower or P to be lower
+            problem is more alike the literature reviewed
+            separate index model to encode
+                the no 4th molar prior
+                model does not learn index number based on what the letter is by keeping letter not changing
+
+not inspired from any paper but my own idea, felt like a sensible way to formulate the problem, 
+so we have for all models a well-solved well-defined basic classification problem. partly inspired by \cite{tibetan_ocr}, though
+
+reason for this choice: it encodes most prior knowledge in the output structure, use as much from azure as possible
+    act according to premise of transfer learning: utilize all prior knowledge, fine tune your approach to problem as little as possible
+
+\subsubsection{The proposed pipeline}
+
+summary: the pipeline
+split catalogue to word segments by azure bounding boxes 
+classify each word: tooth notation or not?
+if not tooth output azure output
+if tooth   
+    give to m p i c model
+    give to upper lower model 
+    if m
+        give to m1 m2 m3 model
+    if p
+        give to p1 p2 p3 p4 model
+    if i
+        give to i1 i2 i3 model
+    return index type upperlower combined
+    note: left right ignored for now as it is more complex (l lt left, not always right before word)
+then collect all teeth to tuple 
+then concatenate description back       
+
+\subsection{Creating the training dataset}
+
+new
+regular expressioning, mention () ,
+data from all catalogues to have as versatile notation as possible -> hardest possible dataset
+data balancing
+segmentation and coloring out white area idea 
+    but im not doing that since nn is supposed to be the best feature extractor
+grayscaling by putting same color channel 3 times to fit imagenet model input shape
+
+old
+
+has been done by different but few annotators, no logs on who logged what, everyone 
 had a bit different style of notating. also no clearly defined standard 
 for notating specimens. so might be that actual data used will have 
-characters or words not present in any data, causing errors.
-
-
-Identicality also causes that sometimes tooth fossils are misidentified to 
-the wrong side, seen in data with smudged over l's and r's
-
-Catalogues have lines between entries. challenge for the model to not mark these as underlined
-in these cases the line is long and spans the entire image, so it should be distinguishable from 
-a single underlined character.
+characters or words not present in training set
 
 difference to other domains of big data:
 each fossil sample is expensive and human laborous to obtain, thus "big" sample is 
 small compared to other ml applications, 1000 is a lot 10k huge.
 
-\subsubsection{Notes on creating the dataset}
-
-Hand-labeled
+Labeling: assume that azure reading is correct where reading is a valid tooth notation
 
 Data was extracted from scans by getting bounding boxes from Azure Vision API,
 finding the correct column (nature of specimen or element), and cropping the image 
 according to bounding boxes.
 
-Non-tooth samples were not discarded since they contain 
-bone fossil related words and good samples of the handwriting style of this dataset.
-
-smudged-over "L" was labeled as "R", and other way around: it seems that later 
-someone found it was the opposite side after all. Hope of this is that the model 
-would learn to map "messy L" as "R". snudged "left" or "right" was not noted as the 
-opposite as there were too few such samples.
-
-Superscript seems much more rare than lower script
-
-Data was labeled not by individual characters but as full tooth descriptions
-to preserve context where tooth special characters are more likely to occur
-
 Some have been corrected by writing on top and thus are very hard 
-even for humans to read, this is also an example of smudged-over correction: 
+even for humans to read, this is also an example of correction, line on top with different
+intensity of the line: 
 
 \includegraphics*[scale=0.2]{../images/superambiguous_data_sample.png}
 
-\subsubsection{Unicode characters used for data labeling}
+data preprocessing
 
-explain: unicode has graphenes with code points. eg a is one graphene one code point,
-à is one graphene two code points (dot on top and the letter). the top thing -like characters will be called 
-"modifiers".
-
-markings contain letters and numbers with no line, line on top or line at the bottom.
-Each character can be lower- or upper script. The modifiers used are: 
-macron with lower ($\bar{\mathrm{A}}$) and upper variant.
-
-Unicode \cite{unicode_homepage} has characters that are for example upper script, but 
-these were not used for two reasons:
-
-- lower and upper script character set is incomplete for this purpose (eg 3 with upper macron and lower script needed)
-
-- from the model perspective 3 and $_3$ are no more similar than A and B, however, 
-three combined with lower script modifier and 3 with upper script modifier 
-all contain the same unicode character 3 with only the modifier changing. The 
-problem here is that there is no lower or upper case modifiers in unicode. Therefore,
-the caron ($\check{\mathrm{A}}$) was chosen as the lower script modifier, and the circumflex accent ($\hat{\mathrm{A}}$)
-as upper script. These were chosen since the arrow-like modifier pointing up or down
-is maybe the most logical placeholder for the missing modifier. More traditional 
-workarounds of missing upper or lower script, the underscore "\_" and separate 
-caret character "\^ " were not used to keep one unicode graphene represent one character 
-on the page. Also on the other hand using one modifier for all lowercase characters allows 
-the model to understand that there is a similarity between all lowercase characters.
-The intention is that one idea about a character is encoded as one code point, so that 
-the model can learn the mapping from the image of the character to the code point 
-combination
-(until now already in thesis text)
-----
-
-also: some annotators used / instead of line. left to / -> upper, right -> lower.
-unknown/unsure noted with x with macrons on top/bottom
-annotate with up/down macron
-
-if model is toothornot classifier + tooth reader -> remove fractions notes
-
-\subsection{Data preprocessing}
-
-grayscaling, flipping to back background white foreground
+grayscaling
 
 I should especially do random cropping since that occurs in real dataset!
 
@@ -686,61 +810,26 @@ to to feature extraction better than a human would do. to segment out the letter
 need to know which area is the letter and to know that you need to know what letter there 
 is which is the problem in the first place, so unsolvable egg hen problem
 
-\subsection{Methods: base models and transfer learning tehniques}
+\subsection{Selection of base models and transfer learning configurations}
 
-\subsubsection{Problem formulation}
+new
 
-different types of defining inputs and outputs, discussion on what to choose
+experiment choices 
+    base models
+    layer freezing 
+    i will skip hyperparameter tuning to only vary one thing between each experiment 
+        hyperparams from papers: get most commonly used ones
+        but:
+            if the experiment results hold across a population -> which method works best should work best in all 
+                hyperparametrizations and not only in this one. vary hyperparameters and check if comparison 
+                    (which was better than which) still holds
+            differences in accuracy are due to the hyperparameters being more optimal in some cases than some 
+                you can never really eliminate this 
+                one should further verify how robust the experiments are to hyperparameter changes
+                I can test around a little bit to check that my some better than some holds at least in most cases
+    evaluation: accuracy
 
-the sequence or character per character recognition question:
-sequence is a mapping from image to variable-length phrase
-character per character approach, inspired by \cite{tibetan_ocr}:
-train a classifier: is this word a tooth or not? then give non-tooth to the untuned
-trocr, which works very well. Then few shot transfer learn a classifier from an image
-with only a tooth marking (letter and one number) to tooth. Possibly extend classifier to 
-be able to recognize multiple teeth (eg M1-3). Target could be multivariate: first would
-be tooth (which i1-3,c,p1-4,m1-3), second would be jaw (upper, lower, unknown), third side 
-(left, right, unknown). Separating 'l/r/lt' from the letter+number tooth notation is 
-fairly trivial: noncursive handwriting can be separated by finding a vertical line where there 
-is no black. Image processing: convert to black and white, then find x coordinate with no black 
-and split there.
-
-sequence benefits: adaptable to many kinds and lengths of input, possible to get good inferences 
-for surprising marking styles 
-sequence bad sides: finetuning just one layer on 80 training images for two epochs took about 15 minutes
--> all hyperparameter optimization etc is out of question with this heavy training.
-Also: not domain adaptation (adapting same task to different dataset), but task adaptation ie. 
-the target set of characters has changed. Encoding this to the large encoder decoder transformers would 
-require rewriting parts of the preprocessor and model which is too complex given the level of this work.
-
-character by character benefits: feasible given available data and computing resources
-possible to encode the classes (ie, teeth)
-classifying characters has been essentially solved, easy problem 
-also classifying to tooth or not tooth should be easy 
---> focus on model ensemble with tooth or not classifier + trocr + tooth classifier
-
-multilabel class or classifier chains:
-multilabel is difficult because the basic case has just set of labels and you can 
-have any number of any of them. we have 4 types of classes with dependencies (no 4th canine)
-so chains make sense, as constrained multilabel classification with class groups is a 
-complex, nonstandard construct \cite{multilabel_classification}. so, mini model approach 
-
-1. tooth or not: azure output text matches regexp letter and number or 'c' or 'C' -> 1/0 train using MPIC images
-2. MPI classifier: tooth type (regexp already says c is c), upper lower classifier: 1/0
-3. get number (1-4) from azure output, is generally correct by visual inspection
-
-not inspired from any paper but my own idea, felt like a sensible way to formulate the problem, 
-so we have for all models a well-solved well-defined basic classification problem.
-
-reason for this choice: it encodes most prior knowledge in the output structure,
-use as much from azure as possible
-
-priors:
-there is also the azure output for the tooth. it is likely to be very good but not constrained to the MPIC case.
-include the azure label as one input variable
-why we went for the simplest problem out there
-because the part of data that can be digitized with the tightest constraints and the simplest models are most accurate. Do that first, deal with the remaining later
-\subsubsection{Base model selection}
+old
 
 initial sequence learning attempts done with \cite{li2021trocr}, proof of concept so no real exhaustive comparison literature review
 
@@ -756,13 +845,6 @@ therefore: not e(mnist) as source problem, but imagenet classification.
 three lines: imagenet, unsupervised pretraining (denoising autoencoder?), and MNIST/EMNIST (my hypothesis: transfer distance is shorter could be an advantage)
 also the fact that the related work was not that high quality, no readable code published so i don't trust them without question...
 
-\subsubsection{Transfer learning method selection}
-Priors. base model already knows the output should be a word, eg "jdaslkjflkds" is a highly unlikely
-correct answer.
-Bone notation has a very small subset of possible english words, eg. the word "beach ball" cannot ever be a correct 
-answer for a reading
---> these do not apply if we do character classification
-
 some papers did some first layer unfreezing, or middle layer unfreezing ie something else 
 but not freezing last layers. dismiss that because 
 they did not state why they did that. from the learn higher and higher level features point of view 
@@ -770,8 +852,8 @@ having an not frozen layer and then after that a frozen one does not make any se
 layer is based on the previous. so never in experiments have a frozen layer below a layer that is frozen
 
 % summary of chapter
-% list all methods used for each aspect (preprocessing, base model, 
-% problem formalization, transfer technique) chosen
+this chapter gave an overview of how the experiments were set up and why they were set up in this way.
+in the next chapter: results of these experiments
 
 \section{Results and discussion}
 
@@ -780,6 +862,9 @@ layer is based on the previous. so never in experiments have a frozen layer belo
 
 % summary of chapter
 % takeaway points
+
+overfitting? should be hard when only one/a few layers trained and rest is from a different dataset.
+occurred more when more layers were trained
 
 train the last layer (inspo from \cite{tibetan_ocr}, test hypothesis of reusing feature extractor)
 what else? find from literature!
@@ -843,6 +928,9 @@ classifying them to tooth or not.
 % this requires thorough work
 this was a very quick literature search and practical test, so proper thorough work should be done to verify if this speculation 
 is correct or not.
+
+new things
+basic ocr could be given prior information on this is a fossil catalogue so the word set likely to occur would be more accurate
 
 \printbibliography
 
