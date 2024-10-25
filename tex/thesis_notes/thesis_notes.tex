@@ -97,99 +97,48 @@ results of the experiments are presented and discussed. Finally, the work is con
 
 \section{Fundamentals on paleoecology}
 
-% start of section metatext
-% how this relates to the whole this is the application area
-% so understanding the application area maybe gives insights to why things are done like this
+% what is paleoecology
+paleoecology is data analysis on fossil data
+most common application: paleoenvironmental reconstruction
+    definition of the problem: whan ancient habitats were like and what changes they 
+    underwent at which times (ch2)
+    basic process: learn fossil data to environment statistical relationship in present, apply to past 
 
-Nature is highly complicated -> models, approximate models and assumptions enable drawing conclusions from
-known distributions of species. 
+% caveats, what about this is difficult
+we need correlations but even those are hard: something correlates in present might not correlate in past
+Nature is highly complicated -> models and assumptions enable drawing conclusions from animal communities
 
-each assumption / model can be questioned but they hold as a rule. only 
-models briefly presented here, all statements here can be questioned to some extent 
-
-idea: what fossil/dental data can be used for. how fossil/dental data is used
-
-to highlight why accurate, fine-resolution (ie specific) and large magnitude of 
-fossil, esp dental fossil data is genuinely useful.
-
-chapter overview: review ecology and assumptions the analysis is based on. 
-then, short overview of main techniques for paleoenvironmental reconstruction, the main 
-application area of fossil data. last, mammal teeth row is presented to introduce terminology 
+% why tooth data is needed + overview
+analysis results: how animal communities react to environmental change -> get information of what is to come with climate change (faith ch2)
+dental data is especially useful, whole area of dental ecometrics presented below
+after that, mammal teeth row is presented to introduce terminology 
 present in the data.
 
-\subsection{Basics on ecology}
+\subsection{Dental ecometrics}
 
-basic laws: theory that the data analysis relies on
-
-Tolerances and niches (fundamental + realized): basis for environmental reconstruction \cite{Faith_Lyman_2019} ch 2
-
-tolerance = range of an environmental variable that is hospitable for the species, 
-eg. imaginary small mammal (come up with some imaginary name) can live when avg temperature is +10-+15.
-Niche = set of tolerances the species has. fundamental niche = possible environments for the species, 
-realized niche = where it lives. center of tolerances is better than the edge (ch2)
-
-main assumption uniformitarism (the fact that tolerances constraint things has not changed)
-niche conservatism: Assume that nearest living relative has same tolerances now -> get past environment (ch3, lyman 2017),
-
-this presents a mapping from taxa to environmental variables -> basis of analysis 
-of past environments.
+% relation to the larger picture: tolerance to environment model reduction to dental ecometrics
+tolerance = range of an environmental variable that is hospitable for the species \cite{Faith_Lyman_2019}
+a mapping from taxa to environmental variables -> know fossil assemblage, deduce environment
 
 modern alternative to this: transfer functions: mappings from taxa data to enviroment 
 learned using machine learning / statistical models (ch9, birks 1995)
+    benefit instead of tolerances/niches: they have subjective interpretation problems (book ch 9)
+    esp. teeth: dental ecometrics = inference of transfer functions given dental data (ch9 liu et al 2012), \cite{oksanenHumboldtianApproachLife2019}
 
-benefit instead of tolerances/niches: they have subjective interpretation problems (book ch 9)
+taxon free: dental ecometrics
+relation of traits of animals and livelihood = ecomorphology \cite{oksanenHumboldtianApproachLife2019}:
+    teeth -> diet -> what plants grew and habitat -> climate etc
+example: dental lophs and hypsodonty to temperature and precipitation, from \cite{oksanenHumboldtianApproachLife2019}
+    two kinds of plants, browse (dry), grass (moist).
+    dominant molar, usually 2nd, primary chewer tooth
+    grass -> high-crowned ie hypsodont molars
+    browse -> dry plants need more blade-like molars ie more pronounced lophs
+    then you take the teeth, check hypsodontry and lophs of the species present, check occurences of species in regions 
+        statistical model (linear regression relationship) between teeth and present environment
+        use mapping to fossil teeth in the past -> get past temperature variables. \cite{oksanenHumboldtianApproachLife2019} for instance got temperature
 
-esp. teeth: dental ecometrics = inference of transfer functions given dental data (ch9 liu et al 2012)
 
-next, turn to how to solve the problem of information to environment given the 
-taxomic information to environmetal indicators mapping
-
-\subsection{Paleoenvironmental reconstruction}
-
-why: get information of what is to come with climate change (faith ch2)
-
-definition of the problem: whan ancient habitats were like and what changes they 
-underwent at which times (ch2)
-
-overview main tehcniques: presence/absence, abundance, taxon free, diversity based,
-size clines
-
-presence absence (ch5):
-dataset is list of taxa that are present. absence is also indicator 
-but worse since might be that the species just was not preserved / found. two approaches: 
-fix location or fix set of species.
-fix species: find where this set of species lives now (climate maps \& areas of sympatry), this indicates 
-that historical locality had this climate. place-fixing: analyze how which species show up in this place
- changes over time, reduce species showing up data to lower dimension
-(like pca), eg how many warm-climate vs cold-climate species show up, this gives ideas on changes in climate over time
-
-abundance 
-get relative NISP (number of species in sample): percent of species in sample is of this taxon (grayson 1984b, ch6)
-do like presence absence but weigh signal according to abundance
-and assume abundant species lives more toward center of tolerance 
-grayson 1981: fossil accumulation affects datasets -> use with caution
-
-taxon free 
-cornelis van der klaauw 1948 (p 160) relation of traits of animals and livelihood = ecomorphology:
- eg what the animal eats also eg how diverse the place is. for environment mostly diet -> what plants grew and habitat -> climate etc
-helps with not having to assume that closest relative tolerances were the same. (ch7)
-eg usage of teeth: dental microwear. calandra and merceron 2016: analyze miniscratches on the surface to get diet to get vegetation and climate
-    oma: to conduct this you need many samples of the same bone
-    need to know exactly which bone it is since different teeth used for different things
-
-diversity and size clines as enviromnental indicators
-andrews et al 1979: how diverse also has a mapping to environment eg tropical is more diverse than arctic 
-coarse indicators of the environment
-lyman 2008: strong sample size effects: bigger sample is more diverse
-so to do this you need equal size samples from all time periods analyzed
-size clines basic idea: coarse indicators for size of bone -> environment eg larger libs warmer climate (mayr 1970)
-also dental measures correlate with environment, eg mandibles (faith et al 2016). for that you need sufficient 
-tooth samples and correct identification which tooth it is
-
-end lesson: sample sizes and data precision are important. therefore it is superimportant 
-to get more data / improve accuracy, which is the main goal of the digitization effort.
-scale sense: faith lyman ch 4 said 1000 is solid 10 000 whopping sample size
-dataset in question in this work has 90,000 so the value is pretty clear
+-> sample sizes and data precision are important
 
 \subsection{Composition of mammal teeth}
 
@@ -216,9 +165,38 @@ sometimes lower jaw as line on top and upper jaw as line on bottom, sometimes bo
 if there are less of a type of teeth eg two premolars, they might be no 1 and 2 or no 3 and 4
 
 % summary of chapter
-% what to remember from this chapter
-% it is important to have lots of precise data to do precise paleoecological analysis
-% mammals have 3 molars 4 premolars 1 canine 3 incisors per side of jaw
+this chapter presented mammal teeth terminology and a quick overview of paleo analysis done on dental data
+
+%relation of this work to paleo analysis: enable analysis, save hassle
+As the models in paleoecological analysis are mostly fairly simple,
+the hardest practical part of paleoecology is to construct a sufficiently large representation of the functional traits
+ from the past environment. Therefore, paleoecology is, in my novice opinion, most severely limited by aspects
+  of data management. Imagine having a database, with all fossils globally. All relevant traits could be saved
+   as columns, and the specimen could be 3D imaged along these traits. Running a paleoecological experiment would only 
+   require designing the experiment, a database query, and fitting the model. In this way, experimentation 
+   could be iterated much faster, and most work time of experts in paleontology would be spent considering analytical,
+    rather than practical problems. From a technical perspective, constructing an all-encompassing database is not a particularly challenging problem.
+    note here: given current data science methods it is not easy but methods for this definitely already exist
+    Where the challenge lies more is in intercultural collaboration, standardization of fossil data representation, and if the problem receives attention.
+
+The goal of this thesis is not to construct such an ideal database, as it could be seen as the ultimate goal of paleontological databases. 
+Neither is the primary aim to uniformize the tooth notation in the catalogues of the National Museum of Kenya specifically, although
+it is the main output of this work. The goal of this work is to speculate and test computational methods that would efficiently 
+uniformize dental fossil data in general.
+Thus, how this work relates to dental ecometrics is that I aim to come up with methods that would allow a tiny step toward solving the ultimate problem of 
+collecting all data in easily accessible format. My humble wish is that this would accelerate ecometric experimentation, saving the cognitive capacity 
+of experts to solving more sophisticated, analytical problems.
+
+This thesis is not aiming to build     
+
+This aim, that could be seen as the ultimate goal of paleontological databases, is not the aim of this thesis, but the point work aims to take a tiny step towards.
+
+ (also why aim for any less like as a humanity though, wasting time battling with datasets is wasted lifetime)
+(not the aim of this thesis but a nice big grand goal of paleontological databases)
+like what we should imo aim for as a humanity
+my goal is to speculate and test computational methods that would uniformize fossil data
+my goal is also not just clean kenyan teeth
+tiny step toward the ultimate goal
 
 \section{Deep Neural Networks for Optical Character Recognition}
 
@@ -625,6 +603,10 @@ tabular handwritten log of fossils
 element description column (which part of the animal)
     handwritten notation from time before standardized computers, so very variable writing with no notation standard
         -> rare surprise characters occur (eg 1/2 as a one half of a tooth noter)
+            old note on this: has been done by different but few annotators, no logs on who logged what, everyone 
+            had a bit different style of notating. also no clearly defined standard 
+            for notating specimens. so might be that actual data used will have 
+            characters or words not present in training set
 photo-to-tabular has been done but:
     teeth have errors in ocr output (eg tooth types that are not m p i or c)
     upper lower jaw is unknown since ocr used in table (azure) cannot read up/low jaw notation
@@ -657,7 +639,11 @@ A balance between the extremes, closer to the easy side
 why we went for more simple approaches first
     because the part of data that can be digitized with the tightest constraints and the simplest models are most accurate. Do that first, deal with the remaining later
     better to clean small subset of data well than large amount of data badly.
-    also: not much done before so it is better to start out simple and build from there
+        difference to other domains of big data:
+            each fossil sample is expensive and human laborous to obtain, thus "big" sample is 
+            small compared to other ml applications, 1000 is a lot 10k huge. \cite{Faith_Lyman_2019}
+            so get a clean sample that is small is still valuable because paleo samples are relatively small
+        also: not much done before so it is better to start out simple and build from there
 
 first question: is the input the whole phrase, words or characters? next question
 
@@ -762,36 +748,35 @@ then concatenate description back
 
 \subsection{Creating the training dataset}
 
-new
-regular expressioning, mention () ,
-data from all catalogues to have as versatile notation as possible -> hardest possible dataset
-data balancing
-segmentation and coloring out white area idea 
-    but im not doing that since nn is supposed to be the best feature extractor
-grayscaling by putting same color channel 3 times to fit imagenet model input shape
-
-old
-
-has been done by different but few annotators, no logs on who logged what, everyone 
-had a bit different style of notating. also no clearly defined standard 
-for notating specimens. so might be that actual data used will have 
-characters or words not present in training set
-
-difference to other domains of big data:
-each fossil sample is expensive and human laborous to obtain, thus "big" sample is 
-small compared to other ml applications, 1000 is a lot 10k huge.
-
-Labeling: assume that azure reading is correct where reading is a valid tooth notation
-
 Data was extracted from scans by getting bounding boxes from Azure Vision API,
 finding the correct column (nature of specimen or element), and cropping the image 
 according to bounding boxes.
+regular expressioning, mention () , L R
 
+multiple catalogues used to create training set to get versatile notation
+
+labeling:
+mpi, index number: assume that azure reading is correct where reading is a valid tooth notation
+if incorrect, do not use as training data
+up low: hand label with binary label 0 for low 1 for up
+
+hard cases
+some especially for upper or lower are also impossible for human to tell (here some green i's with circled numbers)
 Some have been corrected by writing on top and thus are very hard 
 even for humans to read, this is also an example of correction, line on top with different
 intensity of the line: 
 
 \includegraphics*[scale=0.2]{../images/superambiguous_data_sample.png}
+
+data balancing
+in experiments: accuracy up by 10\% when balancing classes in input data, 
+as predicted in \cite{heLearningImbalancedData2009}
+
+segmentation and coloring out white area idea 
+    but im not doing that since nn is supposed to be the best feature extractor
+grayscaling by putting same color channel 3 times to fit imagenet model input shape
+
+
 
 data preprocessing
 
