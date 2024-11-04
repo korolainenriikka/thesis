@@ -588,6 +588,24 @@ huge amount of classes so hardest problem
 
 % 2. a note on overall quality (that is bad)
 
+(be vague here: not 'no xxx done', but 'little xxx done'
+
+papers over all: little whys or careful critical analysis for decisions done is given. 
+especially transfer distance mentioned in 2 papers of 11, and is most important in getting transfer to work -> no/little reasoning on base model or transfer method selection. also, unusual choices should have a why but mostly don't
+
+what counts to me as a proper why: why this decision was the best option among all available alternatives. many had a 'this is a good approach' or generic strengths of some approach. that is not enough since it does not take a stand on what about the alternatives, why not them
+
+The reasons and considerations regarding setup decisions are not nice-to-haves, but have quite some consequences for the quality of the research conclusions.
+-> i cannot evaluate the reasoning behind the choice
+-> sometimes choices that clearly don't make sense are done such as flipping character images for augmentation or probably don't make sense such as color flipping when imagenet is source task (increases transfer distance, real world image backgrounds are usually light not dark, would decrease in mnist thats why the color flipping is a common approach but imagenet != mnist)
+-> train test setups that dont make sense from generalization perspective. optimizing for best rotation angle (real world images only rotated by specific angle???), augmenting the test set (then test set is not representative of the real world)
+-> irrelevant specifications are given (eg hardware when no timing is done) and relevant specifications are missing (how many layers you froze) when analytical basis is fragile
+-> irrelevant/less relevant metrics are measured (inference time when it's not a real time application, false positive true positive rates when ocr really does not have a clear definition of a positive vs negative as its not binary classification)
+-> reasoning is frayed (such as we compensate our worse accuracy with that we train with less epochs, when training in transfer learning completes even on a cpu in order of minutes so epochs does not really matter that much)
+
+final consequence
+---> if we don't have a clear analytical reason why unexperimented with alternatives would work worse, one cannot assume they would be worse -> one cannot fully trust that the approaches presented are the best.
+
 % 3. present each paper one by one
 
 % 4. present table of papers
@@ -881,7 +899,9 @@ in the next chapter: results of these experiments
 
 % summary of chapter
 % takeaway points
+start of section: reiterate what was experimented with
 
+see if train/test accuracies are very similar or very different. conclusions from that? overfitting? + you need to list train accs for this
 overfitting? should be hard when only one/a few layers trained and rest is from a different dataset.
 occurred more when more layers were trained
 
@@ -899,6 +919,7 @@ initial phase experiments: mnist transfer to mpi since it was thought to be a si
 however like noted by \cite{alexnet}, real world image classification is much more complex than digit classification 
 as the benchmark images are ideal cases with eg perfectly even background. Therefore later phases 
 experimented with transfer from imagenet classifiers since that is what most of papers in related work also did.
+also \cite{8goelGujarati2023} had the same result (that imagenet is better than mnist even though mnist data looks more like character images)
 
 start with most common ie cnn, most common transfer method ie freeze all but last layer 
 
@@ -909,6 +930,8 @@ alexnet without any hyperparameter tuning with imagenet weights: immediately 100
 upperlower surprisingly harder, 95 percent
 
 training vgg is slow
+
+is hyperparameter setting fair? are hyperparameters equally optimal for all training settings? comparing is not ok if some models find a better optimum than others because of hyperparams
 
 \section{Conclusions}
 
