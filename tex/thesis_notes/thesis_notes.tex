@@ -553,13 +553,47 @@ once successful, proceed to harder problems that would digitize and clean more d
 
 \subsection{Approaches to character recognition with small target domain datasets}
 
-review 11 key papers 
+- since there is no old work on fossil i consider other cases and cases that are on abstract level similar
 
-present summarizing table of key papers
+% 1. indian / sanskrit family and why I went for that
 
-end of section: summarize to choose what is experimented with
-these vary most in what is the base model and which layers are frozen
-base models
+why sanskrit based Indian languages are a good inspo field for KNM
+
+sanskrit based languages are: gujarati devangari, bangla, kannada, urdu \cite{2limbachiyaGujarati}
+
+small languages
+lots of transfer there because languages are small -> small datasets -> transfer needed \cite{2limbachiyaGujarati}
+major languages have sufficient data to train from scratch (and haven't realized transfer can help even then? \cite{5rasheedHandwrittenUrduWAlexNet} \cite{4zhaoTibetan}
+most relevant is how many samples are available per class
+but for knm, asian characters like chinese / korean / kanji could be more applicable because eg kanji contain subcharacter sections (radicals) that have distinct meaning. knm 'radicals': letter number underline. 
+
+modifiers
+modifiers like knm has the top and low line in: gujarati \cite{2limbachiyaGujarati} bengali \cite{3chatterjeeBengali} urdu \cite{5rasheedHandwrittenUrduWAlexNet}
+
+cursive \cite{5rasheedHandwrittenUrduWAlexNet}
+(where it is hard to do connected components based image processing) 
+
+character sizes vary in bangla \cite{6shoponBangla}
+also knm with small numbers
+
+general applicability: bounding box error setting
+also did first bounding boxes (with way easier case tho)-> similar part of character cut off / too much background problems maybe \cite{1akhlaghiFarsi} \cite{7rizkybasicCnnTransfer}
+
+why ancient things could be
+from \cite{9thuonPalm}
+more than one character per writing unit -> knm also has letter and number
+images + scans are more difficult to read because of old 'paper' -> focus on preprocessing -> similar to knm (but harder than knm probs)
+also pages where you extract characters -> maybe similar ish bounding box extraction mistakes
+huge amount of classes so hardest problem
+
+% 2. a note on overall quality (that is bad)
+
+% 3. present each paper one by one
+
+% 4. present table of papers
+
+% 5. select hyperparameters base models and transfer methods to test based on the literature (aug/preprocessing: ill figure myself)
+
 always imagenet so i will do the same.
 what is the most common solutions
     imagenet cnn + transfer

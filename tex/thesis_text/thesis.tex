@@ -1165,13 +1165,57 @@ simple and established implementations to verify simple hypotheses before procee
 
 \subsection{Approaches to handwritten character recognition with small target domain datasets}
 \label{sect:same_solution}
+% - since there is no old work on fossil i consider other cases and cases that are on abstract level similar
+% % 1. PARAGRAPH indian / sanskrit family and why I went for that
 
-Found papers:
+% why sanskrit based Indian languages are a good inspo field for KNM
 
-\cite{akhlaghiFarsiHandwrittenPhone2020} \cite{chatterjeeBengaliHandwrittenCharacter2020} \cite{thuonImprovingIsolatedGlyph2022}
-\cite{goelHandwrittenGujaratiNumerals2023} \cite{goelPreTrainedCNNBased2022} \cite{limbachiyaIdentificationHandwrittenGujarati2022}
-\cite{rasheedHandwrittenUrduCharacters2022} \cite{rizkyTextRecognitionImages2023} \cite{shoponBanglaHandwrittenDigit2016}
-\cite{zunairUnconventionalWisdomNew2018} \cite{zhaoIncrementalRecognitionMultiStyle2024}
+% small languages
+% lots of transfer there because languages are small -> small datasets -> transfer needed \cite{2limbachiyaGujarati}
+% major languages have sufficient data to train from scratch (and haven't realized transfer can help even then? \cite{5rasheedHandwrittenUrduWAlexNet} \cite{4zhaoTibetan}
+% most relevant is how many samples are available per class
+% but for knm, asian characters like chinese / korean / kanji could be more applicable because eg kanji contain subcharacter sections (radicals) that have distinct meaning. knm 'radicals': letter number underline. 
+
+% modifiers
+% modifiers like knm has the top and low line in: gujarati \cite{2limbachiyaGujarati} bengali \cite{3chatterjeeBengali} urdu \cite{5rasheedHandwrittenUrduWAlexNet}
+
+% cursive \cite{5rasheedHandwrittenUrduWAlexNet}
+% (where it is hard to do connected components based image processing) 
+
+% character sizes vary in bangla \cite{6shoponBangla}
+% also knm with small numbers
+
+% general applicability: bounding box error setting
+% also did first bounding boxes (with way easier case tho)-> similar part of character cut off / too much background problems maybe \cite{1akhlaghiFarsi} \cite{7rizkybasicCnnTransfer}
+% why ancient things could be
+% from \cite{9thuonPalm}
+% more than one character per writing unit -> knm also has letter and number
+% images + scans are more difficult to read because of old 'paper' -> focus on preprocessing -> similar to knm (but harder than knm probs)
+% also pages where you extract characters -> maybe similar ish bounding box extraction mistakes
+% huge amount of classes so hardest problem
+
+
+Due to the limited amount of work on optical character recognition on fossil catalogues, other 
+problem domains were chosen to draw inspiration from for constructing the model training setting. 
+Interestingly, the nature of the fossil catalogue problem has many aspects in common with reading small, 
+regional Indian languages, many of which are based on the Sanskrit language, and with certain historical 
+scripts: small training datasets, modifiers, cursive writing and varying character sizes.
+While on first thought, languages where a character is a compound of multiple smaller units, such as the 
+radicals in Chinese or Korean would be an analogous problem, these are not generally solved with transfer learning 
+as the target language has sufficiently large datasets. Therefore, smaller languages such as the studied south Asian languages with less established public datasets 
+are more applicable.
+Of these smaller languages, at least
+Gujarati \cite{2limbachiyaGujarati}, Bengali \cite{3chatterjeeBengali} and Urdu \cite{5rasheedHandwrittenUrduWAlexNet} all contain modifiers,
+which can be seen as analogous to the fossil catalogue under- or overline denoting upper and lower jaw, increasing the problem similarity.
+Many characters are cursive in nature \cite{5rasheedHandwrittenUrduWAlexNet}, which makes especially character segmentation 
+solutions more applicable; both the south Asian and fossil catalogue characters are closer to equal in segmentation difficulty.
+The last trait making these languages applicable is that character sizes vary in many, at least in Bangla \cite{6shoponBangla}, which 
+is also the case in fossil catalogues with the smaller upper and lower script characters.
+For the historical scripts, a study on machine reading historical manuscripts written on palm leaves was 
+included in this review as the scanning of these scripts is more challenging due to the old leaves, and thus the 
+study contained valuable insight on image quality enhancement techniques \cite{9thuonPalm}. Additionally, historical scripts 
+contain far more characters than modern languages, making the problem more challenging and thus more interesting.
+Next, these studies are presented in more detail.
 
 \section{Experimental setup}
 
