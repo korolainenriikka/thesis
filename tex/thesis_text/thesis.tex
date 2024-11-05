@@ -1041,7 +1041,7 @@ such as solving elementary math equations.
 % so you would take some model trained on a large mass of data and then fine tune it on the characters
 In handwritten character recognition, unsupervised pretraining is in some cases used 
 with autoencoders: the model is trained to reconstruct the input image, and these encoder parameters
-are then used in the target task of classifying the images to characters \cite{shoponBanglaHandwrittenDigit2016}.
+are then used in the target task of classifying the images to characters \cite{6shoponBangla}.
 However, this is an approach less established than the supervised pretraining variant.
 
 % end of section
@@ -1199,13 +1199,13 @@ Due to the limited amount of work on optical character recognition on fossil cat
 problem domains were chosen to draw inspiration from for constructing the model training setting. 
 Interestingly, the nature of the fossil catalogue problem has many aspects in common with reading small, 
 regional Indian languages, many of which are based on the Sanskrit language, and with certain historical 
-scripts: small training datasets, modifiers, cursive writing and varying character sizes.
+scripts: there are similarities in small training datasets, modifiers, cursive writing and varying character sizes.
 While on first thought, languages where a character is a compound of multiple smaller units, such as the 
 radicals in Chinese or Korean would be an analogous problem, these are not generally solved with transfer learning 
-as the target language has sufficiently large datasets. Therefore, smaller languages such as the studied south Asian languages with less established public datasets 
+as the target language has sufficiently large datasets. Therefore, smaller languages such as the south Asian languages studied next with less established public datasets 
 are more applicable.
 Of these smaller languages, at least
-Gujarati \cite{2limbachiyaGujarati}, Bengali \cite{3chatterjeeBengali} and Urdu \cite{5rasheedHandwrittenUrduWAlexNet} all contain modifiers,
+Gujarati \cite{2limbachiyaGujarati}, Bangla \cite{3chatterjeeBengali} and Urdu \cite{5rasheedHandwrittenUrduWAlexNet} all contain modifiers,
 which can be seen as analogous to the fossil catalogue under- or overline denoting upper and lower jaw, increasing the problem similarity.
 Many characters are cursive in nature \cite{5rasheedHandwrittenUrduWAlexNet}, which makes especially character segmentation 
 solutions more applicable; both the south Asian and fossil catalogue characters are closer to equal in segmentation difficulty.
@@ -1218,13 +1218,255 @@ contain far more characters than modern languages, making the problem more chall
 
 % 2. on quality
 
-Before each of the reviewed articles is presented in more detail, a few points on the overall quality of the work studied must be noted. Unfortunately, the analytical basis of the work reviewed was quite lacking; for the most part, model training setup decisions were made without any reasoning for why the decisions were made. Especially lacking are analyses on how similar the source task is to the target task, which would be critically important in getting transfer learning to work properly. Also unusual choices would have been useful to have a reason, but these were mostly missing. Where a reason was given, it often only resorted to listing general strengths of the technique chosen, but still lacked the most important part; why this technique was better than other available alternatives for this specific task.
+Before each of the reviewed articles is presented in more detail, a few points on the overall quality of the work studied must be noted.
+ Unfortunately, the analytical basis of the work reviewed was quite lacking; for the most part, model training setup decisions were made 
+ without any reasoning for why the decisions were made. Especially lacking are analyses on how similar the source task 
+ is to the target task, which would be critically important in getting transfer learning to work properly. 
+ Also unusual choices would have been useful to have a reason, but these were mostly missing. 
+ Where a reason was given, it often only resorted to listing general strengths of the technique chosen,
+  but still lacked the most important part; why this technique was better than other available alternatives for this specific task.
 
-The reasons and considerations regarding setup decisions are not nice-to-haves, but have quite some consequences for the quality of the research conclusions. In later work, one cannot evaluate the reasoning behind the choices. For some choices, it can be noticed that they do not make much sense at all, an example of this being using image horizontal or vertical flipping as a data augmentation technique for character images (in latin letters for instance, a flipped L could become a J). Also, some test data setups become questionable from a generalization perspective, such as hyperparameter optimizing for the best angle to rotate every image as a data augmentation technique (the idea of data augmentation is to augment the data set with valid images that just happen to not occur in the test set, and it is hard to imagine a case where only one rotation angle would produce valid training images), or applying data augmentation for the test set (when all test images are not real-world samples, test accuracy is not a good representation of real-world performance). Irrelevant specifications are occasionally given, such as hardware when runs are not timed, and relevant details, such as if parameters were frozen, are sometimes omitted. Less relevant metrics are measured, such as inference times even when the model is not part of a real-time system, or metrics where the exact definition is unclear, such as positive and negative related rates when the definition or implications of non-class-specific positive/negative related metrics is unclear in OCR in the usual case where correctness is equally important among all classes. Finally, analytical comparisons become frayed, such as the statement that a worse accuracy is compensated by the benefit of having to train for less epochs \cite{1akhlaghiFarsi}, when training in an OCR transfer learning setting is generally completed in order of minutes even on a CPU.
+The reasons and considerations regarding setup decisions are not nice-to-haves, 
+but have quite some consequences for the quality of the research conclusions. In later work, one cannot evaluate
+ the reasoning behind the choices. For some choices, it can be noticed that they do not make much sense at all, an example of this being 
+ using image horizontal or vertical flipping as a data augmentation technique for character images \cite{9thuonPalm}
+ (in latin letters for instance, a flipped L could become a J). Also, some test data setups become questionable from a 
+ generalization perspective, such as hyperparameter optimizing for the best angle to rotate every image 
+ as a data augmentation technique \cite{7rizkybasicCnnTransfer} (the idea of data augmentation is to augment
+  the data set with valid images that just happen to not occur in the test set, 
+  and it is hard to imagine a case where only one rotation angle would produce valid training images), 
+  or applying data augmentation for the test set \cite{11zunairUnconventionalWisdom} (when all test images are not real-world samples, 
+  test accuracy is not a good representation of real-world performance). 
+  Irrelevant specifications are occasionally given, such as hardware when runs are not timed \cite{9thuonPalm}, and relevant details, 
+  such as if parameters were frozen, are sometimes omitted \cite{8goelGujarati2023}.
+  Less relevant metrics are measured, such as inference times even when the model is not part of a real-time system \cite{8goelGujarati2023},
+  or metrics where the exact definition is unclear, such as positive and negative related rates (\cite{10goelGujarati}, \cite{5rasheedHandwrittenUrduWAlexNet}) when the definition or implications
+  of non-class-specific positive/negative related metrics is unclear in OCR in the usual case where correctness is equally important
+  among all classes. Finally, analytical comparisons become frayed, such as the statement that a worse accuracy is compensated by the
+   benefit of having to train for less epochs \cite{3chatterjeeBengali}, when training in an OCR transfer learning setting is generally completed in order of minutes even on a CPU.
 
 Due to these limitations of the reviewed work, the unexplored alternatives cannot be crossed out as probably unlikely to work well. Therefore, this work will experiment with some other than the most popular approaches that are implemented in the works presented next.
 
+% 4. incremental recognition of tibetan
+
+% contribution: outperform from scartch single model detects all tibetan by creating styles classifier, training resenet 50 from scratch with tibetan and transferring from that to different styles
+
+% relation to my case: they also need to learn many things: style and what character it is. take the high level approach from here
+% 	simplify problem by dividing it so that each model has a single task. This eases need for data samples in quantity + makes collecting them easier
+
+% miscellaneous probably extra info
+% base model resnet (only generic reasoning why), two layers added in finetuning
+% 	script classifying base model was vgg16 because of robustness
+% data is not well balanced
+% they saved large amount of compute percentage wise (2/3), but not much in absolute running time (40 minutes)
+
+Zhao et al. \cite{4zhaoTibetan} achieved new state of the art accuracy in multi-style Tibetan glyph classification
+with a model chain approach that first classifies glyphs by style and then recognizes the glyph with a style-specific model. As these downstream
+ residual learning models are trained with transfer learning with a Tibetan 
+ recognition model as the base model, the source and target data domains are very similar,
+  thus the transfer setting is simpler than in the fossil catalogue case. However, the approach of 
+  chaining simple classifiers as a solution to a more complex problem served as an inspiration for
+   the pipeline approach implemented in this thesis.
+
+% 1. farsi handwritten phone numbers
+
+% what
+% image of phone number -> segment to individual digits -> train digit classifier from scratch
+% especially chosen because they have this pipeline approach like I do
+
+% good/bad about this paper analysis
+% 	much simpler approach
+% 		tiny network (only 3 conv layers), no transfer learning, still 99,37% accuracy
+% 		finding a smaller architecture + training with domain dataset could result in smaller model (but: more likely to overfit because of no source data, would not work that well with small datasets like KNM). 
+% 			but reasoning why people do imagenet transfer is so good it does not necessarily pay off to do this. they did not say how long they searched until they found this architecture. humanity has spent a long time to find best imagenet architecture so maybe rather not reinvent the wheel. also archival digitization inference is never real-time so save energy for other problems that matter (shrinking model size has no real benefits and finding it would be more work so work with no prize)
+
+% this is another work with not entirely identical setting but otherwise inspiring traits: they also did segmentation and then classification so another full pipeline implementation
+
+As another pipeline approach for detecting characters out of a longer sequence, Akhlaghi et al. \cite{1akhlaghiFarsi} implemented 
+a reading system for Farsi phone catalogues by chaining a gradient histogram based segmentation 
+algorithm with a digit classifier. While the segmentation task is due to uniform character
+ sizes much simpler than the catalogue case, the work has a possibly useful literature review on
+  character segmentation. For the classification, a very small convolutional network was trained
+   from scratch to a satisfactory accuracy of 94,6\%, proving that with careful architecture design,
+    even small models can learn to accurately classify digits.
+
+
+The rest of the literature reviewed in this section is directly analoguous 
+to the fossil case: a ImageNet or autoencoder base model is trained with transfer learning to detect a new set of characters.
+% 5. rasheed, handwritten urdu characters
+
+% what 
+% urdu digit/character ocr with transfer learning on alexnet.
+% svm used, but is outperformed by finetuning
+
+% my approach selection / the why + lack of quality problem
+% the paper quality was so low and many details not given
+
+Rasheed et al. \cite{5rasheedHandwrittenUrduWAlexNet} created an AlexNet-based Urdu recognition 
+model, achieving 98,12\% accuracy in digit recognition. The common last layer replacement 
+with a fully connected layer with softmax activation was benchmarked against using AlexNet as 
+a feature extractor before support vector 
+machine classification, the former giving the best result.
+
+
+% 3. chatterjee bengali handwritten character classification
+% what
+% 	most (but not all) bengali character classification with finetuned resnet. 
+% 	superfancy tinetuning process, aims to converge in small number (48 so not even that small) of epochs, no reason why this is important, why simple ordinary finetuning wont do
+% critique on (transfer) method
+% 	transfer method is very complex, not quickly decipherable. Point of this seems to optimize for less epochs, which is not really necessary imo. so don’t do this unless simple things take forever (which never happens so don’t do this)
+% major WTF
+% ”if we remove misclassified data points, accuracy would increase”
+
+For Bangla character classification, Chatterjee et al. reported 96,12\% accuracy 
+by fine-tuning a ResNet model. The work employed highly sophisticated transfer
+ learning and learning rate scheduling algorithms, aiming to converge training in as 
+ little epochs as possible, an aim already discussed to not likely be worth the pursuit.
+  Another concern was the concluding statement "if those misclassified points were 
+  removed from the dataset, the accuracy will improve further", which was not done 
+  to keep the benchmarking accurate.
+
+  % 6. shopon bangla handwritten digit recognition using autoencoder and deep cnn
+
+% what
+% autoencoder based outperforms basic cnn things in bangla, new best
+
+In Bangla digit classification, Shopon et al. \cite{6shoponBangla} implemented unsupervised 
+pretraining and found a new best accuracy in Bangla digits
+and best accuracy among all articles reviewed in this section of 99,5\% by chaining an autoencoder
+with a deep convolutional network. This proves that while less popular, unsupervised pretraining
+based approaches are worth experimenting with.
+
+% 11. zunair unconventional wisdom
+
+% contribution: test different transfer approaches w vgg base model for best performance
+% best one has much more parameters (more thatn 1000x more) than 'conventional' transfer approach
+% first to use transfer on bengali numerals
+
+% critique/quality issues
+% freezing intermediate layers does not make sense from the low to high level features perspective... you cannot really freeze layers that have unfrozen layers ahead because later layer is always based on the previous one -> frozen layer computations don't make sense anymore 
+% better than "conventional transfer learning" bc less epochs and parameters -> are you assuming conventional transfer is the fine tune whole model approach? that is not correct? if you assume eg train fc layers as conventional then the less epochs/parameters statement is incorrect.
+% 	they state that only last layer is trained is the conventional transfer learning approach. then i don't understand how freezing less than this would reduce count of trainable parameters
+% lack of understanding: an experimetn where they froze the last layer! it was randomly initialized!
+% they are like weeeel! it works! wtfff
+% test set augmentation > test setting is not realistic real world data. based on figs also train and test data look very different
+% overall presentation/quality not great
+
+Lastly for the Bangla language, Zunair et al. \cite{11zunairUnconventionalWisdom} experimented 
+with very unconventional transfer learning approaches to classify digits.
+The authors experiment with freezing layers below not frozen layers, an intuitively odd 
+technique as later layer computation is very dependent on the output of the previous ones.
+Another even more preculiar approach is to immediately freeze the last fully connected layer, 
+hindering any updates to the randomly initialized weights. The end result of 97,09\% is stated 
+to prove that these unusual approaches are worth experimenting with further, but due to this 
+result being only found with this one data set and one base model, VGG16, and without any 
+theoretical basis, the evidence for the sensibility of this approach is not quite sufficient.
+
+% 2. identification of handwritten gujarati alphanumeric
+
+% what
+% create gujarati alphanumeric dataset + transfer cnn to build a classifier
+
+Several articles detected characters form the Gujarati language.
+Goel et al. \cite{10goelGujarati} were the first to attempt deep learning for Gujarati digits, 
+achieving 96,5\% accuracy with the EfficientNet architecture. However, the authors utilized 
+validation error on the test set as a training stopping condition and then reported accuracies 
+on the same set, leading to data leakage and a result not necessarily representative of true
+generalization capability. In a later article \cite{8goelGujarati2023}, the authors expanded 
+their experimentation to other architectures, created several transfer learning settings informed 
+by analysis on source and target task similarity, fixed the data leakage issue, and reported an 
+improved accuracy of 97,92\%, again with the EfficientNet architecture. Additionally, adding a fully
+connected layer is again found to outperform using a support vector machine as the downstream classifier.
+Limbachiya et al. \cite{2limbachiyaGujarati} implemented digits and letters detection by comparing various convolutional architectures,
+ achieving the best accuracy of 97,03\% with the MobileNet architecture. Transfer learning was implemented with a
+  less usual top layer architecture: dropout was added between two new fully connected layers.
+% 10. goel a prettrained cnn based framework for handwritten gujarati
+% what
+% test dl + transfer learning for gujarati digit classification (first one to do that)
+% whys / quality things
+% transfer method is chosen based on transfer distance but transfer method is so
+% vaguely described + no code published u cannot know really how it was implemented (training form the starch etc)
+% they seem to not understand stuff properly
+% data leakage: only train and test sets +
+%training stopping condition is according to ’best validation error’ -> apparently no validation set -> training is informed by test error -> data leakage -> accuracy is not generizable
+
+% 8. handwritten gujarati numerals goel
+
+% what
+% publish a data set
+% test 10 models 3 transfer methods, find how to implement transfer for gujarati (devanagari language from india, maybe sanskrit based idk) digit recognition accuracy
+% best paper so far, gives reasons for some (not all!!) decisions, considers transferability
+% methods are: feature extractor w svm or fc layer classifier, finetuning half of the base model. basic fc layer approach best of all. tested mnist as base, did not work as well
+% also bounding box extraction to get digits with usual smoothing filter then threshold then contour detect method. big problems with discontinuities in characters -> will not work in fossil
+
+% 7. text recognition on images using pretrained cnn, rizky
+
+% contribution: prove that using imagenet weights makes sense (which was kinda known already), surprising result: freezing is worse than not freezing (state on well dataset size was this and this big so maybe thats why). uses benchmark dataset so maybe easier problem than in the wild but dataset that tries to have more ’difficult’ ocr. handwriting and typed
+% first: compare models. then: compare freezing layers with the best model
+
+% data leakage/limitations
+% hyperparam optimizaton for best rotation angle etc. they have train test val datasets but did not say if they used test set to inform decisions. this smells like fitting to test set: eg range of roatation angle could make generalization sense: images are by this n this much rotated, but always rotated the same angle does not have a sensible interpretation. also they did not spec why they optimized this, they just did it
+% test set size on the iit5k dataset is only 30 images (with many characters in each image but still about 150 samples)
+
+% why
+% they gave a why for why cnn, but said that its because cnn ’works’. but 2022 and many new methods exist that tend to outperform cnn. what abt them?
+
+As the only work reading characters from a banchmark dataset of handwriting, Rizky et al. \cite{7rizkybasicCnnTransfer}
+first compared various architectures and then used the best model, VGG-16, to compare multiple transfer learning 
+approaches, reaching a final accuracy of 98,16\%. However, to achieve this accuracy, the exact best data augmentation parameters of 
+rotation angle, image scale and blur style are searched for, raising concerns of real-world generalizability of this result.
+ While the dataset is likely to be easier than the fossil case, the relative accuracy of 
+various approaches can give valuable insight to inform choices in designing the dental marking recognition model.
+
+% 9. palm
+
+% what-contribution
+% investigate effect of preprocessing/augmentation/dataset expansion, compare cnn and transformers. do ocr w transformer / cnn in this case - not done before much. big image quality focus, much more than other papers
+% cnn better than vit, binary better than gray/rgb (my: interesting: maybe benefit of less meaningless signal outperforms bad side of increasing transfer distance)
+% more data and preprocessing works better, pretty obvious. but nothing on if its the preprocessing or the more data that did the trick
+% why transformers worse: limited memory high computing requirements (no idea what limited memory means, only remembers recent training instances or whatt)
+
+% why
+% why for transformer: has lotsa attention (network effects...)
+% why resnet: less complex than vgg
+
+% quality things
+% no validation set, possibly data leakage
+
+% misc / maybe dont mention
+% some methods they used idk
+% dropout
+% stochastic depth regularization 
+
+% metadata for summary of papers table / table, how to do paper analyzing
+
+% 7.
+% - language + main country where its spoken to see geographical representation of  languages analyzed in the papers
+% 9.
+% - maybe state number of params for each base model to give a vague sense of how many there are in each
+% - directly state which variant of the model was used bc i also need to pick a variant (eg vgg16 or vgg19)
+
+Lastly, a very interesting application case of reading characters used in ancient historical scripts written 
+on palm leaves, Thuon et al. \cite{9thuonPalm} achieved a very impressive accuracy of 93,55\% on more than 100 
+classes from challenging palm leaf scan images. The work includes many valuable parts: image enhancement,
+data augmentation and dataset expansion insight, and comparison of multiple convolutional and attention based model 
+architectures. As the main result it is concluded that convolutional networks tend to outperform transformer architectures.
+
+% nextii. 
+% joku muuki teki svm, kuka?
+% joku muuki huomas et vit ei oo nii hyvä, kuka?
+
+Details on all the works presented above are summarized on Table todo. Where multiple approaches 
+were experimeted with, the highest accuracy relative to number of target classes and the three best 
+base model variants are listed for brevity. The Tibetan detection article \cite{tibetan_ocr}
+is omitted due to transfer setting being very different to the other works. If a detail is omitted,
+it was not stated with sufficient clarity in the original work.
+
 \section{Experimental setup}
+
+\subsection{Base model, hyperparameter and transfer learning approach selection}
+
+choose things based on articles
 
 \subsection{Data description}
 
