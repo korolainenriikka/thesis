@@ -632,8 +632,7 @@ layer freezing
 now we consider the fossil case again.
 my goal in this work is xxx.
 
-the hypothesis: doing the pipeline approach and classifying teeth to types with a series of models
-will result in highly accurate cleaned tooth data
+the hypothesis: doing the pipeline approach and classifying teeth to types with a series of models will result in highly accurate cleaned tooth data
     verify that this is possible
     experiment with base models and layer freezing to find best accuracy score
 overview of chapter
@@ -642,29 +641,17 @@ overview of chapter
     and how to build a system from the mappings that achieves the goal
     sect 6.2 the training settings attempted informed by literature
     for creating the required models is chosen
-	
-6.1 problem formulation 
-
-ie task to nn task
-incl exact stuff on what the problem is
-
-6.1.1 why not sequence learning
-
-6.1.2 teeth: divide and conquer
-	
-summary high level pipeline
-list models, give flowchart and pseudocode description
 
 \subsection{Problem formulation}
 
 point of this section:
-present the data and how it should be processed
-explicitly state the goal of the work, deduce which x to y mapping, to be 
-taught to a machine learning model, is best hypothesized to solve the goal
-% what data we are talking about, what has been done, what is my goal now
+what data we are talking about, what has been done, what is my goal on high level 
+subsections formalize the high level problem to a problem that can be solved with a nn
 
-what the catalogue is exactly
-tabular handwritten log of fossils
+Goal of this work is ....
+
+data and what has been done until now
+what the catalogue is exactly: tabular handwritten log of fossils
 element description column (which part of the animal)
     handwritten notation from time before standardized computers, so very variable writing with no notation standard
         -> rare surprise characters occur (eg 1/2 as a one half of a tooth noter)
@@ -676,7 +663,7 @@ photo-to-tabular has been done but:
     teeth have errors in ocr output (eg tooth types that are not m p i or c)
     upper lower jaw is unknown since ocr used in table (azure) cannot read up/low jaw notation
 
-my goal
+what i am doing now
 with the catalogue is to take an element description (give sample image).
 of this description, i should find what teeth are mentioned, and list them as a tuple 
 in another column. (give what teeth there are) and put the cleaned teeth to 
@@ -688,8 +675,7 @@ why standardize
 
 so: we have the vague goal of catalogue to cleaned element description with teeth tuple extracted.
 
-% vague goal to x -> y
-
+general on goal to nn: the generality vs accuracy tradeoff and what i should aim for
 different types of defining inputs and outputs, discussion on what to choose
 generality ease trade off: constrain to simple input output relation causes model to be 
 more accurate (it can be given more prior information on what is present), but less applicable 
@@ -710,7 +696,9 @@ why we went for more simple approaches first
             so get a clean sample that is small is still valuable because paleo samples are relatively small
         also: not much done before so it is better to start out simple and build from there
 
-first question: is the input the whole phrase, words or characters? next question
+first question: is the input the whole phrase, words or characters? sect sequence learning. 
+since words are better, section tooth thinks about how to solve image of word to tooth type problem.
+once we know how i show u how to use the models, how the system will work
 
 \subsubsection{Sequence learning or character classification}
 
@@ -718,11 +706,8 @@ sequence definition: image to variable-length phrase (text in the image)
 word per word approach, inspired by \cite{tibetan_ocr}:
     input is image of one word
         one tooth = one word
-    output is the text on the image
-    chain of models, inspired by \cite{tibetan_ocr}: take in image, tooth or not
-        (tibetan: classify which script style, then recognize so classifier chaining)
-        if tooth give to tooth classifier 
-        if not tooth give to basic word reader
+    output is the text on the image, when the word is a tooth output is valid tooth notation so m1-3 p1-2 etc
+        left and right are not there like lm3 because it is sometimes in other formats like "left mandibular frag with m1-2"
 character by character approach: input character image, output character 
     we cannot do this because there is no readily made segmentation of image to characters 
     would also not make much sense because tooth notation letter and number should be kept together
@@ -751,7 +736,7 @@ classifying characters has been essentially solved, easy problem
 also classifying to tooth or not tooth should be easy 
 
 word by word bad sides
-    not as flexible
+    not as flexible. but we started with the easier anyway to have something thats working
 
 so, word by word. next: formulate image of word to correct output more precisely
 
@@ -759,7 +744,8 @@ so, word by word. next: formulate image of word to correct output more precisely
 
 approach: tooth or not tooth. then classify teeth. 
 not tooth straightforward: use azure output
-tooth less straightforward, topic here
+tooth less straightforward, topic here: x is the image of the marking, y is tooth type, but what is the 
+softmaxed probability vector the model should output? so what are the target classes?
 
 formulation of tooth image to tooth type
     univariate: m1,m2,m3,p1,p2,p3,p4,c,i1,i2,i3 up and low (22 classes)
@@ -775,6 +761,7 @@ formulation of tooth image to tooth type
             -: no such thing as a 3rd canine 
                 so not all variable combinations are possible. no easy well established way to encode that to the model 
                     what will we do if the model thinks its a 4th canine?
+            -: even when it was easy \cite{tibetan_ocr} kinda already argued the multilabel is a bad approach
 
     model ensemble/ chained classifiers to the rescue
         separate models. mpic model, updown model, m1m2m3 model, i1i2i3 model, p1p2p3p4 model
@@ -793,6 +780,11 @@ reason for this choice: it encodes most prior knowledge in the output structure,
 
 \subsubsection{The proposed pipeline}
 
+chain of models, inspired by \cite{tibetan_ocr}: take in image, tooth or not
+    (tibetan: classify which script style, then recognize so classifier chaining)
+    if tooth give to tooth classifier 
+    if not tooth give to basic word reader
+
 summary: the pipeline
 split catalogue to word segments by azure bounding boxes 
 classify each word: tooth notation or not?
@@ -808,40 +800,21 @@ if tooth
         give to i1 i2 i3 model
     return index type upperlower combined
     note: left right ignored for now as it is more complex (l lt left, not always right before word)
+    take from all models min confidence of the top class pick and use that as confidence notation for 
+    tooth classification. save it
 then collect all teeth to tuple 
+    confidence of teeth tuple is the minimum confidence among all tooth.
+    threshold: if below x, mark the row for manual inspection, otherwise dont inspect (esim human level recognition like 99,7\% or smthn)
 then concatenate description back       
 
 \subsection{Building the models}
 
-6.2 experimental choices for model building
-
-6.2.2 dataset creation
-
-a bit on how i got the training data 
-data balancing
-data augmentation
-
-6.2.1 training setting
-
-base models
-finetuning strategies
-hyperparameters
-experiment evaluation (from notes why i do x and dont do y)
-
-the story.
-i have this problem. for it to be solved with nn, i need to formalize it. therefore i formalize it
-here you go. 
-so therefore, i need these nn networks. to build them i need to make choices. so next i make choices on what to try because there is an infinite number of things i could be trying
-
-i choose base model transfer tech and hyperparameters based on papers, data aug and preprocessing based on the data that i have.
-(it would make sense to have the literature review here but i guess i cannot do it like that)
-so now i tell you about the data and choose aug and preprocessing
-so then i tell you which base models and transfer style and hyperparams id like to choose, so i return to a table i showed you like gazillion pages ago
-(but the literatuure was presented ages ago
+so now we know we need these models: restate models. now we choose what to try when building them
+list subsubsections, these are the aspects
 
 \subsubsection{Creating the training dataset}
 
-how i got the data, how i balanced n augmented it
+how i got the data
 
 Data was extracted from scans by getting bounding boxes from Azure Vision API,
 finding the correct column (nature of specimen or element), and cropping the image 
@@ -849,71 +822,62 @@ according to bounding boxes.
 regular expressioning, mention () , L R
 
 multiple catalogues used to create training set to get versatile notation
+train and val from same catalogues, test set from new one to hopefully introduce concept drift
+    train on train, model select on val, report accuracy on test set -> true not best but more so worse case generalization accuracy, get that high u real good
 
 labeling:
 mpi, index number: assume that azure reading is correct where reading is a valid tooth notation
-if incorrect, do not use as training data
-up low: hand label with binary label 0 for low 1 for up
+if incorrect, leave out label and handlabel (dont throw out since these are the hard cases and are valuable!)
+up low: hand label with binary label 0 for low 1 for up, -1 for undeciberable
+    why an undeciberable class:
+    - undecipherable upper/lower: the correct answer is not any of the two, so false or correct classification is equally bad, so accuracy does not fully reflect if the model works perfectly or not.
+    - forcing model to think something a human cannot classify should contain some traits where it could figure which one it is is false and will confuse the model -> worse results
 
 hard cases
-some especially for upper or lower are also impossible for human to tell (here some green i's with circled numbers)
 Some have been corrected by writing on top and thus are very hard 
 even for humans to read, this is also an example of correction, line on top with different
 intensity of the line: 
 
 \includegraphics*[scale=0.2]{../images/superambiguous_data_sample.png}
 
-data balancing
-in experiments: accuracy up by 10\% when balancing classes in input data, 
-as predicted in \cite{heLearningImbalancedData2009}
-
-segmentation and coloring out white area idea 
-    but im not doing that since nn is supposed to be the best feature extractor
-grayscaling by putting same color channel 3 times to fit imagenet model input shape
+if it was completely impossible for mpic or index number, was omitted. these were veryvery rare, a few instances out of hundreds of em
 
 \subsubsection{Data preprocessing}
 
 data preprocessing
 
-grayscaling
+grayscaling (rgb to gray, stack 3 on top to match input size. remove rgb so model does not try to deduce something based on color, it should not)
+smoothing? w gaussian filter?
 
-I should especially do random cropping since that occurs in real dataset!
+5.11 screenshot: see image has this noise where the scanner distinguishes on the paper some kind of noise, it should definitely be removed
 
-I sould do some border contrast decrease center contrast increase because border noise is present and usually less relevant 
-
-all these: test first without, then add preprocessing step, then re-test
-
-i am able to get labeled MPIC data by getting azure outputs where the letter is mpi or c
+but not too much preprocessing: it makes the image look less like a real world image so it could increase transfer distance, 
+but then again there was the some paper that said binarizing would be great
+apparently also sometimes pencil has been erased so there is pencil eraser noise
 
 segmenting out the letter: does not make sense since the premise of deep learning is 
 to to feature extraction better than a human would do. to segment out the letter you would 
 need to know which area is the letter and to know that you need to know what letter there 
-is which is the problem in the first place, so unsolvable egg hen problem
+is which is the problem in the first place, so unsolvable egg hen problem. show some example from preprocessing notebook
+
+no binarizing: some letters are super weak text so theyd get lost and some background clutter might be dark.
+popular was wan thresholding but im not confident in this case where intensities change so much you could 
+do any deterministic binarization
+
 \subsubsection{Data augmentation}
 
+how i will augment: those that might happen in scanning process
+intensity value change (idk scanner illuminates differently)
+change background and letter contrast (some paper is lighter than other)
+random cropping (to mimic bounding box detection errors, dont translate bc that creates the white background that never occur in test data)
+minor rotation (up to 5 degrees, scanner does not turn that much and handwriting is generally pretty straight)
+blurring filter (to mimic pen vs pencil)
+
+data balancing by saving some augmented images, otherwise random aug
+in experiments: accuracy up by 10\% when balancing classes in input data, 
+as predicted in \cite{heLearningImbalancedData2009}
+
 \subsubsection{Base model selection}
-
-
-new
-
-experiment choices 
-    base models
-    layer freezing 
-    i will skip hyperparameter tuning to only vary one thing between each experiment 
-        hyperparams from papers: get most commonly used ones
-        but:
-            if the experiment results hold across a population -> which method works best should work best in all 
-                hyperparametrizations and not only in this one. vary hyperparameters and check if comparison 
-                    (which was better than which) still holds
-            differences in accuracy are due to the hyperparameters being more optimal in some cases than some 
-                you can never really eliminate this 
-                one should further verify how robust the experiments are to hyperparameter changes
-                I can test around a little bit to check that my some better than some holds at least in most cases
-    evaluation: accuracy
-
-old
-
-initial sequence learning attempts done with \cite{li2021trocr}, proof of concept so no real exhaustive comparison literature review
 
 Chosen public dataset was EMNIST \cite{emnist} because it is the closest to my problem: a large dataset of labeled letters and numbers.
 
@@ -924,24 +888,78 @@ in the handwritten catalogues, upper or lowercase was not used to distinguish up
 mnist and real world fundamental difference: mnist is perfect world, real images vary much more \cite{alexnet}
 therefore: not e(mnist) as source problem, but imagenet classification.
 
-three lines: imagenet, unsupervised pretraining (denoising autoencoder?), and MNIST/EMNIST (my hypothesis: transfer distance is shorter could be an advantage)
-also the fact that the related work was not that high quality, no readable code published so i don't trust them without question...
+return to tables 3,4 which base models seemed to work in literature
+those variants that occur many times in top3
+efficientnet
+vgg16
+densenet121
+resnet101
+obvious flaw: no whys in prev work why they chose what they chose but 
+one cannot test everything so we choose these.
 
+\subsubsection{Transfer method selection}
+
+why i only always keep unfrozen layers after frozen layers
 some papers did some first layer unfreezing, or middle layer unfreezing ie something else 
 but not freezing last layers. dismiss that because 
 they did not state why they did that. from the learn higher and higher level features point of view 
 having an not frozen layer and then after that a frozen one does not make any sense; the later 
 layer is based on the previous. so never in experiments have a frozen layer below a layer that is frozen
 
-\subsubsection{Transfer method selection}
+why i start from more frozen to less frozen
+more frozen is less training effort, more generalizable (less is fit to specific data set)
+this is overall better so therefore first this
+if the search space of parameters is too small (model converges to low accuracy), freeze one layer by one 
+until overfits: training error is much larger than test error. sign: we trained too many parameters / for too long
+
+\subsubsection{Evaluation metric selection}
+
+accuracy.
+
+it is noticed that up low is the hardest ml task of these. so select based on uplow performance and use that on the rest of models
+if not 100\% accuracy reconsider your choices
+
+not tp fp things because they dont make sense
+
+not any which classes get confused outside of confusion matrix: there are so few classes anyways
 
 \subsubsection{Hyperparameter selection}
 
+fix hyperparameters: do not experiment with too much at a time.
+Take hyperparameters that were most common among reviewed literature.
+
+the hyperparameters
+
+batch size 
+num epochs 
+optimizer 
+learning rate 
+learning rate scheduling
+loss function
+train test split
+    check test error granularity
+many runs and final accuracy averaging; how many runs
+
+For each: list what papers used generally, pick a nice average value
+then i tested with the best model these to check sensitivity to hyperparameter choice, so 
+robustness of optimization. esp change the random seed to see results dont depend on that
+    but so the hyperparam sensitivity thing:
+        if the experiment results hold across a population -> which method works best should work best in all 
+            hyperparametrizations and not only in this one. vary hyperparameters and check if comparison 
+                (which was better than which) still holds
+        differences in accuracy are due to the hyperparameters being more optimal in some cases than some 
+            you can never really eliminate this 
+            one should further verify how robust the experiments are to hyperparameter changes
+            I can test around a little bit to check that my some better than some holds at least in most cases
+
 % summary of chapter
 this chapter gave an overview of how the experiments were set up and why they were set up in this way.
+a sentence from all: sequence not done bc its complex. multiclass not done bc it is worse according to \cite{tibetan_ocr}.
+training setting: preprocessing by denoising only because nn premise is that the net is better at feature extraction than human.
+augmentation: intensity change background contrast change random crop letter blur minor rotation because these can happen in catalogue scans
+base models are: efficientnet vgg16 densenet121 resnet101 because they were popular and or won comparing benchmarks in previous work
+freezing first more then less bc if more works its better, find sweet spot of most freezing that is still accurate.
 in the next chapter: results of these experiments
-then i am done so i reiterate to you what just happened
-i had this task. i solved it like this, so i needed these models. so i chose these things to try to build the models. next i present how it worked.
 
 \section{Results and discussion}
 
