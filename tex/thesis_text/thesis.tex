@@ -12,6 +12,7 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{tikz}
+
 \usetikzlibrary{positioning}
 
 \addbibresource{../bibliography.bib}
@@ -1413,7 +1414,7 @@ Limbachiya et al. \cite{2limbachiyaGujarati} implemented digits and letters dete
 
 As the only work reading characters from a banchmark dataset of handwriting, Rizky et al. \cite{7rizkybasicCnnTransfer}
 first compared various architectures and then used the best model, VGG-16, to compare multiple transfer learning 
-approaches, reaching a final accuracy of 98,16\%. However, to achieve this accuracy, the exact best data augmentation parameters of 
+approaches, reaching a final accuracy of 98,16\% by fine-tuning the whole network. However, to achieve this accuracy, the exact best data augmentation parameters of 
 rotation angle, image scale and blur style are searched for, raising concerns of real-world generalizability of this result.
  While the dataset is likely to be easier than the fossil case, the relative accuracy of 
 various approaches can give valuable insight to inform choices in designing the dental marking recognition model.
@@ -1452,15 +1453,58 @@ classes from challenging palm leaf scan images. The work includes many valuable 
 data augmentation and dataset expansion insight, and comparison of multiple convolutional and attention based model 
 architectures. As the main result it is concluded that convolutional networks tend to outperform transformer architectures.
 
-% nextii. 
-% joku muuki teki svm, kuka?
-% joku muuki huomas et vit ei oo nii hyvä, kuka?
+Details on all the works presented above are summarized on Tables \ref{tab:dataset-info} and \ref{tab:model-info}. Where multiple settings 
+were experimeted with, the class count producing the highest accuracy score and the three best 
+base model variants are listed starting from the best for brevity. The Tibetan detection article \cite{tibetan_ocr}
+is omitted due to transfer setting being very different to the other works. Replacing the last layer with a 
+softmax layer with ouput size equal to target class count is not 
+stated in the table as it was done in every case. The shorthand 'FC' is used to denote a fully connected layer.
 
-Details on all the works presented above are summarized on Table todo. Where multiple approaches 
-were experimeted with, the highest accuracy relative to number of target classes and the three best 
-base model variants are listed for brevity. The Tibetan detection article \cite{tibetan_ocr}
-is omitted due to transfer setting being very different to the other works. If a detail is omitted,
-it was not stated with sufficient clarity in the original work.
+\begin{table}[h!]
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|l|c|c|}
+\hline
+\textbf{Article} & \textbf{Language} & \textbf{Number of Classes} & \textbf{Samples per Class} \\ \hline
+\cite{1akhlaghiFarsi}                & Farsi             & 10                         & 8,800                       \\ \hline
+\cite{2limbachiyaGujarati}                & Gujarati          & 54                         & 1,400                       \\ \hline
+\cite{3chatterjeeBengali}                & Bangla            & 84                         & 1,977                       \\ \hline
+\cite{5rasheedHandwrittenUrduWAlexNet}                & Urdu              & 10                         & 840                        \\ \hline
+\cite{6shoponBangla}                & Bangla            & 10                         & 2,922                       \\ \hline
+\cite{7rizkybasicCnnTransfer}                & English           & 36                         & 2,055                       \\ \hline
+\cite{8goelGujarati2023}                & Gujarati          & 10                         & 800                        \\ \hline
+\cite{9thuonPalm}                & Ancient Balinese (1), Sundanese (2), Khmer (3) & 100 (1), 111 (2), 60 (3) & 193 (1), 1,836 (2), 122 (3) \\ \hline
+\cite{10goelGujarati}               & Gujarati          & 10                         & 250                        \\ \hline
+\cite{11zunairUnconventionalWisdom}               & Bangla            & 10                         & ~8,500                     \\ \hline
+\end{tabular}
+}
+\caption{Literature Summary: Datasets}
+\label{tab:dataset-info}
+\end{table}
+
+
+\begin{table}[h!]
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|l|l|}
+\hline
+\textbf{Article} & \textbf{Best Accuracy} & \textbf{Base Model(s)} & \textbf{Transfer Method} \\ \hline
+\cite{1akhlaghiFarsi}                & 99.37\%                & New Architecture       & -                        \\ \hline
+\cite{2limbachiyaGujarati}                & 97.03\%                & MobileNet, DenseNet, VGG16 & Train new FC layer + dropout + output \\ \hline
+\cite{3chatterjeeBengali}                & 96.12\%                & ResNet50               & Train all layers, increase learning rate for later layers \\ \hline
+\cite{5rasheedHandwrittenUrduWAlexNet}                & 98.21\%                & AlexNet                & Train all layers but last layer most \\ \hline
+\cite{6shoponBangla}                & 99.5\%                 & Autoencoder (trained on Bangla) & Append small deep CNN to autoencoder, no freezing \\ \hline
+\cite{7rizkybasicCnnTransfer}                & 98.16\%                & VGG16, DenseNet121, ResNet18 & Train all layers        \\ \hline
+\cite{8goelGujarati2023}                & 97.92\%                & EfficientNetV2S, Xception, ResNet101                    & Train all fully connected layers \\ \hline
+\cite{9thuonPalm}                & 91.85\%                & EfficientNetB0, EfficientNetB1, ResNet101 & Freeze first layers \\ \hline
+\cite{10goelGujarati}               & 96.5\%                 & EfficientNet, InceptionV3, ResNet101 & Add 2 FC layers + output layer, no freezing \\ \hline
+\cite{11zunairUnconventionalWisdom}               & 97.09\%                & VGG16                  & Freeze layers 16-20 (3 convolutional, 1 pooling layer) \\ \hline
+\end{tabular}
+}
+\caption{Literature Summary: Accuracy, Base Model, and Transfer Method}
+\label{tab:model-info}
+\end{table}
+
 
 \section{Experimental setup}
 
