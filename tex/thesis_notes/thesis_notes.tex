@@ -629,16 +629,31 @@ layer freezing
 
 \section{Experimental setup}
 
-introduction paragraph: the point of these experiments
+now we consider the fossil case again.
+my goal in this work is xxx.
+
 the hypothesis: doing the pipeline approach and classifying teeth to types with a series of models
 will result in highly accurate cleaned tooth data
     verify that this is possible
     experiment with base models and layer freezing to find best accuracy score
 overview of chapter
-    first: formulate the problem ie how to interpret the ambiguous goal of "clean element description tooth markings"
-    to a x to y mapping that can be taught to a deep neural network
-    then: describe how catalogue scans are transformed to a training dataset
-    last: describe training setup: which models are trained in what ways exactly
+    sect 6.1 formulate the problem ie how to interpret the ambiguous goal of 
+    "clean element description tooth markings" set of x to y mappings that can be taught to a deep neural network
+    and how to build a system from the mappings that achieves the goal
+    sect 6.2 the training settings attempted informed by literature
+    for creating the required models is chosen
+	
+6.1 problem formulation 
+
+ie task to nn task
+incl exact stuff on what the problem is
+
+6.1.1 why not sequence learning
+
+6.1.2 teeth: divide and conquer
+	
+summary high level pipeline
+list models, give flowchart and pseudocode description
 
 \subsection{Problem formulation}
 
@@ -646,8 +661,6 @@ point of this section:
 present the data and how it should be processed
 explicitly state the goal of the work, deduce which x to y mapping, to be 
 taught to a machine learning model, is best hypothesized to solve the goal
-
-\subsubsection{Data and goal description}
 % what data we are talking about, what has been done, what is my goal now
 
 what the catalogue is exactly
@@ -699,7 +712,7 @@ why we went for more simple approaches first
 
 first question: is the input the whole phrase, words or characters? next question
 
-\subsubsection{Sequence or character-by-character recognition}
+\subsubsection{Sequence learning or character classification}
 
 sequence definition: image to variable-length phrase (text in the image)
 word per word approach, inspired by \cite{tibetan_ocr}:
@@ -742,7 +755,7 @@ word by word bad sides
 
 so, word by word. next: formulate image of word to correct output more precisely
 
-\subsubsection{Tooth notation image classification}
+\subsubsection{Tooth marking classification: multi-label classification or classifier chaining}
 
 approach: tooth or not tooth. then classify teeth. 
 not tooth straightforward: use azure output
@@ -798,7 +811,37 @@ if tooth
 then collect all teeth to tuple 
 then concatenate description back       
 
-\subsection{Creating the training dataset}
+\subsection{Building the models}
+
+6.2 experimental choices for model building
+
+6.2.2 dataset creation
+
+a bit on how i got the training data 
+data balancing
+data augmentation
+
+6.2.1 training setting
+
+base models
+finetuning strategies
+hyperparameters
+experiment evaluation (from notes why i do x and dont do y)
+
+the story.
+i have this problem. for it to be solved with nn, i need to formalize it. therefore i formalize it
+here you go. 
+so therefore, i need these nn networks. to build them i need to make choices. so next i make choices on what to try because there is an infinite number of things i could be trying
+
+i choose base model transfer tech and hyperparameters based on papers, data aug and preprocessing based on the data that i have.
+(it would make sense to have the literature review here but i guess i cannot do it like that)
+so now i tell you about the data and choose aug and preprocessing
+so then i tell you which base models and transfer style and hyperparams id like to choose, so i return to a table i showed you like gazillion pages ago
+(but the literatuure was presented ages ago
+
+\subsubsection{Creating the training dataset}
+
+how i got the data, how i balanced n augmented it
 
 Data was extracted from scans by getting bounding boxes from Azure Vision API,
 finding the correct column (nature of specimen or element), and cropping the image 
@@ -828,7 +871,7 @@ segmentation and coloring out white area idea
     but im not doing that since nn is supposed to be the best feature extractor
 grayscaling by putting same color channel 3 times to fit imagenet model input shape
 
-
+\subsubsection{Data preprocessing}
 
 data preprocessing
 
@@ -846,8 +889,10 @@ segmenting out the letter: does not make sense since the premise of deep learnin
 to to feature extraction better than a human would do. to segment out the letter you would 
 need to know which area is the letter and to know that you need to know what letter there 
 is which is the problem in the first place, so unsolvable egg hen problem
+\subsubsection{Data augmentation}
 
-\subsection{Selection of base models and transfer learning configurations}
+\subsubsection{Base model selection}
+
 
 new
 
@@ -888,9 +933,15 @@ they did not state why they did that. from the learn higher and higher level fea
 having an not frozen layer and then after that a frozen one does not make any sense; the later 
 layer is based on the previous. so never in experiments have a frozen layer below a layer that is frozen
 
+\subsubsection{Transfer method selection}
+
+\subsubsection{Hyperparameter selection}
+
 % summary of chapter
 this chapter gave an overview of how the experiments were set up and why they were set up in this way.
 in the next chapter: results of these experiments
+then i am done so i reiterate to you what just happened
+i had this task. i solved it like this, so i needed these models. so i chose these things to try to build the models. next i present how it worked.
 
 \section{Results and discussion}
 
