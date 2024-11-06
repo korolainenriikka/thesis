@@ -1557,9 +1557,7 @@ To give an exact task to a neural network, one needs to explicitly define
 the inputs and outputs to the network, and determine how they will be obtained and used.
  As this work is a continuation of 
 a previous digitzation project, this section first presents the starting point 
-from the project output and characteristics of the scan images. After that,
-the input type, image of sentence or word is chosen, followed by a formalization
-of the model output probability vector.
+from the project output and characteristics of the scan images. 
 
 % data and what has been done until now
 % what the catalogue is exactly: tabular handwritten log of fossils
@@ -1701,7 +1699,7 @@ likely increasing the result quality. As for downsides, the clear practical hind
 that the flexibility requires huge parameter counts: an attempt was done to fine-tune the 
 Microsoft TrOCR model \cite{li2021trocr}, but the training set sizes and available computational 
 resources proved insufficient to train the model with 500 million parameters even when updating only one layer,
-the smallest parameter count that still recognized handwriting accurately. The end result of the fine-tuning 
+and results of smaller models tested were not satisfactory. The end result of the fine-tuning 
 attempts had severely decreased 
 accuracy on handwriting without any special characters. A theoretical description of this 
 case is that because both the domain, from general handwriting to fossil catalogues, 
@@ -1836,7 +1834,47 @@ Next, the end-to-end pipeline for getting the tooth markings out of the catalogu
 % then collect all teeth to tuple 
 %     confidence of teeth tuple is the minimum confidence among all tooth.
 %     threshold: if below x, mark the row for manual inspection, otherwise dont inspect (esim human level recognition like 99,7\% or smthn)
-% then concatenate description back       
+% then concatenate description back      
+To summarize the problem formulation discussion above, the end-to-end dental fossil marking system,
+illustrated as a flowchart in Figure \ref{fig:pipeline}, has 
+the following components. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=.3]{../images/flowchart.png}
+    \caption{Flowchart of the proposed tooth recognition pipeline}
+    \label{fig:pipeline}
+\end{figure}
+
+For all words, bounding boxes and reading results, detected on the element column by Azure AI, the word is first classified to tooth marking or other word.
+To sufficiently constrain the input data to the downstream model, this classification is completed 
+with a simple regular expression checking whether the Azure reading result of the word consists of a letter and number, or only the 
+letter C. Once more robust classifiers are built, this part can then be replaced with another deciding 
+heuristic that would then allow a larger variety in tooth notation images to be cleaned; the regular expression 
+only recognizes a small fraction due to frequent errors in bounding box detection.
+
+The images of the words, extracted from the catalogue by the bounding box, that are classified as tooth markings are given first to a binary image classifier deciding whether the tooth 
+is upper or lower jaw and then to a model recognizing if the tooth type is molar, premolar or incisor: as 
+canines lack the number and are recognized as teeth only when Azure claims the word to contain a C, there is 
+no need to re-classify the tooth marking as a canine. It should be noted that as soon as the tooth marking decision 
+heuristic is made more complicated, it is likely that the fourth class has to be added to the tooth type classifier.
+Once the type is decided, the tooth marking image is given to the appropriate index number model. Finally, 
+the three pieces of information obtained; jaw, type and number; are combined as the digital tooth marking 
+notation. As the final step, all words in the element column are concatenated, and all found teeth are 
+collected as a tuple to the tooth records column.
+
+To avoid as much manual verifying of the result as possible, additional confidence information is added 
+to each tooth marking entry. As each classifier produces the probability of the image containing the 
+chosen class as a side result, this probability can be saved as a confidence score. The confidence is taken 
+per element description phrase (such as 'much of R. mandible ($\text{P}_4$ - $\text{M}_3$)') by taking the minimum over all 
+model confidence scores obtained during inference for the tooth records. For example, if in the 
+example description every other decision would be of 100\% confidence but the second tooth being a molar 
+would only have 70\% confidence, the confidence of the entire row would be 70\%. This conservative approach is 
+due to the costliness of errors: one needs to be very certain before data can be left without manual 
+verification.
+
+Next, details related to building the models presented in this section and are 
+presented.
 
 \subsection{Building the models}
 \label{sect:building-models}
@@ -1844,35 +1882,75 @@ Next, the end-to-end pipeline for getting the tooth markings out of the catalogu
 % so now we know we need these models: restate models. now we choose what to try when building them
 % list subsubsections, these are the aspects
 
+Given the chosen system and using a regular expression as the classifier of words to tooth markings 
+and other words, a total of five classifiers are needed for the system: the upper/lower classifier, 
+tooth type classifier, and the three downstream tooth index number classifiers. The experimental 
+section considers how to build these models with maximal accuracy, for which several design decisions 
+need to be made for setting up the experiments: data preprocessing and augmentation along with base model,
+transfer learning method, evaluation metric and hyperparameter selection. After a presentation of the creation 
+of the training dataset, these aspects are considered.
+
 \subsubsection{Creating the training dataset}
 
 % how i got the data
-
 % Data was extracted from scans by getting bounding boxes from Azure Vision API,
 % finding the correct column (nature of specimen or element), and cropping the image 
 % according to bounding boxes.
 % regular expressioning, mention () , L R
+The training dataset with xx (TODO insert how many) samples was extracted from the fossil 
+catalogues using the first two steps on the processing pipeline in Figure \ref{fig:pipeline}:
+for each word under the element describing header, the OCR output was classified 
+to tooth or other with the regular expression, and 
+images with tooth notation were cropped out from the catalogue. Along with the image, the 
+Azure Vision OCR result was saved. To have as versatile notation as possible, images were 
+extracted from several catalogues.  
+(TODO: mention here if you add , and () to the regex later!)
 
 % multiple catalogues used to create training set to get versatile notation
 % train and val from same catalogues, test set from new one to hopefully introduce concept drift
 %     train on train, model select on val, report accuracy on test set -> true not best but more so worse case generalization accuracy, get that high u real good
+After extraction, data balancing and splitting to training, testing and validation sets 
+was completed with the splitting ratios TODO give ratios here.
+Because incisors and canines were much more rare 
+than molars and premolars in the catalogues, some of the former were manually cropped out 
+of catalogues to achieve more variety among these classes. After this, the differences 
+in sample count between the most frequent class (molars) and others was computed, and augmented 
+images were saved for the other classes to make class sample counts exactly equal. The augmentation 
+method used will be presented in section TODO aug section. The dataset sizes and samples counts per class 
+for each model are collected in Table TODO (train val test and samples per class for all 5 model training sets!).
 
 % labeling:
 % mpi, index number: assume that azure reading is correct where reading is a valid tooth notation
 % if incorrect, leave out label and handlabel (dont throw out since these are the hard cases and are valuable!)
-% up low: hand label with binary label 0 for low 1 for up, -1 for undeciberable
-%     why an undeciberable class:
+% up low: hand label with binary label 0 for low 1 for up, -1 for undecipherable
+%     why an undecipherable class:
 %     - undecipherable upper/lower: the correct answer is not any of the two, so false or correct classification is equally bad, so accuracy does not fully reflect if the model works perfectly or not.
 %     - forcing model to think something a human cannot classify should contain some traits where it could figure which one it is is false and will confuse the model -> worse results
+For data labeling, the previous outputs from Azure Vision was heavily utilized. For 
+tooth types and index numbers, if the reading result was a valid class, it was assumed to 
+be correct and used as a label, which saved a significant amount of labeling effort. As the 
+images were saved in class-specific directories according to the PyTorch ImageFolder interface,
+the correctness of the labels and that all images really were tooth markings could easily be verified by visual inspection. Upper and lower jaw labeling 
+was completed manually with a ternary label, zero noting lower, one upper, and -1 an undecipherable jaw.
+The undecipherable class was included as there were images where the jaw could not be decided by a human annotator, 
+and therefore the correct answer for such an instance would be 'unknown'. Forcing these to be either upper or lower jaw 
+would distort the classification task, as perfect accuracy would be an undesirable result as the model should 
+make mistakes with the undecipherable samples, and confuse the model as it is required to find signals on why 
+the notation is either jaw when none are to be found.
 
-% hard cases
-% Some have been corrected by writing on top and thus are very hard 
-% even for humans to read, this is also an example of correction, line on top with different
-% intensity of the line: 
+As the work was completed under a non-disclosure agreement to protect the data, the training datasets were not 
+made public. As the problem ended up being an interesting task from the perspective of optical character recognition, 
+bringing even parts of the catalogue scans available for researchers and machine learning hobbyists could prove to be 
+very valuable both for improving the digitized data quality and advancing character recognition techniques.
 
-% \includegraphics*[scale=0.2]{../images/superambiguous_data_sample.png}
+A small sample of the training dataset of premolars is presented in Figure \ref{image:samples}.
 
-% if it was completely impossible for mpic or index number, was omitted. these were veryvery rare, a few instances out of hundreds of em
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=.5]{../images/trainingsamples.png}
+    \caption{Samples from the training dataset for tooth type classification of premolar markings.}
+    \label{image:samples}
+\end{figure}
 
 \subsubsection{Data preprocessing}
 
