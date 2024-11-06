@@ -1455,7 +1455,7 @@ architectures. As the main result it is concluded that convolutional networks te
 
 Details on all the works presented above are summarized on Tables \ref{tab:dataset-info} and \ref{tab:model-info}. Where multiple settings 
 were experimeted with, the class count producing the highest accuracy score and the three best 
-base model variants are listed starting from the best for brevity. The Tibetan detection article \cite{tibetan_ocr}
+base model variants are listed starting from the best for brevity. The Tibetan detection article \cite{4zhaoTibetan}
 is omitted due to transfer setting being very different to the other works. Replacing the last layer with a 
 softmax layer with ouput size equal to target class count is not 
 stated in the table as it was done in every case. The shorthand 'FC' is used to denote a fully connected layer.
@@ -1573,7 +1573,7 @@ of the model output probability vector.
 % photo-to-tabular has been done but:
 %     teeth have errors in ocr output (eg tooth types that are not m p i or c)
 %     upper lower jaw is unknown since ocr used in table (azure) cannot read up/low jaw notation
-The fossil catalogue images are hand-drawn tables with mostly uniform columns, such 
+The fossil catalogue images are hand-drawn tables with information such 
 as accession identifiers, localities and element descriptions. The element description 
 column, under the "description" or "element" header in the catalogues, contains 
 information on what part of the skeleton the fossil is from and therefore is the only 
@@ -1582,26 +1582,45 @@ were available, thus the catalogues occasionally contain special symbols recogni
 but that might only occur once in the whole set of catalogues. Additionally, 
 no standard exists for how the elements should be notated, perhaps because only a few people 
 created these markings, leading to a less standardized style.
-A sample of the catalogues is presented in Figure TODO.
+A sample of the catalogues is presented in Figure \ref{image:cataloguesample}.
 The previous project managed to digitize most of the contents of the table, but since 
 the untuned Azure AI OCR model \cite{azurevision} was used, the tooth notation recognition
 loses information of upper or lower jaw tooth due to special characters, and sometimes
 erroneously recognizes tooth type letters and index numbers as characters one can know 
-to be incorrect with prior knowledge on characters present in tooth notation (M, P, I, C, 1, 2, 3 and 4).
+to be incorrect with prior knowledge on characters present in tooth notation.
+The aim of the experiments in this work is to find an approach for fixing these errors.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.5]{../images/cataloguesample3.png}
+    \caption{A sample from the fossil catalogue sheets of the National Museum of Kenya}
+    \label{image:cataloguesample}
+\end{figure}
 
 % what i am doing now
 % with the catalogue is to take an element description (give sample image).
 % of this description, i should find what teeth are mentioned, and list them as a tuple 
 % in another column. (give what teeth there are) and put the cleaned teeth to 
 % the description instead of the not clean word
-% to aid in this i have also the generalist OCR ouputs from azure
-% why standardize
-%     you can eg query in a database for all molars in the data 
-%     if you for example want to study dental traits present in molars only, such as tooth surface wear.
-The aim of the experiments in this work is to find an approach for fixing thse errors.
+% to aid in this i have also the generalist OCR ouputs from azure (bounding boxes are assumed)
+The aim is for the end result dataset to contain a column with a tuple of all teeth present in the 
+element description, and to replace the erroneously read teeth in the element column with the correct 
+marking. The notation used in the end result will be the digital notation presented in Table \ref{table:jaw_notation}.
+The recognition will be built assuming that bounding boxes for cropping out individual words in the 
+catalogues are available; for this purpose, JSON files with bounding boxes obtained in the 
+previous project output obtained with Azure Vision are used. An example of the desired output, 
+obtained by hand-annotating as no perfect solution is found in this work, is presented in Figure \ref{image:goal}. 
+As can be seen from the dataset sample, the end result in terms of the other data is far from perfect, and 
+therefore much remains to be done after this work.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.5]{../images/goal.png}
+    \caption{The goal: teeth are listed in tooth records column and the description column contains correct markings.}
+    \label{image:goal}
+\end{figure}
 
 % so: we have the vague goal of catalogue to cleaned element description with teeth tuple extracted.
-
 % general on goal to nn: the generality vs accuracy tradeoff and what i should aim for
 % different types of defining inputs and outputs, discussion on what to choose
 % generality ease trade off: constrain to simple input output relation causes model to be 
@@ -1613,7 +1632,6 @@ The aim of the experiments in this work is to find an approach for fixing thse e
 % example of a very unconstrained setting
 %     input: the whole catalogue image
 %     output: a tabular dataset of all text there perfectly cleaned no matter the anomalies
-% A balance between the extremes, closer to the easy side
 % why we went for more simple approaches first
 %     because the part of data that can be digitized with the tightest constraints and the simplest models are most accurate. Do that first, deal with the remaining later
 %     better to clean small subset of data well than large amount of data badly.
@@ -1622,23 +1640,42 @@ The aim of the experiments in this work is to find an approach for fixing thse e
 %             small compared to other ml applications, 1000 is a lot 10k huge. \cite{Faith_Lyman_2019}
 %             so get a clean sample that is small is still valuable because paleo samples are relatively small
 %         also: not much done before so it is better to start out simple and build from there
+The guiding trade-off to discuss when deciding which neural networks can be of use to achieve the goal
+of corrected tooth notation is between accuracy and generality. The more prior information one gives to 
+the model, or the more constrained the task is for the model, the better the results are. However, a very 
+constrained model is poor at handling the inevitable variability in human-written text.
+The approach implemented aims to start from the most constrained model for multiple reasons. 
+As this domain is relatively unexplored for OCR research, it is a reasonable approach to start out from simple solutions. As one can always first filter out the easiest 
+cases, for instance teeth where bounding box segmentation result is very good, and recognize those,
+cleaning data instances that are easiest is a low-hanging fruit worth starting out from. As more generalist 
+models are usually less accurate even on the easier samples, they are more likely to make mistakes even on these 
+easier cases. Additionally, as the aim of automated digitization is to avoid the tedium of manually checking
+each resulting sample, no model with accuracy less than the human perception level of approximately 99,7\%
+are usable, since even in a case of minor insecurity the sample needs to be checked: sample sizes 
+in paleontological studies are relatively small, thus the cost of a mistake in a dataset is severe as it propagates 
+to every study utilizing the data point.
 
 % first question: is the input the whole phrase, words or characters? sect sequence learning. 
 % since words are better, section tooth thinks about how to solve image of word to tooth type problem.
 % once we know how i show u how to use the models, how the system will work
+With the end goal of correcting the tooth notation and guiding design principle of starting out simple in mind, the next sections will discuss two major questions 
+in how to set up the tooth recognition system: whether to give the whole content of the cell under element header 
+ or only a word to the model, and how to set up the target classes for the classification tasks.
 
-\subsubsection{Sequence learning or character classification}
+\subsubsection{By-sequence or by-word recognition}
 
 % sequence definition: image to variable-length phrase (text in the image)
 % word per word approach, inspired by \cite{tibetan_ocr}:
 %     input is image of one word
 %         one tooth = one word
 %     output is the text on the image, when the word is a tooth output is valid tooth notation so m1-3 p1-2 etc
-%         left and right are not there like lm3 because it is sometimes in other formats like "left mandibular frag with m1-2"
 % character by character approach: input character image, output character 
 %     we cannot do this because there is no readily made segmentation of image to characters 
 %     would also not make much sense because tooth notation letter and number should be kept together
 %     -> choose between sequence and word
+To choose the inputs for the neural networks, one needs to choose whether to give the
+element cell contents as one image, split to words or to characters. As the segmentation 
+data is only available in sentence and word level, the character option is not available in this work.
 
 % sequence benefits:
 %     adaptable to many kinds and lengths of input
@@ -1655,6 +1692,22 @@ The aim of the experiments in this work is to find an approach for fixing thse e
 %             require rewriting parts of the preprocessor and model which is too complex given the level of this work.
 %                 only adequately accurate models are large collaboration efforts to create so code is complex 
 %                 eg trocr is by Microsoft employees
+Sequence learning is a machine learning problem where both input and output lengths vary \cite{sutskever2014sequence}.
+The clear benefit is its flexibility; more difficult cases such as many teeth noted together, eg. $\text{M}_{1-3}$,
+which in many cases end up segmented to different words, could be recognized. A fine-tuned sequence learning 
+model could also be given prior information on that the domain the text is from is 
+about fossils, which would make a large part of the available vocabulary impossible to occur, 
+likely increasing the result quality. As for downsides, the clear practical hindrance is 
+that the flexibility requires huge parameter counts: an attempt was done to fine-tune the 
+Microsoft TrOCR model \cite{li2021trocr}, but the training set sizes and available computational 
+resources proved insufficient to train the model with 500 million parameters even when updating only one layer,
+the smallest parameter count that still recognized handwriting accurately. The end result of the fine-tuning 
+attempts had severely decreased 
+accuracy on handwriting without any special characters. A theoretical description of this 
+case is that because both the domain, from general handwriting to fossil catalogues, 
+and the task, the characters to recognize, changed, the transfer distance becomes so large 
+that significant training data and computational resources are required to adjust the model 
+to the new problem.
 
 % word by word benefits
 % feasible given available data and computing resources
@@ -1664,8 +1717,23 @@ The aim of the experiments in this work is to find an approach for fixing thse e
 
 % word by word bad sides
 %     not as flexible. but we started with the easier anyway to have something thats working
+%     left right cannot be put to tooth markings sometimes in other formats like "left mandibular frag with m1-2"
 
 % so, word by word. next: formulate image of word to correct output more precisely
+Recognizing the markings word by word essentially becomes character classification in 
+the tooth marking case if one constrains the input images to be samples with one letter and 
+one number, thus leaving out the multi-tooth markings with a number interval (eg. $\text{p}_{2-4}$).
+This approach has the benefit that after the rather easy binary classification of a word to 
+tooth marking to other word one can encode prior information on the dental row to the classification
+task by having, for instance, one class for each tooth type, creating classification settings 
+with relatively small number of classes. These can be then solved even with small amouts of 
+data and limited computing resources. The drawback is a lack of flexibility, propagation of 
+bounding box detection errors and that left and right jaw information has to be left out from 
+the tooth records column: the jaw side information is not always given in the same word, 
+in format such as '$\text{LM}_1$', but in other parts of the descriptions, in formats like 'left mandibular frag. with $\text{M}_1$'.
+
+Given the problem of classifying a tooth notation image with a type specifying letter and an index 
+number, the classification setting is formulated next.
 
 \subsubsection{Tooth marking classification: multi-label classification or classifier chaining}
 
@@ -1673,6 +1741,12 @@ The aim of the experiments in this work is to find an approach for fixing thse e
 % not tooth straightforward: use azure output
 % tooth less straightforward, topic here: x is the image of the marking, y is tooth type, but what is the 
 % softmaxed probability vector the model should output? so what are the target classes?
+Given the chosen approach that the processing is completed word by word, and more variable inputs like 
+notation marking multiple teeth with one word are left for future work, one still needs to formalize the 
+output format. The other than tooth case is straightforward; as the Azure AI results are very good, one 
+can re-use the already obtained reading result. Less straightforward is which classes to set up for the 
+tooth marking classification: the image has many points of information, tooth type, jaw and index number with 
+interdependencies like the index number range depending on the tooth type.
 
 % formulation of tooth image to tooth type
 %     univariate: m1,m2,m3,p1,p2,p3,p4,c,i1,i2,i3 up and low (22 classes)
@@ -1689,6 +1763,11 @@ The aim of the experiments in this work is to find an approach for fixing thse e
 %                 so not all variable combinations are possible. no easy well established way to encode that to the model 
 %                     what will we do if the model thinks its a 4th canine?
 %             -: even when it was easy \cite{tibetan_ocr} kinda already argued the multilabel is a bad approach
+The simplest formalization would be to have one class per one tooth, the classes becoming for lower jaw m1-m3, p1-p4, c and i1-i3,
+totaling 22 classes when including the upper jaw teeth. This, however, encodes prior information falsely: univariate classification would 
+mean that all classes are equally dissimilar to one another, which clearly is not the case as some inputs share same letters and 
+some the same numbers. Thus, there are three separate problems; which jaw, which tooth type and which index number is found in the image, 
+and the univariate formalization does not encode this fact.
 
 %     model ensemble/ chained classifiers to the rescue
 %         separate models. mpic model, updown model, m1m2m3 model, i1i2i3 model, p1p2p3p4 model
@@ -1704,6 +1783,29 @@ The aim of the experiments in this work is to find an approach for fixing thse e
 
 % reason for this choice: it encodes most prior knowledge in the output structure, use as much from azure as possible
 %     act according to premise of transfer learning: utilize all prior knowledge, fine tune your approach to problem as little as possible
+The natural variation would be multivariate classification with the classes m, p, i, c, up, low, 1, 2, 3 and 4. However, 
+the most general multivariate setting does not constrain these classes to any groups or that one class would be needed to be chosen from 
+each \cite{multilabel_classification}, thus other works would present approaches where for example the correct classes m, p, 3 and 4 all at 
+once are possible, which is clearly wrong in the tooth case. Additionally, even if the target classes would be grouped and one class
+being correct would be enforced,
+the tooth could be classified with a nonexistent index number, such as the third canine. Thus, the possible classes would need to 
+be constrained to encode this fact, leading to a very complex and unusual classification problem for which it could be difficult to 
+find existing solutions. Added to this, the work on Tibetan glyph recognition identified the complex multivariate formalization of 
+previous Tibetan recognition, where one recognized the character and writing style both at once, the main reason why the resulting 
+accuracies were not as good as in univariate classification \cite{4zhaoTibetan}.
+
+These shortcomings, along with the successful pipeline approach implemented for Tibetan recognition \cite{4zhaoTibetan}
+lead to the univariate classifier chaining approach used in this work: first, one gives the image to a type recognition 
+model, that ouputs one probability vector of four classes, molar, premolar, canine or incisor, and a upper or lower jaw 
+binary classifier. Then, given the tooth type, the image is given to the index number classifier, which has the correct number 
+of classes given the type: three for molars, four for premolars, no model for canine since one is the only correct index, and 
+three for incisors. The three-class cases were built with separate models for the network to not 
+learn connections between the letter and index number, which would be incorrect. The upper and lower classifier was not chained in this way with the tooth type classifier (which would result in eg. a upper or lower 
+molar decision model), because incisor and canine samples were too few to construct datasets of sufficient size, and all tooth types have 
+both upper and lower jaw variants. This approach was not directly found in any other previous work, but was decided 
+for since it seemed like the only one that correctly encoded all similarities and impossible class combinations. 
+
+Next, the end-to-end pipeline for getting the tooth markings out of the catalogues using these models is presented.
 
 \subsubsection{The proposed pipeline}
 
@@ -1722,7 +1824,7 @@ The aim of the experiments in this work is to find an approach for fixing thse e
 %     give to m p i c model
 %     give to upper lower model 
 %     if m
-%         give to m1 m2 m3 model
+%         give to m1 m2 m3 model 
 %     if p
 %         give to p1 p2 p3 p4 model
 %     if i
