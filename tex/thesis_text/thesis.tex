@@ -1942,7 +1942,7 @@ As the work was completed under a non-disclosure agreement to protect the data, 
 made public. As the problem ended up being an interesting task from the perspective of optical character recognition, 
 bringing even parts of the catalogue scans available for researchers and machine learning hobbyists could prove to be 
 very valuable both for improving the digitized data quality and advancing character recognition techniques.
-
+ 
 A small sample of the training dataset of premolars is presented in Figure \ref{image:samples}.
 
 \begin{figure}[h]
@@ -1953,18 +1953,54 @@ A small sample of the training dataset of premolars is presented in Figure \ref{
 \end{figure}
 
 \subsubsection{Data preprocessing}
+ 
+% 1 paragraph: denoising and grayscaling
+The preprocessing of the training, validation and test images was completed by grayscaling, denoising and resizing.
+As the color channels in the images have no meaning for the text content on the image, these were removed 
+by grayscaling the input images and then stacking three identical grayscale images as the three channels 
+to match the three-channel input size required by the base models.
+Denoising was implemented due to the images containing noise from small shadows from 
+paper texture and eraser smudges with the most basic routine, a Gaussian filter.
+The kernel size 3 was chosen by experimentation and visual inspection. Finally, the images were resized to 
+ImageNet image size of 224x224 using bilinear interpolation. A catalogue sample before and after grayscaling and denoising can 
+be found in Figure \ref{image:noise}.
 
-% data preprocessing
+\begin{figure}[h]
+    \centering
+    \resizebox{\linewidth}{!}{%
+        \begin{minipage}[b]{0.45\linewidth}
+            \centering
+            \includegraphics*[scale=0.67]{../images/noise.png}
+        \end{minipage}
+        \hspace{0.5cm}
+        \begin{minipage}[b]{0.45\linewidth}
+            \centering
+            \includegraphics*[scale=0.67]{../images/denoised.png}
+        \end{minipage}
+    }
+    \caption{A catalogue sample with visible paper texture shadow and eraser smudge noise before and after grayscaling and denoising.}
+    \label{image:noise}
+\end{figure}
 
 % grayscaling (rgb to gray, stack 3 on top to match input size. remove rgb so model does not try to deduce something based on color, it should not)
 % smoothing? w gaussian filter?
+% i dont know how i should denoise the image... Gaussian with std 1.0 (not anyhow tested or tuned just the de facto most basic method)
 
 % 5.11 screenshot: see image has this noise where the scanner distinguishes on the paper some kind of noise, it should definitely be removed
-
-% but not too much preprocessing: it makes the image look less like a real world image so it could increase transfer distance, 
-% but then again there was the some paper that said binarizing would be great
 % apparently also sometimes pencil has been erased so there is pencil eraser noise
 
+% 2. paragraph why no more preprocessing
+% but not too much preprocessing: it makes the image look less like a real world image so it could increase transfer distance, 
+% but then again there was the some paper that said binarizing would be great, dont
+% eg not color flipping like lots of reference papers did
+No more preprocessing was implemented on the input images to keep the transfer distance between 
+ImageNet images, that are real-world noisy images, and the target domain images small. For this reason, 
+for instance, flipping the background color to black and text to white was not implemented, even though this 
+is a common practice in other character recognition works. The practice is likely 
+habitual; when using MNIST base models this increased source and target domain similarity,
+and no reasons for color flipping with an ImageNet base model was given in the studied works.
+
+% 3. tested but not implemented things
 % segmenting out the letter: does not make sense since the premise of deep learning is 
 % to to feature extraction better than a human would do. to segment out the letter you would 
 % need to know which area is the letter and to know that you need to know what letter there 
@@ -1973,19 +2009,66 @@ A small sample of the training dataset of premolars is presented in Figure \ref{
 % no binarizing: some letters are super weak text so theyd get lost and some background clutter might be dark.
 % popular was wan thresholding but im not confident in this case where intensities change so much you could 
 % do any deterministic binarization
+More heavy preprocessing steps of binarization and extracting only the letter or number from the image were 
+attempted but not implemented in the final system.
+Binarizing the input images was considered as evidence was found for that to increase result accuracy \cite{9thuonPalm},
+but was not implemented since the noise, in many cases
+ parts of neighboring characters due to bounding box errors, is occasionally of darker 
+color than the correct text making thresholding difficult. Additionally,
+ initial experiments with a MNIST base model suggested the resulting
+accuracies were decreasing when using binary input images. However, binarization scheme was not designed carefully 
+and the experimentation was not exhaustive, so binarization could be experimented with further.
+Another aspect considered after binarizing was to try to segment out the letter for the tooth type recognizer 
+and only the number to the index number recognizer, but it was found that there was so much variability 
+among the images that implementing a deterministic algorithm that worked in every case was very hard. 
+As the premise of deep learning is that such challenging feature extraction becomes unnecessary as the neural 
+network is better at extracting relevant information than a human designing preprocessing routines, these 
+heavier preprocessing operations were not used.
 
 \subsubsection{Data augmentation}
 
+% paragraph 1: augmentation routines were chosen to mimic what could happen really
 % how i will augment: those that might happen in scanning process
 % intensity value change (idk scanner illuminates differently)
 % change background and letter contrast (some paper is lighter than other)
 % random cropping (to mimic bounding box detection errors, dont translate bc that creates the white background that never occur in test data)
 % minor rotation (up to 5 degrees, scanner does not turn that much and handwriting is generally pretty straight)
-% blurring filter (to mimic pen vs pencil)
+% horizontal and vertical shear to mimic different handwriting styles
+The data augmentation operations were chosen according to the variation that can 
+occur among scanned documents with handwriting.
+Due to paper and pen color differences, functions on pixel intensity
+values were used to adjust brightness and contrast by using the 
+torchvision ColorJitter transformation with brightness factor range from 
+0.95 to 1.05 and contrast factor range from 0.8 to 1.2. To mimic bounding box detection errors, 
+a random crop was implemented with the torchvision RandomResizedCrop with 
+scale from 0.9 to 1.0 to not crop out significant parts of the character but 
+still introduce cropping variation. Rotation from -5 to 5 degrees 
+was implemented as some tables were sligtly tilted in the scan images. 
+Lastly, handwriting variation was mimiced with horizontal and vertical 
+shear by setting the shear ranges for both x and y directions from 1 
+to 10 pixels with the RandomAffine operation. White was used as fill color after rotation.
+ A batch of training images after augmentation
+is presented in Figure \ref{image:augmented}.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=.2]{../images/augmented.png}
+    \caption{Samples of the training dataset after data augmentation.}
+    \label{image:augmented}
+\end{figure}
+
+% paragraph 2: data balancing
 % data balancing by saving some augmented images, otherwise random aug
 % in experiments: accuracy up by 10\% when balancing classes in input data, 
 % as predicted in \cite{heLearningImbalancedData2009}
+As class imbalance is known to reduce classification performance \cite{heLearningImbalancedData2009},
+data balancing was implemented using a part of the aforementioned augmentations.
+The balancing was implemented by computing the sample size differences between 
+the most frequent class, and saving a sufficient number of augmented images 
+to the data directories to make the counts of samples in each class 
+exactly equal. Only the random crop and rotation was implemented for class 
+balancing to not run the same augmentation procedure for the new images twice as 
+this double transformation could lead to very distorted training samples.
 
 \subsubsection{Base model selection}
 
@@ -2040,6 +2123,7 @@ A small sample of the training dataset of premolars is presented in Figure \ref{
 
 % the hyperparameters
 
+% image normalization mean and std (for numerical stability of training (doublecheck this is the reason!))
 % batch size 
 % num epochs 
 % optimizer 
