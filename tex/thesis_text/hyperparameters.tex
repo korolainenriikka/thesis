@@ -1,0 +1,99 @@
+hyperparam optimization hommeli. mitä variantteja löytyy ja onko perusteita.
+ei tainnu olla perusteita missään mistään mut vaikeepa näitä on perustellakin toisaalta.
+sit oli se homma et se yks ieee gujarati oli tyyliin paras. alotappa siitä...
+
+% image normalization mean and std (for numerical stability of training (doublecheck this is the reason!))
+
+järkkä
+\cite{8goelGujarati2023}
+\cite{9thuonPalm}
+\cite{7rizkybasicCnnTransfer}
+\cite{10goelGujarati}
+\cite{6shoponBangla}
+\cite{5rasheedHandwrittenUrduWAlexNet}
+\cite{3chatterjeeBengali}
+\cite{2limbachiyaGujarati}
+\cite{1akhlaghiFarsi}
+
+(huom taas \cite{4zhaoTibetan} sgibbed bc same source n target domain)
+
+% batch size 
+64 \cite{8goelGujarati2023}
+- \cite{9thuonPalm}
+64
+64
+96, 128 equally good
+-
+256
+64
+
+% num epochs 
+10 \cite{8goelGujarati2023}
+100 \cite{9thuonPalm}
+100
+-
+120
+20
+15
+10
+
+% optimizer 
+adam \cite{8goelGujarati2023}
+adam \cite{9thuonPalm}
+SGD
+SGD with momentum (momentum 0.9)
+RMSProp
+SGD with momentum ("default" -> unknown momentum)
+adamW
+sgd
+
+% learning rate 
+0.0001 \cite{8goelGujarati2023}
+5e-4 \cite{9thuonPalm}
+0.01
+0.0001
+-
+1e-3
+3 * 10-4 , 3 * 10-2
+-
+
+% learning rate scheduling
+ReduceLROnPlateau \cite{8goelGujarati2023} 
+cosine \cite{9thuonPalm}
+-
+-
+-
+-
+its complicated
+-
+
+% loss function
+categorical cross-entropy \cite{8goelGujarati2023}
+- \cite{9thuonPalm}
+cross-entropy
+-
+categorical-cross-entropy
+-
+cross entropy
+categorical cross-entropy
+
+
+%other
+dropout 0.5 \cite{8goelGujarati2023}
+dropout 0.12 \cite{2limbachiyaGujarati}
+
+\cite{8goelGujarati2023}
+learning rate was set to 0.0001, 
+the
+epoch was 10,
+ the momentum was 0.9, and the 
+ batch size
+was 64. 
+We have set dropout to 0.5 which
+ReduceLROnPlateau method with early stopping
+which decreases the likelihood of an overfitting problem by
+reducing the learning rate when it stops progressing and
+kept a 0.00001 minimum learning rate and patience value
+was 3. 
+Adam optimizer
+categorical cross-entropy loss

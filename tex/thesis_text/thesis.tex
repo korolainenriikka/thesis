@@ -863,7 +863,7 @@ of the experiments was to fix all kernels to 3x3 size, and to benchmark classifi
 different model depths. The deepest model with 19 layers was found to be most accurate, and additionally 
 to be highly competitive as a feature extractor: an appendix of experiments reached new-best results on a variety of 
 further classification tasks. While the 
-best top-5 accuracy of 7,3\% ended up with a second place in the ImageNet 2014 competition, the  structural simplicity
+best top-5 accuracy of 7,3\% ended up with a second place in the ImageNet 2014 competition, the structural simplicity
 and diverse learning capacity of the VGG models had a major influence on later deep learning research.
 
 The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Figure \ref{image:famouscnns}.
@@ -886,9 +886,6 @@ The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Fig
 \subsubsection{Transformers and the multi-head self-attention}
 
 \subsubsection{Autoencoders}
-
-\subsection{Techniques and heuristics for improving performance}
-\label{sect:heuristics}
 
 \subsection{Transfer learning}
 
@@ -1873,7 +1870,7 @@ would only have 70\% confidence, the confidence of the entire row would be 70\%.
 due to the costliness of errors: one needs to be very certain before data can be left without manual 
 verification.
 
-Next, details related to building the models presented in this section and are 
+Next, details related to building the models presented in this section and 
 presented.
 
 \subsection{Building the models}
@@ -1887,8 +1884,7 @@ and other words, a total of five classifiers are needed for the system: the uppe
 tooth type classifier, and the three downstream tooth index number classifiers. The experimental 
 section considers how to build these models with maximal accuracy, for which several design decisions 
 need to be made for setting up the experiments: data preprocessing and augmentation along with base model,
-transfer learning method, evaluation metric and hyperparameter selection. After a presentation of the creation 
-of the training dataset, these aspects are considered.
+transfer learning method and hyperparameter selection. After a presentation of  how the training dataset was created, these aspects are considered.
 
 \subsubsection{Creating the training dataset}
 
@@ -1899,25 +1895,28 @@ of the training dataset, these aspects are considered.
 % regular expressioning, mention () , L R
 The training dataset with xx (TODO insert how many) samples was extracted from the fossil 
 catalogues using the first two steps on the processing pipeline in Figure \ref{fig:pipeline}:
-for each word under the element describing header, the OCR output was classified 
+for each word under the element describing header, the Azure Vision output was classified 
 to tooth or other with the regular expression, and 
 images with tooth notation were cropped out from the catalogue. Along with the image, the 
-Azure Vision OCR result was saved. To have as versatile notation as possible, images were 
+OCR reading result was saved. To have as versatile notation as possible, images were 
 extracted from several catalogues.  
-(TODO: mention here if you add , and () to the regex later!)
+%(TODO: mention here if you add , and () to the regex later!)
 
 % multiple catalogues used to create training set to get versatile notation
 % train and val from same catalogues, test set from new one to hopefully introduce concept drift
 %     train on train, model select on val, report accuracy on test set -> true not best but more so worse case generalization accuracy, get that high u real good
+% give sample counts after balancing
 After extraction, data balancing and splitting to training, testing and validation sets 
-was completed with the splitting ratios TODO give ratios here.
+was completed.
+% with the splitting ratiosTODO give ratios here. TODO give reason for ratio: granularity of validation/test error 
+%(how much val/test error decreases if one classification mistake is made)
 Because incisors and canines were much more rare 
 than molars and premolars in the catalogues, some of the former were manually cropped out 
 of catalogues to achieve more variety among these classes. After this, the differences 
-in sample count between the most frequent class (molars) and others was computed, and augmented 
+in sample count between the most frequent class and others was computed, and augmented 
 images were saved for the other classes to make class sample counts exactly equal. The augmentation 
 method used will be presented in section TODO aug section. The dataset sizes and samples counts per class 
-for each model are collected in Table TODO (train val test and samples per class for all 5 model training sets!).
+for each model are collected in Table TODO (train val test and samples per class + split ratios for all 5 model training sets!).
 
 % labeling:
 % mpi, index number: assume that azure reading is correct where reading is a valid tooth notation
@@ -1926,7 +1925,7 @@ for each model are collected in Table TODO (train val test and samples per class
 %     why an undecipherable class:
 %     - undecipherable upper/lower: the correct answer is not any of the two, so false or correct classification is equally bad, so accuracy does not fully reflect if the model works perfectly or not.
 %     - forcing model to think something a human cannot classify should contain some traits where it could figure which one it is is false and will confuse the model -> worse results
-For data labeling, the previous outputs from Azure Vision was heavily utilized. For 
+For data labeling, the previous outputs from Azure Vision were heavily utilized. For 
 tooth types and index numbers, if the reading result was a valid class, it was assumed to 
 be correct and used as a label, which saved a significant amount of labeling effort. As the 
 images were saved in class-specific directories according to the PyTorch ImageFolder interface,
@@ -1957,7 +1956,7 @@ A small sample of the training dataset of premolars is presented in Figure \ref{
 % 1 paragraph: denoising and grayscaling
 The preprocessing of the training, validation and test images was completed by grayscaling, denoising and resizing.
 As the color channels in the images have no meaning for the text content on the image, these were removed 
-by grayscaling the input images and then stacking three identical grayscale images as the three channels 
+by grayscaling the input images and then stacking three identical grayscale images
 to match the three-channel input size required by the base models.
 Denoising was implemented due to the images containing noise from small shadows from 
 paper texture and eraser smudges with the most basic routine, a Gaussian filter.
@@ -1998,7 +1997,7 @@ ImageNet images, that are real-world noisy images, and the target domain images 
 for instance, flipping the background color to black and text to white was not implemented, even though this 
 is a common practice in other character recognition works. The practice is likely 
 habitual; when using MNIST base models this increased source and target domain similarity,
-and no reasons for color flipping with an ImageNet base model was given in the studied works.
+while this is not the case when using ImageNet as the source domain.
 
 % 3. tested but not implemented things
 % segmenting out the letter: does not make sense since the premise of deep learning is 
@@ -2013,16 +2012,16 @@ More heavy preprocessing steps of binarization and extracting only the letter or
 attempted but not implemented in the final system.
 Binarizing the input images was considered as evidence was found for that to increase result accuracy \cite{9thuonPalm},
 but was not implemented since the noise, in many cases
- parts of neighboring characters due to bounding box errors, is occasionally of darker 
-color than the correct text making thresholding difficult. Additionally,
+ parts of neighboring characters due to bounding box errors, are occasionally of darker 
+color than the correct text, making thresholding difficult. Additionally,
  initial experiments with a MNIST base model suggested the resulting
 accuracies were decreasing when using binary input images. However, binarization scheme was not designed carefully 
-and the experimentation was not exhaustive, so binarization could be experimented with further.
+and the experimentation was not exhaustive, thus binarization could be experimented with further.
 Another aspect considered after binarizing was to try to segment out the letter for the tooth type recognizer 
 and only the number to the index number recognizer, but it was found that there was so much variability 
 among the images that implementing a deterministic algorithm that worked in every case was very hard. 
 As the premise of deep learning is that such challenging feature extraction becomes unnecessary as the neural 
-network is better at extracting relevant information than a human designing preprocessing routines, these 
+network is better at extracting relevant information than a human designing preprocessing routines \cite{princebook}, these 
 heavier preprocessing operations were not used.
 
 \subsubsection{Data augmentation}
@@ -2046,7 +2045,8 @@ still introduce cropping variation. Rotation from -5 to 5 degrees
 was implemented as some tables were sligtly tilted in the scan images. 
 Lastly, handwriting variation was mimiced with horizontal and vertical 
 shear by setting the shear ranges for both x and y directions from 1 
-to 10 pixels with the RandomAffine operation. White was used as fill color after rotation.
+to 10 pixels with the RandomAffine operation. The background was filled in 
+with white after rotation when necessary to match the other background as closely as possible.
  A batch of training images after augmentation
 is presented in Figure \ref{image:augmented}.
 
@@ -2072,14 +2072,37 @@ this double transformation could lead to very distorted training samples.
 
 \subsubsection{Base model selection}
 
-% Chosen public dataset was EMNIST \cite{emnist} because it is the closest to my problem: a large dataset of labeled letters and numbers.
-
+% 1. paragraph: verification of hypothesis that imagenet indeed was the best
 % According to \cite{emnistclassifiersurvey}, this model was the best: \cite{jamilemnist}, was chosen as the base model.
 % they trained on emnist-balanced, so no difference between upper -and lower case letters. not a problem for us since 
 % in the handwritten catalogues, upper or lowercase was not used to distinguish upper and lower jaw
 
 % mnist and real world fundamental difference: mnist is perfect world, real images vary much more \cite{alexnet}
 % therefore: not e(mnist) as source problem, but imagenet classification.
+
+To select appropriate base models, one first needs to select the source task and domain. Since most reviewed work uses image classification as the source task, this is assumed to work best.
+Another potential source task would have been the identity mapping task given to the autoencoder,
+but it was not implemented due to small target datasets and lesser popularity.
+As the source domain, there are two datasets used in previous work: the classification of digits in the MNIST dataset, 
+and the ILSVRC classification challenge with the ImageNet dataset. The popular 
+assumption that ImageNet is a better source domain was verified with a short experiment by training a MNIST classifier \cite{jamilemnist}
+to classify tooth types with best accuracy of 89\%, that was clearly outperformed by the ImageNet-based classifiers. This verifies the commonly assumed hypothesis that real-world images of any objects is a more 
+similar domain than the MNIST dataset of handwritten digits, which is known to contain ideal-case images with little noise.
+
+% 2 paragraph: selection of base models based on previous work
+% Chosen public dataset was EMNIST \cite{emnist} because it is the closest to my problem: a large dataset of labeled letters and numbers.
+The ImageNet classifier base models used in this the experiments are selected 
+according to results from related work, reviewed in Section \ref{sect:same_solution}.
+The models were chosen according to the simple heuristic of checking which base models 
+occurred multiple times when listing the top three models in terms of accuracy. 
+Analyzing Table \ref{tab:model-info}, EfficientNet models consistently outperform 
+other architectures, closely followed by the 16-layer variant of the VGG architecture \cite{vgg},
+DenseNet121, and ResNet101 (todo: cite the model original papers). Therefore, these four architectures were chosen as base models 
+to experiment with. The shortcoming in this base model selection heuristic is that 
+the previous work did not give much reasoning for their base model selection, it is possible that some high-performing architectures were not included 
+because previous works did not choose to experiment with them. As one has to limit the 
+search space of architectures in some way, previous success was still kept as the deciding heuristic 
+even when acknowledging these limitations.
 
 % return to tables 3,4 which base models seemed to work in literature
 % those variants that occur many times in top3
@@ -2105,21 +2128,58 @@ this double transformation could lead to very distorted training samples.
 % if the search space of parameters is too small (model converges to low accuracy), freeze one layer by one 
 % until overfits: training error is much larger than test error. sign: we trained too many parameters / for too long
 
-\subsubsection{Evaluation metric selection}
+% small dataset -> train less layers to not overfit to the target dataset
+For the transfer method, the reviewed work in Table \ref{tab:model-info} has a big variety of approaches, 
+the only common trend being that freezing less seems to outperform freezing many layers. 
+However, how much to freeze is very dependent on the source and target problem differences;
+in very similar cases the features should be more useful and thus freezing more should work better, 
+and target dataset size; if target data is small one should freeze more to avoid overfitting 
+to the training set. For these reasons it is argued that transfer method selection should be
+based on experimentation rather han previous results.
 
-% accuracy.
+For the choice of which layers to freeze, layers will be only frozen so that a frozen layer never 
+occurs after a not frozen layer. This is because of the assumption that high-level layers 
+encode generic and lower layers more specific features, and the generic features are assumed to be most transferable among tasks.
+ Additionally, as specific features build on the generic ones, freezing layers 
+below ones modified is assumed to confuse the model. Thus, all experiments consist of some layers 
+at the start of the network being frozen and others at the end being open for updates.
+A single number noting the number of trained layers at the end of the network is therefore 
+a sufficient description of the transfer approach.
 
-% it is noticed that up low is the hardest ml task of these. so select based on uplow performance and use that on the rest of models
-% if not 100\% accuracy reconsider your choices
-
-% not tp fp things because they dont make sense
-
-% not any which classes get confused outside of confusion matrix: there are so few classes anyways
+As another experimentation principle, the trials will start out from settings where more layers are frozen, proceeding to
+cases where more parameters can be updated. This is because the setting with more freezing saves 
+computational effort, and is less likely to overfit to the training set as there is a lesser degree of freedom 
+available for updating the parameters. Therefore it is sensible to look for the model that re-uses as 
+much parameters as possible but still has enough parameters to train to find a good optimum for the target problem:
+this is assumed to result in the best generalization capability.
 
 \subsubsection{Hyperparameter selection}
 
 % fix hyperparameters: do not experiment with too much at a time.
 % Take hyperparameters that were most common among reviewed literature.
+As for hyperparameters, values are selected according to popular or well-performing 
+options in reviewed literature to scope down the seach space in the experiments.
+Hyperparameter tuning was not implemented to keep experimentation 
+between approaches fair; if the optimization is better for some case than other, one can no 
+longer deduce whether the difference in result accuracy was due to hyperparameter or base model and 
+transfer approach optimality. Therefore, hyperparameters are fixed between experiments to common values 
+used previously in similar tasks. The selected hyperparameters, most chosen as the most popular and 
+number of epochs chosen as an average value among the reviewed works, are summarized in Table \ref{table:hyperparameters}.
+
+\begin{table}[h!]
+    \centering
+    \caption{Hyperparameters used in the experiments.}
+    \begin{tabular}{ll}
+    \hline
+    \textbf{Hyperparameter} & \textbf{Value} \\ \hline
+    Batch size & 64 \\ 
+    Number of epochs & 50 \\
+    Optimizer & Stochastic Gradient Descent \\
+    Learning rate & 0.0001 \\ 
+    Loss function & Categorical cross-entropy \\ \hline
+    \end{tabular}
+    \label{table:hyperparameters}
+\end{table}
 
 % the hyperparameters
 
@@ -2130,8 +2190,6 @@ this double transformation could lead to very distorted training samples.
 % learning rate 
 % learning rate scheduling
 % loss function
-% train test split
-%     check test error granularity
 % many runs and final accuracy averaging; how many runs
 
 % For each: list what papers used generally, pick a nice average value
@@ -2153,8 +2211,28 @@ this double transformation could lead to very distorted training samples.
 % augmentation: intensity change background contrast change random crop letter blur minor rotation because these can happen in catalogue scans
 % base models are: efficientnet vgg16 densenet121 resnet101 because they were popular and or won comparing benchmarks in previous work
 % freezing first more then less bc if more works its better, find sweet spot of most freezing that is still accurate.
+In this chapter, the experimental setup along with reasoning for design decisions were given.
+In the problem formulation, classifying words with a chain of univariate classifiers was opted for to 
+maximize the resulting accuracy by simplifying the problem as far as possible, because this is the first attempt to 
+automate data cleaning for digitized fossil catalogues. Preprocessing was kept minimal with denoising and grayscaling, 
+and augmentation was set up to variations that might occur in the scanning process. Base models tried were 
+chosen according to previous success, resulting in selecting the EfficientNet, VGG16, DenseNet121 and ResNet101 architectures.
+The transfer methods are compared by experimentation: the model with most layers frozen while still being able to find a good optimum 
+for the target task is searched by iteratively unfreezing layers from the end of the network. In the next chapter, 
+results from these experiments are presented and evaluated.
 
 \section{Results and discussion}
+
+% Reiterate what was done in the experiments
+
+% Evaluation metric: how I will compare the different results
+To evaluate the experiment results, the accuracy score is used as the only metric.
+As false positives and false negatives are not of major concern in character recognition,
+these were not utilized. For class-specific error rates, confusion matrices
+are generated, but otherwise confusion rates between classes are not studied since class count 
+is small in all tasks and keeping a single evaluation metric makes comparison between experiments 
+increases clarity.
+%also note that times are not compared!
 
 \section{Conclusions}
 
