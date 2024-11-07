@@ -152,8 +152,6 @@ results of the experiments are presented and discussed. Finally, the work is con
 
 \section{Fundamentals on paleoecology}
 
-\subsection{Basics on ecology}
-
 \subsection{Paleoenvironmental reconstruction}
 
 \subsection{Composition of mammal teeth}
@@ -377,9 +375,9 @@ this theoretical optimum is rarely reached.
 % input is always image ie 2d matrix if grayscale or 3d tensor if rgb image.
 Examples of input-output mappings relevant in this work are the following, 
 ordered from simplest to most complex: tooth type classification, constrained multilabel classification, 
-and sequence-to-sequence learning. The problem of tooth type classification takes in an input image of a dental marking,
+and sequence-to-sequence learning. The problem of tooth type classification takes in an input image of a dental marking
 % this figure: see first all background & what samples are needed from tooth data...
-such as input in Figure TODO a, and decides which tooth the image denotes.
+ and decides which tooth the image denotes.
 As mammals have up to eleven teeth on each side of two jaws, the classes would be 
 these 44 teeth, such as 'rm1', 'lP4' or 'li2', using the computational notation presented in
 Section~\ref{sect:mammal_teeth}. The network would output a 44-element discrete probability distribution 
@@ -538,8 +536,8 @@ Loss functions are needed within the neural network training process to evaluate
 quality in each training iteration. These functions map two equally shaped inputs, the predicted 
 and true labels, to a scalar value describing match quality, a low value representing a good match \cite{princebook}. 
 Thus, for instance, the simple function $f: x,y \rightarrow |x-y|$  would qualify as a loss function.
-The most commonly used loss functions in optical character recognition are cross-entropy for 
-character classification and the CTC loss for sequence learning.
+The most commonly used loss functions in character classification for optical character recognition is 
+the cross-entropy loss.
 
 % These functions are constructed to be equivalent with maximum likelihood solution, think the model would 
 % output a conditional distribution of outputs, p(y|x).
@@ -585,66 +583,6 @@ where $N$ denotes dataset size, $y_i$ the correct label, and $f(x_i, \mathbf{\th
 % word detection models: have a predefined vocabulary, layer for probability of each word.
 % loss is cross entropy for these probabilities compared to target probability distribution, where correct word has probability 1 and 
 % all other have probability 0
-
-% - CTC loss
-
-TODO: sequence ocr models often measure output quality with the CTC (Connectionist Temporal Classification) loss.
-
-
-
-\subsubsection{Evaluating model performance}
-\label{sect:eval_metrics}
-
-% opening sentence: evaluation metrics are used to find which implementation detail works better
-% there are evaluation metrics
-% there are standard problems that are used to evaluate how well some aspect of implementing a 
-% neural network works, such as MNIST classification
-% the standard evaluation metrics enable comparing approaches: better metric value, better solution
-Evaluation metrics, numeric values decribing the generalization performance of the trained neural network 
-on unseen data, are used to compare which techniques for implementing neural networks tend to 
-perform better than others. Using standard metrics 
-and benchmark problems, such as the MNIST problem of handwritten digit 
-classification, has allowed comparisons across large bodies of research.
-
-% common in character recognition: accuracy, f1 sometimes also used 
-% explain these and differences 
-% accuracy: correct out of those classified
-
-% why one uses precision and recall instead of accuracy
-% sometimes simple accuracy is not a good measure, eg cancer screenings: 1 in 500 has cancer.
-% then a dummy saying everyone is healthy would be correct 499/500 of the time, accuracy
-% 99,8\%. measurements anyhow relevant would be 99.8-100, inconvenient range.
-
-The most common evaluation metrics used when classifying handwritten symbols are accuracy and the F1 score.
-Accuracy score simply notes the percentage of test images that were classified to the correct class, expressed 
-as a number between zero and one. The main deficiency of using accuracy is brought to light when 
-considering a problem where the probabilities of a class being correct are highly uneven. This is the case in many 
-medical cases: for instance in a cancer screening, one in 500 patients, 0.2 percent, could have cancer.
-A dummy classifier stating everyone to be healthy would achieve a stellar accuracy of 0.998, but is clearly useless.
-Any useful model should outperform the dummy, thus comparisons between classifiers would be needed to made 
-between values from 0.998 to 1.00, a rather inconvenient range.
-
-% precision: fraction of positives identified. dummy would have precision 0
-% recall: out of those noted as positives, fraction of correct ones. dummy would have 0 too 
-% f1 is an average to lump these together in one number 
-The metrics of precision, recall and F1 are used in these cases. Precision measures the 
-fraction of true positives identified by the model, recall the fraction of true positives out 
-of positives detected by the model. The always-healthy dummy cancer classifier would score zero 
-for both metrics, better describing the uselessness of the approach. The F1 score is the harmonic mean of these 
-scores:
-
-\begin{align}
-    F1 = 2 \times \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
-\end{align}
-
-% going forward: only consider simple accuracy scores as none of the classes are very rare 
-% in the fossil case.
-For the case of classifying dental markings, the accuracy score is used as the evaluation metric, 
-since the distribution of occurences of different tooth types are not highly uneven.
-As the same case applies to most other handwritten symbol classification problems, previous work is 
-also compared using the accuracy score.
-
-TODO: ref for this section
 
 \subsection{Architectures}
 % different ways of constructing layers, makes model pay more attention to desired things
@@ -831,7 +769,8 @@ hyperbolic tangent activation with the ReLU function (Equation~\ref{eq:relu}) \c
  This allowed training a larger, deeper network
 with convolutional kernels up to the size 11x11, leading to nearly halving the best top-5 error rate with the score of
 17,0\%. Other, more minor but still highly influential innovations were the normalization of convolution results, 
-overlap in the pooling areas, and using dropout regularization, intruduced in Section~\ref{sect:heuristics}.
+overlap in the pooling areas, and using dropout regularization, a regularization heuristic where connections are 
+randomly dropped to avoid over-reliance on certain connections \cite{dropout}.
 
 % googlelenet \cite{googlelenet} won 2014 with top 5 error rate  6,75\%.
 % method: fixed number of allowed multiple-adds in forward pass, 
