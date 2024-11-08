@@ -870,9 +870,126 @@ be set to zero, the identity mapping problem is completely eliminated. The end r
 the ResNet architecture won multiple image detection and segmentation competitions, including the ImageNet challenge 
 of 2015, where the new best top-5 error of 3,57\% was reached with a network eight times deeper than the deepest VGG architecture \cite{resnet}.
 
+\subsubsection{Autoencoders}
+
 \subsubsection{Transformers and the multi-head self-attention}
 
-\subsubsection{Autoencoders}
+% 1 paragraph: motivation for a new method
+% nn motivation for a new thing is needed
+% words reference to one another that are sometimes far far away in the sequence, conv pays attention only close up with the filter, what is relevant depends on a this word b the other word
+% large embedding vectors -> fc layer won't do really, you have to share parameters
+The multi-head self-attention layer present in transformer architectures was
+originally motivated by natural language processing tasks, as other architectures
+encode prior knowledge on language poorly. Words in sentences sometimes refer to 
+other words very far from each other in the sentence, which is impossible to model with a 
+convolutional layer that only uses the immediate neighborhood as the input for activation computations.
+As sequences are processed as splitting the sequence to tokens, for instance words, and generating 
+longer embedding descriptors for describing the tokens and their position in the sequence, input sizes become insurmountably large 
+to be processed with fully connected layers \cite{princebook}.
+
+%  2 paragraph: search engine analogue for attention
+% embed again a prior by embedding how words relating to each other works.
+% search engine analogue.
+% query is what we want to find out in the sequence (search query)
+% key is a descriptor of the thing (page content for a simple engine)
+% value is the search result (page contents ranked)
+To construct the self-attention operation, the nature of language was studied 
+as an information retrieval problem. The activation value for each input token should be computed 
+using relevant parts of the rest of the input, thus one needs a method for ranking the other tokens 
+in the sequence by relevance from the perspective of the input token. Using a search engine as an analogue, 
+the token can be seen as a query, the input given to a search engine prompt. The alternatives to rank, 
+web pages in the search engine case, are the other tokens. The end result, called the value, are the 
+available web pages in the search engine case or tokens in the transformer case, ranked according to relevance.
+
+% 3 'the search engine within a phrase' -> dot product self attention
+% similarity can be computed with cosine similarity that measures vector direction difference, vec1 dot prod vec2 divided by magnitude (length) vec1 times magnitude (length)vec 2. 
+% (give equation for cosine similarity)
+% attention with the text sequence between words so self attention
+% transformer the query key and value is all the same because we (a sequence and its parts) are paying attention to ourselves (he same sequence), so same embedding multiplied with key query value weight vectors to get key matrix k query matrix q value matrix v
+% so then you have the query the key and the value
+% query and key is computed cosine similarity qkt/sqrt(dk), scaling factor not quite cosine similarity but similar (lol). you get attention: how much each word pays attention to other words
+% softmax to put all attention values between 0 and 1
+% second vec needs transpose to avoid dimension errors (matmul takes col from one row from other and we want col from both
+% so you have the original sequence and how much attention each word pays to each word (attention filter). multiply original by attention you get the original weighted by how much attention it is sensible to pay between parts
+% so this is one head
+To find the relevance ranking, the keys (all tokens or all web pages) and the query (a search prompt or an input token)
+need to be compared. A rudimentary search engine implements this by computing a similarity metric:
+a single value describing how much of the words on the query appear on each web page. This is computed for token embeddings
+between the query and key vectors with the cosine similarity, given in Equation \ref{eq:cos-similarity}. This similarity metric computes the 
+cosine of the angle between two vectors, and scales it by vector magnitudes,
+ giving a scalar metric with one denoting perfect similarity and -1 perfect dissimilarity.
+ In the self-attention operation, as all activations are computed at once, the queries and keys form matrices $Q$ and $K$. 
+ To compute the dot product with matrix multiplication, the other matrix is transposed, and the scaling is 
+ sligtly varied from cosine similarity by dividing by the square root of the number of tokens, denoted $d_k$. The 
+ result is passed through the softmax function (see Equation \ref{eq:softmax}), to construct an attention matrix where 
+ each element describes how much attention should be paid between each token pair. Finally, to get the end result of 
+ tokens ranked by relevance, the token embeddings, forming the value matrix $V$, are multiplied with the attention matrix. To include learnable parameters to the layer, 
+ the key, query and value matrices are computed by multiplying 
+ the token embedding matrices with parameter matrices $W_k$, $W_ q$ and $W_v$. This forms the dot-product self-attention computation, summarized in Equation \ref{eq:self-attention}.
+ 
+\begin{align}
+    \text{Cosine similarity}(\mathbf{k}, \mathbf{q}) = \frac{\mathbf{k} \cdot \mathbf{q}}{\|\mathbf{k}\| \|\mathbf{q}\|}
+    \label{eq:cos-similarity}
+\end{align}
+
+\begin{align}
+    \text{Self-attention}(\mathbf{X}) &= \text{softmax} \left[ \frac{\mathbf{Q}\mathbf{K}^T }{\sqrt{d_k}} \right] \mathbf{V}, \label{eq:self-attention} \\
+    \nonumber\text{where} \quad \mathbf{V} &= \mathbf{X} \mathbf{W}_v, \; \mathbf{K} = \mathbf{X} \mathbf{W}_k \; \text{and} \; \mathbf{Q} = \mathbf{X} \mathbf{W}_q.
+\end{align}
+
+% 4 multi head self attention
+% to be able to pay attention to multiple things at a time you construct multiple attention filters, so do that many times in parallel -> multi-head self attention
+% multihead: divide query and key embeddings by splitting embedding matrix, do many self-attention oeprations on those in parallel, concateneate result
+% this is the multihead self attention block. here you go a summarizing figure
+% each head can focus on different aspects
+With the self-attention operation, one limitation remains: one attention layer is only able to focus on one aspect of the 
+input sequence at a time. To allow multiple interpretations, many self-attention operations are run in parallel, which is 
+called multi-head self-attention. To not increase computation, the token embeddings are divided across the heads, and the 
+results from the value matrix multiplied with the attention matrix are concatenated back together, creating a result of 
+equal dimension as the one-head version. The self-attention operation with multiple heads is summarized in Figure \ref{fig:multi-head-self-attention}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.6]{../images/multiheadattention.png}
+    \caption{Multi-head self-attention with two heads, from \cite{princebook}.}
+    \label{fig:multi-head-self-attention}
+\end{figure}
+
+% 5 the transformer architecture
+% transformer architecture uses this and fc layers like so
+% transformer is the first architecture to only utilize the attention mechanism (no other layers but multihead self attention and fc layers)
+% transformer has an encoder and decoder part (so is a variant of an autoencoder)
+% transformer block: multihead self attention and fc layer, both have batch norm after and both have residual connection
+% teach the network to continue sentence with the next word, selfsupervised eg hide last word'
+% this model was amazing at what check original paper attention is all you need
+% tadaa you get a model that can continue the prompt with valid text, add some features and you have a LLM
+The main premise of the transformer architecture \cite{attention_is_all_you_need} is that the multi-head self-attention 
+is the only architecture required to successfully learn nature language processing tasks. The first transformer model,
+an autoencoder with both the encoder and decoder parts consisting of transformer blocks with a multi-head self-attention and 
+a fully connected layer, both followed by batch normalization and with a residual connection, achieved a new best 
+result in machine translation from English to German by a significant margin \cite{attention_is_all_you_need}.
+The most famous application of attention-based models is, however, a model taught to continue a sentence fragment with the next most 
+likely character. The chat-style variants of these models, most famous being ChatGPT by OpenAI, has become very well known among the general public and 
+has even been speculated to show signs of general artificial intelligence.
+
+% 6. paragraph: vision transformer for image classification
+% vision application: divide the image to 16x16 patches, interpret those as "words". a transformer architecture that has as output the class probabilities for imagenet. good results but lots of training because transformer does not encode the vision priors of translation and pointwise function invariance
+In computer vision, transformer architectures have been successfully implemented.
+The most notable of these is the Vision Transformer (ViT) \cite{vit}, that achieved a top-1 error rate of
+11.45\% on the ImageNet challenge, an impressive result yet less accurate than the best convolutional networks of the time.
+Falling behind convolutional networks likely was the result of the transformer architecture lacking prior knowledge on images,
+translation and pointwise transformation invariance, leading to larger requirements of data and computational resources 
+to reach high accuracies. Still, transformer architectures are actively experimented with in many computer vision tasks, 
+including handwritten character classification \cite{9thuonPalm}.
+
+% end of section, back to why i presented these architectures
+% these are building blocks that are used for models that classify images. these can be then used for any image 
+% classification task like OCR when you use transfer learning which is presented next.
+The layer computation variants presented in this section; convolution, residual connection, encoder-decoder chain and 
+the multi-head self attention form the set of alternatives commonly used for image classification. Models built with these mechanisms 
+have achieved impressive accuracies on classifying the ImageNet samples according to what can be seen in each image.
+To utilize these models in handwritten character recognition, a mechanism for applying this knowledge on a new task is required.
+This is called transfer learning and is presented next.
 
 \subsection{Transfer learning}
 

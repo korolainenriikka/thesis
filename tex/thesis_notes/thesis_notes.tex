@@ -458,16 +458,41 @@ and indeed the resulting network won many competitions including imagenet challe
 
 \subsubsection{Transformers}
 
-% !!! only do if you use transformers as a base model in the next section!
+words reference to one another that are sometimes far far away in the sequence, conv pays attention only close up with the filter, what is relevant depends on a this word b the other word
+large embedding vectors -> fc layer won't do really, you have to share parameters
 
-introduced by \cite{attention_is_all_you_need}
+search engine analogue for attention
+embed again a prior by embedding how words relating to each other works.
+search engine analogue.
+query is what we want to find out in the sequence (search query)
+key is a descriptor of the thing (page content for a simple engine)
+value is the search result (page contents ranked)
 
-- self-attention
-- multi-head self-attention
-- tokenizing and the cls token
+similarity can be computed with cosine similarity that measures vector direction difference, vec1 dot prod vec2 divided by magnitude (length) vec1 times magnitude (length)vec 2. 
+(give equation for cosine similarity)
+attention with the text sequence between words so self attention
+transformer the query key and value is all the same because we (a sequence and its parts) are paying attention to ourselves (he same sequence), so same embedding multiplied with key query value weight vectors to get key matrix k query matrix q value matrix v
+so then you have the query the key and the value
+query and key is computed cosine similarity qkt/sqrt(dk), scaling factor not quite cosine similarity but similar (lol). you get attention: how much each word pays attention to other words
+softmax to put all attention values between 0 and 1
+second vec needs transpose to avoid dimension errors (matmul takes col from one row from other and we want col from both
+so you have the original sequence and how much attention each word pays to each word (attention filter). multiply original by attention you get the original weighted by how much attention it is sensible to pay between parts
+so this is one head
 
-historical scetch: the vision transformer \cite{vit} outperformed many cnns in imagenet score when introduced and changed 
-course of image classification research toward transformers
+to be able to pay attention to multiple things at a time you construct multiple attention filters, so do that many times in parallel -> multi-head self attention
+multihead: divide query and key embeddings by splitting embedding matrix, do many self-attention oeprations on those in parallel, concateneate result
+
+this is the multihead self attention block. here you go a summarizing figure
+
+transformer architecture uses this and fc layers like so
+transformer is the first architecture to only utilize the attention mechanism (no other layers but multihead self attention and fc layers)
+transformer has an encoder and decoder part (so is a variant of an autoencoder)
+transformer block: multihead self attention and fc layer, both have batch norm after and both have residual connection
+teach the network to continue sentence with the next word, selfsupervised eg hide last word
+
+tadaa you get a model that can continue the prompt with valid text, add some features and you have a LLM
+
+vision application: divide the image to 16x16 patches, interpret those as "words". a transformer architecture that has as output the class probabilities for imagenet. good results but lots of training because transformer does not encode the vision priors of translation and pointwise function invariance toward transformers
 
 \subsubsection{Autoencoders}
 
