@@ -413,6 +413,49 @@ new that previous best models did big kernels and shallower nets. also good mode
 the simplicity + the paper included in appendix that demonstrated vgg as a feature extractor to 
 be used in transfer learning.
 
+\subsection{Residual connections}
+
+problem?
+when nn is deeper training becomes harder
+how/why?
+vanishing exploding gradients is solved by normalization in initialization and between layers.
+	oma: the weight values are initialized / updated to values that are not super small or super large so gradients wont vanish
+another problem: degradation of accuracy. accuracy reaces a peak point and then starts to decrease
+	so by adding residual connection (give formula updated for layer computation) the deep network has a shallower subnetwork so the result can never have worse training error than its shallower versions
+		layer computation noted activation=F(x), computation becomes F(x)+x. +x is a connection that skips a layer. (add fig 2 from he et al)
+how the problems relate: degradation problem hypotethized to be a consequence of stacs of nonlinearities being bad at learning identity mappings
+
+solution/benefit?
+aids training deeper networks
+152 layers, 8x more than was previously considered 'deep'
+depth allows for better accuracy
+learning the identity mapping is easier as additional clue why this is good, not primary motivation as many state
+
+why solution works?
+won essentially every competition it participated in
+
+
+flow of thought 
+there was the inspo that it might be that being better at approximating arbitrary functions ie 
+building accurate nns for anything would just be about stacking layers 
+the vanishing exploding gradients problem
+    update a weight parameter w lr*gradient, if gradient is huge you shift parameter a lot, numerically unstable training. if gradient goes to zero, the weight can no longer change 
+    this was already solved with input and batch normalization layers: gradients dont get stuck to some specific values
+another problem: degradation of accuracy
+    deepen deepen the network -> peak accuracy then it reduces
+        so there is something dysfunctional about the standard computation that makes training deep hard 
+
+solution, he et al
+if you add identity connection (kinda any layer can be used as the output),
+there are shallower subnetworks in the deeper network -> accuracy can never be worse than 
+in the shallower networks.
+    quick formula and figure here
+turned out to be much better than in the shallower networks
+    hypothesized: the deeper the network the harder it is to learn the identity mapping 
+        this is the cause of the degradation problem and bc residual connection solves it, degradation problem vanishes 
+and indeed the resulting network won many competitions including imagenet challenge with a net 8x deeper than previous deepst, the VGG
+
+
 \subsubsection{Transformers}
 
 % !!! only do if you use transformers as a base model in the next section!

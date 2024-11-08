@@ -822,6 +822,54 @@ The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Fig
     \label{image:famouscnns}
 \end{figure}
 
+\subsubsection{Residual connections}
+
+% there was the inspo that it might be that being better at approximating arbitrary functions ie 
+% building accurate nns for anything would just be about stacking layers 
+% the vanishing exploding gradients problem
+%     update a weight parameter w lr*gradient, if gradient is huge you shift parameter a lot, numerically unstable training. if gradient goes to zero, the weight can no longer change 
+%     this was already solved with input and batch normalization layers: gradients dont get stuck to some specific values
+% another problem: degradation of accuracy
+%     deepen deepen the network -> peak accuracy then it reduces
+%         so there is something dysfunctional about the standard computation that makes training deep hard 
+After the success of the very deep networks (VGG) \cite{vgg}, the question arised of whether 
+achieving better approximation capacity with a neural network simply was about stacking more layers \cite{resnet}.
+The previous major problem of vanishing and exploding gradients had largely been solved by input and between-layer 
+normalization operations. The vanising gradient problem refers to when the gradient of the loss with respect to 
+some parameters becomes zero, these parameters can no longer be updated with the weight update rule presented in 
+Algorithm \ref{alg:net_training} on line 9 for the duration of the entire training process. Exploding 
+gradients, on the other hand, lead to numerical instability as adding a very large number to the weight is 
+generally undesirable; the optimum is best approached gradually. Normalization solves these problems by 
+updating the activations to a consistent distribution, thus avoiding gradients getting stuck to very large or very small values \cite{batchnorm}.
+However, after stacking even more layers with the help of normalization operations, another issue, the degradation 
+problem occurred. This refers to the phenomenon where when iteratively training deeper networks, the accuracy 
+reaches a peak and then starts degrading quickly \cite{resnet}. This suggested that there was something dysfunctional in 
+the conventional deep network computations that started showing symptoms when a sufficiently deep network was trained.
+
+% solution, he et al
+% if you add identity connection (kinda any layer can be used as the output),
+% there are shallower subnetworks in the deeper network -> accuracy can never be worse than 
+% in the shallower networks.
+%     quick formula and figure here
+% turned out to be much better than in the shallower networks
+%     hypothesized: the deeper the network the harder it is to learn the identity mapping 
+%         this is the cause of the degradation problem and bc residual connection solves it, degradation problem vanishes 
+% and indeed the resulting network won many competitions including imagenet challenge with a net 8x deeper than previous deepst, the VGG
+As a solution to the degradation problem, He et al. \cite{resnet} presented the residual connections.
+The premise was that if you add a skip connection that can pass any layer computation in the network, 
+the deeper network contains in itself all the shallower variants, and the resulting accuracy can never 
+be worse than in shallower networks. The skip connection was implemented by adding the input to the conventional 
+layer computation, thus the layer computation becomes, expressing the layer without skip connection as $F(x)$, 
+$F(x) + x$.
+Empirical results showed that this solved the degradation issue, and lead to a 
+vast improvement to overall accuracy. It was hypothesized that the reason for the degradation problem 
+was that the deeper the network is, the harder it is for the network to approximate identity mappings, and when 
+the depth passes a certain threshold, this drawback outweighs the added benefit of more layers. As the skip 
+connection makes approximating the identity mapping very easy, all weights in the nonlinear computation can 
+be set to zero, the identity mapping problem is completely eliminated. The end results were impressive: 
+the ResNet architecture won multiple image detection and segmentation competitions, including the ImageNet challenge 
+of 2015, where the new best top-5 error of 3,57\% was reached with a network eight times deeper than the deepest VGG architecture \cite{resnet}.
+
 \subsubsection{Transformers and the multi-head self-attention}
 
 \subsubsection{Autoencoders}
