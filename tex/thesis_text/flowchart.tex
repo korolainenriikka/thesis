@@ -1,16 +1,17 @@
-\documentclass{article}
+% \documentclass{article}
+\documentclass[tikz, border=1mm]{standalone}
 \usepackage[utf8]{inputenc}
-\usepackage[dvipsnames]{xcolor}
-\usepackage{tikz}
+% \usepackage[dvipsnames]{xcolor}
 \usetikzlibrary{shapes.geometric, arrows}
-\usepackage[skins]{tcolorbox}
+% \usepackage[skins]{tcolorbox}
 
-\tikzstyle{nnmodel} = [trapezium, draw=black, fill=blue!20, trapezium left angle=120, trapezium right angle=120]
+\tikzstyle{nnmodel} = [trapezium, draw=black, fill=black!20, trapezium left angle=120, trapezium right angle=120]
 \tikzstyle{textcontainer} = [rectangle]
 \tikzstyle{imageframe} = [rectangle]
-\tikzstyle{arrow} = [thick, ->, >=stealth, draw=Maroon]
-\tikzstyle{nonactivearrow} = [thick, ->, >=stealth, draw=Maroon!30]
-
+\tikzstyle{arrow} = [thick, ->, >=stealth, draw=black]
+\tikzstyle{dashedarrow} = [thick, ->, >=stealth, draw=black, dashed]
+\tikzstyle{nonactivearrow} = [thick, ->, >=stealth, draw=black!30]
+ 
 \begin{document}
 
 \begin{tikzpicture}[node distance=1.5cm]
@@ -28,7 +29,7 @@
     \node (iindex) [nnmodel, below of=mpic, xshift=3.2cm] {i1, i2 or i3?};
     \node (end) [textcontainer, below of=pindex] {frag. m3};
 
-    \draw [arrow, draw=Blue] (frag) -- (toothornot);
+    \draw [dashedarrow] (frag) -- (toothornot);
     \draw [arrow] (m3) -- (toothornot);
     \draw [arrow] (toothornot) -- node[anchor=east] {tooth} (uplow);
     \draw [arrow] (uplow) -- node[anchor=east] {lower} (mpic);
@@ -38,10 +39,10 @@
     \draw [arrow] (mindex) -- node[anchor=east, yshift=-0.2cm] {m3} (end);
     \draw [nonactivearrow] (pindex) -- (end);
     \draw [nonactivearrow] (iindex) -- (end);
-    \draw[thick, draw=Blue] (toothornot) -- node[anchor=south] {other} (-1.7,-2) -- (-1.7,-8);
-    \draw[->, thick, draw=Blue] (-1.7,-8) -- (2.7,-8);
-    \draw[thick, draw=Maroon!30] (mpic) -- (8.5,-5) -- (8.5,-8);
-    \draw[->, thick, draw=Maroon!30] (8.5,-8) -- (4.7,-8);
+    \draw[thick, dashed] (toothornot) -- node[anchor=south] {other} (-1.7,-2) -- (-1.7,-8);
+    \draw[->, thick, dashed] (-1.7,-8) -- (2.7,-8);
+    \draw[thick, draw=black!30] (mpic) -- (8.5,-5) -- (8.5,-8);
+    \draw[->, thick, draw=black!30] (8.5,-8) -- (4.7,-8);
 \end{tikzpicture}
 
  
