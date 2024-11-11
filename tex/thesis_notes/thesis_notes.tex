@@ -879,6 +879,12 @@ then collect all teeth to tuple
     threshold: if below x, mark the row for manual inspection, otherwise dont inspect (esim human level recognition like 99,7\% or smthn)
 then concatenate description back       
 
+NEW
+how should i note unknown jaw in inference?
+mention false positives in tooth/other (other that are recognized as teeth)
+    confidence system should output low class probabilities -> confidence 
+    threshold also avoids false positives
+
 \subsection{Building the models}
 
 so now we know we need these models: restate models. now we choose what to try when building them
@@ -909,6 +915,11 @@ hard cases
 Some have been corrected by writing on top and thus are very hard 
 even for humans to read, this is also an example of correction, line on top with different
 intensity of the line: 
+
+NEW:
+sample amount taken was limited by how labeling, about 1000 felt sensible
+extraction by getting all words from all over catalogue w regex, inspect dir 
+and delete those that are not teeth (usually 1-5 pcs in 100 samples, many had w k or r as the letter idk why)
 
 \includegraphics*[scale=0.2]{../images/superambiguous_data_sample.png}
 
