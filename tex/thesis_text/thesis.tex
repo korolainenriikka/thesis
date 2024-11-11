@@ -1598,7 +1598,7 @@ stated in the table as it was done in every case. The shorthand 'FC' is used to 
 \cite{7rizkybasicCnnTransfer}                & 98.16\%                & VGG16, DenseNet121, ResNet18 & Train all layers        \\ \hline
 \cite{8goelGujarati2023}                & 97.92\%                & EfficientNetV2S, Xception, ResNet101                    & Train all fully connected layers \\ \hline
 \cite{9thuonPalm}                & 91.85\%                & EfficientNetB0, EfficientNetB1, ResNet101 & Freeze first layers \\ \hline
-\cite{10goelGujarati}               & 96.5\%                 & EfficientNet, InceptionV3, ResNet101 & Add 2 FC layers + output layer, no freezing \\ \hline
+\cite{10goelGujarati}               & 96.5\%                 & EfficientNetV2S, InceptionV3, ResNet101 & Add 2 FC layers + output layer, no freezing \\ \hline
 \cite{11zunairUnconventionalWisdom}               & 97.09\%                & VGG16                  & Freeze layers 16-20 (3 convolutional, 1 pooling layer) \\ \hline
 \end{tabular}
 }
@@ -2200,7 +2200,7 @@ according to results from related work, reviewed in Section \ref{sect:same_solut
 The models were chosen according to the simple heuristic of checking which base models 
 occurred multiple times when listing the top three models in terms of accuracy. 
 Analyzing Table \ref{tab:model-info}, EfficientNet models consistently outperform 
-other architectures, closely followed by the 16-layer variant of the VGG architecture \cite{vgg},
+other architectures, most often with the V2S variant, closely followed by the 16-layer variant of the VGG architecture \cite{vgg},
 DenseNet121, and ResNet101 (todo: cite the model original papers). Therefore, these four architectures were chosen as base models 
 to experiment with. The shortcoming in this base model selection heuristic is that 
 the previous work did not give much reasoning for their base model selection, it is possible that some high-performing architectures were not included 
@@ -2239,7 +2239,7 @@ However, how much to freeze is very dependent on the source and target problem d
 in very similar cases the features should be more useful and thus freezing more should work better, 
 and target dataset size; if target data is small one should freeze more to avoid overfitting 
 to the training set. For these reasons it is argued that transfer method selection should be
-based on experimentation rather han previous results.
+based on experimentation rather than previous results.
 
 For the choice of which layers to freeze, layers will be only frozen so that a frozen layer never 
 occurs after a not frozen layer. This is because of the assumption that high-level layers 
@@ -2253,7 +2253,7 @@ a sufficient description of the transfer approach.
 As another experimentation principle, the trials will start out from settings where more layers are frozen, proceeding to
 cases where more parameters can be updated. This is because the setting with more freezing saves 
 computational effort, and is less likely to overfit to the training set as there is a lesser degree of freedom 
-available for updating the parameters. Therefore it is sensible to look for the model that re-uses as 
+available for updating the parameters. Therefore, it is sensible to look for the model that re-uses as 
 much parameters as possible but still has enough parameters to train to find a good optimum for the target problem:
 this is assumed to result in the best generalization capability.
 
@@ -2262,7 +2262,7 @@ this is assumed to result in the best generalization capability.
 % fix hyperparameters: do not experiment with too much at a time.
 % Take hyperparameters that were most common among reviewed literature.
 As for hyperparameters, values are selected according to popular or well-performing 
-options in reviewed literature to scope down the seach space in the experiments.
+options in reviewed literature to scope down the search space in the experiments.
 Hyperparameter tuning was not implemented to keep experimentation 
 between approaches fair; if the optimization is better for some case than other, one can no 
 longer deduce whether the difference in result accuracy was due to hyperparameter or base model and 
