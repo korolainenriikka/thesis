@@ -1,0 +1,35 @@
+vaikuttaa olevan että alaleuka on paljon yleisempi kuin yläleuka
+
+dataset creation
+w regex -> c issue
+with this segmentation many of the c's we have in the dataset are not actually tooth marking c's -> many c's were missing up/low, but cs are few so the extra cs come definitely in handy
+but then undecipherable c's in up-low are many so the undecipherables might learn to be associated with the letter c not missing the relevant information...
+frequent undecipherables issue: maybe in some catalogue could be that just upper is marked and other is lower? i dont know and i dont have the context info nor does the model
+labeling mistakes: i corrected some on a third doublecheck round. would be interesting to know how many errors are left in datasets, people seem to just assume that labels are always correct.
+
+up/low undecipherable-kysymys
+syyn sille miks en poista undecipherableja training datasta vaan sisällytän ne (on hyödyllistä saada inferencessä tieto että tämä ei ole pääteltävissä eli on hyvä että se on erillinen luokka)
+undecipherable is very few in the data set. maybe would be better after all to omit undecipherables and set a class confusion threshold? but then again we have to mark as up or low due to notation. so force as up/low every time but mark row with low confidence when there is uncertainty so no ternary label sittenki. (because otherwise class balance would be very screwed)
+
+results/discussion
+tää on myös et jos hand labeler tekee virheitä koska ihan mahollista kun näin paljon kuvia. kiinnostavaa miettiä itseläbelöidyssä mistä tietää oliko virheitä
+siis oikeesti oikeessa datassa on oikee juttu onko label erroreita, luulen et on sinisilmästä olettaa että ei ole....
+mun jutun ongelma on sit kans mun pipelinen, että jos ois jotain kontekstisidonnaista kuten rigt mandible with m1-3, c, tiedetään että on alaleuka. sanoittain käsittely hukkaa nää. vois esim prosessoida sanat ja jälkiprosessoida kontekstitiedolla tai jotain, en tiedä. Monimutkainen kymysys!
+how good the optimization was affected the results a lot... so from previous work maybe it is not that good of a idea to too blindly trust the which one is the best model, why dont i just do some exhaustive search
+at least alexnet might be bad with very low contrast
+azure was good there so maybe use azure output when the tooth is valid and confidence is high
+i could somehow encode the knowledge that info on up low jaw is in the index number usually but that would be feature engineering, but kinda prior info encoding, idk
+
+dataset size & test error granularity
+
+hyperparameters
+hparams that worked great w alexnet dont work that great w efficientnet... maybe i should optimize lr a bit for all models? or use adam?
+mini hyperparameter tuning w alexnet. lr 0.001 momentum .9 lr scheduling every 7 epochs divide lr by 10 got 10% better acc and 40 epochs less
+but then efficientnet is crap
+-----> i dont know if i can compare anything because optimizing is so random and hard that you can never really know whether the end result is because of the runs were optimized sometimes better sometimes worse of whether the other architecture is actually better
+this is very inexact science, so this worked approach, no compare and tell why's, actually probably makes sense.
+
+error variation between runs
+one run had 3 classification errors the next had 0. 5,6% variation in test error, nothing changed-> i need a larger test set for meaningful stuff
+i need accuracy averaging between runs
+
