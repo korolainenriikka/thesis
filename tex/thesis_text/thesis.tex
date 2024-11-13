@@ -157,7 +157,7 @@ results of the experiments are presented and discussed. Finally, the work is con
 %most common application: paleoenvironmental reconstruction
 %    definition of the problem: whan ancient habitats were like and what changes they 
 %    underwent at which times (ch2)
-Paleoecology is a field that conducts data analysis on fossil data. The most common type of 
+Paleoecology is a field that conducts data analysis on fossil specimens. The most common type of 
 this analysis is paleoenvironmental reconstruction: deducing what past habitats were like and which 
 changes they have undergone \cite{Faith_Lyman_2019}.
 
@@ -225,15 +225,20 @@ The method is a subtype of ecomorphology; the study of the relation of functiona
 shapes that are most suitable for processing vegetation in the habitat, thus one can infer vegetation based on tooth shapes, 
 which then serves as a good proxy for environmental conditions \cite{oksanenHumboldtianApproachLife2019}. 
 When the environment changes, animals have to move to habitats where the vegetation is digestible with their teeth, thus 
-analysis on environemntal change can be performed even on a smaller timescale than evolution would allow \cite{fortelius}. As an example, both precipitation \cite{fortelius}
+analysis on environmental change can be performed even on a smaller timescale than evolution would allow \cite{fortelius}. As an example, both precipitation \cite{fortelius}
 and temperature \cite{oksanenHumboldtianApproachLife2019} can be learned based on dental lophs, number of cutting blade shapes, and hypsodontry, the height of 
 molar crown, with the following analysis. One can roughly divide available plants as grass, which has more water and is easier to chew, and 
 browse, drier and rougher plants. The dominant molars are primarily used to chew these plants and it is known that to digest grass, a high 
-crown is required due to tooth erosion and that to digest browse, while cutting blades in teeth are required to cut the fibrous plants to pieces.
+crown is required due to tooth erosion and that to digest browse, cutting blades in teeth are required to cut the fibrous plants to pieces.
 One can therefore find statistical relationships between these tooth measurements and environmental conditions that are favorable 
 for the growth of grass or browse. Then, one can collect a large number of fossilized molars, measure the crown heights and blade shapes to construct a data set of 
 tooth types found in a region during a set geological time period. The previously learned function can then be applied to this data set
- to get knowledge on environmental conditions. Again, the true causal relationships are naturally much more complicated 
+ to get knowledge on environmental conditions. These insights on 
+ past environments and how habitats interacted with their changes can 
+ in turn be used to inform the present situation: for example, it can 
+ be predicted how much local ground temperature rises when tree cover is lost \cite{fortelius},
+ and information like this is crucial in understanding the processes occurring with climate change.
+  Again, the true relationships are naturally much more complicated 
  than the straightforward thought process presented here, but the rough idea is accurate.
 
 % data precision/availability considerations
@@ -248,9 +253,9 @@ tooth types found in a region during a set geological time period. The previousl
 
 %so, getting more data is super important and even so more in my case:
 %the turkana basin where my data is from: 
-%theres human evolution (forteloius) and especially dense mammal record (fortelius) and many environemntal changes (nowdatabase)
+%theres human evolution (forteloius) and especially dense mammal record (fortelius) and many environmental changes (nowdatabase)
 
-Many studies completing paleoenvironmental reconstruction list data availability as the most major limitation (\cite{oksanenHumboldtianApproachLife2019}, \cite{fortelius}).
+Many studies on paleoenvironmental reconstruction list data availability as one of the most major limitations (\cite{oksanenHumboldtianApproachLife2019}, \cite{fortelius}).
 As geoglogical time spans are huge, studies have to 
 resort to time resolutions of hundreds of thousands of years (eg. \cite{fortelius}) because of a lack 
 of sufficient sample sizes. It seems that one of the major hurdles in verifying a hypothesis on 
@@ -262,6 +267,11 @@ in the case of the Turkana basin, for which most of the data points are stored i
 this work: it is suspected that
 important steps in human evolution occurred there, the mammal record is especially dense \cite{fortelius}, and the area has undergone many environmental transitions in the past \cite{Žliobaitė2023}.
 
+The goal of this work is to advance automated curation of paleontological databases, 
+with the primary aim that the structured, digital data would allow for 
+more accurate analysis thanks to larger samples and less tedium in 
+setting up experiments. The terminology special to fossils present in 
+the curated data is presented next.
 
 \subsection{Composition of mammal teeth}
 \label{sect:mammal_teeth}
@@ -370,6 +380,11 @@ An illustration of the mammal tooth system is presented in Figure~\ref{image:mam
 \end{table}
 
 % summary of chapter ???
+This chapter overviewed background on paleoenvironmental 
+reconstruction to motivate the necessity for structured paleontological 
+databases. Additionally, terminology present in the data processed was presented.
+The next chapter presents background theory on deep learning, which is required for data 
+uniformizing processes completed in this work.
 
 \section{Deep Neural Networks for Optical Character Recognition}
 
