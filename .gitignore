@@ -13,3 +13,4 @@
 code/output
 code/ml*
 **/mlruns/
+*.pt
