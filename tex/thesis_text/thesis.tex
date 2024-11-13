@@ -152,7 +152,116 @@ results of the experiments are presented and discussed. Finally, the work is con
 
 \section{Fundamentals on paleoecology}
 
-\subsection{Paleoenvironmental reconstruction}
+% start: what is this field about 
+%paleoecology is data analysis on fossil data
+%most common application: paleoenvironmental reconstruction
+%    definition of the problem: whan ancient habitats were like and what changes they 
+%    underwent at which times (ch2)
+Paleoecology is a field that conducts data analysis on fossil data. The most common type of 
+this analysis is paleoenvironmental reconstruction: deducing what past habitats were like and which 
+changes they have undergone \cite{Faith_Lyman_2019}.
+
+%abstract how analysis is done (species to env map w present apply to past)
+%basic process: learn fossil data to environment statistical relationship in present
+%(study tolerances of animals ie in what kinds of enviroments animals live), apply to past 
+%  tolerance = range of an environmental variable that is hospitable for the species \cite{Faith_Lyman_2019}
+%note on caveats ie what about this is difficult
+%we need correlations but even those are hard: something correlates in present might not correlate in past
+%Nature is highly complicated -> models and assumptions enable drawing conclusions from animal communities
+%one needs to be super careful to draw conclusions, lots of evidence always needed
+The high-level process for reconstructing paleoenvironments is to find a relationship between traits of an 
+animal or plant community living in an area in the present time, and use this 
+relationship to map sets of species in a fossil assemblage to paleoenvironmental variables.
+Traditionally, these relationships are constructed with expert knowledge on each species: The environmental conditions of
+each species is studied independently and limits known as tolerances are learned. These sets of tolerances form niches,
+the set of possible environmental conditions a species can live in \cite{Faith_Lyman_2019}. Finally, these insights are aggregated to 
+draw conclusions on past enviroments based on which species occur in fossil finds in a given location and time.
+Naturally, there are multitudes of variants for drawing environmental conclusions from fossil data based on 
+tolerances and niches, and the methods have many caveats, thoroughly overviewed in \cite{Faith_Lyman_2019}. The most major ones of these are that one always has to 
+make assumptions, such as assuming that tolerances will not change over time, and aggregate information by for instance 
+disregarding individual adaptations. Additionally, with a set of species and a big set of environmental signals provided 
+by each species, drawing conclusions on multitudes of often partially conflicting signals is a challenge.
+
+%chapter intro 
+%sect 1 highlights dental ecometrics as a method for paleoenvironmental reconstruction
+%to motivate the need for representative and accurate dental fossil datasets. As further background on the data, sect 2 presents the
+%mammal teeth row along with relevant terminology.
+This chapter overviews relevant background on paleoenvironmental reconstruction from the perspective of this thesis.
+Section \ref{sect:ecometrics} highlights dental ecometrics, a method for constructing mappings from dental elements to environmental traits to motivate the 
+need for representative and accurate tooth fossil datasets. As further background on the data, Section \ref{sect:mammal_teeth} presents the mammal teeth 
+row along with related terminology.
+
+\subsection{Dental ecometrics}
+\label{sect:ecometrics}
+
+%%what it is on high level: transfer functions
+%a mapping from taxa to environmental variables -> know fossil assemblage, deduce environment
+%  learned using machine learning / statistical models (ch9)
+%    benefit instead of tolerances/niches: they have subjective interpretation problems (book ch 9)
+Dental ecometrics is a method for constructing transfer functions, mappings from species occurences to environmental traits.
+These can be learned using statistical models, such as regression, or classic machine learning methods.
+Using transfer functions is considered more accurate than expert analysis on tolerances and niches: the latter
+can contain subjective interpretations, and transfer functions allow analyzing much larger sets of species occurences than would 
+ever be possible for a human analyst \cite{Faith_Lyman_2019}.
+
+%%what dental ecometrics is specifically, lophs and hypsodontry
+%dental ecometrics = inference of transfer functions given dental data (ch9 liu et al 2012), \cite{oksanenHumboldtianApproachLife2019}
+%relation of traits of animals and livelihood = ecomorphology \cite{oksanenHumboldtianApproachLife2019}:
+%    teeth -> diet -> what plants grew and habitat -> climate etc
+%example both fortelius and oksanenHumboldtianApproachLife2019:
+%  dental lophs (cutting blades) and hypsodonty (crown height) to temperature and precipitation
+%    two kinds of plants, browse (dry), grass (moist).
+%    dominant molar, usually 2nd, primary chewer tooth
+%    grass -> high-crowned ie hypsodont molars
+%    browse -> dry plants need more blade-like molars ie more pronounced lophs
+%    then you take the teeth, check hypsodontry and lophs of the species present, check occurences of species in regions 
+%        statistical model (variants of regression usually) between teeth and present environment
+%        use mapping to fossil teeth in the past -> get past temperature variables. \cite{oksanenHumboldtianApproachLife2019} for instance got temperature, fortelius precipitation
+%relevance to present eg find how much loss of tree cover affects temperature (fortelius)
+%super relevant for forecasting whats to come with climate change
+Dental ecometrics constructs transfer functions where the input variables are dental traits (\cite{Faith_Lyman_2019}, \cite{oksanenHumboldtianApproachLife2019}).
+The method is a subtype of ecomorphology; the study of the relation of functional traits of animals and plants with their livelihood
+\cite{oksanenHumboldtianApproachLife2019}. The high-level reasoning behind the method is that teeth evolve to 
+shapes that are most suitable for processing vegetation in the habitat, thus one can infer vegetation based on tooth shapes, 
+which then serves as a good proxy for environmental conditions \cite{oksanenHumboldtianApproachLife2019}. 
+When the environment changes, animals have to move to habitats where the vegetation is digestible with their teeth, thus 
+analysis on environemntal change can be performed even on a smaller timescale than evolution would allow \cite{fortelius}. As an example, both precipitation \cite{fortelius}
+and temperature \cite{oksanenHumboldtianApproachLife2019} can be learned based on dental lophs, number of cutting blade shapes, and hypsodontry, the height of 
+molar crown, with the following analysis. One can roughly divide available plants as grass, which has more water and is easier to chew, and 
+browse, drier and rougher plants. The dominant molars are primarily used to chew these plants and it is known that to digest grass, a high 
+crown is required due to tooth erosion and that to digest browse, while cutting blades in teeth are required to cut the fibrous plants to pieces.
+One can therefore find statistical relationships between these tooth measurements and environmental conditions that are favorable 
+for the growth of grass or browse. Then, one can collect a large number of fossilized molars, measure the crown heights and blade shapes to construct a data set of 
+tooth types found in a region during a set geological time period. The previously learned function can then be applied to this data set
+ to get knowledge on environmental conditions. Again, the true causal relationships are naturally much more complicated 
+ than the straightforward thought process presented here, but the rough idea is accurate.
+
+% data precision/availability considerations
+% -> what this means for data requirements
+%data is needed for finer resolution (fortelius)
+%is in many cases the limiting factor (faith lyman, fortelius)
+
+%gathering data seems hard analytical papers have to eg measure the crowns before they can analyze (eg fortelius)
+%-> pain, should be easier
+%it seems that digital availability and nonuniform representations are a major limiting factor in 
+%getting more precise insight
+
+%so, getting more data is super important and even so more in my case:
+%the turkana basin where my data is from: 
+%theres human evolution (forteloius) and especially dense mammal record (fortelius) and many environemntal changes (nowdatabase)
+
+Many studies completing paleoenvironmental reconstruction list data availability as the most major limitation (\cite{oksanenHumboldtianApproachLife2019}, \cite{fortelius}).
+As geoglogical time spans are huge, studies have to 
+resort to time resolutions of hundreds of thousands of years (eg. \cite{fortelius}) because of a lack 
+of sufficient sample sizes. It seems that one of the major hurdles in verifying a hypothesis on 
+paleoenvironments is the effort required to collect and curate a dataset; for instance, some ecometric
+analysis works start by measuring the dental traits \cite{fortelius}, an effort that could be saved 
+if measurements were collected once and then stored in a structured manner. For this reason, the 
+creation and maintenance of paleontological databases is of central importance, and this is accentuated 
+in the case of the Turkana basin, for which most of the data points are stored in catalogues processed in 
+this work: it is suspected that
+important steps in human evolution occurred there, the mammal record is especially dense \cite{fortelius}, and the area has undergone many environmental transitions in the past \cite{Žliobaitė2023}.
+
 
 \subsection{Composition of mammal teeth}
 \label{sect:mammal_teeth}
@@ -260,8 +369,7 @@ An illustration of the mammal tooth system is presented in Figure~\ref{image:mam
     \label{table:jaw_notation}
 \end{table}
 
-
-% summary of chapter
+% summary of chapter ???
 
 \section{Deep Neural Networks for Optical Character Recognition}
 
