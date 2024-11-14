@@ -496,7 +496,23 @@ vision application: divide the image to 16x16 patches, interpret those as "words
 
 \subsubsection{Autoencoders}
 
-- encoder/decoder
+most of this from \cite{goodfellow}
+
+labeling costs -> unsupervised learning
+1. labeling cost eli unsupervised or selfsupervised, which is learning without any labels. x is input and output is latent variable of x, z. if input is an image z is obtained from x somehow eg add noise to image, add 1 to all intensity values, etc. no matter if it makes sense just that there is an algo for getting the latent variable.
+
+what is an autoencoder
+2. autoencoder=input x latent is also x.
+	normal net: just copy. eg shallow network no hidden units: output at poistion i is input at position j, no learning
+	trick: constrain
+		variants: less hidden units than input (undercomplete autoencoders), regularizing encourages smaller parameters or sparsity
+	most basic: input to hidden (encoder) hidden to input (decoder)
+		
+3. why this is useful / interesting?
+encoder and decoder nets are mini nets in a net that you take out and use for interesting things.
+- variational autoencoders: learn data prob distro, generate new samples
+- dimensionality reduction/feature engineering by getting the hidden unit
+	- use features also in character recognition: eg shoponbangla
 
 \subsection{Techniques and heuristics for improving performance}
 

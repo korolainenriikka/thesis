@@ -995,6 +995,39 @@ of 2015, where the new best top-5 error of 3,57\% was reached with a network eig
 
 \subsubsection{Autoencoders}
 
+% most of this from \cite{goodfellow}
+% labeling costs -> unsupervised learning
+% 1. labeling cost eli unsupervised or selfsupervised, which is learning without any labels. x is input and output is latent variable of x, z. if input is an image z is obtained from x somehow eg add noise to image, add 1 to all intensity values, etc. no matter if it makes sense just that there is an algo for getting the latent variable.
+As one of the main ways for improving neural network accuracies is to obtain larger training data 
+sets, various methods have been developed to increase dataset sizes without adding more manual labeling 
+effort, which significantly constraints available data sizes. As the best way to increase dataset 
+size without adding labeling effort is to not use labels at all, unsupervised deep learning has been proposed 
+as a solution. In unsupervised or self-supervised learning, the desired output for the network to learn is 
+derived from the input with a deterministic algorithm. This output is called a \textit{latent variable} \cite{goodfellow}.
+Latent variables can be obtained, for example in the image case, by hiding part of the image given to the input 
+and using the whole input as the desired output, or by adding noise to the input \cite{princebook}.
+
+% what is an autoencoder
+% 2. autoencoder=input x latent is also x.
+% 	normal net: just copy. eg shallow network no hidden units: output at poistion i is input at position j, no learning
+% 	trick: constrain
+% 		variants: less hidden units than input (undercomplete autoencoders), regularizing encourages smaller parameters or sparsity
+% 	most basic: input to hidden (encoder) hidden to input (decoder)
+Autoencoders are neural networks trained in an unsupervised manner to learn the identity function: the latent 
+variable is the same as the in put. To avoid the situation where the network would simply copy the values from 
+the input layer to the output, the network is constrained. The most common way for this is to use an undercomplete
+autoencoder, that has hidden layer sizes smaller than the input, forcing the network to find a way to distill 
+the input data so that as much of the original is recoverable on the output layer.
+% tähän vielä regularisointi
+		
+% 3. why this is useful / interesting?
+% introduce probs the architecture, x h x here
+% encoder and decoder nets are mini nets in a net that you take out and use for interesting things.
+% - variational autoencoders: learn data prob distro, generate new samples
+% - dimensionality reduction/feature engineering by getting the hidden unit
+% 	- use features also in character recognition: eg shoponbangla
+
+
 \subsubsection{Transformers and the multi-head self-attention}
 
 % 1 paragraph: motivation for a new method
@@ -2120,7 +2153,7 @@ transfer learning method and hyperparameter selection. After a presentation of  
 % finding the correct column (nature of specimen or element), and cropping the image 
 % according to bounding boxes.
 % regular expressioning, mention () , L R
-The training dataset with xx (TODO insert how many) samples was extracted from the fossil 
+The dataset with a total of 1105 images was extracted from the fossil 
 catalogues using the first two steps on the processing pipeline in Figure \ref{fig:pipeline}:
 for each word under the element describing header, the Azure Vision output was classified 
 to tooth or other with the regular expression, and 
@@ -2142,7 +2175,7 @@ than molars and premolars in the catalogues, some of the former were manually cr
 of catalogues to achieve more variety among these classes. After this, the differences 
 in sample count between the most frequent class and others was computed, and augmented 
 images were saved for the other classes to make class sample counts exactly equal. The augmentation 
-method used will be presented in section TODO aug section. The dataset sizes and samples counts per class 
+method used will be presented in Section \ref{sect:aug}. The dataset sizes and samples counts per class 
 for each model are collected in Table TODO (train val test and samples per class + split ratios for all 5 model training sets!).
 
 % labeling:
@@ -2252,6 +2285,7 @@ network is better at extracting relevant information than a human designing prep
 heavier preprocessing operations were not used.
 
 \subsubsection{Data augmentation}
+\label{sect:aug}
 
 % paragraph 1: augmentation routines were chosen to mimic what could happen really
 % how i will augment: those that might happen in scanning process
