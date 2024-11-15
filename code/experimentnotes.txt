@@ -33,3 +33,26 @@ error variation between runs
 one run had 3 classification errors the next had 0. 5,6% variation in test error, nothing changed-> i need a larger test set for meaningful stuff
 i need accuracy averaging between runs
 
+data balanssiongelmia
+i:tä ei oo tarpeeksi
+indekseitä ei oo ylipäätäänsä tarpeeksi.
+eli trainaa kaks mallia
+123 malli
+1234 malli
+jaa kuva horisontaalisesti puoliksi, se on inputti
+p:t menee 1234:lle m ja i menee 123:lle
+
+azure vai spesialistimalli? eli tehdäänkö mpi & 1234 mallit vai ei
+(mpi ois voinu korjaa helpolla heuristiikalla H->M, T->I training data labeloinnin perusteella 1 sample ois menny väärin)
+tehdään, koska
+- azure tekee paljon virheitä (digit hämmentyy viivasta, esim. 2->5
+	- figure tästä ja resultsiin, miksi spesialisti digit recognizer tarvitaan
+- enemmän prioreita esim. azuren virheistä, enemmän vääriä positiivisia (katalogissa onkin jossain vaikka t3)
+- omilla luokittelijoilla bounding box detektori voidaan vaihtaa
+	azure detektori teki paljon virheitä
+		esim alaraja cutoff failaa usein, yläraja vähemmän usein
+- saadaan oikeempi confidence score kun luokat on rajoitettu oikein
+
+train val test split
+up low: # train n 550, val n 100, test n 50 --> samples per class = 225. this is to have ok granularity of error but still have training samples remaining.
+
