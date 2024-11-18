@@ -1,6 +1,3 @@
-# TODO: create standalone script that takes experiment hyperparameters as inputs
-# and logs relevant output to logfile & mlflow
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -8,7 +5,6 @@ import torch.backends.cudnn as cudnn
 import numpy as np
 import torchvision
 from torchvision import datasets, transforms
-import matplotlib.pyplot as plt
 import os
 from torch.optim import lr_scheduler
 import mlflow
@@ -80,7 +76,6 @@ for parameters in experiment_data['experiments']:
     for param in list(model.parameters())[:-1*(LAYERS_TRAINED+1)]:
         param.requires_grad = False
 
-    # Parameters of newly constructed modules have requires_grad=True by default
     # alexnet
     num_ftrs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(num_ftrs, target_num_of_classes)
@@ -171,13 +166,12 @@ for parameters in experiment_data['experiments']:
     model_pt_filename = f'{experiment}.pt'
     torch.save(model, model_pt_filename)
 
-    os.environ['MLFLOW_TRACKING_URI'] = 'sqlite:///../../mlflow.db'
+    os.environ['MLFLOW_TRACKING_URI'] = 'sqlite:///../../../mlflow.db'
     mlflow.set_experiment(experiment)
 
     params = {
-        'data_v': [3,4,5],
         'train_size': dataset_sizes['train'],
-        'test_size': dataset_sizes['val'],
+        'val_size': dataset_sizes['val'],
         'batch_size': BATCH_SIZE,
         'num_epochs': NUM_EPOCHS,
         'base_model_path': type(model),
@@ -193,7 +187,7 @@ for parameters in experiment_data['experiments']:
 
         # Log the loss metric
         mlflow.log_metric("training accuracy", train_acc)
-        mlflow.log_metric("test accuracy", val_acc)
+        mlflow.log_metric("validation accuracy", val_acc)
 
         mlflow.log_artifact(model_pt_filename)
 
