@@ -10,7 +10,6 @@ from torch.optim import lr_scheduler
 import mlflow
 import json
 
-# does not find the file
 dir_path = os.path.dirname(os.path.realpath(__file__))
 try:
     with open(f'{dir_path}/experiments.json', 'r') as file:
@@ -28,8 +27,9 @@ for parameters in experiment_data['experiments']:
         LEARNING_RATE = parameters['LEARNING_RATE']
         MOMENTUM = parameters['MOMENTUM']
         RANDOM_SEED = parameters['RANDOM_SEED']
+        BASE_MODEL = parameters['BASE_MODEL']
         TAG = parameters['TAG']
-    except AttributeError as e:
+    except (AttributeError, KeyError) as e:
         print(f'Invalid data in experiments.json: {e}')
         exit()
 
@@ -70,40 +70,63 @@ for parameters in experiment_data['experiments']:
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    # model = torchvision.models.vit_b_16(weights='DEFAULT')
-    model = torchvision.models.alexnet(weights='DEFAULT')
-    # model = torchvision.models.efficientnet_v2_s(weights='EfficientNet_V2_S_Weights.IMAGENET1K_V1')
-    for param in list(model.parameters())[:-1*(LAYERS_TRAINED+1)]:
-        param.requires_grad = False
+    # Model setup: load base model, replace last layer
+    # syntax depends on base model submodule structure & naming
+    if (BASE_MODEL == 'vit_b_16'):
+        model = torchvision.models.vit_b_16(weights='ViT_B_16_Weights.IMAGENET1K_V1')
+        num_ftrs = model.heads[0].in_features
+        model.heads[0] = nn.Linear(num_ftrs, target_num_of_classes)
 
-    # alexnet
-    num_ftrs = model.classifier[6].in_features
-    model.classifier[6] = nn.Linear(num_ftrs, target_num_of_classes)
+    elif (BASE_MODEL == 'alexnet'):
+        model = torchvision.models.alexnet(weights='AlexNet_Weights.IMAGENET1K_V1')
+        num_ftrs = model.classifier[6].in_features
+        model.classifier[6] = nn.Linear(num_ftrs, target_num_of_classes)
 
-    # vit
-    # num_ftrs = model.heads[0].in_features
-    # model.heads[0] = nn.Linear(num_ftrs, target_num_of_classes)
+    elif (BASE_MODEL == 'efficientnet_v2_s'):
+        model = torchvision.models.efficientnet_v2_s(weights='EfficientNet_V2_S_Weights.IMAGENET1K_V1')
+        num_ftrs = model.classifier[1].in_features
+        model.classifier[1] = nn.Linear(num_ftrs, target_num_of_classes)
 
-    # efficientnet
-    # num_ftrs = model.classifier[1].in_features
-    # model.classifier[1] = nn.Linear(num_ftrs, target_num_of_classes)
+    elif (BASE_MODEL == 'vgg16'):
+        model = torchvision.models.vgg16(weights='VGG16_Weights.IMAGENET1K_V1')
+        num_ftrs = model.classifier[6].in_features
+        model.classifier[6] = nn.Linear(num_ftrs, target_num_of_classes)
 
+    elif (BASE_MODEL == 'densenet121'):
+        model = torchvision.models.densenet121(weights='DenseNet121_Weights.IMAGENET1K_V1')
+        num_ftrs = model.classifier.in_features
+        model.classifier = nn.Linear(num_ftrs, target_num_of_classes)
+    
+    elif (BASE_MODEL == 'resnet101'):
+        model = torchvision.models.resnet101(weights='ResNet101_Weights.IMAGENET1K_V2')
+        num_ftrs = model.fc.in_features
+        model.fc = nn.Linear(num_ftrs, target_num_of_classes)
+    
+    else: 
+        print('ERROR: unsupported base model, options: vit_b_16, alexnet, efficientnet_v2_s, vgg16, densenet121, resnet101')
+
+    # Freeze layers
+    if LAYERS_TRAINED != 'all':
+        for param in list(model.parameters())[:-1*(LAYERS_TRAINED)]:
+            param.requires_grad = False
+    
+    # Add softmax to end of net to get valid probabilities as outputs for confidence scores
+    model = nn.Sequential(
+        model,
+        nn.Softmax(1)
+    )
     model = model.to(device)
+
+    # loss & lr scheduling
+    optimizer = optim.SGD(model.parameters(), lr=LEARNING_RATE, momentum=MOMENTUM)
+    exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
     criterion = nn.CrossEntropyLoss()
 
-    # vit 
-    # optimizer = optim.SGD(model.heads[0].parameters(), lr=0.001, momentum=0.9)
-    # alexnet
-    optimizer = optim.SGD(model.classifier[6].parameters(), lr=LEARNING_RATE, momentum=MOMENTUM)
-    # efficientnet
-    # optimizer = optim.SGD(model.classifier[1].parameters(), lr=LEARNING_RATE, momentum=MOMENTUM)
-
-    # Decay LR by a factor of 0.1 every 7 epochs
-    exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
-
     def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
-        best_train_acc = 0.0
-        best_test_acc = 0.0
+        train_accuracies = []
+        val_accuracies = []
+        train_losses = []
+        val_losses = []
 
         for epoch in range(num_epochs):
             print(f'Epoch {epoch}/{num_epochs - 1}')
@@ -112,34 +135,28 @@ for parameters in experiment_data['experiments']:
             # Each epoch has a training and validation phase
             for phase in ['train', 'val']:
                 if phase == 'train':
-                    model.train()  # Set model to training mode
+                    model.train()
                 else:
-                    model.eval()   # Set model to evaluate mode
+                    model.eval()
 
                 running_loss = 0.0
                 running_corrects = 0
 
-                # Iterate over data.
                 for inputs, labels in dataloaders[phase]:
                     inputs = inputs.to(device)
                     labels = labels.to(device)
 
-                    # zero the parameter gradients
                     optimizer.zero_grad()
 
-                    # forward
-                    # track history if only in train
                     with torch.set_grad_enabled(phase == 'train'):
                         outputs = model(inputs)
                         _, preds = torch.max(outputs, 1)
                         loss = criterion(outputs, labels)
 
-                        # backward + optimize only if in training phase
                         if phase == 'train':
                             loss.backward()
                             optimizer.step()
 
-                    # statistics
                     running_loss += loss.item() * inputs.size(0)
                     running_corrects += torch.sum(preds == labels.data)
 
@@ -151,17 +168,19 @@ for parameters in experiment_data['experiments']:
                 print(f'{phase} Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}')
                 
                 if phase == 'val':
-                    best_test_acc = epoch_acc.item()
+                    val_accuracies.append(epoch_acc.item())
+                    val_losses.append(epoch_loss)
                 if phase == 'train':
-                    best_train_acc = epoch_acc.item()
+                    train_accuracies.append(epoch_acc.item())
+                    train_losses.append(epoch_loss)
 
             print()
 
-        print(f'Best val Acc: {best_test_acc:4f}')
+        print(f'Final validation accuracy: {val_accuracies[-1]:4f}')
 
-        return model, best_train_acc, best_test_acc
+        return model, train_accuracies, val_accuracies, train_losses, val_losses
 
-    model, train_acc, val_acc = train_model(model, criterion, optimizer, exp_lr_scheduler, num_epochs=NUM_EPOCHS)
+    model, train_accuracies, val_accuracies, train_losses, val_losses = train_model(model, criterion, optimizer, exp_lr_scheduler, num_epochs=NUM_EPOCHS)
 
     model_pt_filename = f'{experiment}.pt'
     torch.save(model, model_pt_filename)
@@ -185,12 +204,18 @@ for parameters in experiment_data['experiments']:
         # Log the hyperparameters
         mlflow.log_params(params)
 
-        # Log the loss metric
-        mlflow.log_metric("training accuracy", train_acc)
-        mlflow.log_metric("validation accuracy", val_acc)
+        # Log accuracy
+        mlflow.log_metric("training accuracy", train_accuracies[-1])
+        mlflow.log_metric("validation accuracy", val_accuracies[-1])
 
+        # Log the model
         mlflow.log_artifact(model_pt_filename)
 
-        # Set a tag that we can use to remind ourselves what this run was for
+        # Set a tag to remind what this run was for
+        # Save accuracies & losses as str for easier viewing in the UI
         mlflow.set_tag("info", TAG)
+        mlflow.set_tag("train_accuracies", str(train_accuracies))
+        mlflow.set_tag("val_accuracies", str(val_accuracies))
+        mlflow.set_tag("train_losses", str(train_losses))
+        mlflow.set_tag("val_losses", str(val_losses))
 

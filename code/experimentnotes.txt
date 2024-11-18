@@ -58,3 +58,31 @@ up low: # train n 550, val n 100, test n 50 --> samples per class = 225. this is
 
 vit oli sun eka hypoteesi et on paras mut oliki huonoin. tää on tärkee analyyttinen tulos
 
+on the models
+confidence scores -> softmax was added to end of network (usually not put since softmax preserves ordering and classifiers just take the most likely class -> unnecessary operation)
+
+uus datasetti
+alexnetti overfittaa jo yli 3 layerii trainattuna suunnilleen
+alexnet: 2 layerii yht hyvä ku yli 2
+it seems that freezing less is better, like previous studies concluded
+
+no freezing actually
+so this shows that it might be that initial examples are important, so generalist images to start is good
+	although you cannot really tell, because we cannot test training only on fossil images as much as they trained on imagenet because the dataset is too small for that
+and cpu rules, pretraining means  that we essentially just trained much more
+	just throw data and compute at the problem and you are better off solving it
+	
+training the whole net converges in about 10 epochs
+
+train and val accuracies are very similar so actually there seems to be little overfitting even when training the whole network
+
+probs my main results
+1. don't go transformers
+2. don't freeze
+--> pick your priors, set them and throw data and compute at the problem as much as you can.
+the results align with other ocr studies.
+
+TEST CHANGING THE RANDOM SEED (w the best model)
+
+set up script for both cpu and gpu but the slow and sweet cpu was good enough so i did not mind the slowness, allowed to see how loss/acc evolves epoch by epoch
+

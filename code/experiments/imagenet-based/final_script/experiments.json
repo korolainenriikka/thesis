@@ -1,13 +1,14 @@
 {
     "experiments": [
         {
-            "NUM_EPOCHS": 1, 
-            "BATCH_SIZE": 4,
-            "LAYERS_TRAINED": 2,
+            "NUM_EPOCHS": 25, 
+            "BATCH_SIZE": 64,
+            "LAYERS_TRAINED": "all",
             "LEARNING_RATE": 0.001,
             "MOMENTUM": 0.9,
             "RANDOM_SEED": 15,
-            "TAG": "Testing parametrization with .json"
+            "TAG": "Log all losses and accuracies, more epochs",
+            "BASE_MODEL": "alexnet"
         }
     ]
 }
