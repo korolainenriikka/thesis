@@ -1,0 +1,13 @@
+{
+    "experiments": [
+        {
+            "NUM_EPOCHS": 1, 
+            "BATCH_SIZE": 4,
+            "LAYERS_TRAINED": 2,
+            "LEARNING_RATE": 0.001,
+            "MOMENTUM": 0.9,
+            "RANDOM_SEED": 15,
+            "TAG": "Testing parametrization with .json"
+        }
+    ]
+}

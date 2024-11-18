@@ -8,6 +8,7 @@ import torch.backends.cudnn as cudnn
 import numpy as np
 import torchvision
 from torchvision import datasets, transforms
+import matplotlib.pyplot as plt
 import os
 from torch.optim import lr_scheduler
 import mlflow

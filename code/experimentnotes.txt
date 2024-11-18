@@ -56,3 +56,5 @@ tehdään, koska
 train val test split
 up low: # train n 550, val n 100, test n 50 --> samples per class = 225. this is to have ok granularity of error but still have training samples remaining.
 
+vit oli sun eka hypoteesi et on paras mut oliki huonoin. tää on tärkee analyyttinen tulos
+
