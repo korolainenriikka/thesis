@@ -84,5 +84,10 @@ the results align with other ocr studies.
 
 TEST CHANGING THE RANDOM SEED (w the best model)
 
-set up script for both cpu and gpu but the slow and sweet cpu was good enough so i did not mind the slowness, allowed to see how loss/acc evolves epoch by epoch
+set up script for both cpu and gpu but the slow cpu was good enough so i did not mind the slowness, allowed to see how loss/acc evolves epoch by epoch
 
+all experiments 
+freezing: 1-10 layers, then no freezing.
+reason: some models have lots and lots of layers, this config already results 
+in 66 experiments. if these suggest freezing less always causes a better 
+model we do not experiment further.
