@@ -4,7 +4,6 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{geometry}
-\usepackage{twemojis}
 \usepackage{subcaption}
 \usepackage[style=numeric,bibstyle=numeric,backend=biber,natbib=true,maxbibnames=99,giveninits=true,uniquename=init]{biblatex}
 \usepackage[utf8]{inputenc}
@@ -1006,6 +1005,8 @@ as a solution. In unsupervised or self-supervised learning, the desired output f
 derived from the input with a deterministic algorithm. This output is called a \textit{latent variable} \cite{goodfellow}.
 Latent variables can be obtained, for example in the image case, by hiding part of the image given to the input 
 and using the whole input as the desired output, or by adding noise to the input \cite{princebook}.
+Due to the nonlinearities in neural network computations, learning the latent variable 
+based on the input remains a nontrivial task for the model.
 
 % what is an autoencoder
 % 2. autoencoder=input x latent is also x.
@@ -1014,19 +1015,33 @@ and using the whole input as the desired output, or by adding noise to the input
 % 		variants: less hidden units than input (undercomplete autoencoders), regularizing encourages smaller parameters or sparsity
 % 	most basic: input to hidden (encoder) hidden to input (decoder)
 Autoencoders are neural networks trained in an unsupervised manner to learn the identity function: the latent 
-variable is the same as the in put. To avoid the situation where the network would simply copy the values from 
+variable is the same as the input. To avoid situations where the network would simply copy the values from 
 the input layer to the output, the network is constrained. The most common way for this is to use an undercomplete
 autoencoder, that has hidden layer sizes smaller than the input, forcing the network to find a way to distill 
 the input data so that as much of the original is recoverable on the output layer.
-% tähän vielä regularisointi
+Another way of constraining the model is to add regularization parameters to the 
+loss function, encouraging for instance small-valued or sparse parameters as more 
+ideal than the trivial solution.
 		
 % 3. why this is useful / interesting?
 % introduce probs the architecture, x h x here
 % encoder and decoder nets are mini nets in a net that you take out and use for interesting things.
-% - variational autoencoders: learn data prob distro, generate new samples
 % - dimensionality reduction/feature engineering by getting the hidden unit
 % 	- use features also in character recognition: eg shoponbangla
-
+The natural follow-up question to ask on autoencoders is why bother; what the utility 
+of learning identity functions is. For the undercomplete autoencoder, the computation 
+can be seen as a mapping from the input to a compressed representation $h$, and 
+another computation from $h$ to the input, thus an autoencoder is a mapping $x\to h\to x$ \cite{goodfellow}.
+The utility lies in this hidden unit $h$ and that one can take out only the 
+computation from $x$ to $h$, called the \textit{encoder}, or from $h$ to $x$, the \textit{decoder}.
+The decoder, when trained for generative tasks, can be utilized as a data generator by giving a seed 
+sequence as the input.
+From the perspective of image classification, the encoder is more useful as it serves 
+as a powerful feature extractor: one approach for creating a character-recognizing model 
+is to first train an autoencoder and then train a classifier by appending 
+fully connected layers to the encoder. This approach has been successfully implemented for the Bangla language \cite{6shoponBangla}.
+Thus, autoencoders can be used as the source 
+task in transfer learning, as discussed in Section \ref{sect:transfer_learning}.
 
 \subsubsection{Transformers and the multi-head self-attention}
 
@@ -1148,6 +1163,7 @@ To utilize these models in handwritten character recognition, a mechanism for ap
 This is called transfer learning and is presented next.
 
 \subsection{Transfer learning}
+\label{sect:transfer_learning}
 
 % % introduction
 % relation to the coarse level training loop: how to initialize model parameters
