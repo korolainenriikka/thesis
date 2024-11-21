@@ -1103,6 +1103,42 @@ training vgg is slow
 
 is hyperparameter setting fair? are hyperparameters equally optimal for all training settings? comparing is not ok if some models find a better optimum than others because of hyperparams
 
+\begin{table}[ht]
+    \centering
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Training Accuracy (\%)} & \textbf{Validation Accuracy (\%)} & \textbf{Layers Trained} & \textbf{Base Model} \\ \hline
+            92.71 & $\mathbf{92.21}$ & all  & AlexNet \cite{alexnet}       \\\hline
+            90.83 & 88.96 & 10   & AlexNet \cite{alexnet}      \\\hline
+            84.30 & 80.52 & 5    & AlexNet \cite{alexnet}      \\\hline
+            64.09 & 61.69 & 1    & AlexNet \cite{alexnet}      \\\hline
+            95.25 & $\mathbf{91.56}$ & all  & ViT  \cite{vit}         \\\hline
+            68.84 & 66.88 & 10   & ViT  \cite{vit}         \\\hline
+            68.73 & 64.94 & 5    & ViT  \cite{vit}         \\\hline
+            50.06 & 42.86 & 1    & ViT  \cite{vit}         \\\hline
+            90.72 & $\mathbf{87.01}$ & all  & VGG16     \cite{vgg}    \\\hline
+            84.31 & 80.52 & 10   & VGG16   \cite{vgg}      \\\hline
+            72.27 & 67.53 & 5    & VGG16   \cite{vgg}      \\\hline
+            43.65 & 35.06 & 1    & VGG16   \cite{vgg}      \\\hline
+            88.73 & 81.17 & all  & DenseNet121 \cite{densenet}  \\\hline
+            66.08 & 65.58 & 10   & DenseNet121 \cite{densenet}  \\\hline
+            65.75 & 65.58 & 5    & DenseNet121 \cite{densenet}  \\\hline
+            55.80 & 62.34 & 1    & DenseNet121 \cite{densenet}  \\\hline
+            64.75 & 65.58 & all  & ResNet101  \cite{resnet}   \\ \hline
+            64.75 & 65.58 & 10   & ResNet101   \cite{resnet}  \\\hline
+            64.75 & 65.58 & 5    & ResNet101  \cite{resnet}   \\\hline
+            60.77 & 63.64 & 1    & ResNet101  \cite{resnet}   \\\hline
+            64.53 & 64.29 & all  & EfficientNetV2S  \cite{efficientnetv2} \\\hline
+            64.09 & 64.29 & 10   & EfficientNetV2S \cite{efficientnetv2}  \\\hline
+            64.09 & 64.29 & 5    & EfficientNetV2S \cite{efficientnetv2}  \\\hline
+            54.59 & 54.55 & 1    & EfficientNetV2S \cite{efficientnetv2} \\\hline
+        \end{tabular}
+    \caption{Training and Validation Accuracy for Different Base Models and Layer Freezing setups for Upper / Lower jaw classification}
+    \label{tab:model_accuracy}
+\end{table}
+
+\end{document}
+
 \section{Conclusions}
 
 % why word bounding box worked badly and how it could be improved
