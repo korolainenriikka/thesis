@@ -1137,6 +1137,20 @@ is hyperparameter setting fair? are hyperparameters equally optimal for all trai
     \label{tab:model_accuracy}
 \end{table}
 
+\begin{table}[ht]
+    \centering
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Accuracy, first seed (\%)} & \textbf{Accuracy, second seed (\%)} & \textbf{Difference (\%)} & \textbf{Layers Trained} \\ \hline
+            88.31 & 92.21 & 3.9  & all \\\hline
+            85.71 & 88.96 & 3.25 & 10  \\\hline
+            75.32 & 80.52 & 5.2  & 5   \\\hline
+            52.60 & 61.69 & 9.09 & 1   \\\hline
+        \end{tabular}
+    \caption{Random seed sensitivity: validation accuracies with two different seeds, AlexNet upper/lower}
+    \label{tab:model_accuracy}
+\end{table}
+
 \end{document}
 
 \section{Conclusions}

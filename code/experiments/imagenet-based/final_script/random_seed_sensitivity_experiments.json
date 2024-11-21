@@ -1,0 +1,45 @@
+{
+    "imagefolder_path": "/home/riikoro/fossil_data/tooth_samples/torch_imagefolder_0",
+    "experiments": [
+        {
+            "NUM_EPOCHS": 20, 
+            "BATCH_SIZE": 64,
+            "LAYERS_TRAINED": 1,
+            "LEARNING_RATE": 0.001,
+            "MOMENTUM": 0.9,
+            "RANDOM_SEED": 2,
+            "TAG": "Test random seed sensitivity",
+            "BASE_MODEL": "alexnet"
+        },
+        {
+            "NUM_EPOCHS": 20, 
+            "BATCH_SIZE": 64,
+            "LAYERS_TRAINED": 5,
+            "LEARNING_RATE": 0.001,
+            "MOMENTUM": 0.9,
+            "RANDOM_SEED": 2,
+            "TAG": "Test random seed sensitivity",
+            "BASE_MODEL": "alexnet"
+        },
+        {
+            "NUM_EPOCHS": 20, 
+            "BATCH_SIZE": 64,
+            "LAYERS_TRAINED": 10,
+            "LEARNING_RATE": 0.001,
+            "MOMENTUM": 0.9,
+            "RANDOM_SEED": 2,
+            "TAG": "Test random seed sensitivity",
+            "BASE_MODEL": "alexnet"
+        },
+        {
+            "NUM_EPOCHS": 20, 
+            "BATCH_SIZE": 64,
+            "LAYERS_TRAINED": "all",
+            "LEARNING_RATE": 0.001,
+            "MOMENTUM": 0.9,
+            "RANDOM_SEED": 2,
+            "TAG": "Test random seed sensitivity",
+            "BASE_MODEL": "alexnet"
+        }
+    ]
+}

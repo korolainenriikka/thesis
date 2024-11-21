@@ -82,16 +82,18 @@ epochs to 20 because training converged in all cases before that (CHECK)
 freezing: train last 1,5,10 layers and no freezing. this instead of 123 because many models had 10-30 layers so percentage wise this is more representative
 
 TO CHECK
-convergence of training in 20 epochs every time?
-sentitivity to hyperparameters?
-sensitivity to random seed?
-difference of train/val accuracies? -> overfitting?, find largest difference
-best model test error
-
-plots
-taulukko tuloksista
-fitting of best model loss plotti
-freeze less -> better model for all models (line chart for accuracy vs. frozen layers
+convergence of training in 20 epochs every time? -> yes
+sensitivity to hyperparameters? tested by setting batch size to 32 and re running for alexnet.
+sensitivity to random seed? tested by setting seed from 15 to 2 and re running for alexnet.
+	no particular reason for choosing these seeds
+	with other batch size accs: all 88,31 -> approx 4% difference, quite a lot. so there is room for hyperparameter optimization
+	for 1 layer 52,60%, even more.
+	it was still the case that more freezing worse result
+	random seed essentially determines how the data points are divided into batches. batch division that happens to be better for optimization can lead to a better optimum and a better model. emphasis: model comparison is hard, margin of error is up to 10% where you should not be too sure the better model is actually better
+	so, if one does model comparisons then it is important that the hyperparameter search is actually exhaustive, you actually try every single seed so each model has the best seed used. practical thing is, you can never really do that. therefore model comparisons should be done with caution.
+	this also means that doing proper experimentation is quite expensive computationally, luckily small data transfer learning is not that cpu intensive.
+difference of train/val accuracies? -> overfitting?, find largest difference -> plotted, mostly low /see histogram
+best model test error, malli toisella koneella ->huomenna
 
 vanha
 start of section: reiterate what was experimented with

@@ -9,13 +9,24 @@ import os
 from torch.optim import lr_scheduler
 import mlflow
 import json
+import sys
+
+json_filename = 'experiments.json'
+if len(sys.argv) == 2:
+    json_filename = sys.argv[1]
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 try:
-    with open(f'{dir_path}/experiments.json', 'r') as file:
+    with open(f'{dir_path}/{json_filename}', 'r') as file:
         experiment_data = json.load(file)
-except json.decoder.JSONDecodeError:
-    print('Invalid experiments.json, aborting')
+except (json.decoder.JSONDecodeError, FileNotFoundError) as e:
+    print(f'Invalid experiments.json, aborting: {e}')
+    exit()
+
+try:
+    imagefolder_path = experiment_data['imagefolder_path']
+except (AttributeError, KeyError) as e:
+    print(f'Invalid imagefolder path: {e}')
     exit()
 
 for parameters in experiment_data['experiments']:
@@ -58,7 +69,7 @@ for parameters in experiment_data['experiments']:
         ]),
     }
 
-    data_dir = f'/home/riikka/thesis-data/torch_imagefolder_0/{experiment}'
+    data_dir = f'{imagefolder_path}/{experiment}'
     image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
                                             data_transforms[x])
                     for x in ['train', 'val']}
@@ -129,7 +140,7 @@ for parameters in experiment_data['experiments']:
         val_losses = []
 
         for epoch in range(num_epochs):
-            print(f'Epoch {epoch}/{num_epochs - 1}')
+            print(f'Epoch {epoch}/{num_epochs}')
             print('-' * 10)
 
             # Each epoch has a training and validation phase
@@ -182,10 +193,10 @@ for parameters in experiment_data['experiments']:
 
     model, train_accuracies, val_accuracies, train_losses, val_losses = train_model(model, criterion, optimizer, exp_lr_scheduler, num_epochs=NUM_EPOCHS)
 
-    model_pt_filename = f'{experiment}.pt'
-    torch.save(model, model_pt_filename)
+    # model_pt_filename = f'{experiment}.pt'
+    # torch.save(model, model_pt_filename)
 
-    os.environ['MLFLOW_TRACKING_URI'] = 'sqlite:///../../../mlflow.db'
+    os.environ['MLFLOW_TRACKING_URI'] = 'sqlite:///../../../final_experiments.db'
     mlflow.set_experiment(experiment)
 
     params = {
@@ -209,7 +220,7 @@ for parameters in experiment_data['experiments']:
         mlflow.log_metric("validation accuracy", val_accuracies[-1])
 
         # Log the model
-        mlflow.log_artifact(model_pt_filename)
+        # mlflow.log_artifact(model_pt_filename)
 
         # Set a tag to remind what this run was for
         # Save accuracies & losses as str for easier viewing in the UI
