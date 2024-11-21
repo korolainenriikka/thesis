@@ -1,7 +1,7 @@
 {
     "experiments": [
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 1,
             "LEARNING_RATE": 0.001,
@@ -11,37 +11,7 @@
             "BASE_MODEL": "vit_b_16"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 2,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vit_b_16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 3,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vit_b_16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 4,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vit_b_16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 5,
             "LEARNING_RATE": 0.001,
@@ -51,47 +21,7 @@
             "BASE_MODEL": "vit_b_16"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 6,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vit_b_16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 7,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vit_b_16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 8,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vit_b_16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 9,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vit_b_16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 10,
             "LEARNING_RATE": 0.001,
@@ -101,7 +31,7 @@
             "BASE_MODEL": "vit_b_16"
         },
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": "all",
             "LEARNING_RATE": 0.001,
@@ -111,7 +41,7 @@
             "BASE_MODEL": "vit_b_16"
         },
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 1,
             "LEARNING_RATE": 0.001,
@@ -121,37 +51,7 @@
             "BASE_MODEL": "alexnet"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 2,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "alexnet"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 3,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "alexnet"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 4,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "alexnet"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 5,
             "LEARNING_RATE": 0.001,
@@ -161,47 +61,7 @@
             "BASE_MODEL": "alexnet"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 6,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "alexnet"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 7,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "alexnet"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 8,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "alexnet"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 9,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "alexnet"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 10,
             "LEARNING_RATE": 0.001,
@@ -211,7 +71,7 @@
             "BASE_MODEL": "alexnet"
         },
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": "all",
             "LEARNING_RATE": 0.001,
@@ -221,7 +81,7 @@
             "BASE_MODEL": "alexnet"
         },
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 1,
             "LEARNING_RATE": 0.001,
@@ -231,37 +91,7 @@
             "BASE_MODEL": "efficientnet_v2_s"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 2,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "efficientnet_v2_s"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 3,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "efficientnet_v2_s"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 4,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "efficientnet_v2_s"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 5,
             "LEARNING_RATE": 0.001,
@@ -271,47 +101,7 @@
             "BASE_MODEL": "efficientnet_v2_s"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 6,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "efficientnet_v2_s"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 7,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "efficientnet_v2_s"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 8,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "efficientnet_v2_s"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 9,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "efficientnet_v2_s"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 10,
             "LEARNING_RATE": 0.001,
@@ -321,7 +111,7 @@
             "BASE_MODEL": "efficientnet_v2_s"
         },
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": "all",
             "LEARNING_RATE": 0.001,
@@ -331,7 +121,7 @@
             "BASE_MODEL": "efficientnet_v2_s"
         },
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 1,
             "LEARNING_RATE": 0.001,
@@ -341,37 +131,7 @@
             "BASE_MODEL": "vgg16"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 2,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vgg16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 3,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vgg16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 4,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vgg16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 5,
             "LEARNING_RATE": 0.001,
@@ -381,47 +141,7 @@
             "BASE_MODEL": "vgg16"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 6,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vgg16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 7,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vgg16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 8,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vgg16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 9,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "vgg16"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 10,
             "LEARNING_RATE": 0.001,
@@ -431,7 +151,7 @@
             "BASE_MODEL": "vgg16"
         },
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": "all",
             "LEARNING_RATE": 0.001,
@@ -441,7 +161,7 @@
             "BASE_MODEL": "vgg16"
         },
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 1,
             "LEARNING_RATE": 0.001,
@@ -451,37 +171,7 @@
             "BASE_MODEL": "densenet121"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 2,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "densenet121"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 3,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "densenet121"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 4,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "densenet121"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 5,
             "LEARNING_RATE": 0.001,
@@ -491,47 +181,7 @@
             "BASE_MODEL": "densenet121"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 6,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "densenet121"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 7,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "densenet121"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 8,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "densenet121"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 9,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "densenet121"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 10,
             "LEARNING_RATE": 0.001,
@@ -541,7 +191,7 @@
             "BASE_MODEL": "densenet121"
         },
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": "all",
             "LEARNING_RATE": 0.001,
@@ -551,7 +201,7 @@
             "BASE_MODEL": "densenet121"
         },
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 1,
             "LEARNING_RATE": 0.001,
@@ -561,37 +211,7 @@
             "BASE_MODEL": "resnet101"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 2,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "resnet101"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 3,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "resnet101"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 4,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "resnet101"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 5,
             "LEARNING_RATE": 0.001,
@@ -601,47 +221,7 @@
             "BASE_MODEL": "resnet101"
         },
         {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 6,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "resnet101"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 7,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "resnet101"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 8,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "resnet101"
-        },
-        {
-            "NUM_EPOCHS": 50, 
-            "BATCH_SIZE": 64,
-            "LAYERS_TRAINED": 9,
-            "LEARNING_RATE": 0.001,
-            "MOMENTUM": 0.9,
-            "RANDOM_SEED": 15,
-            "TAG": "Full experiments with all base models & all layer freezing setups",
-            "BASE_MODEL": "resnet101"
-        },
-        {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": 10,
             "LEARNING_RATE": 0.001,
@@ -651,7 +231,7 @@
             "BASE_MODEL": "resnet101"
         },
         {
-            "NUM_EPOCHS": 50, 
+            "NUM_EPOCHS": 20, 
             "BATCH_SIZE": 64,
             "LAYERS_TRAINED": "all",
             "LEARNING_RATE": 0.001,

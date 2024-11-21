@@ -58,7 +58,7 @@ for parameters in experiment_data['experiments']:
         ]),
     }
 
-    data_dir = f'/home/riikoro/fossil_data/tooth_samples/torch_imagefolder_0/{experiment}'
+    data_dir = f'/home/riikka/thesis-data/torch_imagefolder_0/{experiment}'
     image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
                                             data_transforms[x])
                     for x in ['train', 'val']}
