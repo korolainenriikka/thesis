@@ -29,10 +29,6 @@ but then efficientnet is crap
 -----> i dont know if i can compare anything because optimizing is so random and hard that you can never really know whether the end result is because of the runs were optimized sometimes better sometimes worse of whether the other architecture is actually better
 this is very inexact science, so this worked approach, no compare and tell why's, actually probably makes sense.
 
-error variation between runs
-one run had 3 classification errors the next had 0. 5,6% variation in test error, nothing changed-> i need a larger test set for meaningful stuff
-i need accuracy averaging between runs
-
 data balanssiongelmia
 i:tä ei oo tarpeeksi
 indekseitä ei oo ylipäätäänsä tarpeeksi.
@@ -53,41 +49,74 @@ tehdään, koska
 		esim alaraja cutoff failaa usein, yläraja vähemmän usein
 - saadaan oikeempi confidence score kun luokat on rajoitettu oikein
 
+comparint models
+hard, hard to know if it is because of model or because of how good an optimum was reached, no objective metric of "how good optimum"
+
 train val test split
 up low: # train n 550, val n 100, test n 50 --> samples per class = 225. this is to have ok granularity of error but still have training samples remaining.
 
-vit oli sun eka hypoteesi et on paras mut oliki huonoin. tää on tärkee analyyttinen tulos
+vit 2nd best.
 
 on the models
 confidence scores -> softmax was added to end of network (usually not put since softmax preserves ordering and classifiers just take the most likely class -> unnecessary operation)
-
-uus datasetti
-alexnetti overfittaa jo yli 3 layerii trainattuna suunnilleen
-alexnet: 2 layerii yht hyvä ku yli 2
-it seems that freezing less is better, like previous studies concluded
 
 no freezing actually
 so this shows that it might be that initial examples are important, so generalist images to start is good
 	although you cannot really tell, because we cannot test training only on fossil images as much as they trained on imagenet because the dataset is too small for that
 and cpu rules, pretraining means  that we essentially just trained much more
 	just throw data and compute at the problem and you are better off solving it
-	
-training the whole net converges in about 10 epochs
+train the last layer (inspo from \cite{tibetan_ocr}, test hypothesis of reusing feature extractor)
+	-> seems false, training the whole network works better. a strong result, happened with every model
 
-train and val accuracies are very similar so actually there seems to be little overfitting even when training the whole network
+base task
+imagenet best: 100%, mnist best: 89%. but mnist experimentation was much less exhaustive as old work did only imagenet so take mnist result with caution
 
 probs my main results
-1. don't go transformers
-2. don't freeze
+don't freeze
 --> pick your priors, set them and throw data and compute at the problem as much as you can.
 the results align with other ocr studies.
 
-TEST CHANGING THE RANDOM SEED (w the best model)
+experiments
+vit alexnet included: vit to test transformers alexnet to test it bc it was popular
+epochs to 20 because training converged in all cases before that (CHECK)
+freezing: train last 1,5,10 layers and no freezing. this instead of 123 because many models had 10-30 layers so percentage wise this is more representative
 
-set up script for both cpu and gpu but the slow cpu was good enough so i did not mind the slowness, allowed to see how loss/acc evolves epoch by epoch
+TO CHECK
+convergence of training in 20 epochs every time?
+sentitivity to hyperparameters?
+sensitivity to random seed?
+difference of train/val accuracies? -> overfitting?, find largest difference
+best model test error
 
-all experiments 
-freezing: 1-10 layers, then no freezing.
-reason: some models have lots and lots of layers, this config already results 
-in 66 experiments. if these suggest freezing less always causes a better 
-model we do not experiment further.
+plots
+taulukko tuloksista
+fitting of best model loss plotti
+freeze less -> better model for all models (line chart for accuracy vs. frozen layers
+
+vanha
+start of section: reiterate what was experimented with
+
+up/low was a harder problem than MPI. probably because uplow notation was more versatile, but interesting because uplow had less classes
+
+what else? find from literature!
+
+augmentation to balance classes resulted in a 10\% increase in tooth type classification accuracy 
+using a simple translation, with mnist base model. translation also makes sense since that is the main variable changing 
+between images, zoom or rotation changing is more rare as these are scans.
+
+initial phase experiments: mnist transfer to mpi since it was thought to be a similar problem. 
+however like noted by \cite{alexnet}, real world image classification is much more complex than digit classification 
+as the benchmark images are ideal cases with eg perfectly even background. Therefore later phases 
+experimented with transfer from imagenet classifiers since that is what most of papers in related work also did.
+also \cite{8goelGujarati2023} had the same result (that imagenet is better than mnist even though mnist data looks more like character images)
+
+start with most common ie cnn, most common transfer method ie freeze all but last layer 
+
+test both mnist and imagenet transfer 
+best acc with mnist base: 89.
+
+alexnet without any hyperparameter tuning with imagenet weights: immediately 100 percent on mpi,
+upperlower surprisingly harder, 95 percent
+
+my results are worse than other studies, why? maybe because of small data (check number of samples per class)
+otherwise it seems this nn building has room for improvement
