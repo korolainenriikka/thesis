@@ -794,7 +794,7 @@ once we know how i show u how to use the models, how the system will work
 \subsubsection{Sequence learning or character classification}
 
 sequence definition: image to variable-length phrase (text in the image)
-word per word approach, inspired by \cite{tibetan_ocr}:
+word per word approach, inspired by \cite{4zhaoTibetan}:
     input is image of one word
         one tooth = one word
     output is the text on the image, when the word is a tooth output is valid tooth notation so m1-3 p1-2 etc
@@ -852,7 +852,7 @@ formulation of tooth image to tooth type
             -: no such thing as a 3rd canine 
                 so not all variable combinations are possible. no easy well established way to encode that to the model 
                     what will we do if the model thinks its a 4th canine?
-            -: even when it was easy \cite{tibetan_ocr} kinda already argued the multilabel is a bad approach
+            -: even when it was easy \cite{4zhaoTibetan} kinda already argued the multilabel is a bad approach
 
     model ensemble/ chained classifiers to the rescue
         separate models. mpic model, updown model, m1m2m3 model, i1i2i3 model, p1p2p3p4 model
@@ -864,14 +864,14 @@ formulation of tooth image to tooth type
                 model does not learn index number based on what the letter is by keeping letter not changing
 
 not inspired from any paper but my own idea, felt like a sensible way to formulate the problem, 
-so we have for all models a well-solved well-defined basic classification problem. partly inspired by \cite{tibetan_ocr}, though
+so we have for all models a well-solved well-defined basic classification problem. partly inspired by \cite{4zhaoTibetan}, though
 
 reason for this choice: it encodes most prior knowledge in the output structure, use as much from azure as possible
     act according to premise of transfer learning: utilize all prior knowledge, fine tune your approach to problem as little as possible
 
 \subsubsection{The proposed pipeline}
 
-chain of models, inspired by \cite{tibetan_ocr}: take in image, tooth or not
+chain of models, inspired by \cite{4zhaoTibetan}: take in image, tooth or not
     (tibetan: classify which script style, then recognize so classifier chaining)
     if tooth give to tooth classifier 
     if not tooth give to basic word reader
@@ -1056,52 +1056,131 @@ robustness of optimization. esp change the random seed to see results dont depen
 
 % summary of chapter
 this chapter gave an overview of how the experiments were set up and why they were set up in this way.
-a sentence from all: sequence not done bc its complex. multiclass not done bc it is worse according to \cite{tibetan_ocr}.
+a sentence from all: sequence not done bc its complex. multiclass not done bc it is worse according to \cite{4zhaoTibetan}.
 training setting: preprocessing by denoising only because nn premise is that the net is better at feature extraction than human.
 augmentation: intensity change background contrast change random crop letter blur minor rotation because these can happen in catalogue scans
 base models are: efficientnet vgg16 densenet121 resnet101 because they were popular and or won comparing benchmarks in previous work
 freezing first more then less bc if more works its better, find sweet spot of most freezing that is still accurate.
+
+% NEW ADDITIONS TO CHAPTER 6
+
+dataset creation
+lower jaw much more common than upper
+w regex -> c issue
+with this segmentation many of the c's we have in the dataset are not actually tooth marking c's -> many c's were missing up/low, but cs are few so the extra cs come definitely in handy
+but then undecipherable c's in up-low are many so the undecipherables might learn to be associated with the letter c not missing the relevant information...
+frequent undecipherables issue: maybe in some catalogue could be that just upper is marked and other is lower? i dont know and i dont have the context info nor does the model
+labeling mistakes: i corrected some on a third doublecheck round. would be interesting to know how many errors are left in datasets, people seem to just assume that labels are always correct.
+data balanssiongelmia
+i:tä ei oo tarpeeksi
+indekseitä ei oo ylipäätäänsä tarpeeksi.
+eli trainaa kaks mallia
+123 malli
+1234 malli
+jaa kuva horisontaalisesti puoliksi, se on inputti
+p:t menee 1234:lle m ja i menee 123:lle
+i balanced bc initial experiments showed increase of about 10\% with balancing (disclaimer no rigor here), verifies imbalanced datasets paper statement
+
+labeling: more fixes to index than to mpi, generalist gets confused by the line on number, many 2's became 5's (example image?)
+many mistakes in hand labeling after meny checks, be careful! recheck procedures for selfmade data, im sure im correct only after 2-3 rechecks
+
+problem formulation
+up/low undecipherable-kysymys
+syyn sille miks en poista undecipherableja training datasta vaan sisällytän ne (on hyödyllistä saada inferencessä tieto että tämä ei ole pääteltävissä eli on hyvä että se on erillinen luokka)
+undecipherable is very few in the data set. maybe would be better after all to omit undecipherables and set a class confusion threshold? but then again we have to mark as up or low due to notation. so force as up/low every time but mark row with low confidence when there is uncertainty so no ternary label sittenki. (because otherwise class balance would be very screwed)
+
+should I have replaced MPI model with heuristic H->M, T->I (in 1100 image set one had been false)
+	ie use generalist and specialize as little as possible
+problems: false positives (in catalogue eg t3 with a real t)
+ability to get rid of endtoend azure, had bounding box mistakes (more in lower bound than upper), costs money, confidence scores are confidences on general ocr not tooth classification
+
+dataset size, test error granularity
+train val test split
+up low:  train n 550, val n 100, test n 50 --> samples per class = 225. this is to have ok granularity of error but still have training samples remaining.
+
+hyperparameters
+hparams that worked great w alexnet dont work that great w efficientnet... maybe i should optimize lr a bit for all models? or use adam?
+mini hyperparameter tuning w alexnet. lr 0.001 momentum .9 lr scheduling every 7 epochs divide lr by 10 got 10\% better acc and 40 epochs less
+but then efficientnet is crap
+
+on the models
+confidence scores -> softmax was added to end of network (usually not put since softmax preserves ordering and classifiers just take the most likely class -> unnecessary operation)
+
+experiments
+vit alexnet included: vit to test transformers alexnet to test it bc it was popular
+epochs to 20 because training converged in all cases before that (CHECK)
+freezing: train last 1,5,10 layers and no freezing. this instead of 123 because many models had 10-30 layers so percentage wise this is more representative
 
 \section{Results and discussion}
 
 % introduction to chapter
 % present the results from experiments
 
-% summary of chapter
-% takeaway points
 start of section: reiterate what was experimented with
 
-see if train/test accuracies are very similar or very different. conclusions from that? overfitting? + you need to list train accs for this
-overfitting? should be hard when only one/a few layers trained and rest is from a different dataset.
-occurred more when more layers were trained
+guidepost to discussion
+first evaluation of result, its strengths and shortcomings
+then discussion on if comparing architectures makes sense in a small data case
+last discussion on what this might tell about transfer learning theory. why it works
 
-train the last layer (inspo from \cite{tibetan_ocr}, test hypothesis of reusing feature extractor)
-what else? find from literature!
+GENERALIZATION CAPABILITY / QUALITY OF MY RESULTS
+quickly refer the table
+	vit: 2nd, so don't forget about transformers, but don't forget about cnn's either. both seem to work almost equally well.
+train test dirrecence max 8.59 but most in 0-3\% range. so: very similar train test accs, so: generalizes well
+initial hypo of freeze more to overfit less does not seem to hold: no larger train val acc differences with less freezing
+shortcomings:
+- i lose context between words ie. mandible with m1-3 we know is lower. sequence based analysis would help here
+- vocabulary-based analysis, the set of words that can occur in a catalogue vs. all words in a language is a very small subset -> good constraint but i did not find a way to encode it to the model
+- best accuracy came from an experiment to test hyperparam sensitivity with a random hyperparam choice -> hyperparam tuning could result in a better accuracy.
+- task dissimilarity to other ocr: extra info on image with character and number. idk if character classification was the best technique. this needs adjustment anyway to eg. cope with M1-3 multiclass things. that is new in ocr in general: marking that is many classes at the same time is like a character that would be a b and c at the same time, sign of maybe wrong formalization
 
-cleaning data from original format with gaussian blur and otsu thresholding surprisingly did not 
-change results much 
+RANDOM SEED / HYPERPARAMETER SENSITIVITY: ON THE FLIMSEYNESS OF MODEL ARCHITECTURE COMPARISONS
+sensitivity to hyperparams/random seed? tested by setting seed from 15 to 2 8 (random choice) and re running for alexnet.
+	there is room for hyperparameter optimization
+	it was still the case that more freezing worse result
+	random seed essentially determines how the data points are divided into batches. batch division that happens to be better for optimization can lead to a better optimum and a better model. emphasis: model comparison is hard, margin of error is up to 10\% where you should not be too sure the better model is actually better
+	so, if one does model comparisons then it is important that the hyperparameter search is actually exhaustive, you actually try every single seed so each model has the best seed used. practical thing is, you can never really do that. therefore model comparisons should be done with caution.
+	this also means that doing proper experimentation is quite expensive computationally, luckily small data transfer learning is not that cpu intensive.
+theres no metric for quality of optimum found.
 
-augmentation to balance classes resulted in a 10\% increase in tooth type classification accuracy 
-using a simple translation, with mnist base model. translation also makes sense since that is the main variable changing 
-between images, zoom or rotation changing is more rare as these are scans.
+to actually compare architectures you'd need
+many h param setups, compare each and check if one is best in eeevery case
+but: cpu intense.
+we see here efficientnet was very unsuitable -> architecture comparison paper contribution is not necessarily that relevant bc the information is not generalizable
+	best model in one is not the best in other is at least proven for sure.
 
+IS TRANSFER LEARNING JUST MORE TRAINING?
+no freezing was best (see the plots, this held in every single experiment so very strong result)
+so this could show that it might be that initial examples are important, so generalist images to start is good, that is where transfer power comes from
+	although you cannot really tell, because we cannot test training only on fossil images as much as they trained on imagenet because the dataset is too small for that
+and cpu rules, pretraining means that we essentially just trained much more
+	just throw data and compute at the problem and you are better off solving it
+train the last layer (inspo from \cite{4zhaoTibetan}, test hypothesis of reusing feature extractor)
+	-> seems false, training the whole network works better. a strong result, happened with every model
+--> pick your model, and throw data and compute at the problem as much as you can.
+results align with other ocr studies.
+
+resnet and efficientnet: maybe all information on the training dataset was able to be encoded to the first five layers and therefore more unfreezing did not provide more value
+
+base tasks + transfer distance
+mnist had worse result 89\% with quick testing.
+old thoughts on that
 initial phase experiments: mnist transfer to mpi since it was thought to be a similar problem. 
 however like noted by \cite{alexnet}, real world image classification is much more complex than digit classification 
 as the benchmark images are ideal cases with eg perfectly even background. Therefore later phases 
 experimented with transfer from imagenet classifiers since that is what most of papers in related work also did.
 also \cite{8goelGujarati2023} had the same result (that imagenet is better than mnist even though mnist data looks more like character images)
-
-start with most common ie cnn, most common transfer method ie freeze all but last layer 
-
-test both mnist and imagenet transfer 
 best acc with mnist base: 89.
+new thoughts on that
+what if this just comes from the fact that imagenet is much larger so more training was done?
+no way to verify this tho as there is no other image dataset equally large as imgnet (if imagenet superiority is due to transfer distance or due to more training)
 
-alexnet without any hyperparameter tuning with imagenet weights: immediately 100 percent on mpi,
-upperlower surprisingly harder, 95 percent
-
-training vgg is slow
-
-is hyperparameter setting fair? are hyperparameters equally optimal for all training settings? comparing is not ok if some models find a better optimum than others because of hyperparams
+we need to go further (analogue to the meme)
+the lesson learned, learning analogue: there is no trickery in learning, you just need to study
+two ways to study: learn principles (encode priors to models/ constrain the problem), show examples of special cases
+transfer learning is good because part of the special case example "studying" was done for you. ofc u need to study something relevant so there transfer distance comes in
+	 so you reuse training, not features.
+whether this is also about the better optimum with starting from more general examples: idk, u would need to test but u cant because no one can have a specialist dataset as large as imagenet ever
 
 \begin{table}[ht]
     \centering
@@ -1151,7 +1230,43 @@ is hyperparameter setting fair? are hyperparameters equally optimal for all trai
     \label{tab:model_accuracy}
 \end{table}
 
-\end{document}
+\begin{table}[ht]
+    \centering
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Accuracy, batch size 64 (\%)} & \textbf{Accuracy, batch size 32 (\%)} & \textbf{Layers Trained} \\ \hline
+            92.21 & 96.75 & all \\\hline
+            88.96 & 93.51 & 10  \\\hline
+            80.52 & 87.01 & 5   \\\hline
+            61.69 & 61.69 & 1   \\\hline
+        \end{tabular}
+    \caption{Hyperparameter sensitivity: validation accuracies with batch sizes 64 and 32, AlexNet upper/lower}
+    \label{tab:model_accuracy}
+\end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.4]{../images/train_val_error_difference_histogram.png}
+    \caption{Histogram of percentage-point differences in training and validation accuracies between the experiments}
+    \label{image:diff_hist}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.4]{../images/accuracy_against_freezing.png}
+    \caption{Line plots of accuracy scores with different freezing setups with the correlation of accuracy and count of layers trained}
+    \label{image:accuracy_vs_freezing}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.4]{../images/alexnet_nofreeze_uplow_train_val_accs.png}
+    \caption{Line plots of accurace scores with different freezing setups to show the inverse correlation of accuracy and count of layers frozen}
+    \label{image:training_run_accuracies}
+\end{figure}
+
+% summary of chapter
+ie what you should remember
 
 \section{Conclusions}
 
