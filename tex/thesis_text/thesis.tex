@@ -628,18 +628,17 @@ neural network training process with gradient descent is presented in Algorithm~
     \caption{Neural Network Training}
     \begin{algorithmic}[1]
         \State \textbf{Input:} training\_data, epochs, learning\_rate
-        \State Initialize weights $W$ randomly
-        \State Initialize biases $b$ randomly
+        \State Initialize weights $W$
+        \State Initialize biases $b$
         
         \For{epoch = 1 to epochs}
             \For{each (input, target) in training\_data}
-                \State $output \gets \text{ForwardPropagation}(input, W, b)$
+                \State $output \gets \text{FeedForward}(input, W, b)$
                 \State $loss \gets \text{CalculateLoss}(output, target)$
-                \State $(gradients\_W, gradients\_b) \gets \text{BackwardPropagation}(input, output, target, W, b)$
+                \State $(gradients\_W, gradients\_b) \gets \text{BackPropagation}(input, output, target, W, b)$
                 \State $W \gets W - learning\_rate \times gradients\_W$
                 \State $b \gets b - learning\_rate \times gradients\_b$
             \EndFor
-            \State Print("Epoch:", epoch, "Loss:", loss)
         \EndFor
         
         \State \textbf{Output:} $W, b$  \Comment{Trained weights and biases}
@@ -2500,18 +2499,232 @@ results from these experiments are presented and evaluated.
 
 \section{Results and discussion}
 
-% Reiterate what was done in the experiments
+% introduction to chapter
+% present the results from experiments
+% % start of section: reiterate what was experimented with
+% guidepost to discussion
+% first evaluation of result, its strengths and shortcomings
+% then discussion on if comparing architectures makes sense in a small data case
+% last discussion on what this might tell about transfer learning theory. why it works
+This chapter presents the results of the experiments. Most of the experiments were completed using the 
+upper and lower jaw classification problem, since initial experiments suggested it to be the most challenging 
+classification tasks. The experimentation was limited to testing out different base models, AlexNet, EfficientNet, 
+DenseNet, Vision Transformer and Resnet, and freezing setups: training 1, 5, 10 or all layers.
+The results of these experiments hightlighted three major results. First, the best architectures were AlexNet and the Vision 
+Transformer with best validation accuracies of xx and xx, respectively, while EfficientNet performed poorly. Second, tests on changes in results 
+when adjusting hyperparameters suggested that comparisons of model architectures should be taken with caution since one can never know 
+if the differences in end accuracy were due to differences in model architecture or in how good the found optimum was 
+for the network parameters. Lastly, as the strongest result it is found that freezing less 
+always increases resulting accuracy, and it is discussed whether this suggests that it is better to interpret transfer learning as extended 
+training rather than a re-use of feature extraction. These aspects are discussed in more detail in this chapter. After this, future work 
+suggestions are presented, informed by the outcomes of this study.
 
-% Evaluation metric: how I will compare the different results
-To evaluate the experiment results, the accuracy score is used as the only metric.
-As false positives and false negatives are not of major concern in character recognition,
-these were not utilized. For class-specific error rates, confusion matrices
-are generated, but otherwise confusion rates between classes are not studied since class count 
-is small in all tasks and keeping a single evaluation metric makes comparison between experiments 
-increases clarity.
-%also note that times are not compared!
+% GENERALIZATION CAPABILITY / QUALITY OF MY RESULTS
+% quickly refer the table
+% 	vit: 2nd, so don't forget about transformers, but don't forget about cnn's either. both seem to work almost equally well.
+% train test dirrecence max 8.59 but most in 0-3\% range. so: very similar train test accs, so: generalizes well
+% initial hypo of freeze more to overfit less does not seem to hold: no larger train val acc differences with less freezing
+The experiment outcomes are collected to Table \ref{table:results}, and 
+the most important findings are the following. Using AlexNet as the base model results in the highest 
+validation accuracy with the Vision Transformer as a close second. Having the transformer 
+architecture not as the best but still a competitive result verifies the result 
+from another study that stated CNNs to outperform transformers, but suggests 
+that transformer architectures are worth testing for in building various OCR
+solutions. Another interesting point is that EfficientNet results were the worst of all, 
+which strongly contradicts results of many reviewed works in Section \ref{sect:same_solution},
+suggesting that a model found to be better in one study can inform little on its performance on another target task.
+The generalization capability of all models seems to be good, as seen in Figure \ref{image:diff_hist}:
+the difference between training and validation accuracies is in the majority of 
+experiments below 4 \%. As there is little correlation between the magnitude of this difference, 
+a metric for degree of overfitting, and layers trained, the initial hypothesis on freezing more to prevent overfitting
+seemed to not hold.
+
+% RANDOM SEED / HYPERPARAMETER SENSITIVITY: ON THE FLIMSEYNESS OF MODEL ARCHITECTURE COMPARISONS
+% sensitivity to hyperparams/random seed? tested by setting seed from 15 to 2 8 (random choice) and re running for alexnet.
+% 	there is room for hyperparameter optimization
+% 	it was still the case that more freezing worse result
+% 	random seed essentially determines how the data points are divided into batches. batch division that happens to be better for optimization can lead to a better optimum and a better model. emphasis: model comparison is hard, margin of error is up to 10\% where you should not be too sure the better model is actually better
+% 	so, if one does model comparisons then it is important that the hyperparameter search is actually exhaustive, you actually try every single seed so each model has the best seed used. practical thing is, you can never really do that. therefore model comparisons should be done with caution.
+% 	this also means that doing proper experimentation is quite expensive computationally, luckily small data transfer learning is not that cpu intensive.
+% theres no metric for quality of optimum found.
+% to actually compare architectures you'd nee
+% many h param setups, compare each and check if one is best in eeevery case
+% but: cpu intense.
+% we see here efficientnet was very unsuitable -> architecture comparison paper contribution is not necessarily that relevant bc the information is not generalizable
+% 	best model in one is not the best in other is at least proven for sure.
+
+To estimate how much the results depended on the optimum found in training and how much on architecture, 
+the best architecture AlexNet was retrained with one hyperparameter changed, and the resulting 
+change in accuracy suggests that comparing accuracies when target data is small is highly inaccurate. 
+A change in the random seed from 15 to 2, both randomly chosen, was done to check how much the result changes 
+when the only thing changed is the order of training samples in batches. This changes which initial examples are shown to the model,
+changing the initial steps of the learning trajectory, which is important in neural network training \cite{transferlearning_survey}.
+ The largest difference occurred with one layer 
+trained, and the second seed had the validation accuracy increased by 9,09 percentage points. Then, hyperparameter change 
+by changing batch size from 64 to 32, also a random choice, was tested with the AlexNet architecture, and the results 
+changed by 6,59\% (TODO difference col, check this). Notably, the best accuracy was outperformed by as much as 4,5 percentage points 
+in this setting, more than halving the count of errors. These large variances serve as a good example on the caveats of comparing 
+base models in a small target data transfer setting: since there is no objective metric for the quality of optimization, there 
+is practically no way of knowing what the true reason for accuracy differences between experiments is. In this case, the 
+margin of error can be approximated at 10 \%, that is, only when validation accuracies differ by more than that one can be 
+somewhat confident that the better result actually has a superior architecture. Taking this into account, AlexNet, ViT and VGG16 
+can all be considered best-performing architectures in this study. Having access to more validation data or more computational 
+resources to repeat the experiments with different hyperparameter setting would be required to draw more fine-grained conclusions on the 
+superiority of an architecture over another.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.4]{../images/accuracy_against_freezing.png}
+    \caption{Line plots of accuracy scores with different freezing setups with the correlation of accuracy and count of layers trained}
+    \label{image:accuracy_vs_freezing}
+\end{figure}
+
+% IS TRANSFER LEARNING JUST MORE TRAINING?
+% no freezing was best (see the plots, this held in every single experiment so very strong result)
+% resnet and efficientnet: maybe all information on the training dataset was able to be encoded to the first five layers and therefore more unfreezing did not provide more value
+% so this could show that it might be that initial examples are important, 
+% so generalist images to start is good, that is where transfer power comes from
+% 	although you cannot really tell, because we cannot test training only on fossil images as much as they trained on imagenet because the dataset is too small for that
+% a strong result, happened with every model
+% results align with other ocr studies.
+The most clear result from the experiments is that freezing in every case deteriorated the resulting accuracy.
+As is highlighted in the plot of layers trained against resulting accuracy in Figure \ref{image:accuracy_vs_freezing},
+there were no exceptions to this relationship. Accuracy of DenseNet and ResNet plateauing can be seen as 
+the model having enough freedom to encode all information present in the training data and therefore adding 
+more trainable parameters did not increase accuracy. This result of freezing deteriorating performance aligns with the 
+other studies reviewed in Section \ref{sect:same_solution}, where the detrimental effect of freezing was one of the only 
+results with a larger consensus over many studies. 
+
+% base tasks + transfer distance
+% mnist had worse result 89\% with quick testing.
+% old thoughts on that
+% initial phase experiments: mnist transfer to mpi since it was thought to be a similar problem. 
+% however like noted by \cite{alexnet}, real world image classification is much more complex than digit classification 
+% as the benchmark images are ideal cases with eg perfectly even background. Therefore later phases 
+% experimented with transfer from imagenet classifiers since that is what most of papers in related work also did.
+% also \cite{8goelGujarati2023} had the same result (that imagenet is better than mnist even though mnist data looks more like character images)
+% best acc with mnist base: 89.
+% new thoughts on that
+% what if this just comes from the fact that imagenet is much larger so more training was done?
+% no way to verify this tho as there is no other image dataset equally large as imgnet (if imagenet superiority is due to transfer distance or due to more training)
+
+% the lesson learned, learning analogue: there is no trickery in learning, you just need to study
+% train the last layer (inspo from \cite{4zhaoTibetan}, test hypothesis of reusing feature extractor)
+% 	-> seems false, training the whole network works better.
+% two ways to study: learn principles (encode priors to models/ constrain the problem), show examples of special cases
+% transfer learning is good because part of the special case example "studying" was done for you. ofc u need to study something relevant so there transfer distance comes in
+% 	 so you reuse training, not features.
+% whether this is also about the better optimum with starting from more general examples: idk, u would need to test but u cant because no one can have a specialist dataset as large as imagenet ever
+%--> we need to go further (analogue to the meme)
+% --> pick your model, and throw data and compute at the problem as much as you can.
+To draw an analogue from neural networks to learning in general, the central lesson learned in these experiments 
+is that there is no trickery to learning. To learn something, there are two avenues: one is to learn principles, which in 
+neural networks happens by encoding prior information in architectures or constraining the problem space. After that, the only 
+option is to repeatably expose the learner to examples. The feature-recycling premise of transfer learning seems to be that 
+by reusing features, some of this example study could be circumvented. The fact that freezing always deteriorated performance
+raises the hypothesis that this could be untrue, that the real value of transfer learning is that a part of the learning from 
+examples is re-used from another training run, allowing for training longer and therefore seeing more examples. Whether this is 
+the only reason to why transfer works, or if part of it is due to the hypothesis that general-style initial examples 
+set the learning trajectory on a better path \cite{transferlearning_survey} cannot really be verified since one can never obtain 
+a training set as large as ImageNet on any specialist domain. Taking the idea that transfer utility is only about 
+seeing more examples further, one can even hypothesize whether the superiority of ImageNet over other base tasks, like MNIST, is 
+due to the transfer distance being shorter or if the reason is the sheer size of the dataset. Again, this idea is hard 
+to test for the fact that finding other datasets as large as ImageNet is challenging. Negative transfer presented in the transfer learning 
+survey \cite{transferlearning_survey} also fits in this scheme: to see more examples, it is intuitive that all examples need to 
+be informative about the problem at hand. Summarizing all this on finding better models for a variety of tasks 
+can be boiled down to one phrase, and returing to the GoogLeNet inspiring meme presented in 
+Figure \ref{image:meme}, one can simply say "we need to go further". The way forward is simply exposing the model to more examples, 
+and re-using the previously learned is a way to achieve this with limited computational resources.
+
+\begin{table}[ht]
+    \centering
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Training Accuracy (\%)} & \textbf{Validation Accuracy (\%)} & \textbf{Layers Trained} & \textbf{Base Model} \\ \hline
+            92.71 & $\mathbf{92.21}$ & all  & AlexNet \cite{alexnet}       \\\hline
+            90.83 & 88.96 & 10   & AlexNet \cite{alexnet}      \\\hline
+            84.30 & 80.52 & 5    & AlexNet \cite{alexnet}      \\\hline
+            64.09 & 61.69 & 1    & AlexNet \cite{alexnet}      \\\hline
+            95.25 & $\mathbf{91.56}$ & all  & ViT  \cite{vit}         \\\hline
+            68.84 & 66.88 & 10   & ViT  \cite{vit}         \\\hline
+            68.73 & 64.94 & 5    & ViT  \cite{vit}         \\\hline
+            50.06 & 42.86 & 1    & ViT  \cite{vit}         \\\hline
+            90.72 & $\mathbf{87.01}$ & all  & VGG16     \cite{vgg}    \\\hline
+            84.31 & 80.52 & 10   & VGG16   \cite{vgg}      \\\hline
+            72.27 & 67.53 & 5    & VGG16   \cite{vgg}      \\\hline
+            43.65 & 35.06 & 1    & VGG16   \cite{vgg}      \\\hline
+            88.73 & 81.17 & all  & DenseNet121 \cite{densenet}  \\\hline
+            66.08 & 65.58 & 10   & DenseNet121 \cite{densenet}  \\\hline
+            65.75 & 65.58 & 5    & DenseNet121 \cite{densenet}  \\\hline
+            55.80 & 62.34 & 1    & DenseNet121 \cite{densenet}  \\\hline
+            64.75 & 65.58 & all  & ResNet101  \cite{resnet}   \\ \hline
+            64.75 & 65.58 & 10   & ResNet101   \cite{resnet}  \\\hline
+            64.75 & 65.58 & 5    & ResNet101  \cite{resnet}   \\\hline
+            60.77 & 63.64 & 1    & ResNet101  \cite{resnet}   \\\hline
+            64.53 & 64.29 & all  & EfficientNetV2S  \cite{efficientnetv2} \\\hline
+            64.09 & 64.29 & 10   & EfficientNetV2S \cite{efficientnetv2}  \\\hline
+            64.09 & 64.29 & 5    & EfficientNetV2S \cite{efficientnetv2}  \\\hline
+            54.59 & 54.55 & 1    & EfficientNetV2S \cite{efficientnetv2} \\\hline
+        \end{tabular}
+    \caption{Training and Validation Accuracy for Different Base Models and Layer Freezing setups for Upper / Lower jaw classification}
+    \label{table:results}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Accuracy, first seed (\%)} & \textbf{Accuracy, second seed (\%)} & \textbf{Difference (\%)} & \textbf{Layers Trained} \\ \hline
+            88.31 & 92.21 & 3.9  & all \\\hline
+            85.71 & 88.96 & 3.25 & 10  \\\hline
+            75.32 & 80.52 & 5.2  & 5   \\\hline
+            52.60 & 61.69 & 9.09 & 1   \\\hline
+        \end{tabular}
+    \caption{Random seed sensitivity: validation accuracies with two different seeds, AlexNet upper/lower}
+    \label{table:random_seed_sensitivity}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Accuracy, batch size 64 (\%)} & \textbf{Accuracy, batch size 32 (\%)} & \textbf{Layers Trained} \\ \hline
+            92.21 & 96.75 & all \\\hline
+            88.96 & 93.51 & 10  \\\hline
+            80.52 & 87.01 & 5   \\\hline
+            61.69 & 61.69 & 1   \\\hline
+        \end{tabular}
+    \caption{Hyperparameter sensitivity: validation accuracies with batch sizes 64 and 32, AlexNet upper/lower}
+    \label{table:hyperparameter_sensitivity}
+\end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.4]{../images/train_val_error_difference_histogram.png}
+    \caption{Histogram of percentage-point differences in training and validation accuracies between the experiments}
+    \label{image:diff_hist}
+\end{figure}
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.4]{../images/alexnet_nofreeze_uplow_train_val_accs.png}
+    \caption{Line plots of accurace scores with different freezing setups to show the inverse correlation of accuracy and count of layers frozen}
+    \label{image:training_run_accuracies}
+\end{figure}
 
 \subsection{Future work on digitizing the fossil catalogues}
+
+% shortcomings; add to 1st paragraph. + add guiding part on what this sect is about
+% - i lose context between words ie. mandible with m1-3 we know is lower. sequence based analysis would help here
+% - vocabulary-based analysis, the set of words that can occur in a catalogue vs. all words in a
+%   language is a very small subset -> good constraint but i did not find a way to encode it to the model
+% - best accuracy came from an experiment to test hyperparam sensitivity with a random hyperparam choice ->
+%   hyperparam tuning could result in a better accuracy.
+% - task dissimilarity to other ocr: extra info on image with character and number. idk if character classification 
+%   was the best technique. this needs adjustment anyway to eg. cope with M1-3 multiclass things. that is new in ocr in general: 
+%   marking that is many classes at the same time is like a character that would be a b and c at the same time, sign of maybe wrong formalization
+
 % why word bounding box worked badly and how it could be improved
 % how this could be continued
 % main problem in working with azure bounding boxes: incorrect identification of word bounding boxes.
