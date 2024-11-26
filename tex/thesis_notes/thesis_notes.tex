@@ -1268,6 +1268,26 @@ whether this is also about the better optimum with starting from more general ex
 % summary of chapter
 ie what you should remember
 
+test errors and certainty scores.
+
+up/low best model (from the hyperparameter sensitivity experiment)
+i don't list validation accuracy as one should not to describe generalization,
+because val accuracy was used to do model selection -> there is data leakage in the validation accuracy
+test accuracy:
+92,31\%
+certainty score. a metric for what proportion of samples the model was more than human level ie 99,7 percent certain 
+71,79\%
+c's are a struggle. on the other hand this suggests that the sub/superscript is learned very well, only one such sample
+is misclassified and there the index number is largely cut off
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.8]{../images/misclassified_uplow.png}
+    \caption{Samples from the test set falsely classified by the best classifier. The letter C with a line on top or bottom is detected poorly; seven of these were present in the test set}
+    \label{image:misclassifications_uplow_in_test}
+\end{figure}
+
+
 \section{Conclusions}
 
 % why word bounding box worked badly and how it could be improved
