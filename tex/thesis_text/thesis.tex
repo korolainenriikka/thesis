@@ -2506,12 +2506,12 @@ results from these experiments are presented and evaluated.
 % first evaluation of result, its strengths and shortcomings
 % then discussion on if comparing architectures makes sense in a small data case
 % last discussion on what this might tell about transfer learning theory. why it works
-This chapter presents the results of the experiments. Most of the experiments were completed using the 
+This chapter presents the results of the experiments. The comparative experiments were completed using the 
 upper and lower jaw classification problem, since initial experiments suggested it to be the most challenging 
-classification tasks. The experimentation was limited to testing out different base models, AlexNet, EfficientNet, 
+classification task. The experimentation was limited to testing out different base models, AlexNet, EfficientNet, 
 DenseNet, Vision Transformer and Resnet, and freezing setups: training 1, 5, 10 or all layers.
-The results of these experiments hightlighted three major results. First, the best architectures were AlexNet and the Vision 
-Transformer with best validation accuracies of xx and xx, respectively, while EfficientNet performed poorly. Second, tests on changes in results 
+The results of these experiments highlighted three major results. First, the best architectures were AlexNet and the Vision 
+Transformer with best validation accuracies of 92,21 and 91,56, respectively, while EfficientNet performed poorly. Second, tests on changes in results 
 when adjusting hyperparameters suggested that comparisons of model architectures should be taken with caution since one can never know 
 if the differences in end accuracy were due to differences in model architecture or in how good the found optimum was 
 for the network parameters. Lastly, as the strongest result it is found that freezing less 
@@ -2538,103 +2538,6 @@ the difference between training and validation accuracies is in the majority of
 experiments below 4 \%. As there is little correlation between the magnitude of this difference, 
 a metric for degree of overfitting, and layers trained, the initial hypothesis on freezing more to prevent overfitting
 seemed to not hold.
-
-% RANDOM SEED / HYPERPARAMETER SENSITIVITY: ON THE FLIMSEYNESS OF MODEL ARCHITECTURE COMPARISONS
-% sensitivity to hyperparams/random seed? tested by setting seed from 15 to 2 8 (random choice) and re running for alexnet.
-% 	there is room for hyperparameter optimization
-% 	it was still the case that more freezing worse result
-% 	random seed essentially determines how the data points are divided into batches. batch division that happens to be better for optimization can lead to a better optimum and a better model. emphasis: model comparison is hard, margin of error is up to 10\% where you should not be too sure the better model is actually better
-% 	so, if one does model comparisons then it is important that the hyperparameter search is actually exhaustive, you actually try every single seed so each model has the best seed used. practical thing is, you can never really do that. therefore model comparisons should be done with caution.
-% 	this also means that doing proper experimentation is quite expensive computationally, luckily small data transfer learning is not that cpu intensive.
-% theres no metric for quality of optimum found.
-% to actually compare architectures you'd nee
-% many h param setups, compare each and check if one is best in eeevery case
-% but: cpu intense.
-% we see here efficientnet was very unsuitable -> architecture comparison paper contribution is not necessarily that relevant bc the information is not generalizable
-% 	best model in one is not the best in other is at least proven for sure.
-
-To estimate how much the results depended on the optimum found in training and how much on architecture, 
-the best architecture AlexNet was retrained with one hyperparameter changed, and the resulting 
-change in accuracy suggests that comparing accuracies when target data is small is highly inaccurate. 
-A change in the random seed from 15 to 2, both randomly chosen, was done to check how much the result changes 
-when the only thing changed is the order of training samples in batches. This changes which initial examples are shown to the model,
-changing the initial steps of the learning trajectory, which is important in neural network training \cite{transferlearning_survey}.
- The largest difference occurred with one layer 
-trained, and the second seed had the validation accuracy increased by 9,09 percentage points. Then, hyperparameter change 
-by changing batch size from 64 to 32, also a random choice, was tested with the AlexNet architecture, and the results 
-changed by 6,59\% (TODO difference col, check this). Notably, the best accuracy was outperformed by as much as 4,5 percentage points 
-in this setting, more than halving the count of errors. These large variances serve as a good example on the caveats of comparing 
-base models in a small target data transfer setting: since there is no objective metric for the quality of optimization, there 
-is practically no way of knowing what the true reason for accuracy differences between experiments is. In this case, the 
-margin of error can be approximated at 10 \%, that is, only when validation accuracies differ by more than that one can be 
-somewhat confident that the better result actually has a superior architecture. Taking this into account, AlexNet, ViT and VGG16 
-can all be considered best-performing architectures in this study. Having access to more validation data or more computational 
-resources to repeat the experiments with different hyperparameter setting would be required to draw more fine-grained conclusions on the 
-superiority of an architecture over another.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics*[scale=0.4]{../images/accuracy_against_freezing.png}
-    \caption{Line plots of accuracy scores with different freezing setups with the correlation of accuracy and count of layers trained}
-    \label{image:accuracy_vs_freezing}
-\end{figure}
-
-% IS TRANSFER LEARNING JUST MORE TRAINING?
-% no freezing was best (see the plots, this held in every single experiment so very strong result)
-% resnet and efficientnet: maybe all information on the training dataset was able to be encoded to the first five layers and therefore more unfreezing did not provide more value
-% so this could show that it might be that initial examples are important, 
-% so generalist images to start is good, that is where transfer power comes from
-% 	although you cannot really tell, because we cannot test training only on fossil images as much as they trained on imagenet because the dataset is too small for that
-% a strong result, happened with every model
-% results align with other ocr studies.
-The most clear result from the experiments is that freezing in every case deteriorated the resulting accuracy.
-As is highlighted in the plot of layers trained against resulting accuracy in Figure \ref{image:accuracy_vs_freezing},
-there were no exceptions to this relationship. Accuracy of DenseNet and ResNet plateauing can be seen as 
-the model having enough freedom to encode all information present in the training data and therefore adding 
-more trainable parameters did not increase accuracy. This result of freezing deteriorating performance aligns with the 
-other studies reviewed in Section \ref{sect:same_solution}, where the detrimental effect of freezing was one of the only 
-results with a larger consensus over many studies. 
-
-% base tasks + transfer distance
-% mnist had worse result 89\% with quick testing.
-% old thoughts on that
-% initial phase experiments: mnist transfer to mpi since it was thought to be a similar problem. 
-% however like noted by \cite{alexnet}, real world image classification is much more complex than digit classification 
-% as the benchmark images are ideal cases with eg perfectly even background. Therefore later phases 
-% experimented with transfer from imagenet classifiers since that is what most of papers in related work also did.
-% also \cite{8goelGujarati2023} had the same result (that imagenet is better than mnist even though mnist data looks more like character images)
-% best acc with mnist base: 89.
-% new thoughts on that
-% what if this just comes from the fact that imagenet is much larger so more training was done?
-% no way to verify this tho as there is no other image dataset equally large as imgnet (if imagenet superiority is due to transfer distance or due to more training)
-
-% the lesson learned, learning analogue: there is no trickery in learning, you just need to study
-% train the last layer (inspo from \cite{4zhaoTibetan}, test hypothesis of reusing feature extractor)
-% 	-> seems false, training the whole network works better.
-% two ways to study: learn principles (encode priors to models/ constrain the problem), show examples of special cases
-% transfer learning is good because part of the special case example "studying" was done for you. ofc u need to study something relevant so there transfer distance comes in
-% 	 so you reuse training, not features.
-% whether this is also about the better optimum with starting from more general examples: idk, u would need to test but u cant because no one can have a specialist dataset as large as imagenet ever
-%--> we need to go further (analogue to the meme)
-% --> pick your model, and throw data and compute at the problem as much as you can.
-To draw an analogue from neural networks to learning in general, the central lesson learned in these experiments 
-is that there is no trickery to learning. To learn something, there are two avenues: one is to learn principles, which in 
-neural networks happens by encoding prior information in architectures or constraining the problem space. After that, the only 
-option is to repeatably expose the learner to examples. The feature-recycling premise of transfer learning seems to be that 
-by reusing features, some of this example study could be circumvented. The fact that freezing always deteriorated performance
-raises the hypothesis that this could be untrue, that the real value of transfer learning is that a part of the learning from 
-examples is re-used from another training run, allowing for training longer and therefore seeing more examples. Whether this is 
-the only reason to why transfer works, or if part of it is due to the hypothesis that general-style initial examples 
-set the learning trajectory on a better path \cite{transferlearning_survey} cannot really be verified since one can never obtain 
-a training set as large as ImageNet on any specialist domain. Taking the idea that transfer utility is only about 
-seeing more examples further, one can even hypothesize whether the superiority of ImageNet over other base tasks, like MNIST, is 
-due to the transfer distance being shorter or if the reason is the sheer size of the dataset. Again, this idea is hard 
-to test for the fact that finding other datasets as large as ImageNet is challenging. Negative transfer presented in the transfer learning 
-survey \cite{transferlearning_survey} also fits in this scheme: to see more examples, it is intuitive that all examples need to 
-be informative about the problem at hand. Summarizing all this on finding better models for a variety of tasks 
-can be boiled down to one phrase, and returing to the GoogLeNet inspiring meme presented in 
-Figure \ref{image:meme}, one can simply say "we need to go further". The way forward is simply exposing the model to more examples, 
-and re-using the previously learned is a way to achieve this with limited computational resources.
 
 \begin{table}[ht]
     \centering
@@ -2670,6 +2573,48 @@ and re-using the previously learned is a way to achieve this with limited comput
     \label{table:results}
 \end{table}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.7]{../images/train_val_error_difference_histogram.png}
+    \caption{Histogram of percentage-point differences in training and validation accuracies within each experiment}
+    \label{image:diff_hist}
+\end{figure}
+
+% RANDOM SEED / HYPERPARAMETER SENSITIVITY: ON THE FLIMSEYNESS OF MODEL ARCHITECTURE COMPARISONS
+% sensitivity to hyperparams/random seed? tested by setting seed from 15 to 2 8 (random choice) and re running for alexnet.
+% 	there is room for hyperparameter optimization
+% 	it was still the case that more freezing worse result
+% 	random seed essentially determines how the data points are divided into batches. batch division that happens to be better for optimization can lead to a better optimum and a better model. emphasis: model comparison is hard, margin of error is up to 10\% where you should not be too sure the better model is actually better
+% 	so, if one does model comparisons then it is important that the hyperparameter search is actually exhaustive, you actually try every single seed so each model has the best seed used. practical thing is, you can never really do that. therefore model comparisons should be done with caution.
+% 	this also means that doing proper experimentation is quite expensive computationally, luckily small data transfer learning is not that cpu intensive.
+% theres no metric for quality of optimum found.
+% to actually compare architectures you'd nee
+% many h param setups, compare each and check if one is best in eeevery case
+% but: cpu intense.
+% we see here efficientnet was very unsuitable -> architecture comparison paper contribution is not necessarily that relevant bc the information is not generalizable
+% 	best model in one is not the best in other is at least proven for sure.
+% random seed: shows that initial examples are very important in finding a good optimum!
+
+To estimate how much the results depended on the optimum found in training and how much on the architecture, 
+the best architecture AlexNet was retrained with one hyperparameter changed, and the resulting 
+change in accuracy suggests that comparing architectures when target data is small is highly inaccurate. 
+A change in the random seed from 15 to 2, both randomly chosen, was done to check how much the result changes 
+when the only thing changed is the order of training samples in batches. This changes which initial examples are shown to the model,
+changing the initial steps of the learning trajectory, which is important in neural network training \cite{transferlearning_survey}.
+ As seen in Table \ref{table:random_seed_sensitivity}, the largest difference occurred with one layer 
+trained, and the second seed had the validation accuracy increased by 9,09 percentage points. This shows that initial examples 
+are important and can initialize much better or worse learning trajectories. Then, hyperparameter change 
+by changing batch size from 64 to 32, also a random choice, was tested with the AlexNet architecture, and the results 
+changed by 6,49\%, as seen in Table \ref{table:hyperparameter_sensitivity}. Notably, the best accuracy was outperformed by as much as 4,54 percentage points 
+in this setting, more than halving the count of errors. These large variances serve as a good example on the caveats of comparing 
+base models in a small target data transfer setting: since there is no objective metric for the quality of optimization, there 
+is practically no way of knowing what the true reason for accuracy differences between experiments is. In this case, the 
+margin of error can be approximated at 10\%, that is, only when validation accuracies differ by more than that one can be 
+somewhat confident that the better result actually has a superior architecture. Taking this into account, AlexNet, ViT and VGG16 
+can all be considered best-performing architectures in this study. Having access to more validation data or more computational 
+resources to repeat the experiments with different hyperparameter settings would be required to draw more fine-grained conclusions on the 
+superiority of an architecture over another.
+
 \begin{table}[ht]
     \centering
         \begin{tabular}{|c|c|c|c|}
@@ -2680,7 +2625,7 @@ and re-using the previously learned is a way to achieve this with limited comput
             75.32 & 80.52 & 5.2  & 5   \\\hline
             52.60 & 61.69 & 9.09 & 1   \\\hline
         \end{tabular}
-    \caption{Random seed sensitivity: validation accuracies with two different seeds, AlexNet upper/lower}
+    \caption{Random seed sensitivity: validation accuracies with two different seed values}
     \label{table:random_seed_sensitivity}
 \end{table}
 
@@ -2688,30 +2633,75 @@ and re-using the previously learned is a way to achieve this with limited comput
     \centering
         \begin{tabular}{|c|c|c|c|}
             \hline
-            \textbf{Accuracy, batch size 64 (\%)} & \textbf{Accuracy, batch size 32 (\%)} & \textbf{Layers Trained} \\ \hline
-            92.21 & 96.75 & all \\\hline
-            88.96 & 93.51 & 10  \\\hline
-            80.52 & 87.01 & 5   \\\hline
-            61.69 & 61.69 & 1   \\\hline
+            \textbf{Accuracy, batch size 64 (\%)} & \textbf{Accuracy, batch size 32 (\%)} & \textbf{Difference} (\%) & \textbf{Layers Trained} \\ \hline
+            92.21 & 96.75 & 4.54 & all \\\hline
+            88.96 & 93.51 & 4.55 & 10  \\\hline
+            80.52 & 87.01 & 6.49 & 5   \\\hline
+            61.69 & 61.69 & 0 & 1   \\\hline
         \end{tabular}
-    \caption{Hyperparameter sensitivity: validation accuracies with batch sizes 64 and 32, AlexNet upper/lower}
+    \caption{Hyperparameter sensitivity: validation accuracies with batch sizes 64 and 32}
     \label{table:hyperparameter_sensitivity}
 \end{table}
 
+% IS TRANSFER LEARNING JUST MORE TRAINING?
+%no freezing was best. observations.
+% no freezing was best (see the plots, this held in every single experiment so very strong result)
+% result aligns with other ocr studies.
+% resnet and efficientnet: maybe all information on the training dataset was able to be encoded to the first five layers and therefore more unfreezing did not provide more value
+% train the last layer (inspo from \cite{4zhaoTibetan}, hypothesis of reusing feature extractor as is seems false, training the whole network works better.
+The clearest result from the experiments is that freezing never improved the resulting accuracy. This result was 
+also the only larger consensus among studies reviewed in Section \ref{sect:same_solution}.
+As is highlighted in the plot of layers trained against resulting accuracy in Figure \ref{image:accuracy_vs_freezing},
+there were no exceptions to this relationship. Accuracy of DenseNet and ResNet plateauing can be seen as 
+the model having enough freedom to encode all information present in the training data and therefore adding 
+more trainable parameters did not increase accuracy. To interpret the correlation, the hypothesis that using a feature 
+extractor as is, inspired by the Tibetan glyph classification solution \cite{4zhaoTibetan}, did not result in the 
+best model in the fossil domain; additional feature tuning was needed.
+
 \begin{figure}[h]
     \centering
-    \includegraphics*[scale=0.4]{../images/train_val_error_difference_histogram.png}
-    \caption{Histogram of percentage-point differences in training and validation accuracies between the experiments}
-    \label{image:diff_hist}
+    \includegraphics*[scale=0.8]{../images/accuracy_against_freezing.png}
+    \caption{Line plots of accuracy scores with different freezing setups reveal the positive correlation of accuracy and count of layers trained}
+    \label{image:accuracy_vs_freezing}
 \end{figure}
 
+% mnist or imagenet as a base model
+% initial phase experiments: mnist transfer to mpi since it was thought to be a similar problem. 
+% mnist had worse result 89\% with quick testing, above-90 never achieved w. mnist
+% imagenet is more similar than mnist: real world image classification is much more complex than digit classification \cite{alexnet}
+% mnist shortcoming: benchmark images are ideal cases with eg perfectly even background. 
+% also \cite{8goelGujarati2023} had the same result (that imagenet is better than mnist even though mnist data looks more like character images)
+To analyze transfer distances, less rigorous experiments were implemented on a MNIST base model \cite{jamilemnist}.
+This was implemented to check the hypothesis that transfer distance from MNIST to fossil data is larger than that where 
+the base task is ImageNet: even though the former contains characters, the ideal-case benchmark images are more dissimilar 
+as they contain no clutter or noise very present in real-world images \cite{alexnet}. This was found to be true; 
+initial experimentation, although not as rigorous as the ImageNet-based experiments, never achieved above-90\% accuracies.
+This result was shared by the handwritten Gujarati detection study \cite{8goelGujarati2023}, where ImageNet as base task 
+outperformed MNIST in all layer freezing scenarios. 
 
-\begin{figure}[h]
-    \centering
-    \includegraphics*[scale=0.4]{../images/alexnet_nofreeze_uplow_train_val_accs.png}
-    \caption{Line plots of accurace scores with different freezing setups to show the inverse correlation of accuracy and count of layers frozen}
-    \label{image:training_run_accuracies}
-\end{figure}
+%"we need to go further"
+% two ways to study: learn principles (encode priors to models/ constrain the problem), show examples of special cases
+% transfer learning is good because part of the special case example "studying" was done for you. ofc u need to study something relevant so there transfer distance comes in so you reuse training, not features
+% no freezing: more trainable parameters so you can just train more?
+% base tasks: imagenet is much larger so more training was done? and therefore imagenet's better?
+% --> we need to go further (analogue to the meme)
+% --> pick your model, and throw data and compute at the problem as much as you can.
+To draw an analogue from neural networks to learning in general, the central lesson learned in these experiments 
+is that there is no trickery to learning. To learn something, there are two avenues: one is to learn principles, which in 
+neural networks happens by encoding prior information in architectures or constraining the problem space. After that, the only 
+option is to repeatably expose the learner to examples. The feature-recycling premise of transfer learning seems to be that 
+by reusing features, some of this example study could be circumvented. The fact that freezing always deteriorated performance
+raises the hypothesis that this could be untrue, that the real value of transfer learning is that a part of the learning from 
+examples is re-used from another training run, allowing for training longer and therefore seeing more examples. Transfer distance 
+fits in this with the intuition that all examples seen to learn a trend need to be relevant to the problem. 
+Taking the idea that transfer utility is only about 
+seeing more examples further, one can even hypothesize whether the superiority of ImageNet over other base tasks, like MNIST, is 
+due to the transfer distance being shorter or if the reason is the sheer size of the dataset. Summarizing all this, the lesson learned
+can be boiled down to one phrase, inspired by the GoogLeNet inspiring meme presented in 
+Figure \ref{image:meme}, one can simply say "we need to go further"; the way forward is simply exposing the model to more examples, 
+and re-using the previously learned as much as possible.
+
+
 
 \subsection{Future work on digitizing the fossil catalogues}
 
