@@ -2701,9 +2701,7 @@ can be boiled down to one phrase, inspired by the GoogLeNet inspiring meme prese
 Figure \ref{image:meme}, one can simply say "we need to go further"; the way forward is simply exposing the model to more examples, 
 and re-using the previously learned as much as possible.
 
-
-
-\subsection{Future work on digitizing the fossil catalogues}
+\subsection{Future work on digitizing fossil catalogues}
 
 % shortcomings; add to 1st paragraph. + add guiding part on what this sect is about
 % - i lose context between words ie. mandible with m1-3 we know is lower. sequence based analysis would help here
@@ -2724,12 +2722,19 @@ there are several potential directions to significantly improve the digitization
 being improving the quality of word-location defining bounding boxes. The main problem in the bounding boxes provided 
 by Azure Vision~\cite{azurevision} was that the dental marking words were often cut across many words or were present 
 as a part of a longer word. This is likely due to the space width varying greatly between different pieces of 
-handwriting. To improve the correctness of handwriting segmentation to words, developing a fine-tuned word detector 
+handwriting, and sub or superscripts being unfamiliar to the model. To improve the correctness of handwriting segmentation to words, developing a fine-tuned word detector 
 could improve the result: a specialist model encoded with knowledge on what kinds of words are more likely to be 
 present in the data would likely be much better at finding correct bounding boxes. An example of 
 such case is seen in Figure~\ref{image:hardsentence}: a segmenter with the knowledge of tooth marking notation could 
 easily see that the $\text{dm}_{3-4}$ section is one word, which is difficult to a generalist model 
-due to the spacing between the characters.
+due to the spacing between characters.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.8]{../images/hardwordsegmentation.png}
+    \caption{Example of a sentence hard to segment to words without context knowledge}
+    \label{image:hardsentence}
+\end{figure}
 
 % point of this paragraph: object detection is a harder task and has gotten attention from cv research in recent years.
 % on hardness. from computer vision lecture 11 \cite{ruotsalainen2024}
@@ -2765,7 +2770,8 @@ Some possibly more applicable models, however not as easily testable due to less
 are the open-vocabulary version of YOLO~\cite{YOLOWorldRealTimeOpenVocabulary},
  the hierachical text spotter~\cite{longHierarchicalTextSpotter2024}, and the Detectron by Meta~\cite{Detectron}.
  However, due to the catalogue-specific problem illustrated in Figure~\ref{image:hardsentence}, it is likely that these 
- models would require well-optimized fine-tuning to work well. Experimenting with such implementations is a 
+ models would require well-optimized fine-tuning to work well. It is also possible that from 3D to scan image transfer distance is 
+ too large and OCR-specific object detectors need to be found. Experimenting with such implementations is a 
  substantial effort and was omitted from this work to keep the scope reasonable.
 
 % % improving MPI/upperlower classification (not as hard so not as relevant perhaps)
@@ -2778,8 +2784,8 @@ are the open-vocabulary version of YOLO~\cite{YOLOWorldRealTimeOpenVocabulary},
 % is a relatively easy classification problem comparing to eg imagenet, so the main challenge is definitely finding words and
 % classifying them to tooth or not.
 Another possible line of extending the work would be improving the accuracy of the image classification to tooth type. 
-Some ideas are to use a support vector classifier instead of fully connected layers combined with the softmax activation 
-on the last layer, and to experiment with more recent ImageNet classifiers with better top-5 and top-1 error rates.
+Some ideas include to extend the model with capabilities of detecting markings with multiple teeth, although
+a rather unusual case of multi-class character classification, and to experiment with more recent ImageNet classifiers with better top-5 and top-1 error rates.
 However, using the newer models would require more effort since good pretrained weights are 
 more difficult to find for the less established models, and there is less evidence of their applicability to downstream tasks.
 Improving the model would still be highly useful, since a more sophisticated word object recognizer would result in a more 
@@ -2795,13 +2801,6 @@ them to challenges such as basic ImageNet classification.
     \label{image:yolo}
 \end{figure}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics*[scale=0.8]{../images/hardwordsegmentation.png}
-    \caption{Example of a sentence hard to segment to words without context knowledge}
-    \label{image:hardsentence}
-\end{figure}
-
 \section{Conclusions}
 
 Returning from the problem of digitizing handwritten fossil specimens to the larger picture, several thoughts arose on the potential of centralized, structured databases for paleontological research from several short conversations with practicioners.
@@ -2811,9 +2810,9 @@ To see what could be, a good analogue to start from is that of scientific journa
 
 The NOW database \cite{Žliobaitė2023} is perhaps the closest example of a structured fossil database, but upon a quick look still has lots of improvements to be made. The most obvious is to collect more specimens there, and expanding from mammals to all other forms of life as well. From a governance perspective, a truly all-encompassing database should be even more global in the administrating team, and the copies of the database could well be stored in multiple locations globally. The data scheme, without seeing the backend, seems to be built with a species as the main data unit. A more suitable one could be logging each specimen find as one data point, as these represent the smallest 'atom' of data in this context. These could then be linked to a species. The user interface of the NOW database is quite clear, but in this use case a text interface would be much more suitable than a graphical one: a database has so many commands that constructing a form and buttons for each leads to a cluttered and inevitably limited-capability interface. A textual interface with a single command prompt, accepting a database language such as SQL or even natural language should one build an english-to-sql tool for this case, would simplify the interface to what google.com looks like, while providing every imaginable database function. Of course, the user interface or data scheme design of a paleontological database service could be the topic of another thesis, and cannot be covered in depth here.
 
-The Google Scholar analogue likely highlighted already what the utility of a global, all-encompassing paleontological database could be, but several more benefits should be covered. To state the obvious, huge amounts of tedious and boring data acquisition and uniformizing effort could be saved, and this saved time could then be spent conducting more research, thinking deeply about the analytical problems, or simply not working at all. Another type of work that could be saved significantly is that of data creation: if every measurement and taxon identification, after completed, could be saved indefinitely and for everyone to access, no measuring would be done twice. Additionally, when saving new measurements, the result tractability could be improved with metadata: the person completing the measurement, date, and any thoughts regarding the measurement could be saved. Should any doubts of the correctness of a measure or taxon identification arise, this data or the person could be consulted, and the data corrected if necessary. Versioning schemes could be designed to save a history of these corrections. Lastly, this much more standardized approach to fossil data would allow much better reproducibility: the database query to get the dataset used in each study could be published, and the data could be obtained by anyone evaluating the study to re-run or further experiment with the analysis conducted. With these changes in habits of data management, the actual thing that matters, the quality of knowledge on the distant past, could be dramatically improved.
+The Google Scholar analogue likely highlighted already what the utility of a global, all-encompassing paleontological database could be, but several more benefits should be covered. To state the obvious, huge amounts of tedious and boring data acquisition and uniformizing effort could be saved, and this saved time could then be spent conducting more research, thinking deeply about the analytical problems, or simply not working at all. Another type of work that could be saved significantly is that of data creation: if every measurement and taxon identification, after completed, could be saved indefinitely and for everyone to access, no measuring would be done twice. Additionally, when saving new measurements, the result tractability could be improved with metadata: the person completing the measurement, date, and any thoughts regarding the measurement could be saved. Should any doubts of the correctness of a measure or taxon identification arise, this data or the person could be consulted, and the data corrected if necessary. Versioning schemes could be designed to save a history of these corrections. Should one want to see the physical samples, the database still had an utility of serving as a search engine for finding where relevant specimens reside. Lastly, this much more standardized approach to fossil data would allow much better reproducibility: the database query to get the dataset used in each study could be published, and the data could be obtained by anyone evaluating the study to re-run or further experiment with the analysis conducted. With these changes in habits of data management, the actual thing that matters, the quality of knowledge on the distant past, could be dramatically improved.
 
-What it would take to get to this state of data quality would mostly be just to work; much of the technological tools already exist. For the digitizing, as completed in this thesis, well-established practices go a long way. Fossil data has its specialities as an optical character recognition problem, but is mostly a rather conventional problem.
+What it would take to get to this state of data quality would mostly be just to work; much of the technological tools already exist. For digitizing, as completed in this thesis, well-established practices go a long way. Fossil data has its specialities as an optical character recognition problem, but is mostly a rather conventional problem.
 What would be required from paleontologists is a standard of measurement: what should be measured, and in which units, which should then be used in every study working with the common traits. For the database creation, as already brushed on, software design, data versioning and management aspects need to be considered. Still, a large hurdle is the amount of work and collaboration required for storing all data globally in one database. There needs to be an incentive for someone, who already conducted the analysis, to undergo the additional effort of sending out the measurements collected for the study for further use, as this effort does not directly benefit the sender in any way. An expectation for everyone to do this could suffice. As is known by all natural scientists, species that collaborate flourish, and it is in the interest of everyone to do what one can to advance the field in general.
 
 \printbibliography
