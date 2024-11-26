@@ -17,7 +17,7 @@
 \addbibresource{../bibliography.bib}
 
 % options: change 'markings' to 'entries'? include 'handwritten'?
-\title{Fine-tuned optical character recognition for dental fossil markings}
+\title{Fine-tuned optical character recognition for handwritten dental fossil markings}
 
 \begin{document}
 
@@ -27,20 +27,23 @@
 
 Digitizing and uniformizing the structure of handwritten fossil catalogues exhibits a great 
 potential for increasing the accuracy of paleontological data analysis by increasing sample sizes. 
-Approximately 90, 000 of such samples reside in the archives of the National Museum of Kenya, and 
+Approximately 90, 000 of such samples reside in the archives of the National Museums of Kenya, and 
 an ongoing effort is to store this data in a digital format for better accessibility.
 A previous project utilized a commercial optical character recognition service for automated reading of these catalogues. This generalist
-handwriting detection model lacked the ability to detect special characters used to denote tooth samples, and could not utilize prior knowledge 
-of the vocabulary that is more likely to be present in the data, leading to loss of information and detection mistakes.
+handwriting detection model lacked the ability to detect special characters used to denote tooth samples,
+ leading to loss of information and detection mistakes.
 
-This thesis aims to build a specialist character recognition model to increase the accuracy of 
-the bone or tooth type specifying column of the digitized data by fine-tuning a state-of-the-art optical 
-character recognition model with few-shot transfer learning. This is performed by first finding most accurate
-recognition models, variants of convolutional neural networks or vision transformers, and most successful 
-transfer learning methods for adapting a model to a new character set. Then, the character 
-recognition accuracy of combinations of these methods are benchmarked using handlabeled image segments from the 
-fossil catalogues. The final aim of this work is to use the best-performing model 
-to obtain an accurate reading of the catalogues of the National Museum of Kenya, and publish the final model to be used 
+This thesis proposes a classifier chain approach for detecting which tooth is shown on an image of tooth marking 
+and a pipeline for using this tool for uniformizing the dental notation present in 
+the bone or tooth type specifying column. The best base model is searched by comparing multiple convolutional and transformer architectures
+to classify notation to upper or lower jaw, with the best accuracy of 96\% using AlexNet. 
+In the experiments it is found that the quality of optimum found in training affects end results significantly,
+leading to margins of error up to 10\% for architecture comparisons in a small data case.
+The most clear result is that not freezing layers, without exception, leads to better result.
+Because of this it is theoretisized that the utility of transfer learning mostly comes from 
+being able to train more rather than being able to re-use a feature extractor.
+The pipeline with best-performing classifiers based on the experiments is used to
+to obtain an accurate reading of the catalogues of the National Museums of Kenya, and the tool is published to be used 
 by the paleontological community for further digitization efforts.
 
 Keywords: Optical character recognition, Transfer learning, Paleontological databases
