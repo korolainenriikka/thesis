@@ -87,10 +87,10 @@ relying on large datasets. Due to the infeasibility of collecting stacks of fiel
 continents, specimens residing in archives of institutions have been converted to digital, public databases.
 One such institution is the National Museum of Kenya, holding a large fraction of data collected from one 
 of the most valuable fossil sites globally, the lake Turkana. The sheer amount of physical samples in the museum storage
-makes keeping them safe a significant challenge, a risk to global heritage now recognized even by the White House and 
-the United Kingdom government, as reported by the Wall Street Journal \cite{hotzMuseumOverflowingPrehistoric2024}.
+makes keeping them safe a significant challenge, a risk to global heritage now attracting attention across continents,
+ as reported by the Wall Street Journal \cite{hotzMuseumOverflowingPrehistoric2024}.
  A project digitizing the handwritten catalogues hosted by the NMK was started by
-using commercial optical character recognition software, combined with heuristical and machine learning approaches, 
+using commercial optical character recognition software, combined with heuristic and machine learning approaches, 
 resulting in satisfactory accuracy on conventional handwritten text. However, a large hurdle in the existing 
 approach were the special characters used to denote which teeth each specimen contains. The aim of this work is 
 to continue the project by digitizing these markings accurately.
@@ -103,20 +103,42 @@ to continue the project by digitizing these markings accurately.
 %the topic of my work is creating a tool that inputs cropped images from the sheets containing
 %handwritten specifications of fossil bones and outputs what the text says
 
-Specifically, this work uses as input data both scan images of the fossil slips and catalogues, and outputs from the Azure AI Vision software \cite{azurevision}. The existing outputs consist of sentence and word-level readings, along with bounding boxes defining 
+Specifically, this work uses as input data both scan images of the fossil slips and catalogues, 
+and outputs from the Azure AI Vision software \cite{azurevision}.
+The existing outputs consist of sentence and word-level readings, along with bounding boxes defining 
 the location of each word or sentence. The main research question is the following: 
 
-How, given the input data, can the accuracy of the readings of the tooth markings be improved?
+How, given scan images, bounding boxes and generalist OCR outputs, can the accuracy of the readings of the tooth markings be improved?
 
-% brief review of standard solutions to this (or related) problem(s) and their limitation in this case (incl. reference key papers)
-% TODO, once literature review is done
+% 1. the pipeline
+% (solution and previous analogous solutions)
+% classifier chain
+% image & azure output
+% tooth or not based on azure output
+% if not tooth keep azure output
+% else feed to classifier chain, one tells tooth type from marking image, one index number, one up/low jaw
+% combine tooth info & concat
+% inspired by tibetan but no direct previous work exists so a as simple as possible solution was chosen
+This thesis proposes a univariate classifier chain approach for 
+uniformizing the dental notation. Each element description is processed 
+word-by-word and for each word only those recognized as tooth markings, 
+by using a regular expression on the Azure reading, are given to the tooth 
+classifiers. This way, more complex cases are left unprocessed, a desirable
+approach as this is one of the first works attempting automated cleaning 
+of digitized fossil data. The images recognized as tooth notation are given 
+to three classifiers: first one detects the letter on the image to a 
+tooth type, second detects whether the tooth is from the upper or lower jaw,
+and third recognizes the index number. Finally, all these inferences can 
+be combined to tooth notation and concatenated to a corrected element 
+description.
 
-
-% outline of the new solution
-% TODO, likely: tooth or not classifier -> trocr or tooth classifier -> output concatenation
-
-% how the solution was evaluated, what were the results of this evaluations. scope and limitations
-% TODO
+% 2. building models for the pipeline
+% (how the solution was evaluated, what were the results of this evaluations. scope and limitations)
+% three tasks: tooth type up low index number. assume train from scratch makes no sense \cite{cs231n_transfer_learning},
+% find best base model and layer freezing setup by running multiple model + freezing combinations.
+% experiments can be found in full in [link]. found: best is alexnet without freezing w. accuracy xxx.
+% other models mpi 1234 123 best accuracies are yyy zzz ccc respectively, x y z percent have confidence > 99.7, human level so need no manual verifying
+% limitations: lost context, errors in bounding box cause that i cannot classify everything
 
 % relevance for other work: why was this specific problem? how can this be concretely used?
 % relevance of this work: KNM is able to have way more precise dental element markings
@@ -127,7 +149,7 @@ How, given the input data, can the accuracy of the readings of the tooth marking
 
 The direct impact of this work is an improved precision of the tooth element entries in the digitized 
 fossil catalogues of the National Museum of Kenya, but the results are applicable to a wider domain of problems.
-Intuitively, the results are directly applicable to other fossil archives using similar notation: only a fine-tuning of the 
+Intuitively the results are directly applicable to other fossil archives using similar notation: only a fine-tuning of the 
 models to the new archival data is necessary.
 For other handwritten archives, the results presented can be used to improve recognition accuracy, especially in cases 
 where the data contains characters other than latin letters or arabic numerals. Additionally, this work presents
