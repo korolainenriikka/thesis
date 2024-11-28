@@ -1279,6 +1279,23 @@ certainty score. a metric for what proportion of samples the model was more than
 71,79\%
 c's are a struggle. on the other hand this suggests that the sub/superscript is learned very well, only one such sample
 is misclassified and there the index number is largely cut off
+there was maybe a comment i should mention balanced data in results and discussion
+99+ accuracy on mpi: judging on how many letters i corrected when labeling, this is far better than the generalist.
+mpi test accuracy: 100\%
+certainty: 94,5\%
+varied random seed, lowest was bit below 90 so seed variance even here, acc was always 100
+uplow indeed hard, no surprise because labeling was also hard. unfortunate because that was the thing that was unoknown for azure.
+
+class imbalance was severe in some cases so the less common classes had to be augmented 
+a lot, so could overfit to the small amount of samples, also causes that test err is not necessarily that representative.
+
+index number 
+123 acc 88,00 certainty 0.58. not ok! idea: split image in half to cover the letter
+
+1234 results
+Certain classifications: 168
+Certainty rate: 0.6292134831460674
+Accuracy: 0.9138576984405518
 
 \begin{figure}[h]
     \centering
