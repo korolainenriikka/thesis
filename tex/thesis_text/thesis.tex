@@ -209,8 +209,8 @@ by each species, drawing conclusions on multitudes of often partially conflictin
 %to motivate the need for representative and accurate dental fossil datasets. As further background on the data, sect 2 presents the
 %mammal teeth row along with relevant terminology.
 This chapter overviews relevant background on paleoenvironmental reconstruction from the perspective of this thesis.
-Section \ref{sect:ecometrics} highlights dental ecometrics, a method for constructing mappings from dental elements to environmental traits to motivate the 
-need for representative and accurate tooth fossil datasets. As further background on the data, Section \ref{sect:mammal_teeth} presents the mammal teeth 
+Section~\cite{sect:ecometrics} highlights dental ecometrics, a method for constructing mappings from dental elements to environmental traits to motivate the 
+need for representative and accurate tooth fossil datasets. As further background on the data, Section~\cite{sect:mammal_teeth} presents the mammal teeth 
 row along with related terminology.
 
 \subsection{Dental ecometrics}
@@ -826,15 +826,15 @@ Figure~\ref{fig:conv_assumptions}.
 % result is the dot product of the pixels in equal positions, eq 10.6
 % if the image is rgb, kernel is 3d with depth 3. (bike fig 10.10 here)
 The layer output computation on a convolutional layer is similar to the fully connected layer computation
-presented in Equation \ref{eq:fc_layer}, but takes as input only a small region around each pixel instead of 
+presented in Equation~\cite{eq:fc_layer}, but takes as input only a small region around each pixel instead of 
 the whole input, and uses same weight parameters on all input positions. To achieve this, the weights of the 
 layer only consist of a kernel, a small 
 matrix of weights with uneven-numbered size in both the width and height dimensions~\cite{princebook}. During the computation, the kernel 
 acts as a sliding window, moving through every possible position on the input image. For each kernel position, an output 
 value is produced by computing the dot product between the kernel and the kernel-sized input region around the processed position, and as usual, a bias term is added and the result is passed through the nonlinear activation function.
-An example of this basic convolution operation on a grayscale image with kernel size 3x3 is given in Equation \ref{eq:convolution}. 
+An example of this basic convolution operation on a grayscale image with kernel size 3x3 is given in Equation~\cite{eq:convolution}. 
 For a colored image with three color channels, the kernel becomes three-dimensional. An illustration 
-of such case is found in Figure \ref{image:3dkernel}.
+of such case is found in Figure~\cite{image:3dkernel}.
 
 \begin{align}
     h_{ij} = a \left[ \beta + \sum_{m=1}^{3} \sum_{n=1}^{3} \omega_{mn} x_{i+m-2, j+n-2} \right],
@@ -869,7 +869,7 @@ running multiple convolutions side by side creates better results, and the optim
 application-dependent. The resulting channels are much like the familiar red, green and blue in an image, but do not 
 have any human-decipherable meaning. Lastly, considering the kernel, three aspects need to be chosen: size, stride and dilation.
 Size refers to, intuitively, the height and width of the kernel. The stride, commonly 1, controls by how many pixels the 
-kernel is slid forward after each activation computation shown in Equation \ref{eq:convolution}. With dilation, the kernel itself 
+kernel is slid forward after each activation computation shown in Equation~\cite{eq:convolution}. With dilation, the kernel itself 
 is sparse: the weights are interleaved with a desired count of zeros. This allows for larger kernels without increasing parameter counts~\cite{princebook}.
 
 % % pooling
@@ -949,7 +949,7 @@ further classification tasks. While the
 best top-5 accuracy of 7,3\% ended up with a second place in the ImageNet 2014 competition, the structural simplicity
 and diverse learning capacity of the VGG models had a major influence on later deep learning research.
 
-The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Figure \ref{image:famouscnns}.
+The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Figure~\cite{image:famouscnns}.
 
 \begin{figure}[h]
     \centering
@@ -981,7 +981,7 @@ achieving better approximation capacity with a neural network simply was about s
 The previous major problem of vanishing and exploding gradients had largely been solved by input and between-layer 
 normalization operations. The vanising gradient problem refers to when the gradient of the loss with respect to 
 some parameters becomes zero, these parameters can no longer be updated with the weight update rule presented in 
-Algorithm \ref{alg:net_training} on line 9 for the duration of the entire training process. Exploding 
+Algorithm~\cite{alg:net_training} on line 9 for the duration of the entire training process. Exploding 
 gradients, on the other hand, lead to numerical instability as adding a very large number to the weight is 
 generally undesirable; the optimum is best approached gradually. Normalization solves these problems by 
 updating the activations to a consistent distribution, thus avoiding gradients getting stuck to very large or very small values~\cite{batchnorm}.
@@ -1063,7 +1063,7 @@ as a powerful feature extractor: one approach for creating a character-recognizi
 is to first train an autoencoder and then train a classifier by appending 
 fully connected layers to the encoder. This approach has been successfully implemented for the Bangla language~\cite{6shoponBangla}.
 Thus, autoencoders can be used as the source 
-task in transfer learning, as discussed in Section \ref{sect:transfer_learning}.
+task in transfer learning, as discussed in Section~\cite{sect:transfer_learning}.
 
 \subsubsection{Transformers and the multi-head self-attention}
 
@@ -1108,17 +1108,17 @@ available web pages in the search engine case or tokens in the transformer case,
 To find the relevance ranking, the keys (all tokens or all web pages) and the query (a search prompt or an input token)
 need to be compared. A rudimentary search engine implements this by computing a similarity metric:
 a single value describing how much of the words on the query appear on each web page. This is computed for token embeddings
-between the query and key vectors with the cosine similarity, given in Equation \ref{eq:cos-similarity}. This similarity metric computes the 
+between the query and key vectors with the cosine similarity, given in Equation~\cite{eq:cos-similarity}. This similarity metric computes the 
 cosine of the angle between two vectors, and scales it by vector magnitudes,
  giving a scalar metric with one denoting perfect similarity and -1 perfect dissimilarity.
  In the self-attention operation, as all activations are computed at once, the queries and keys form matrices $Q$ and $K$. 
  To compute the dot product with matrix multiplication, the other matrix is transposed, and the scaling is 
  sligtly varied from cosine similarity by dividing by the square root of the number of tokens, denoted $d_k$. The 
- result is passed through the softmax function (see Equation \ref{eq:softmax}), to construct an attention matrix where 
+ result is passed through the softmax function (see Equation~\cite{eq:softmax}), to construct an attention matrix where 
  each element describes how much attention should be paid between each token pair. Finally, to get the end result of 
  tokens ranked by relevance, the token embeddings, forming the value matrix $V$, are multiplied with the attention matrix. To include learnable parameters to the layer, 
  the key, query and value matrices are computed by multiplying 
- the token embedding matrices with parameter matrices $W_k$, $W_ q$ and $W_v$. This forms the dot-product self-attention computation, summarized in Equation \ref{eq:self-attention}.
+ the token embedding matrices with parameter matrices $W_k$, $W_ q$ and $W_v$. This forms the dot-product self-attention computation, summarized in Equation~\cite{eq:self-attention}.
  
 \begin{align}
     \text{Cosine similarity}(\mathbf{k}, \mathbf{q}) = \frac{\mathbf{k} \cdot \mathbf{q}}{\|\mathbf{k}\| \|\mathbf{q}\|}
@@ -1139,7 +1139,7 @@ With the self-attention operation, one limitation remains: one attention layer i
 input sequence at a time. To allow multiple interpretations, many self-attention operations are run in parallel, which is 
 called multi-head self-attention. To not increase computation, the token embeddings are divided across the heads, and the 
 results from the value matrix multiplied with the attention matrix are concatenated back together, creating a result of 
-equal dimension as the one-head version. The self-attention operation with multiple heads is summarized in Figure \ref{fig:multi-head-self-attention}.
+equal dimension as the one-head version. The self-attention operation with multiple heads is summarized in Figure~\cite{fig:multi-head-self-attention}.
 
 \begin{figure}[h]
     \centering
@@ -1192,7 +1192,7 @@ This is called transfer learning and is presented next.
 % basics: what it is, basic premise: if you start out from a parameter configuration that solves a related 
 % task well, there is lesser need to train to solve the new problem~\cite{transferlearning_survey}.
 Much of transfer learning is about what happens before one starts the neural network training process 
-presented in Section \ref{sect:training}: starting training with a neural network setup, 
+presented in Section~\cite{sect:training}: starting training with a neural network setup, 
 architecture, parameterization and training process configuration already successful at a related task,
 is known to result in a better model~\cite{transferlearning_survey}. As an analogue to human learning, teaching a human transcriber
 to read fossil specimen markings is much easier if the human being has already learned to read.
@@ -1748,7 +1748,7 @@ classes from challenging palm leaf scan images. The work includes many valuable 
 data augmentation and dataset expansion insight, and comparison of multiple convolutional and attention based model 
 architectures. As the main result it is concluded that convolutional networks tend to outperform transformer architectures.
 
-Details on all the works presented above are summarized on Tables \ref{tab:dataset-info} and \ref{tab:model-info}. Where multiple settings 
+Details on all the works presented above are summarized on Tables~\cite{tab:dataset-info} and~\cite{tab:model-info}. Where multiple settings 
 were experimeted with, the class count producing the highest accuracy score and the three best 
 base model variants are listed starting from the best for brevity. The Tibetan detection article~\cite{4zhaoTibetan}
 is omitted due to transfer setting being very different to the other works. Replacing the last layer with a 
@@ -1837,10 +1837,10 @@ learning models to solve the subproblems involved.
 %     and how to build a system from the mappings that achieves the goal
 %     sect 6.2 the training settings attempted informed by literature
 %     for creating the required models is chosen
-This chapter is organized as follows. In Section \ref{sect:problem-formulation}, the main problem is formulated as a set of $X\to y$ 
+This chapter is organized as follows. In Section~\cite{sect:problem-formulation}, the main problem is formulated as a set of $X\to y$ 
 mappings that jointly achieve the ambiguous goal of cleaning the element description column in the fossil 
 dataset. Then, the training settings attempted to build the required models are chosen, informed by
-studied literature, in Section \ref{sect:building-models}.
+studied literature, in Section~\cite{sect:building-models}.
 
 \subsection{Problem formulation}
 \label{sect:problem-formulation}
@@ -1875,7 +1875,7 @@ were available, thus the catalogues occasionally contain special symbols recogni
 but that might only occur once in the whole set of catalogues. Additionally, 
 no standard exists for how the elements should be notated, perhaps because only a few people 
 created these markings, leading to a less standardized style.
-A sample of the catalogues is presented in Figure \ref{image:cataloguesample}.
+A sample of the catalogues is presented in Figure~\cite{image:cataloguesample}.
 The previous project managed to digitize most of the contents of the table, but since 
 the untuned Azure AI OCR model~\cite{azurevision} was used, the tooth notation recognition
 loses information of upper or lower jaw tooth due to special characters, and sometimes
@@ -1898,11 +1898,11 @@ The aim of the experiments in this work is to find an approach for fixing these 
 % to aid in this i have also the generalist OCR ouputs from azure (bounding boxes are assumed)
 The aim is for the end result dataset to contain a column with a tuple of all teeth present in the 
 element description, and to replace the erroneously read teeth in the element column with the correct 
-marking. The notation used in the end result will be the digital notation presented in Table \ref{table:jaw_notation}.
+marking. The notation used in the end result will be the digital notation presented in Table~\cite{table:jaw_notation}.
 The recognition will be built assuming that bounding boxes for cropping out individual words in the 
 catalogues are available; for this purpose, JSON files with bounding boxes obtained in the 
 previous project output obtained with Azure Vision are used. An example of the desired output, 
-obtained by hand-annotating as no perfect solution is found in this work, is presented in Figure \ref{image:goal}. 
+obtained by hand-annotating as no perfect solution is found in this work, is presented in Figure~\cite{image:goal}. 
 As can be seen from the dataset sample, the end result in terms of the other data is far from perfect, and 
 therefore much remains to be done after this work.
 
@@ -2131,7 +2131,7 @@ Next, the end-to-end pipeline for getting the tooth markings out of the catalogu
 %     threshold: if below x, mark the row for manual inspection, otherwise dont inspect (esim human level recognition like 99,7\% or smthn)
 % then concatenate description back      
 To summarize the problem formulation discussion above, the end-to-end dental fossil marking system,
-illustrated as a flowchart in Figure \ref{fig:pipeline}, has 
+illustrated as a flowchart in Figure~\cite{fig:pipeline}, has 
 the following components. 
 
 \begin{figure}[h]
@@ -2192,7 +2192,7 @@ transfer learning method and hyperparameter selection. After a presentation of  
 % according to bounding boxes.
 % regular expressioning, mention () , L R
 The dataset with a total of 1105 images was extracted from the fossil 
-catalogues using the first two steps on the processing pipeline in Figure \ref{fig:pipeline}:
+catalogues using the first two steps on the processing pipeline in Figure~\cite{fig:pipeline}:
 for each word under the element describing header, the Azure Vision output was classified 
 to tooth or other with the regular expression, and 
 images with tooth notation were cropped out from the catalogue. Along with the image, the 
@@ -2213,7 +2213,7 @@ than molars and premolars in the catalogues, some of the former were manually cr
 of catalogues to achieve more variety among these classes. After this, the differences 
 in sample count between the most frequent class and others was computed, and augmented 
 images were saved for the other classes to make class sample counts exactly equal. The augmentation 
-method used will be presented in Section \ref{sect:aug}. The dataset sizes and samples counts per class 
+method used will be presented in Section~\cite{sect:aug}. The dataset sizes and samples counts per class 
 for each model are collected in Table TODO (train val test and samples per class + split ratios for all 5 model training sets!).
 
 % labeling:
@@ -2240,7 +2240,7 @@ made public. As the problem ended up being an interesting task from the perspect
 bringing even parts of the catalogue scans available for researchers and machine learning hobbyists could prove to be 
 very valuable both for improving the digitized data quality and advancing character recognition techniques.
  
-A small sample of the training dataset of premolars is presented in Figure \ref{image:samples}.
+A small sample of the training dataset of premolars is presented in Figure~\cite{image:samples}.
 
 \begin{figure}[h]
     \centering
@@ -2260,7 +2260,7 @@ Denoising was implemented due to the images containing noise from small shadows 
 paper texture and eraser smudges with the most basic routine, a Gaussian filter.
 The kernel size 3 was chosen by experimentation and visual inspection. Finally, the images were resized to 
 ImageNet image size of 224x224 using bilinear interpolation. A catalogue sample before and after grayscaling and denoising can 
-be found in Figure \ref{image:noise}.
+be found in Figure~\cite{image:noise}.
 
 \begin{figure}[h]
     \centering
@@ -2347,7 +2347,7 @@ shear by setting the shear ranges for both x and y directions from 1
 to 10 pixels with the RandomAffine operation. The background was filled in 
 with white after rotation when necessary to match the other background as closely as possible.
  A batch of training images after augmentation
-is presented in Figure \ref{image:augmented}.
+is presented in Figure~\cite{image:augmented}.
 
 \begin{figure}[h]
     \centering
@@ -2391,10 +2391,10 @@ similar domain than the MNIST dataset of handwritten digits, which is known to c
 % 2 paragraph: selection of base models based on previous work
 % Chosen public dataset was EMNIST~\cite{emnist} because it is the closest to my problem: a large dataset of labeled letters and numbers.
 The ImageNet classifier base models used in this the experiments are selected 
-according to results from related work, reviewed in Section \ref{sect:same_solution}.
+according to results from related work, reviewed in Section~\cite{sect:same_solution}.
 The models were chosen according to the simple heuristic of checking which base models 
 occurred multiple times when listing the top three models in terms of accuracy. 
-Analyzing Table \ref{tab:model-info}, EfficientNet models consistently outperform 
+Analyzing Table~\cite{tab:model-info}, EfficientNet models consistently outperform 
 other architectures, most often with the V2S variant, closely followed by the 16-layer variant of the VGG architecture~\cite{vgg},
 DenseNet121, and ResNet101 (todo: cite the model original papers). Therefore, these four architectures were chosen as base models 
 to experiment with. The shortcoming in this base model selection heuristic is that 
@@ -2428,7 +2428,7 @@ even when acknowledging these limitations.
 % until overfits: training error is much larger than test error. sign: we trained too many parameters / for too long
 
 % small dataset -> train less layers to not overfit to the target dataset
-For the transfer method, the reviewed work in Table \ref{tab:model-info} has a big variety of approaches, 
+For the transfer method, the reviewed work in Table~\cite{tab:model-info} has a big variety of approaches, 
 the only common trend being that freezing less seems to outperform freezing many layers. 
 However, how much to freeze is very dependent on the source and target problem differences;
 in very similar cases the features should be more useful and thus freezing more should work better, 
@@ -2463,7 +2463,7 @@ between approaches fair; if the optimization is better for some case than other,
 longer deduce whether the difference in result accuracy was due to hyperparameter or base model and 
 transfer approach optimality. Therefore, hyperparameters are fixed between experiments to common values 
 used previously in similar tasks. The selected hyperparameters, most chosen as the most popular and 
-number of epochs chosen as an average value among the reviewed works, are summarized in Table \ref{table:hyperparameters}.
+number of epochs chosen as an average value among the reviewed works, are summarized in Table~\cite{table:hyperparameters}.
 
 \begin{table}[h!]
     \centering
@@ -2547,16 +2547,16 @@ suggestions are presented, informed by the outcomes of this study.
 % 	vit: 2nd, so don't forget about transformers, but don't forget about cnn's either. both seem to work almost equally well.
 % train test dirrecence max 8.59 but most in 0-3\% range. so: very similar train test accs, so: generalizes well
 % initial hypo of freeze more to overfit less does not seem to hold: no larger train val acc differences with less freezing
-The experiment outcomes are collected to Table \ref{table:results}, and 
+The experiment outcomes are collected to Table~\cite{table:results}, and 
 the most important findings are the following. Using AlexNet as the base model results in the highest 
 validation accuracy with the Vision Transformer as a close second. Having the transformer 
 architecture not as the best but still a competitive result verifies the result 
 from another study that stated CNNs to outperform transformers, but suggests 
 that transformer architectures are worth testing for in building various OCR
 solutions. Another interesting point is that EfficientNet results were the worst of all, 
-which strongly contradicts results of many reviewed works in Section \ref{sect:same_solution},
+which strongly contradicts results of many reviewed works in Section~\cite{sect:same_solution},
 suggesting that a model found to be better in one study can inform little on its performance on another target task.
-The generalization capability of all models seems to be good, as seen in Figure \ref{image:diff_hist}:
+The generalization capability of all models seems to be good, as seen in Figure~\cite{image:diff_hist}:
 the difference between training and validation accuracies is in the majority of 
 experiments below 4 \%. As there is little correlation between the magnitude of this difference, 
 a metric for degree of overfitting, and layers trained, the initial hypothesis on freezing more to prevent overfitting
@@ -2624,11 +2624,11 @@ change in accuracy suggests that comparing architectures when target data is sma
 A change in the random seed from 15 to 2, both randomly chosen, was done to check how much the result changes 
 when the only thing changed is the order of training samples in batches. This changes which initial examples are shown to the model,
 changing the initial steps of the learning trajectory, which is important in neural network training~\cite{transferlearning_survey}.
- As seen in Table \ref{table:random_seed_sensitivity}, the largest difference occurred with one layer 
+ As seen in Table~\cite{table:random_seed_sensitivity}, the largest difference occurred with one layer 
 trained, and the second seed had the validation accuracy increased by 9,09 percentage points. This shows that initial examples 
 are important and can initialize much better or worse learning trajectories. Then, hyperparameter change 
 by changing batch size from 64 to 32, also a random choice, was tested with the AlexNet architecture, and the results 
-changed by 6,49\%, as seen in Table \ref{table:hyperparameter_sensitivity}. Notably, the best accuracy was outperformed by as much as 4,54 percentage points 
+changed by 6,49\%, as seen in Table~\cite{table:hyperparameter_sensitivity}. Notably, the best accuracy was outperformed by as much as 4,54 percentage points 
 in this setting, more than halving the count of errors. These large variances serve as a good example on the caveats of comparing 
 base models in a small target data transfer setting: since there is no objective metric for the quality of optimization, there 
 is practically no way of knowing what the true reason for accuracy differences between experiments is. In this case, the 
@@ -2673,8 +2673,8 @@ superiority of an architecture over another.
 % resnet and efficientnet: maybe all information on the training dataset was able to be encoded to the first five layers and therefore more unfreezing did not provide more value
 % train the last layer (inspo from~\cite{4zhaoTibetan}, hypothesis of reusing feature extractor as is seems false, training the whole network works better.
 The clearest result from the experiments is that freezing never improved the resulting accuracy. This result was 
-also the only larger consensus among studies reviewed in Section \ref{sect:same_solution}.
-As is highlighted in the plot of layers trained against resulting accuracy in Figure \ref{image:accuracy_vs_freezing},
+also the only larger consensus among studies reviewed in Section~\cite{sect:same_solution}.
+As is highlighted in the plot of layers trained against resulting accuracy in Figure~\cite{image:accuracy_vs_freezing},
 there were no exceptions to this relationship. Accuracy of DenseNet and ResNet plateauing can be seen as 
 the model having enough freedom to encode all information present in the training data and therefore adding 
 more trainable parameters did not increase accuracy. To interpret the correlation, the hypothesis that using a feature 
@@ -2721,7 +2721,7 @@ Taking the idea that transfer utility is only about
 seeing more examples further, one can even hypothesize whether the superiority of ImageNet over other base tasks, like MNIST, is 
 due to the transfer distance being shorter or if the reason is the sheer size of the dataset. Summarizing all this, the lesson learned
 can be boiled down to one phrase, inspired by the GoogLeNet inspiring meme presented in 
-Figure \ref{image:meme}, one can simply say "we need to go further"; the way forward is simply exposing the model to more examples, 
+Figure~\cite{image:meme}, one can simply say "we need to go further"; the way forward is simply exposing the model to more examples, 
 and re-using the previously learned as much as possible.
 
 \subsection{Future work on digitizing fossil catalogues}
