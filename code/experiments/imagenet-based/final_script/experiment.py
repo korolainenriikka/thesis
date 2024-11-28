@@ -193,9 +193,6 @@ for parameters in experiment_data['experiments']:
 
     model, train_accuracies, val_accuracies, train_losses, val_losses = train_model(model, criterion, optimizer, exp_lr_scheduler, num_epochs=NUM_EPOCHS)
 
-    model_pt_filename = f'{experiment}.pt'
-    torch.save(model, model_pt_filename)
-
     os.environ['MLFLOW_TRACKING_URI'] = 'sqlite:///../../../final_experiments.db'
     mlflow.set_experiment(experiment)
 
@@ -218,9 +215,6 @@ for parameters in experiment_data['experiments']:
         # Log accuracy
         mlflow.log_metric("training accuracy", train_accuracies[-1])
         mlflow.log_metric("validation accuracy", val_accuracies[-1])
-
-        # Log the model
-        mlflow.log_artifact(model_pt_filename)
 
         # Set a tag to remind what this run was for
         # Save accuracies & losses as str for easier viewing in the UI
