@@ -7,6 +7,7 @@
 \usepackage{subcaption}
 \usepackage[style=numeric,bibstyle=numeric,backend=biber,natbib=true,maxbibnames=99,giveninits=true,uniquename=init]{biblatex}
 \usepackage[utf8]{inputenc}
+\usepackage{hyperref}
 
 \addbibresource{../bibliography.bib}
 \title{Thesis notes}
@@ -1265,37 +1266,47 @@ whether this is also about the better optimum with starting from more general ex
     \label{image:training_run_accuracies}
 \end{figure}
 
-% summary of chapter
-ie what you should remember
 
 test errors and certainty scores.
 
-up/low best model (from the hyperparameter sensitivity experiment)
+- why test set
 i don't list validation accuracy as one should not to describe generalization,
 because val accuracy was used to do model selection -> there is data leakage in the validation accuracy
-test accuracy:
-92,31\%
-certainty score. a metric for what proportion of samples the model was more than human level ie 99,7 percent certain 
-71,79\%
-c's are a struggle. on the other hand this suggests that the sub/superscript is learned very well, only one such sample
-is misclassified and there the index number is largely cut off
-there was maybe a comment i should mention balanced data in results and discussion
-99+ accuracy on mpi: judging on how many letters i corrected when labeling, this is far better than the generalist.
-mpi test accuracy: 100\%
-certainty: 94,5\%
-varied random seed, lowest was bit below 90 so seed variance even here, acc was always 100
-uplow indeed hard, no surprise because labeling was also hard. unfortunate because that was the thing that was unoknown for azure.
 
+- what is certainty score.
+a metric for what proportion of samples the model was more than human level ie 99,7 percent certain 
+
+- c's are a struggle. on the other hand this suggests that the sub/superscript is learned very well, only one such sample
+
+comparison to generalist
+- judging on how many things i corrected when labeling, this is far better than the generalist.
+
+- random seed disclaimer: still many percentage points fluctuation
+varied random seed mpi, lowest was bit below 90 so seed variance even here, acc was always 100
+
+- task comparison follows how hard it felt to label.
+ndex was hardest becuase often esp lower part of number gets cut out -> 2 and 3 distinguising is hard
+
+- class imbalance thing
 class imbalance was severe in some cases so the less common classes had to be augmented 
 a lot, so could overfit to the small amount of samples, also causes that test err is not necessarily that representative.
 
-index number 
-123 acc 88,00 certainty 0.58. not ok! idea: split image in half to cover the letter
+% summary of chapter
+ie what you should remember
 
-1234 results
-Certain classifications: 168
-Certainty rate: 0.6292134831460674
-Accuracy: 0.9138576984405518
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Task}       & \textbf{Accuracy (\%)} & \textbf{Certainty (\%)} \\ \hline
+MPI                 & 100.00                 & 94.50                   \\ \hline
+Upper/Lower         & 92.31                  & 71.79                   \\ \hline
+123                 & 88.00                  & 0.58                    \\ \hline
+1234                & 91.39                  & 62.92                   \\ \hline
+\end{tabular}
+\caption{Task Accuracy and Certainty Levels}
+\label{tab:task_accuracy_certainty}
+\end{table}
 
 \begin{figure}[h]
     \centering
@@ -1304,6 +1315,12 @@ Accuracy: 0.9138576984405518
     \label{image:misclassifications_uplow_in_test}
 \end{figure}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.8]{../images/inference.png}
+    \caption{Sample outputs of dental notation and associated confidence values. Only few of the samples exceed human-level classification accuracy of 99,7\%.}
+    \label{image:inference}
+\end{figure}
 
 \section{Conclusions}
 
