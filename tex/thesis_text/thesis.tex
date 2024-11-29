@@ -111,7 +111,7 @@ the location of each word or sentence. The main research question is the followi
 
 How, given scan images, bounding boxes and generalist OCR outputs, can the accuracy of the readings of the tooth markings be improved?
 
-% 1. the pipeline
+% 1. the pipeline + experiments
 % (solution and previous analogous solutions)
 % classifier chain
 % image & azure output
@@ -119,7 +119,9 @@ How, given scan images, bounding boxes and generalist OCR outputs, can the accur
 % if not tooth keep azure output
 % else feed to classifier chain, one tells tooth type from marking image, one index number, one up/low jaw
 % combine tooth info & concat
-% inspired by tibetan but no direct previous work exists so a as simple as possible solution was chosen
+% best is alexnet, no freezing with test acc ... in uplow.
+% fraction of teeth class confidence over 99.7 so no manual verifying for each submodel: x-y%
+% take min less certainty is limitation but still is found that this approach works, classifier accuracies are worst 88 best 100
 This thesis proposes a univariate classifier chain approach for 
 uniformizing the dental notation. Each element description is processed 
 word-by-word and for each word only those recognized as tooth markings, 
@@ -131,15 +133,21 @@ to three classifiers: first one detects the letter on the image to a
 tooth type, second detects whether the tooth is from the upper or lower jaw,
 and third recognizes the index number. Finally, all these inferences can 
 be combined to tooth notation and concatenated to a corrected element 
-description.
+description. 
 
-% 2. building models for the pipeline
-% (how the solution was evaluated, what were the results of this evaluations. scope and limitations)
-% three tasks: tooth type up low index number. assume train from scratch makes no sense~\cite{cs231n_transfer_learning},
-% find best base model and layer freezing setup by running multiple model + freezing combinations.
-% experiments can be found in full in [link]. found: best is alexnet without freezing w. accuracy xxx.
-% other models mpi 1234 123 best accuracies are yyy zzz ccc respectively, x y z percent have confidence > 99.7, human level so need no manual verifying
-% limitations: lost context, errors in bounding box cause that i cannot classify everything
+In the experiments for building the univariate classifiers, various base models and training configurations are compared, and 
+AlexNet with no layer freezing is found to result in best test accuracy of 92.31\% on the 
+upper or lower jaw classification task. However, it is found that different hyperparmeter 
+configurations influence the scores by up to 10\%. 
+Fractions of test images classified correctly with above-99.7\% confidence are 
+counted to estimate the amount of saved manual verifying effort with these scores ranging 
+from 58\% to 94.5\% depending on the classification task.
+The approach of annotating a dental marking with the minimum 
+confidence of all classifiers causes most of the final confidence scores 
+to be too low to bypass manual verifying, thus it is possible that little manual labor is 
+saved with this initial solution. Still, it is proved that the proposed approach works and that 
+accurate classifiers with test accuracies ranging from 88.0\% to 100.0\% can be built 
+with the techniques implemented.
 
 % relevance for other work: why was this specific problem? how can this be concretely used?
 % relevance of this work: KNM is able to have way more precise dental element markings
