@@ -11,7 +11,18 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{hyperref}
+
+% for the flowchart
+\usepackage[dvipsnames]{xcolor}
 \usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\usepackage[skins]{tcolorbox}
+
+\tikzstyle{nnmodel} = [trapezium, draw=black, fill=blue!20, trapezium left angle=120, trapezium right angle=120]
+\tikzstyle{textcontainer} = [rectangle]
+\tikzstyle{imageframe} = [rectangle]
+\tikzstyle{arrow} = [thick, ->, >=stealth, draw=Maroon]
+\tikzstyle{nonactivearrow} = [thick, ->, >=stealth, draw=Maroon!30]
 
 \usetikzlibrary{positioning}
 
@@ -1968,9 +1979,9 @@ in how to set up the tooth recognition system: whether to give the whole element
 %     we cannot do this because there is no readily made segmentation of image to characters 
 %     would also not make much sense because tooth notation letter and number should be kept together
 %     -> choose between sequence and word
-To choose the inputs for the neural networks, one needs to choose whether to give the
-element cell contents as one image, split to words or to characters. As the segmentation 
-data is only available in sentence and word level, the character option is not available in this work.
+To choose the inputs for models, one needs to choose whether to keep the
+element cell contents as one image or split it to words. As the segmentation 
+data is only available up to word level, the character option is not available in this work.
 
 % sequence benefits:
 %     adaptable to many kinds and lengths of input
@@ -1987,22 +1998,18 @@ data is only available in sentence and word level, the character option is not a
 %             require rewriting parts of the preprocessor and model which is too complex given the level of this work.
 %                 only adequately accurate models are large collaboration efforts to create so code is complex 
 %                 eg trocr is by Microsoft employees
-Sequence learning is a machine learning problem where both input and output lengths vary~\cite{sutskever2014sequence}.
-The clear benefit is its flexibility; more difficult cases such as many teeth noted together, eg. $\text{M}_{1-3}$,
-which in many cases end up segmented to different words, could be recognized. A fine-tuned sequence learning 
-model could also be given prior information on that the domain the text is from is 
-about fossils, which would make a large part of the available vocabulary impossible to occur, 
-likely increasing the result quality. As for downsides, the clear practical hindrance is 
-that the flexibility requires huge parameter counts: an attempt was done to fine-tune the 
-Microsoft TrOCR model~\cite{li2021trocr}, but the training set sizes and available computational 
-resources proved insufficient to train the model with 500 million parameters even when updating only one layer,
-and results of smaller models tested were not satisfactory. The end result of the fine-tuning 
-attempts had severely decreased 
-accuracy on handwriting without any special characters. A theoretical description of this 
-case is that because both the domain, from general handwriting to fossil catalogues, 
-and the task, the characters to recognize, changed, the transfer distance becomes so large 
-that significant training data and computational resources are required to adjust the model 
-to the new problem.
+Sequence learning is a machine learning paradigm where both input and output lengths vary~\cite{sutskever2014sequence}.
+The clear benefit is its flexibility; more difficult cases such as many teeth noted together (eg. $\text{M}_{1-3}$),
+where segmentation to words frequently fails, could be recognized. A fine-tuned sequence learning 
+model could also be given prior information on the paleontology domain of the text, making
+most of the English vocabulary impossible to occur and therefore constraining the problem. As for downsides, the practical hindrance is 
+that flexibility requires huge parameter counts: fine-tuning the 
+Microsoft TrOCR model~\cite{li2021trocr} was attempted, but available labeled data and computational 
+resources proved insufficient to train the model even when updating only one layer,
+and outputs of untuned smaller models on basic handwriting were not satisfactory.
+A theoretical description of this is that because both the domain, from general handwriting to fossil catalogues, 
+and the task, the character set to recognize, changed, the transfer distance becomes so large 
+that significant training data and computational resources are required to teach the new problem to the model.
 
 % word by word benefits
 % feasible given available data and computing resources
@@ -2015,20 +2022,21 @@ to the new problem.
 %     left right cannot be put to tooth markings sometimes in other formats like "left mandibular frag with m1-2"
 
 % so, word by word. next: formulate image of word to correct output more precisely
-Recognizing the markings word by word essentially becomes character classification in 
-the tooth marking case if one constrains the input images to be samples with one letter and 
-one number, thus leaving out the multi-tooth markings with a number interval (eg. $\text{p}_{2-4}$).
-This approach has the benefit that after the rather easy binary classification of a word to 
-tooth marking to other word one can encode prior information on the dental row to the classification
-task by having, for instance, one class for each tooth type, creating classification settings 
-with relatively small number of classes. These can be then solved even with small amouts of 
-data and limited computing resources. The drawback is a lack of flexibility, propagation of 
+Recognizing the markings word by word becomes character classification in 
+the tooth marking case if one constrains the input images be samples with one letter and 
+one number, leaving out the multi-tooth markings with a number interval (eg. $\text{p}_{2-4}$).
+This has the benefit that after rather easy binary classification of a word to 
+tooth marking to other word, priors on the dental row can be encoded in the classification
+task. By having, for instance, one class for each tooth type, count of target classes becomes
+relatively small, making the problem solvable even with small amouts of data.
+The drawback is a lack of flexibility, propagation of 
 bounding box detection errors and that left and right jaw information has to be left out from 
 the tooth records column: the jaw side information is not always given in the same word, 
-in format such as '$\text{LM}_1$', but in other parts of the descriptions, in formats like 'left mandibular frag. with $\text{M}_1$'.
+in format such as '$\text{LM}_1$', but in other parts of the description, in formats like
+ 'left mandibular frag. with $\text{M}_1$'.
 
 Given the problem of classifying a tooth notation image with a type specifying letter and an index 
-number, the classification setting is formulated next.
+number, the classification problem is formulated next.
 
 \subsubsection{Tooth marking classification: multi-label classification or classifier chaining}
 
@@ -2036,12 +2044,12 @@ number, the classification setting is formulated next.
 % not tooth straightforward: use azure output
 % tooth less straightforward, topic here: x is the image of the marking, y is tooth type, but what is the 
 % softmaxed probability vector the model should output? so what are the target classes?
-Given the chosen approach that the processing is completed word by word, and more variable inputs like 
-notation marking multiple teeth with one word are left for future work, one still needs to formalize the 
-output format. The other than tooth case is straightforward; as the Azure AI results are very good, one 
-can re-use the already obtained reading result. Less straightforward is which classes to set up for the 
-tooth marking classification: the image has many points of information, tooth type, jaw and index number with 
-interdependencies like the index number range depending on the tooth type.
+Given the choices that processing is completed word by word and leaving more variable inputs like 
+notation marking multiple teeth for future work, the output still requires to formalizing.
+Processing non-tooth words is straightforward; as the Azure Vision results are accurate, they
+can be reused. Less straightforward is which classes to set up for the 
+tooth markings: the image has many points of information; tooth type, jaw and index number with 
+interdependencies, like the index number range depending on the tooth type.
 
 % formulation of tooth image to tooth type
 %     univariate: m1,m2,m3,p1,p2,p3,p4,c,i1,i2,i3 up and low (22 classes)
@@ -2058,10 +2066,10 @@ interdependencies like the index number range depending on the tooth type.
 %                 so not all variable combinations are possible. no easy well established way to encode that to the model 
 %                     what will we do if the model thinks its a 4th canine?
 %             -: even when it was easy~\cite{tibetan_ocr} kinda already argued the multilabel is a bad approach
-The simplest formalization would be to have one class per one tooth, the classes becoming for lower jaw m1-m3, p1-p4, c and i1-i3,
-totaling 22 classes when including the upper jaw teeth. This, however, encodes prior information falsely: univariate classification would 
-mean that all classes are equally dissimilar to one another, which clearly is not the case as some inputs share same letters and 
-some the same numbers. Thus, there are three separate problems; which jaw, which tooth type and which index number is found in the image, 
+The simplest formalization would be to have one class per tooth, the classes becoming for lower jaw m1-m3, p1-p4, c and i1-i3,
+totaling 22 classes when including both jaws. This, however, encodes prior information falsely: univariate classification would 
+mean that all classes are equally dissimilar to one another, which clearly is not the case as some inputs share same letters or digits.
+Put more accurately, there are three separate problems; which jaw, which tooth type and which index number is found in the image, 
 and the univariate formalization does not encode this fact.
 
 %     model ensemble/ chained classifiers to the rescue
@@ -2079,28 +2087,27 @@ and the univariate formalization does not encode this fact.
 % reason for this choice: it encodes most prior knowledge in the output structure, use as much from azure as possible
 %     act according to premise of transfer learning: utilize all prior knowledge, fine tune your approach to problem as little as possible
 The natural variation would be multivariate classification with the classes m, p, i, c, up, low, 1, 2, 3 and 4. However, 
-the most general multivariate setting does not constrain these classes to any groups or that one class would be needed to be chosen from 
-each~\cite{multilabel_classification}, thus other works would present approaches where for example the correct classes m, p, 3 and 4 all at 
-once are possible, which is clearly wrong in the tooth case. Additionally, even if the target classes would be grouped and one class
-being correct would be enforced,
-the tooth could be classified with a nonexistent index number, such as the third canine. Thus, the possible classes would need to 
-be constrained to encode this fact, leading to a very complex and unusual classification problem for which it could be difficult to 
-find existing solutions. Added to this, the work on Tibetan glyph recognition identified the complex multivariate formalization of 
-previous Tibetan recognition, where one recognized the character and writing style both at once, the main reason why the resulting 
+the general multivariate setting does not constrain these classes to any groups with one class required to be chosen from 
+each~\cite{multilabel_classification}, consequently other works would present approaches not applying these restrictions.
+For example, in the unconstrained case the correct classes m, p, 3 and 4 all at 
+once are possible, which is clearly wrong for a dental marking. Additionally, even with correctly enforced class group constraints of one class always being correct, the tooth could be classified with an impossible index number, such as the third canine.
+The possible classes would need to be constrained to encode the specialties, leading to an unusual classification problem for which it could be difficult to 
+find solutions. Added to this, the work on Tibetan glyph recognition identified complex multivariate formalization of 
+recognizing the style and character for a Tibetan glyph both at once the main reason why the resulting 
 accuracies were not as good as in univariate classification~\cite{4zhaoTibetan}.
 
 These shortcomings, along with the successful pipeline approach implemented for Tibetan recognition~\cite{4zhaoTibetan}
 lead to the univariate classifier chaining approach used in this work: first, one gives the image to a type recognition 
-model, that ouputs one probability vector of four classes, molar, premolar, canine or incisor, and a upper or lower jaw 
-binary classifier. Then, given the tooth type, the image is given to the index number classifier, which has the correct number 
-of classes given the type: three for molars, four for premolars, no model for canine since one is the only correct index, and 
-three for incisors. The three-class cases were built with separate models for the network to not 
-learn connections between the letter and index number, which would be incorrect. The upper and lower classifier was not chained in this way with the tooth type classifier (which would result in eg. a upper or lower 
-molar decision model), because incisor and canine samples were too few to construct datasets of sufficient size, and all tooth types have 
-both upper and lower jaw variants. This approach was not directly found in any other previous work, but was decided 
+model that ouputs one probability vector of four classes, molar, premolar, canine or incisor, and a upper or lower jaw 
+binary classifier. Then, given the tooth type, the image is given to the index number classifier that classifies the marking 
+to either index to one to three or one to four. Building separate classifiers for indices one to three for incisors and molars
+or separate upper or lower classifiers for all tooth types 
+could have been more accurate as the model could not falsely learn based on letter characteristics, but data for more rare indices 
+one and four was not sufficient in amount to facilitate this.
+This approach was not directly found in any other previous work, but was decided 
 for since it seemed like the only one that correctly encoded all similarities and impossible class combinations. 
 
-Next, the end-to-end pipeline for getting the tooth markings out of the catalogues using these models is presented.
+Next, the end-to-end pipeline for getting the tooth markings out of the catalogues using these classifiers is presented.
 
 \subsubsection{The proposed pipeline}
 
@@ -2132,46 +2139,72 @@ Next, the end-to-end pipeline for getting the tooth markings out of the catalogu
 %     confidence of teeth tuple is the minimum confidence among all tooth.
 %     threshold: if below x, mark the row for manual inspection, otherwise dont inspect (esim human level recognition like 99,7\% or smthn)
 % then concatenate description back      
-To summarize the problem formulation discussion above, the end-to-end dental fossil marking system,
-illustrated as a flowchart in Figure~\ref{fig:pipeline}, has 
+To summarize the problem formulation discussion above, the end-to-end dental fossil marking recognition system,
+illustrated in Figure~\ref{fig:pipeline}, has 
 the following components. 
 
 \begin{figure}[h]
     \centering
-    \includegraphics*[scale=.3]{../images/flowchart.png}
+\begin{tikzpicture}[node distance=1.5cm]
+    \node (imagelabel) [textcontainer] {Image segment};
+    \node (fragimage) [imageframe, right of=imagelabel, xshift=1cm] {\includegraphics[width=.08\textwidth]{../images/frag.png}};
+    \node (m3image) [imageframe , right of=fragimage, xshift=.7cm] {\includegraphics[width=.08\textwidth]{../images/m3.png}};
+    \node (azurelabel) [textcontainer, below of=imagelabel, yshift=.5cm] {OCR output};
+    \node (frag) [textcontainer, right of=azurelabel, xshift=1cm] {frag.};
+    \node (m3) [textcontainer, right of=frag, xshift=.7cm] {H3};
+    \node (toothornot) [nnmodel, below of=frag, xshift=1.2cm, yshift=.5cm] {tooth or other?};
+    \node (uplow) [nnmodel, below of=toothornot] {upper or lower?};
+    \node (mpic) [nnmodel, below of=uplow] {M, P, I or C?};
+    \node (mindex) [nnmodel, below of=mpic, xshift=-1.8cm] {1, 2 or 3?};
+    \node (pindex) [nnmodel, below of=mpic, xshift=1.8cm] {1, 2, 3 or 4?};
+    \node (end) [textcontainer, below of=mpic, yshift=-1.5cm] {frag. m3};
+
+    \draw [arrow, draw=Blue] (frag) -- (toothornot);
+    \draw [arrow] (m3) -- (toothornot);
+    \draw [arrow] (toothornot) -- node[anchor=east] {tooth} (uplow);
+    \draw [arrow] (uplow) -- node[anchor=east] {lower} (mpic);
+    \draw [arrow] (mpic) --  node[anchor=east, yshift=0.2cm] {m} (mindex);
+    \draw [nonactivearrow] (mpic) -- (pindex);
+    \draw [arrow] (mindex) -- node[anchor=east, yshift=-0.2cm] {m3} (end);
+    \draw [nonactivearrow] (pindex) -- (end);
+    \draw [nonactivearrow] (mindex) -- (end);
+    \draw[thick, draw=Blue] (toothornot) -- node[anchor=south] {other} (-1.7,-2) -- (-1.7,-8);
+    \draw[->, thick, draw=Blue] (-1.7,-8) -- (2.7,-8);
+    \draw[thick, draw=Maroon!30] (mpic) -- (8.5,-5) -- (8.5,-8);
+    \draw[->, thick, draw=Maroon!30] (8.5,-8) -- (4.7,-8);
+\end{tikzpicture}
     \caption{Flowchart of the proposed tooth recognition pipeline}
     \label{fig:pipeline}
 \end{figure}
 
-For all words, bounding boxes and reading results, detected on the element column by Azure AI, the word is first classified to tooth marking or other word.
-To sufficiently constrain the input data to the downstream model, this classification is completed 
-with a simple regular expression checking whether the Azure reading result of the word consists of a letter and number, or only the 
-letter C. Once more robust classifiers are built, this part can then be replaced with another deciding 
-heuristic that would then allow a larger variety in tooth notation images to be cleaned; the regular expression 
+For all words, bounding boxes and reading results detected by Azure Vision on the element column, the word is first classified to tooth marking or other word.
+To constrain the input data to the downstream model, this is completed 
+with a regular expression checking whether the reading result of the word consists of a letter and number, or only the 
+letter C. Once more robust classifiers are built, this part can be replaced with another deciding 
+heuristic, allowing a more variety in tooth notation images to be cleaned. The regular expression 
 only recognizes a small fraction due to frequent errors in bounding box detection.
 
-The images of the words, extracted from the catalogue by the bounding box, that are classified as tooth markings are given first to a binary image classifier deciding whether the tooth 
+The images of the words recognized as tooth markings are given to a binary image classifier deciding whether the tooth 
 is upper or lower jaw and then to a model recognizing if the tooth type is molar, premolar or incisor: as 
-canines lack the number and are recognized as teeth only when Azure claims the word to contain a C, there is 
-no need to re-classify the tooth marking as a canine. It should be noted that as soon as the tooth marking decision 
-heuristic is made more complicated, it is likely that the fourth class has to be added to the tooth type classifier.
-Once the type is decided, the tooth marking image is given to the appropriate index number model. Finally, 
-the three pieces of information obtained; jaw, type and number; are combined as the digital tooth marking 
+canines lack the number and are recognized as teeth only when the Azure Vision result is a letter C, there is 
+no need to re-classify the tooth marking as a canine. It should be noted that as soon as the regular expression
+heuristic is replaced with anything more complex, the fourth class has most likely to be added to the tooth type classifier.
+Once type is decided, the tooth marking image is given to the appropriate index number model. Finally, 
+the three pieces of information obtained, jaw, type and number, are combined as the digital tooth marking 
 notation. As the final step, all words in the element column are concatenated, and all found teeth are 
 collected as a tuple to the tooth records column.
 
-To avoid as much manual verifying of the result as possible, additional confidence information is added 
-to each tooth marking entry. As each classifier produces the probability of the image containing the 
+To minimize required manual verification, additional confidence information is added 
+to each tooth marking. As each classifier produces the probability of the image containing the 
 chosen class as a side result, this probability can be saved as a confidence score. The confidence is taken 
 per element description phrase (such as 'much of R. mandible ($\text{P}_4$ - $\text{M}_3$)') by taking the minimum over all 
 model confidence scores obtained during inference for the tooth records. For example, if in the 
 example description every other decision would be of 100\% confidence but the second tooth being a molar 
 would only have 70\% confidence, the confidence of the entire row would be 70\%. This conservative approach is 
-due to the costliness of errors: one needs to be very certain before data can be left without manual 
+due to the costliness of errors: one needs to be absolutely certain before data can be left without manual 
 verification.
 
-Next, details related to building the models presented in this section and 
-presented.
+Next, details related to building the classifiers presented in this section are specified.
 
 \subsection{Building the models}
 \label{sect:building-models}
@@ -2179,9 +2212,8 @@ presented.
 % so now we know we need these models: restate models. now we choose what to try when building them
 % list subsubsections, these are the aspects
 
-Given the chosen system and a regular expression classifier for words to tooth markings 
-and other words, five classifiers are needed: upper or lower jaw classifier, 
-tooth type classifier, and two downstream index number classifiers for numbers one to three and one to four. The experimental 
+For the dental marking recognition pipeline, four classifiers are needed: upper or lower jaw, 
+tooth type, and two downstream index number classifiers. The experimental 
 section considers design decisions for setting up experiments to build these models with maximal accuracy:
  data preprocessing and augmentation along with base model,
 transfer learning method and hyperparameter selection. After a presentation of  how the training dataset was created, these aspects are considered.
@@ -2193,8 +2225,8 @@ transfer learning method and hyperparameter selection. After a presentation of  
 % finding the correct column (nature of specimen or element), and cropping the image 
 % according to bounding boxes.
 % multiple catalogues used to create training set to get versatile notation
-The dataset with a total of 1105 images was extracted from the fossil 
-catalogues using the first two steps on the processing pipeline in Figure~\ref{fig:pipeline}:
+The dataset with a total of 1\,105 images was extracted from the fossil 
+catalogues using the first two steps on the pipeline in Figure~\ref{fig:pipeline}:
 for each word under the element describing header, the Azure Vision output was classified 
 to tooth or other with the regular expression, and 
 images with tooth notation were cropped out from the catalogue. Along with the image, the 
@@ -2211,14 +2243,15 @@ was completed.
 %(how much val/test error decreases if one classification mistake is made)
 Because incisors and canines were much more rare 
 than molars and premolars in the catalogues, some of the former were manually cropped out 
-of catalogues to achieve more variety among these classes. After this, the differences 
-in sample count between the most frequent class and others was computed, and augmented 
-images were saved for the other classes to make class sample counts exactly equal. The augmentation 
+of catalogues to achieve more variety. After this, sample count differences 
+ between the most frequent class and others was computed, and augmented 
+images were saved for other classes to make sample counts per class equal. The augmentation 
 was implemented using a random rotation of -5 to 5 degrees and a random crop with scale 0.9 to 1.0.
-Train, validation and test split was selected by creating a validation dataset of roughly 200 samples to one sample classification
-error not change test error by more than 0.5\%. For the test set, 100 samples were kept. This resulted in 
+Train, validation and test split was selected by creating a validation dataset of roughly 200 samples to
+ not change test error by more than 0.5\% with one sample classification
+change. For the test set, 100 samples were kept. This resulted in 
 train set sizes, including the images generated to balance classes, of 905 samples for upper or lower, 
-2071 for M, P or I, 1521 for index one to three, and 2026 for index number one to four.
+2\,071 for M, P or I, 1\,521 for index one to three, and 2\,026 for index number one to four.
 
 % labeling:
 % mpi, index number: assume that azure reading is correct where reading is a valid tooth notation
@@ -2227,22 +2260,23 @@ train set sizes, including the images generated to balance classes, of 905 sampl
 %     why an undecipherable class:
 %     - undecipherable upper/lower: the correct answer is not any of the two, so false or correct classification is equally bad, so accuracy does not fully reflect if the model works perfectly or not.
 %     - forcing model to think something a human cannot classify should contain some traits where it could figure which one it is is false and will confuse the model -> worse results
-For data labeling, the outputs from Azure Vision were heavily utilized. For 
+For data labeling, outputs from Azure Vision were heavily utilized. For 
 tooth types and index numbers, if the reading result was a valid class, it was assumed to 
-be correct and used as a label, which saved a significant amount of labeling effort. As the 
+be correct and used as a label, saving a significant amount of labeling effort. As the 
 images were saved in class-specific directories according to the PyTorch ImageFolder interface,
-the correctness of the labels and that all images really were tooth markings could easily be verified by visual inspection. Upper and lower jaw labeling 
+the correctness of labels could easily be verified by visual inspection. Upper and lower jaw labeling 
 was completed manually with a ternary label, zero noting lower, one upper, and -1 an undecipherable jaw.
 The undecipherable class was included as there were images where the jaw could not be decided by a human annotator, 
 and therefore the correct answer for such an instance would be 'unknown'. Forcing these to be either upper or lower jaw 
-would distort the classification task, as perfect accuracy would be an undesirable result as the model should 
-make mistakes with the undecipherable samples, and confuse the model as it is required to find signals on why 
-the notation is either jaw when none are to be found.
+would distort the classification task: perfect accuracy would be an undesirable result as the model should 
+make mistakes with the undecipherable samples, and the undecipherables would confuse the model as it is required to find signals on why 
+the notation is either jaw when none are to be found. Therefore, images with undecipherable jaw side were not given 
+to the classifier.
 
-As the work was completed under a non-disclosure agreement to protect the data, the training datasets were not 
-made public. As the problem ended up being an interesting task from the perspective of optical character recognition, 
-bringing even parts of the catalogue scans available for researchers and machine learning hobbyists could prove to be 
-very valuable both for improving the digitized data quality and advancing character recognition techniques.
+As the work was completed under a non-disclosure agreement, the training datasets were not 
+published. As the problem ended up being an interesting task from the perspective of optical character recognition, 
+bringing even parts of the catalogue scans available for researchers and machine learning hobbyists is encouraged as it could prove
+valuable both for improving digitized data quality and advancing character recognition techniques.
  
 A small sample of the training dataset of premolars is presented in Figure~\ref{image:samples}.
 
