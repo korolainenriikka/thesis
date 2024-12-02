@@ -217,8 +217,8 @@ by each species, drawing conclusions on multitudes of often partially conflictin
 %to motivate the need for representative and accurate dental fossil datasets. As further background on the data, sect 2 presents the
 %mammal teeth row along with relevant terminology.
 This chapter overviews relevant background on paleoenvironmental reconstruction from the perspective of this thesis.
-Section~\cite{sect:ecometrics} highlights dental ecometrics, a method for constructing mappings from dental elements to environmental traits to motivate the 
-need for representative and accurate tooth fossil datasets. As further background on the data, Section~\cite{sect:mammal_teeth} presents the mammal teeth 
+Section~\ref{sect:ecometrics} highlights dental ecometrics, a method for constructing mappings from dental elements to environmental traits to motivate the 
+need for representative and accurate tooth fossil datasets. As further background on the data, Section~\ref{sect:mammal_teeth} presents the mammal teeth 
 row along with related terminology.
 
 \subsection{Dental ecometrics}
@@ -842,7 +842,7 @@ acts as a sliding window, moving through every possible position on the input im
 value is produced by computing the dot product between the kernel and the kernel-sized input region around the processed position, and as usual, a bias term is added and the result is passed through the nonlinear activation function.
 An example of this basic convolution operation on a grayscale image with kernel size 3x3 is given in Equation~\cite{eq:convolution}. 
 For a colored image with three color channels, the kernel becomes three-dimensional. An illustration 
-of such case is found in Figure~\cite{image:3dkernel}.
+of such case is found in Figure~\ref{image:3dkernel}.
 
 \begin{align}
     h_{ij} = a \left[ \beta + \sum_{m=1}^{3} \sum_{n=1}^{3} \omega_{mn} x_{i+m-2, j+n-2} \right],
@@ -957,7 +957,7 @@ further classification tasks. While the
 best top-5 accuracy of 7,3\% ended up with a second place in the ImageNet 2014 competition, the structural simplicity
 and diverse learning capacity of the VGG models had a major influence on later deep learning research.
 
-The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Figure~\cite{image:famouscnns}.
+The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Figure~\ref{image:famouscnns}.
 
 \begin{figure}[h]
     \centering
@@ -1071,7 +1071,7 @@ as a powerful feature extractor: one approach for creating a character-recognizi
 is to first train an autoencoder and then train a classifier by appending 
 fully connected layers to the encoder. This approach has been successfully implemented for the Bangla language~\cite{6shoponBangla}.
 Thus, autoencoders can be used as the source 
-task in transfer learning, as discussed in Section~\cite{sect:transfer_learning}.
+task in transfer learning, as discussed in Section~\ref{sect:transfer_learning}.
 
 \subsubsection{Transformers and the multi-head self-attention}
 
@@ -1147,7 +1147,7 @@ With the self-attention operation, one limitation remains: one attention layer i
 input sequence at a time. To allow multiple interpretations, many self-attention operations are run in parallel, which is 
 called multi-head self-attention. To not increase computation, the token embeddings are divided across the heads, and the 
 results from the value matrix multiplied with the attention matrix are concatenated back together, creating a result of 
-equal dimension as the one-head version. The self-attention operation with multiple heads is summarized in Figure~\cite{fig:multi-head-self-attention}.
+equal dimension as the one-head version. The self-attention operation with multiple heads is summarized in Figure~\ref{fig:multi-head-self-attention}.
 
 \begin{figure}[h]
     \centering
@@ -1200,7 +1200,7 @@ This is called transfer learning and is presented next.
 % basics: what it is, basic premise: if you start out from a parameter configuration that solves a related 
 % task well, there is lesser need to train to solve the new problem~\cite{transferlearning_survey}.
 Much of transfer learning is about what happens before one starts the neural network training process 
-presented in Section~\cite{sect:training}: starting training with a neural network setup, 
+presented in Section~\ref{sect:training}: starting training with a neural network setup, 
 architecture, parameterization and training process configuration already successful at a related task,
 is known to result in a better model~\cite{transferlearning_survey}. As an analogue to human learning, teaching a human transcriber
 to read fossil specimen markings is much easier if the human being has already learned to read.
@@ -1819,20 +1819,18 @@ deep learning models.
 
 \section{Experimental setup}
 
-% now we consider the fossil case again.
-% my goal in this work is xxx.
-
-The goal of this thesis is to recognize special characters used to denote tooth type,
-jaw and index number to increase the accuracy of the element description in
-the digitized fossil catalogue dataset of the National Museum of Kenya. This 
+% consider the fossil case again.
+% my goal in this work is ...
+The goal of this thesis is to recognize tooth type,
+jaw and index number markings to increase the accuracy of the element description in
+the digitized fossil dataset of the National Museum of Kenya. This 
 chapter presents an end-to-end system that achieves this goal and gives reasoning 
-for the design decisions made for the training setups of the required deep learning 
-models.
+for the training setups tested to build  the required deep learning models.
 
-% the hypothesis: doing the pipeline approach and classifying teeth to types with a series of models will result in highly accurate cleaned tooth data
+% the hypothesis: pipeline approach of classifying teeth to types with a series of models will result in highly accurate cleaned tooth data
 %     verify that this is possible
 %     experiment with base models and layer freezing to find best accuracy score
-The main hypothesis is that accurately extracting tooth notation from catalogue images 
+The main hypothesis is that accurately recognizing tooth notation in catalogue images 
 is best completed with a divide-and-conquer approach: by decomposing the main problem into small
 subproblems of simple univariate classification, and chaining these to a tooth detection pipeline,
 the subproblems become easy enough to be solved with perfect accuracy on limited data.
@@ -1844,11 +1842,10 @@ learning models to solve the subproblems involved.
 %     "clean element description tooth markings" set of x to y mappings that can be taught to a deep neural network
 %     and how to build a system from the mappings that achieves the goal
 %     sect 6.2 the training settings attempted informed by literature
-%     for creating the required models is chosen
-This chapter is organized as follows. In Section~\cite{sect:problem-formulation}, the main problem is formulated as a set of $X\to y$ 
-mappings that jointly achieve the ambiguous goal of cleaning the element description column in the fossil 
-dataset. Then, the training settings attempted to build the required models are chosen, informed by
-studied literature, in Section~\cite{sect:building-models}.
+%     for creating the models are chosen
+This chapter is organized as follows. In Section~\ref{sect:problem-formulation}, the tooth recognition problem is formulated as a set of $X\to y$ 
+mappings that achieve the goal of cleaning dental markings in the element description column.
+Then, training settings attempted to build the required models are chosen, informed by literature, in Section~\ref{sect:building-models}.
 
 \subsection{Problem formulation}
 \label{sect:problem-formulation}
@@ -1871,25 +1868,22 @@ from the project output and characteristics of the scan images.
 %             had a bit different style of notating. also no clearly defined standard 
 %             for notating specimens. so might be that actual data used will have 
 %             characters or words not present in training set
-% photo-to-tabular has been done but:
+% photo-to-tabular has been done but
 %     teeth have errors in ocr output (eg tooth types that are not m p i or c)
 %     upper lower jaw is unknown since ocr used in table (azure) cannot read up/low jaw notation
-The fossil catalogue images are hand-drawn tables with information such 
+The fossil catalogues are hand-drawn tables with specimen details such 
 as accession identifiers, localities and element descriptions. The element description 
-column, under the "description" or "element" header in the catalogues, contains 
-information on what part of the skeleton the fossil is from and therefore is the only 
-column with tooth notation. These tables were created before standardized databases
-were available, thus the catalogues occasionally contain special symbols recognizable by humans
-but that might only occur once in the whole set of catalogues. Additionally, 
-no standard exists for how the elements should be notated, perhaps because only a few people 
-created these markings, leading to a less standardized style.
-A sample of the catalogues is presented in Figure~\cite{image:cataloguesample}.
+column specifies which part of the skeleton the fossil is from and therefore is the only 
+column with tooth notation.
+As no exact standard was required, perhaps because only a few people 
+created the markings, there are inconsistencies in notation style. Additionally,
+ad-hoc symbols such as fractions are used with only a few occurences in the whole set of catalogues. 
+A sample of the catalogues is presented in Figure~\ref{image:cataloguesample}.
 The previous project managed to digitize most of the contents of the table, but since 
-the untuned Azure AI OCR model~\cite{azurevision} was used, the tooth notation recognition
-loses information of upper or lower jaw tooth due to special characters, and sometimes
-erroneously recognizes tooth type letters and index numbers as characters one can know 
-to be incorrect with prior knowledge on characters present in tooth notation.
-The aim of the experiments in this work is to find an approach for fixing these errors.
+the generalist Azure Vision model~\cite{azurevision} was used, tooth notation recognition
+loses information of upper or lower jaw and sometimes
+erroneously recognizes tooth type letters and index numbers.
+The aim of the experiments in this work is to fix these errors.
 
 \begin{figure}[h]
     \centering
@@ -1904,15 +1898,15 @@ The aim of the experiments in this work is to find an approach for fixing these 
 % in another column. (give what teeth there are) and put the cleaned teeth to 
 % the description instead of the not clean word
 % to aid in this i have also the generalist OCR ouputs from azure (bounding boxes are assumed)
-The aim is for the end result dataset to contain a column with a tuple of all teeth present in the 
-element description, and to replace the erroneously read teeth in the element column with the correct 
-marking. The notation used in the end result will be the digital notation presented in Table~\cite{table:jaw_notation}.
+The aim is to augment the digitized dataset with a tuple of all teeth in the 
+element description, and to correct the erroneously read tooth markings in the element column.
+The digital notation, presented in Table~\ref{table:jaw_notation}, is used in the end result.
 The recognition will be built assuming that bounding boxes for cropping out individual words in the 
-catalogues are available; for this purpose, JSON files with bounding boxes obtained in the 
-previous project output obtained with Azure Vision are used. An example of the desired output, 
-obtained by hand-annotating as no perfect solution is found in this work, is presented in Figure~\cite{image:goal}. 
-As can be seen from the dataset sample, the end result in terms of the other data is far from perfect, and 
-therefore much remains to be done after this work.
+catalogues are available; for this purpose, Azure Vision output files with bounding boxes
+are used. An example of the desired output,
+created by hand-annotating, is presented in Figure~\ref{image:goal}. 
+As can be seen from the dataset sample, the other data in the end result is far from perfect, thus
+ much remains to be done after this work.
 
 \begin{figure}[h]
     \centering
@@ -1941,27 +1935,27 @@ therefore much remains to be done after this work.
 %             small compared to other ml applications, 1000 is a lot 10k huge.~\cite{Faith_Lyman_2019}
 %             so get a clean sample that is small is still valuable because paleo samples are relatively small
 %         also: not much done before so it is better to start out simple and build from there
-The guiding trade-off to discuss when deciding which neural networks can be of use to achieve the goal
-of corrected tooth notation is between accuracy and generality. The more prior information one gives to 
-the model, or the more constrained the task is for the model, the better the results are. However, a very 
+The guiding trade-off to discuss when choosing the neural networks that could aid in correcting
+tooth notation is between accuracy and generality. The more prior information one gives to 
+the model, or the more constrained the task is, the better the results are. On the other hand, a too
 constrained model is poor at handling the inevitable variability in human-written text.
-The approach implemented aims to start from the most constrained model for multiple reasons. 
-As this domain is relatively unexplored for OCR research, it is a reasonable approach to start out from simple solutions. As one can always first filter out the easiest 
-cases, for instance teeth where bounding box segmentation result is very good, and recognize those,
-cleaning data instances that are easiest is a low-hanging fruit worth starting out from. As more generalist 
-models are usually less accurate even on the easier samples, they are more likely to make mistakes even on these 
-easier cases. Additionally, as the aim of automated digitization is to avoid the tedium of manually checking
-each resulting sample, no model with accuracy less than the human perception level of approximately 99,7\%
-are usable, since even in a case of minor insecurity the sample needs to be checked: sample sizes 
-in paleontological studies are relatively small, thus the cost of a mistake in a dataset is severe as it propagates 
-to every study utilizing the data point.
+The implemented approach aims to start from more constrained models for multiple reasons. 
+As fossil datasets are a relatively unexplored domain in character recognition, starting out from simple
+solutions is reasonable. As one can always filter for and recognize the easiest 
+cases, for instance teeth where the segmentation result is best,
+simple cases present a low-hanging fruit worth starting out from. As more generalist 
+models are usually less accurate on all samples, they make more mistakes even on
+easier cases. Additionally, as the aim of automated digitization is to avoid tedious manual verification,
+ only models with near-perfect accuracy are usable, since even in a case of minor insecurity the sample needs to be checked.
+As sample sizes in paleontological studies are relatively small, the cost of a data mistake
+can be severe and is amplified by these errors propagating to every study that uses the data point.
 
 % first question: is the input the whole phrase, words or characters? sect sequence learning. 
 % since words are better, section tooth thinks about how to solve image of word to tooth type problem.
 % once we know how i show u how to use the models, how the system will work
-With the end goal of correcting the tooth notation and guiding design principle of starting out simple in mind, the next sections will discuss two major questions 
-in how to set up the tooth recognition system: whether to give the whole content of the cell under element header 
- or only a word to the model, and how to set up the target classes for the classification tasks.
+With the end goal of correcting tooth notation and guiding design principle of starting out simple in mind, the next sections will discuss two major questions 
+in how to set up the tooth recognition system: whether to give the whole element desctiption cell content
+ or only a word to the model, and how to set up target classes for the classification tasks.
 
 \subsubsection{By-sequence or by-word recognition}
 
@@ -2139,7 +2133,7 @@ Next, the end-to-end pipeline for getting the tooth markings out of the catalogu
 %     threshold: if below x, mark the row for manual inspection, otherwise dont inspect (esim human level recognition like 99,7\% or smthn)
 % then concatenate description back      
 To summarize the problem formulation discussion above, the end-to-end dental fossil marking system,
-illustrated as a flowchart in Figure~\cite{fig:pipeline}, has 
+illustrated as a flowchart in Figure~\ref{fig:pipeline}, has 
 the following components. 
 
 \begin{figure}[h]
@@ -2185,11 +2179,11 @@ presented.
 % so now we know we need these models: restate models. now we choose what to try when building them
 % list subsubsections, these are the aspects
 
-Given the chosen system and using a regular expression as the classifier of words to tooth markings 
-and other words, a total of five classifiers are needed for the system: the upper/lower classifier, 
-tooth type classifier, and the three downstream tooth index number classifiers. The experimental 
-section considers how to build these models with maximal accuracy, for which several design decisions 
-need to be made for setting up the experiments: data preprocessing and augmentation along with base model,
+Given the chosen system and a regular expression classifier for words to tooth markings 
+and other words, five classifiers are needed: upper or lower jaw classifier, 
+tooth type classifier, and two downstream index number classifiers for numbers one to three and one to four. The experimental 
+section considers design decisions for setting up experiments to build these models with maximal accuracy:
+ data preprocessing and augmentation along with base model,
 transfer learning method and hyperparameter selection. After a presentation of  how the training dataset was created, these aspects are considered.
 
 \subsubsection{Creating the training dataset}
@@ -2198,17 +2192,16 @@ transfer learning method and hyperparameter selection. After a presentation of  
 % Data was extracted from scans by getting bounding boxes from Azure Vision API,
 % finding the correct column (nature of specimen or element), and cropping the image 
 % according to bounding boxes.
-% regular expressioning, mention () , L R
+% multiple catalogues used to create training set to get versatile notation
 The dataset with a total of 1105 images was extracted from the fossil 
-catalogues using the first two steps on the processing pipeline in Figure~\cite{fig:pipeline}:
+catalogues using the first two steps on the processing pipeline in Figure~\ref{fig:pipeline}:
 for each word under the element describing header, the Azure Vision output was classified 
 to tooth or other with the regular expression, and 
 images with tooth notation were cropped out from the catalogue. Along with the image, the 
-OCR reading result was saved. To have as versatile notation as possible, images were 
-extracted from several catalogues.  
-%(TODO: mention here if you add , and () to the regex later!)
+Azure Vision \cite{azurevision} reading result was saved. To have as versatile notation as possible, images were 
+extracted from several catalogues.
 
-% multiple catalogues used to create training set to get versatile notation
+% dataset creation and data balancing
 % train and val from same catalogues, test set from new one to hopefully introduce concept drift
 %     train on train, model select on val, report accuracy on test set -> true not best but more so worse case generalization accuracy, get that high u real good
 % give sample counts after balancing
@@ -2221,8 +2214,11 @@ than molars and premolars in the catalogues, some of the former were manually cr
 of catalogues to achieve more variety among these classes. After this, the differences 
 in sample count between the most frequent class and others was computed, and augmented 
 images were saved for the other classes to make class sample counts exactly equal. The augmentation 
-method used will be presented in Section~\cite{sect:aug}. The dataset sizes and samples counts per class 
-for each model are collected in Table TODO (train val test and samples per class + split ratios for all 5 model training sets!).
+was implemented using a random rotation of -5 to 5 degrees and a random crop with scale 0.9 to 1.0.
+Train, validation and test split was selected by creating a validation dataset of roughly 200 samples to one sample classification
+error not change test error by more than 0.5\%. For the test set, 100 samples were kept. This resulted in 
+train set sizes, including the images generated to balance classes, of 905 samples for upper or lower, 
+2071 for M, P or I, 1521 for index one to three, and 2026 for index number one to four.
 
 % labeling:
 % mpi, index number: assume that azure reading is correct where reading is a valid tooth notation
@@ -2231,7 +2227,7 @@ for each model are collected in Table TODO (train val test and samples per class
 %     why an undecipherable class:
 %     - undecipherable upper/lower: the correct answer is not any of the two, so false or correct classification is equally bad, so accuracy does not fully reflect if the model works perfectly or not.
 %     - forcing model to think something a human cannot classify should contain some traits where it could figure which one it is is false and will confuse the model -> worse results
-For data labeling, the previous outputs from Azure Vision were heavily utilized. For 
+For data labeling, the outputs from Azure Vision were heavily utilized. For 
 tooth types and index numbers, if the reading result was a valid class, it was assumed to 
 be correct and used as a label, which saved a significant amount of labeling effort. As the 
 images were saved in class-specific directories according to the PyTorch ImageFolder interface,
@@ -2248,7 +2244,7 @@ made public. As the problem ended up being an interesting task from the perspect
 bringing even parts of the catalogue scans available for researchers and machine learning hobbyists could prove to be 
 very valuable both for improving the digitized data quality and advancing character recognition techniques.
  
-A small sample of the training dataset of premolars is presented in Figure~\cite{image:samples}.
+A small sample of the training dataset of premolars is presented in Figure~\ref{image:samples}.
 
 \begin{figure}[h]
     \centering
@@ -2268,7 +2264,7 @@ Denoising was implemented due to the images containing noise from small shadows 
 paper texture and eraser smudges with the most basic routine, a Gaussian filter.
 The kernel size 3 was chosen by experimentation and visual inspection. Finally, the images were resized to 
 ImageNet image size of 224x224 using bilinear interpolation. A catalogue sample before and after grayscaling and denoising can 
-be found in Figure~\cite{image:noise}.
+be found in Figure~\ref{image:noise}.
 
 \begin{figure}[h]
     \centering
@@ -2355,7 +2351,7 @@ shear by setting the shear ranges for both x and y directions from 1
 to 10 pixels with the RandomAffine operation. The background was filled in 
 with white after rotation when necessary to match the other background as closely as possible.
  A batch of training images after augmentation
-is presented in Figure~\cite{image:augmented}.
+is presented in Figure~\ref{image:augmented}.
 
 \begin{figure}[h]
     \centering
@@ -2399,10 +2395,10 @@ similar domain than the MNIST dataset of handwritten digits, which is known to c
 % 2 paragraph: selection of base models based on previous work
 % Chosen public dataset was EMNIST~\cite{emnist} because it is the closest to my problem: a large dataset of labeled letters and numbers.
 The ImageNet classifier base models used in this the experiments are selected 
-according to results from related work, reviewed in Section~\cite{sect:same_solution}.
+according to results from related work, reviewed in Section~\ref{sect:same_solution}.
 The models were chosen according to the simple heuristic of checking which base models 
 occurred multiple times when listing the top three models in terms of accuracy. 
-Analyzing Table~\cite{tab:model-info}, EfficientNet models consistently outperform 
+Analyzing Table~\ref{tab:model-info}, EfficientNet models consistently outperform 
 other architectures, most often with the V2S variant, closely followed by the 16-layer variant of the VGG architecture~\cite{vgg},
 DenseNet121, and ResNet101 (todo: cite the model original papers). Therefore, these four architectures were chosen as base models 
 to experiment with. The shortcoming in this base model selection heuristic is that 
@@ -2436,7 +2432,7 @@ even when acknowledging these limitations.
 % until overfits: training error is much larger than test error. sign: we trained too many parameters / for too long
 
 % small dataset -> train less layers to not overfit to the target dataset
-For the transfer method, the reviewed work in Table~\cite{tab:model-info} has a big variety of approaches, 
+For the transfer method, the reviewed work in Table~\ref{tab:model-info} has a big variety of approaches, 
 the only common trend being that freezing less seems to outperform freezing many layers. 
 However, how much to freeze is very dependent on the source and target problem differences;
 in very similar cases the features should be more useful and thus freezing more should work better, 
@@ -2471,7 +2467,7 @@ between approaches fair; if the optimization is better for some case than other,
 longer deduce whether the difference in result accuracy was due to hyperparameter or base model and 
 transfer approach optimality. Therefore, hyperparameters are fixed between experiments to common values 
 used previously in similar tasks. The selected hyperparameters, most chosen as the most popular and 
-number of epochs chosen as an average value among the reviewed works, are summarized in Table~\cite{table:hyperparameters}.
+number of epochs chosen as an average value among the reviewed works, are summarized in Table~\ref{table:hyperparameters}.
 
 \begin{table}[h!]
     \centering
@@ -2555,16 +2551,16 @@ suggestions are presented, informed by the outcomes of this study.
 % 	vit: 2nd, so don't forget about transformers, but don't forget about cnn's either. both seem to work almost equally well.
 % train test dirrecence max 8.59 but most in 0-3\% range. so: very similar train test accs, so: generalizes well
 % initial hypo of freeze more to overfit less does not seem to hold: no larger train val acc differences with less freezing
-The experiment outcomes are collected to Table~\cite{table:results}, and 
+The experiment outcomes are collected to Table~\ref{table:results}, and 
 the most important findings are the following. Using AlexNet as the base model results in the highest 
 validation accuracy with the Vision Transformer as a close second. Having the transformer 
 architecture not as the best but still a competitive result verifies the result 
 from another study that stated CNNs to outperform transformers, but suggests 
 that transformer architectures are worth testing for in building various OCR
 solutions. Another interesting point is that EfficientNet results were the worst of all, 
-which strongly contradicts results of many reviewed works in Section~\cite{sect:same_solution},
+which strongly contradicts results of many reviewed works in Section~\ref{sect:same_solution},
 suggesting that a model found to be better in one study can inform little on its performance on another target task.
-The generalization capability of all models seems to be good, as seen in Figure~\cite{image:diff_hist}:
+The generalization capability of all models seems to be good, as seen in Figure~\ref{image:diff_hist}:
 the difference between training and validation accuracies is in the majority of 
 experiments below 4 \%. As there is little correlation between the magnitude of this difference, 
 a metric for degree of overfitting, and layers trained, the initial hypothesis on freezing more to prevent overfitting
@@ -2632,11 +2628,11 @@ change in accuracy suggests that comparing architectures when target data is sma
 A change in the random seed from 15 to 2, both randomly chosen, was done to check how much the result changes 
 when the only thing changed is the order of training samples in batches. This changes which initial examples are shown to the model,
 changing the initial steps of the learning trajectory, which is important in neural network training~\cite{transferlearning_survey}.
- As seen in Table~\cite{table:random_seed_sensitivity}, the largest difference occurred with one layer 
+ As seen in Table~\ref{table:random_seed_sensitivity}, the largest difference occurred with one layer 
 trained, and the second seed had the validation accuracy increased by 9,09 percentage points. This shows that initial examples 
 are important and can initialize much better or worse learning trajectories. Then, hyperparameter change 
 by changing batch size from 64 to 32, also a random choice, was tested with the AlexNet architecture, and the results 
-changed by 6,49\%, as seen in Table~\cite{table:hyperparameter_sensitivity}. Notably, the best accuracy was outperformed by as much as 4,54 percentage points 
+changed by 6,49\%, as seen in Table~\ref{table:hyperparameter_sensitivity}. Notably, the best accuracy was outperformed by as much as 4,54 percentage points 
 in this setting, more than halving the count of errors. These large variances serve as a good example on the caveats of comparing 
 base models in a small target data transfer setting: since there is no objective metric for the quality of optimization, there 
 is practically no way of knowing what the true reason for accuracy differences between experiments is. In this case, the 
@@ -2681,8 +2677,8 @@ superiority of an architecture over another.
 % resnet and efficientnet: maybe all information on the training dataset was able to be encoded to the first five layers and therefore more unfreezing did not provide more value
 % train the last layer (inspo from~\cite{4zhaoTibetan}, hypothesis of reusing feature extractor as is seems false, training the whole network works better.
 The clearest result from the experiments is that freezing never improved the resulting accuracy. This result was 
-also the only larger consensus among studies reviewed in Section~\cite{sect:same_solution}.
-As is highlighted in the plot of layers trained against resulting accuracy in Figure~\cite{image:accuracy_vs_freezing},
+also the only larger consensus among studies reviewed in Section~\ref{sect:same_solution}.
+As is highlighted in the plot of layers trained against resulting accuracy in Figure~\ref{image:accuracy_vs_freezing},
 there were no exceptions to this relationship. Accuracy of DenseNet and ResNet plateauing can be seen as 
 the model having enough freedom to encode all information present in the training data and therefore adding 
 more trainable parameters did not increase accuracy. To interpret the correlation, the hypothesis that using a feature 
@@ -2729,7 +2725,7 @@ Taking the idea that transfer utility is only about
 seeing more examples further, one can even hypothesize whether the superiority of ImageNet over other base tasks, like MNIST, is 
 due to the transfer distance being shorter or if the reason is the sheer size of the dataset. Summarizing all this, the lesson learned
 can be boiled down to one phrase, inspired by the GoogLeNet inspiring meme presented in 
-Figure~\cite{image:meme}, one can simply say "we need to go further"; the way forward is simply exposing the model to more examples, 
+Figure~\ref{image:meme}, one can simply say "we need to go further"; the way forward is simply exposing the model to more examples, 
 and re-using the previously learned as much as possible.
 
 % back to the higher level task of constructing the pipeline: test 
