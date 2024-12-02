@@ -8,8 +8,8 @@
 \tikzstyle{nnmodel} = [trapezium, draw=black, fill=blue!20, trapezium left angle=120, trapezium right angle=120]
 \tikzstyle{textcontainer} = [rectangle]
 \tikzstyle{imageframe} = [rectangle]
-\tikzstyle{arrow} = [thick, ->, >=stealth, draw=Maroon]
-\tikzstyle{nonactivearrow} = [thick, ->, >=stealth, draw=Maroon!30]
+\tikzstyle{arrow} = [thick, ->, >=stealth, draw=Maroon, shorten <= 3px, shorten >= 3px]
+\tikzstyle{nonactivearrow} = [thick, ->, >=stealth, draw=Maroon!30, shorten <= 3px, shorten >= 3px]
 
 \begin{document}
 
@@ -35,8 +35,7 @@
     \draw [nonactivearrow] (mpic) -- (pindex);
     \draw [arrow] (mindex) -- node[anchor=east, yshift=-0.2cm] {m3} (end);
     \draw [nonactivearrow] (pindex) -- (end);
-    \draw [nonactivearrow] (mindex) -- (end);
-    \draw[thick, draw=Blue] (toothornot) -- node[anchor=south] {other} (-1.7,-2) -- (-1.7,-8);
+    \draw[thick, draw=Blue] (2.1,-2) -- node[anchor=south] {other} (-1.7,-2) -- (-1.7,-8);
     \draw[->, thick, draw=Blue] (-1.7,-8) -- (2.7,-8);
     \draw[thick, draw=Maroon!30] (mpic) -- (8.5,-5) -- (8.5,-8);
     \draw[->, thick, draw=Maroon!30] (8.5,-8) -- (4.7,-8);
