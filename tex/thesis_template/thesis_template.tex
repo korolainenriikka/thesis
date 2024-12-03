@@ -1286,158 +1286,47 @@ This is called transfer learning and is presented next.
 \section{Transfer learning}
 \label{sect:transfer_learning}
 
-% % introduction
-% relation to the coarse level training loop: how to initialize model parameters
-% basics: what it is, basic premise: if you start out from a parameter configuration that solves a related 
-% task well, there is lesser need to train to solve the new problem~\cite{transferlearning_survey}.
-Much of transfer learning is about what happens before one starts the neural network training process 
-presented in Section~\ref{sect:training}: starting training with a neural network setup, 
-architecture, parameterization and training process configuration already successful at a related task,
-is known to result in a better model~\cite{transferlearning_survey}. As an analogue to human learning, teaching a human transcriber
-to read fossil specimen markings is much easier if the human being has already learned to read.
+% relation to neural net training: select good param initialization
+% human analogue
+Much of transfer learning is about what happens before training a neural network is started: using an architecture and starting training from a parametrization already successful at a related task
+is known to result in a better model~\cite{transferlearning_survey}. As an analogue to human learning, teaching a human transcriber to read fossil specimen markings is easier if the person already knows how to to read.
 
-% this sect from~\cite{transferlearning_survey}. they initially formalized the problem and uniformized 
-% the terminology
-% % why transfer learning
-% why: save compute (imagenet models vgg lenet alexnet training times 5 days to 3 weeks even when using GPUs~\cite{vgg}) and data labeling (usual constraints in ml model building~\cite{engbook})
-% also why: training many parameters on a dataset overfits model to the dataset, so freezing layers prevents overfitting~\cite{googlelenet},
-% optimization idea: using pretraining that makes sense, you start from a parameter configuration in a 'basin of attraction'
-% of a good minimum~\cite{erhanWhyDoesUnsupervised2010}, ie a place where gradients point toward a good local minimum
-%     training is strongly influenced by early examples so pretraining prevents overfitting to the supervised task 
-%     get sgd trapped in a parameter space that is better so resulst is better even when target data is abundant~\cite{erhanWhyDoesUnsupervised2010}   
-% seeing model as model doing the feature engineering: all but last layer are like 
-% feature extraction that allows a linear model to be fit from features to output.
-%     first layers learn lower level features, higher up more high level~\cite{erhanWhyDoesUnsupervised2010}, so how much to freeze is about how
-%     high level features are usable     
-% central idea in all of these: model first n-1 layers is a feature extractor
 
-% order of ideas
-% sensitivity to early examples
-% therefore start with generalist pairs to start -> good basin of sgd -> prevent overfit
-% intuitively model has seen more -> better generalization
-% practically how done: feature hierarchy is a thing -> freeze first layers
-% end result of this
-% save compute 
-% save labels
-
-Transfer learning has the significant benefits in building accurate neural networks 
-of aiding in optimization, generalization and regularization, and saving computational resources and labeling effort~\cite{erhanWhyDoesUnsupervised2010, transferlearning_survey}.
-The experimental section presented by Erhan et al.~\cite{erhanWhyDoesUnsupervised2010} found a theoretical explanation for these benefits: they
-experimented with ordering of the training data, and found 
-that early examples have a significant influence on the further learning trajectory, trapping the optimizer in a parameter region that is later very hard, 
-if not impossible, to escape. For this reason, withholding training examples from the actual task until later helps the model not overfitting to the training 
-set, as the initial examples do not trap the optimizer to an undesirable parameter region. Intuitively, as the model in this way 
-also sees more versatile examples related to the problem, it is known that the end result generalizes better to unseen test data~\cite{transferlearning_survey}.
-The practical implementation of transfer learning is better understood when one views a neural network as a hierachical feature extractor:
-the first layers learn very low-level features of the input, and downstream layers combine this information to learn higher-level concepts.
+% why transfer learning
+% early example gradient trap to better region -> generalist early examples lead to a better region
+% better generalization (model has seen more)
+% computational cost is saved by reusing low level features -> freeze early layers --> less data & labeling needed, but also helps when data is abundant
+Transfer learning benefits constructing neural networks 
+by aiding in optimization, generalization and regularization, and saving computational resources and labeling effort~\cite{erhanWhyDoesUnsupervised2010, transferlearning_survey}.
+Erhan et al.~\cite{erhanWhyDoesUnsupervised2010} found a theoretical explanation for these benefits: they
+experimented with ordering the training data and found 
+that early examples have a significant influence on the learning trajectory trapping the optimizer in a parameter region that is later very hard, 
+if not impossible, to escape. Therefore, seeing examples from another learning task prevents overfitting by avoiding the optimizer getting trapped in undesirable parameter regions. As the model also sees more versatile examples, it is known that the end result generalizes better~\cite{transferlearning_survey}.
+The practical implementation of transfer learning is better understood when one views a neural network as a hierarchical feature extractor:
+first layers learn low-level features of the input, and downstream layers combine these to higher-level concepts.
 In the letter-recognition case, a low-level feature could be noticing edges, and a higher-level feature that the edges curve and intersect in 
-specific ways. The idea is that the lower level features are common between tasks, and therefore it is beneficial to reuse them by only 
-adjusting the lower layer parameters during training. This approach of not training first layers is also called 'freezing' layers.
-By freezing parameters the search space for optimal configuration of the remaining parameters is greatly reduced, saving both computational 
-and training data quantity requirements significantly. As data labeling is one of the most laborious aspects of creating deep networks~\cite{engbook},
-this is a significant benefit. However, even in cases where labeled training data is abundant, pre-training on another dataset has 
-benefits, likely due to the generalization and early example influence aspects discussed above~\cite{erhanWhyDoesUnsupervised2010}.
+specific ways. As lower level features are common between tasks, they can be reused by fixing first layers, also called \textit{freezing} layers,
+and adjusting only the lower layer parameters during training.
+Freezing parameters reduces the search space for optimal configuration of the remaining parameters, saving computational resources. Additionally, required quantity of labeled training data is reduced, saving on one of the most laborious aspects of creating deep networks~\cite{engbook}.
+A way to circumvent even more labeling is using a self-supervised learning task, such as an autoencoder, as discussed in \ref{sect:autoencoders}. Taking this a step further, source models trained in an self-supervised manner on huge data sets and being usable for almost any target task are called \textit{foundation models} and have gained significant research attention lately. However, even in cases where labeled training data is abundant, pretraining on another dataset is beneficial likely due to the generalization and early example influence aspects~\cite{erhanWhyDoesUnsupervised2010}.
 
-% % types of transfer learning, terminology
-% source task (what y is learned with what x), target task. source/target domain (what X what y)
-% inductive transfer, transductive transfer, instance transfer, relational knowledge transfer
-% instance transfer: reuse source data
-% domain (transductive) transfer (only data differs)
-% task (inductive) transfer: tasks differ, data same or different
-% task transfer relatedness + the more related the better results
-%     negative transfer ie things made worse if things differ too much.
-%     super important to consider the distance of transfer ie how similar the tasks are
-% broad methods for inductive transfer: feature representation transfer, parameter transfer; priors or hyperparameters of model are assumed to be shared,
-% skipped: instance transfer relational-knowledge-transfer: when data is not i.i.d (not considered here)
-While the principle of transfer learning was known with many variants and names before, the first survey on 
-the topic~\cite{transferlearning_survey} collected all these ideas under the term transfer learning and established further 
-terminology related to the paradigm. The first problem solved by the neural network is called the source;
+% this sect from~\cite{transferlearning_survey}. they initially formalized the problem and uniformized the terminology, present relevant here
+% source & target task
+% transfer distance
+% classification to kinds of transfer by if source/target task/domain changes
+% formalizing dental ocr with transfer learning terms
+While the principle of transfer learning was known with a veriety of names before, the first survey on  the topic~\cite{transferlearning_survey} collected all these ideas under the term transfer learning and established further terminology related to the paradigm. The first problem solved by the model is called the source;
 the mapping $X\to y$ is termed the \textit{source task}, and the input and output pair distribution $P(y|X)$ is termed the \textit{source domain}.
 Similarly, the next task solved is called the target, with mapping being the \textit{target task} and the data distribution the \textit{target domain}.
-A less rigorously defined term for referring to the similarity of the source and the target is in many works called \textit{transfer distance}, and will also be used in 
-this work. The subtypes of transfer learning are distinguished by which aspects of 
-the source and the target differ from each other, and by how much. The case where the 
-source and target task are different is called \textit{inductive transfer}, 
-irrespective of if the domains differ. If tasks are the same, but the source and target 
-domain differ, \textit{transductive transfer} is conducted. Within inductive transfer, 
-re-using parameters obtained by training the source task is called \textit{feature representation transfer},
-a common approach. Re-using training hyperparameters is called \textit{parameter transfer}.
-Other terms, not relevant for this work include \textit{instance transfer}, where source domain data 
-is re-used in target training, and \textit{relational knowledge transfer}, where source and target 
-domain are related in a systematic way.
+A less rigorously defined term for referring to the similarity of the source and the target is \textit{transfer distance}. Transfer learning is further divided to subcategories according to if source and target tasks or domains differ. In our task, where the source is image classification and target is character classification, tasks differ, which is a problem of \textit{inductive transfer}.
+As both features and hyperparameters are re-used, both \textit{feature representation transfer} and \textit{parameter transfer} is implemented. Should one in the future want to fine-tune the models 
+developed in this work with catalogues from another institution, only the domains would differ, creating a \textit{transductive transfer} setting with a much shorter transfer distance than in our case.
 
-% % using the terminology from  transfer learning, define my problem
-% my task. source task is image classification with different data than mine
-% inductive transfer where data and task differ.
-% i will test both only feature representation transfer (re-search for optimal hyperparameters)
-% and parameter transfer (use hyperparameters used in source model training)
-% different countries mark tooth fossil in different notation, so fine-tune to adjust
-Using the terminology of transfer learning, the problem of reading handwritten 
-tooth notation can be formalized in the following way. The source task is image classification,
-either of handwritten characters or of images of various objects; the ImageNet task~\cite{imagenet}.
-Which one of these works better will depend on for which one the transfer distance is shorter.
-This is not entirely obvious in favor of handwriting datasets as they are idealistic benchmark datasets, 
-so they might differ from real world character images more than real-world images of other objects. The target task is detecting the tooth markings from tooth character images, and as the source and target 
-tasks and domains differ, this is a problem of inductive transfer. The experiments are 
-set up in a way that initially, the hyperparameters and 
-parameters used in source task are re-used, thus both feature representation and parameter 
-transfer is conducted. After that, a hyperparameter optimizer is run, thus the next experiments 
-become only feature representation transfer. Should one in the future want to use the model 
-developed in this work for catalogues from different institutions, it would be a good idea to 
-further train the model on catalogues from the new archives. This would be transductive transfer learning, 
-and as the only difference would be a different target domain, the transfer distance is much smaller 
-than in these experiments.
-
-% % how transfer learning is used in this work: skip anything that does not do transfer learning
 % basically nowadays it is usually insensible to ever train from scratch~\cite{cs231n_transfer_learning}
-% therefore this work definitely transfer learns. also previous work that does not transfer learn is dismissed, 
-% as it does not inform this case where target data is scarce
-In the literature review and experiments presented above, it is assumed that training 
-from scratch, starting training from a random parameter initialization, in no case works 
+% therefore previous work that does not transfer learn is dismissed
+In the literature review and experiments, it is assumed that starting training from a random parameter initialization, \textit{from scratch}, in no case works 
 better than transfer learning, a consensus largely shared among the machine learning community~\cite{cs231n_transfer_learning}.
-For this reason, research works implementing new character set recognition by training from scratch 
-are omitted from the literature search. Only very few articles were dismissed for this reason.
-
-\subsection{Foundation models}
-
-% % why
-% opening... kinda how far can we take this transfer thing, how far
-% Idea: since transfer learning source task performance is not important, target task is the main point~\cite{transferlearning_survey}, 
-% you can come up with some nonsensical task such as map image to the same image to get unsupervised task, train 
-% massively on massive compute, and use the model for varieties of tasks. idea: do as little as possible in the target domain
-% because labeling is the expensive thing~\cite{engbook}, this helps because unsupervised or selfsupervised allows 
-% however many labeled samples one wants.
-% % what
-% come up with task with no value in itself but learns useful features. eg identity mapping in autoencoders,
-% mask a part of an image and fill it in, get in a pair of images and say whether they are a transformation of one another.
-% save the pretrained model, can be used with transfer learning in manymany tasks
-% foundation because foundational traits are learned of the input data
-% benefit: regularization
-Foundation models can be viewed as an extreme version of transfer learning: how far one can 
-move in terms of transfer distance, and how versatilely one can use a single pre-trained model, 
-while still reaching adequate target task results. Additionally, as the source task 
-performance is irrelevant from the view of the target task~\cite{transferlearning_survey}, one can construct source tasks 
-that have no practical value in themselves but are favorable in that obtaining labeled data 
-is easy. This is the motivation behind unsupervised and self-supervised pretraining,
-tasks where the input-output pairs for the source task can be constructed automatically, and having the 
-neural network learn a mapping behind them results in good features. These tasks include the identity 
-mapping $X\to X$ of autoencoders, masking parts of the image and having the model learn to
-impaint the missing part, or learning which image pairs are transformed, for instance rotated,
-versions of one another. Very large models trained with lots of computational resources 
-and then used versatilely are called \textit{foundation models}, as they are thought of 
-encoding foundational, generic knowledge of the data domain. A famous example of 
-a foundational model is the GPT model family by OpenAI, trained 
-by giving the model starts of sentences to continue. 
-Anyone can test transferring the foundational knowledge on text by prompting the open chat variant of the model a new task, 
-such as solving elementary math equations.
-
-% % ocr
-% well this is used in ocr as well.
-% so you would take some model trained on a large mass of data and then fine tune it on the characters
-In handwritten character recognition, unsupervised pretraining is in some cases used 
-with autoencoders: the model is trained to reconstruct the input image, and these encoder parameters
-are then used in the target task of classifying the images to characters~\cite{6shoponBangla}.
-However, this is an approach less established than the supervised pretraining variant.
+For this reason, research works implementing new character set recognition by training from scratch are omitted from the literature search.
 
 % end of section
 % this section presented relevant background on neural networks
@@ -1464,9 +1353,7 @@ an output, comparing it with the correct output, and adjusting the parameters in
 of better output producing parameters. Transfer learning means that this process is started with a 
  parameters that is assumed to be closer to the best parametrization than an average 
 random initialization. The following chapters will review previous experiments implementing 
-neural network training with transfer learning to solve the mapping task of outputting correct character 
-given the image of the character, and experiment with the approaches used the previous successful 
-attempts to correctly classify handwritten tooth fossil markings.
+neural network training with transfer learning to solve the task of character image classification, and experiment with previously successful approaches to correctly classify handwritten tooth fossil markings.
 
 \chapter{Related Work}
 
