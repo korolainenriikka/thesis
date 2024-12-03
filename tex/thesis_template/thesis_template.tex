@@ -1372,16 +1372,16 @@ with deep neural networks and transfer learning with limited target domain data.
 % Frontiers in Handwriting Recognition
 
 The literature search was conducted with a snowball search, proceeding with relevant forward and backward citations 
-of a few key articles. Additionally, approximately last five to ten years of conference proceedings most relevant for this problem area were 
+of key articles. Additionally, last five to ten years of conference proceedings most relevant for this problem area were 
 scanned. For related work on fossil digitization, any found work touching on the subject area will be commented on due to their 
 limited amount. For work conducting a similar analysis of handwritten character recognition, more strict conditions were placed. 
 For results, to be considered, the work had to be explicit about the best accuracy score achieved,
-mentioning the size of the training dataset, number of characters within the classification problem, and the percentage 
-of correct inferences with the test set. The source of the base model had to be given along with its source task, training data
+mentioning the size of the training dataset, number of characters within the classification problem, and accuracy on the test set.
+ The source of the base model had to be given along with its source task, training data
 and network architecture. The exact method of conducting the model fine-tuning had to be explicit enough to be reproducable,
 work simply stating they used transfer learning or leaving gaps in the training process were omitted. Additionally, 
-publication venue reputation and acceptable text and presentation quality were taken into account, and some work had to be
-omitted because of undecipherable method descriptions or a lack of necessary detail.
+publication venue reputation and acceptable presentation quality were taken into account, and some work had to be
+omitted because of undecipherable or missing detail.
 
 % lists best accuracy clearly (percent, which dataset, number of classes)
 % specifies the base model used (architecture and source domain dataset)
@@ -1396,32 +1396,30 @@ omitted because of undecipherable method descriptions or a lack of necessary det
 While digitizing handwritten fossil catalogues holds,
 should all state of the art optical character recognition and data management methods 
 be in full use for solving the problem, perhaps a dramatic potential for improving 
-the quality of paleoecological research, surprisingly little has as of now been done in this area.
-Likely due to the simple fact that the problem has attracted little attention, 
-most current work assumes the most rudimentary method: a human 
-being sitting down, and transcribing.
+the quality of paleoecological research, little has as of now been done in this area.
+Likely due to the fact that the problem has attracted little attention, 
+most current work assumes the most rudimentary method: a person sitting down, and transcribing.
 
 %~\cite{uhenCardCatalogsComputers2013} reviews various digital paleo data portals. encourages further digitization but 
 % does not really mention how one should go about doing that
 %~\cite{mallisonDigitizingMethodsPaleontology2011} review of digitizing fossil data. only considers digitizing 
 % physical bone pieces to various 3d images. does not take any stand on digitizing handwritten notes on the samples 
-Due to large amounts of transcription work already done, digital repositories of fossil data do exist. A notable review 
-by Uhen et al.~\cite{uhenCardCatalogsComputers2013} reviews such databases and encourages further 
+Due to large amounts of transcription work already done, there are digital repositories of fossil data.
+Uhen et al.~\cite{uhenCardCatalogsComputers2013} reviews such databases and encourages further 
 digitization of unpublished data, but does not take a stand on how one should complete such work.
 Another more extensive review, a whole chapter on digitization methods in paleontology has been written~\cite{mallisonDigitizingMethodsPaleontology2011},
-but the chapter exclusively considers digitizing physical bone and plant pieces with various 3D imaging methods, and briefly touches on preferring digital journals over 
-paper-printed distribution of research.
+but the chapter exclusively considers digitizing physical bone and plant pieces with various 3D imaging methods.
 
 %~\cite{groomImprovedStandardizationTranscribed2019} does identify my problem here: most fossil data is in handwritten paper 
 % format with many things already known such as taxon. gives suggestions on data format and management but mostly assuming 
 % that there is a human transcriber. presents ocr reading as a possibly one day possible option. Notes that especially cleaning of automated ocr read data is a hard problem.
-For actual, automated handwriting recognition, a few mentions do exist in previous work. The data management themed 
-article by Groom et al.~\cite{groomImprovedStandardizationTranscribed2019} does identify the primary 
-problem of this thesis: the article mentions the fact that most fossil data exists as handwritten records with sufficient information 
-to conduct analysis without the physical sample, and a big advancement in data availability would be to efficiently and in a consistent 
-manner convert this data to a structured database. Optical character recognition is presented, but more as a futuristic option 
+For automated handwriting recognition, a few mentions exist in previous work. The data management themed 
+article by Groom et al.~\cite{groomImprovedStandardizationTranscribed2019} identifies the primary 
+problem of this thesis: it is mentioned that most fossil data exists as handwritten records with sufficient information 
+to conduct analysis without the physical sample, and that a big advancement in data availability would be to efficiently and 
+systematically convert this data to a structured database. Optical character recognition is presented, but more as a futuristic option 
 not feasible with current methods, and any data quality suggestions implicitly assume that transcription is completed 
-by a human being. This review is still relevant for automated digitization as many important considerations in data structuring,
+by a human. This review is still relevant for automated digitization as many important considerations in data structuring,
 standardization and quality management are presented - revealing the new challenge that should large-scale automated digitization succeed,
 the next big line of work would be how to structure and manage the digital paleontological data.
 
@@ -1430,17 +1428,17 @@ the next big line of work would be how to structure and manage the digital paleo
 % which is very very far away from working ocr. the paper lists absolutely no results but is an evidence that someone has somewhere at least 
 % attempted this.
 The only found work solving the exact same challenge as this work is the article by Shanmugavel et al.~\cite{shanmugavelHandwrittenOpticalCharacter2018}.
-While the problem is exactly the same, the methods only contain some of the most basic computer 
-vision processes, edge and contour detection, and a complete lack of results reveal that not much was achieved in 
+While the task is exactly the same, the methods only contain basic computer 
+vision processes, edge and contour detection, and a lack of results reveals that not much was achieved in 
 this project. However, it serves as a proof that such attempts have taken place in previous years.
 
 % So: to the best of my knowledge there is no other work successfully reading handwritten fossil scans or cleaning 
 % already automatically read systems outside of 2024 spring data science project for KNM, for which this is the 
 % continuation. therefore also here i will do the simplest things first, since it is a good idea to start with simple and 
 % once successful, proceed to harder problems that would digitize and clean more data.
-Concluding the review on research articles about digitizing handwritten fossil data, it seems that no successful projects
-have as of yet been completed outside of the Data Science student project in spring 2024 for the National 
-Museum of Kenya, for which this work is a continuation. For this reason, the experiments in this thesis will 
+Concluding the review of research articles on digitizing handwritten fossil data, it seems that no successful projects
+have as of now been completed outside of the Data Science student project in spring 2024 for the National 
+Museum of Kenya, for which this work is a continuation. Therefore, the experiments in this thesis will 
 start out with the simplest problem reductions and only present more advanced techniques as ideas for future work.
 The rationale behind this decision is that since not much has yet been done, it is best to start out from 
 simple and established implementations to verify simple hypotheses before proceeding to more recently developed mehods.
