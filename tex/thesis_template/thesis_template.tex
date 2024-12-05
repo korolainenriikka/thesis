@@ -110,22 +110,22 @@
 
 Digitizing and uniformizing the structure of handwritten fossil catalogues exhibits a great 
 potential for increasing the accuracy of paleontological data analysis by increasing sample sizes. 
-Approximately 90, 000 of such samples reside in the archives of the National Museums of Kenya, and 
+Approximately 90\,000 of such samples reside in the archives of the National Museums of Kenya, and 
 an ongoing effort is to store this data in a digital format for better accessibility.
 A previous project utilized a commercial optical character recognition service for automated reading of these catalogues. This generalist
 handwriting detection model lacked the ability to detect special characters used to denote tooth samples,
  leading to loss of information and detection mistakes.
 
-This thesis proposes a classifier chain approach for detecting which tooth is shown on an image of tooth marking 
+This thesis proposes a classifier chain approach for detecting which tooth is shown on an image of a tooth marking 
 and a pipeline for using this tool for uniformizing the dental notation present in 
 the bone or tooth type specifying column. The best base model is searched by comparing multiple convolutional and transformer architectures
 to classify notation to upper or lower jaw, with the best accuracy of 96\% using AlexNet. 
 In the experiments it is found that the quality of optimum found in training affects end results significantly,
 leading to margins of error up to 10\% for architecture comparisons in a small data case.
-The most clear result is that not freezing layers, without exception, leads to better result.
+The clearest result is that not freezing layers, without exception, leads to better result.
 Because of this it is theoretisized that the utility of transfer learning mostly comes from 
-being able to train more rather than being able to re-use a feature extractor.
-The pipeline with best-performing classifiers based on the experiments is used to
+being able to train more, rather than being able to re-use a feature extractor.
+The pipeline with best-performing classifiers is used to
 to obtain an accurate reading of the catalogues of the National Museums of Kenya, and the tool is published to be used 
 by the paleontological community for further digitization efforts.
 
@@ -376,7 +376,7 @@ tooth types found in a region during a set geological time period. The previousl
 %the turkana basin where my data is from: 
 %theres human evolution (forteloius) and especially dense mammal record (fortelius) and many environmental changes (nowdatabase)
 
-Many studies on paleoenvironmental reconstruction list data availability as one of the most major limitations~\cite{oksanenHumboldtianApproachLife2019 fortelius}.
+Many studies on paleoenvironmental reconstruction list data availability as one of the most major limitations~\cite{oksanenHumboldtianApproachLife2019,fortelius}.
 As geoglogical time spans are huge, studies have to 
 resort to time resolutions of hundreds of thousands of years (eg.~\cite{fortelius}) because of a lack 
 of sufficient sample sizes. It seems that one of the major hurdles in verifying a hypothesis on 
@@ -461,7 +461,7 @@ over- or underline tooth markings, and the last style, prominent in digital foss
 In each of these systems, a superscipt, underline, or capital letter denotes upper jaw, and conversely subscript, overline or lowercase letter denotes the lower jaw.
 An illustration of the mammal tooth system is presented in Figure~\ref{image:mammal_teeth}. Terminology with corresponding shorthands are summarized in Table~\ref{table:terminology} and jaw notation styles in Table~\ref{table:jaw_notation}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.43]{images/teeth_img_hillson_book.png}
     \caption{Mammal teeth composition, from Hillson~\cite{Hillson_2005}.}
@@ -538,7 +538,7 @@ weight, and an edge denotes that the value on the first layer is used to compute
     \label{eq:relu}
 \end{align}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \begin{tikzpicture}[->, shorten >=1pt, auto, node distance=1.5cm, main node/.style={circle, draw, minimum size=0.8cm}]
 
@@ -731,8 +731,7 @@ determining optimal stopping conditions is a difficult problem area within neura
 % 8. test on unseen test data to see generalization performance
 After the training is completed, the test dataset laid to the side at the start of 
 training is used to evaluate the predictive power of the network on unseen data, 
-also known as generalization performance. Metrics for measuring the accuracy 
-of a readily-trained model are presented in Section~\ref{sect:eval_metrics}.
+also known as generalization performance.
 At this point the model should be considered 'frozen', as adjusting it would 
 optimize the model to the small test set, not the general problem. This pitfall is 
 known as 'data leakage'~\cite{engbook}.
@@ -831,20 +830,16 @@ where $N$ denotes dataset size, $y_i$ the correct label, and $f(x_i, \mathbf{\th
 % different ways of constructing layers, makes model pay more attention to desired things
 % and reduces parameter count from fully connected layers, ie. encode priors~\cite{alexnet}
 
-Neural network architectures are alternative ways of constructing the 
-network layer computations for cases where the standard 
-fully connected layer computation presented in Equation~\ref{eq:fc_layer}
-is not ideal. Alternative layer types are used to make the model pay more attention to desired 
-aspects~\cite{alexnet}, such as image structures ignoring the absolute position of these structures in image processing, or 
-character sequences only before a specified position in the sequence in language models.
+Neural network architectures are alternative ways of constructing networks of layers with different computations for cases where the standard variant presented in Equation~\ref{eq:fc_layer} is not ideal. Alternative layer types are used to make the model pay more attention to desired 
+aspects~\cite{alexnet}, such as image structures ignoring their position in image processing, or features most usable for summarizing data in autoencoders.
+%character sequences only before a specified position in the sequence in language models.
 
 % outline of section
 % topic of paragraph: this section presents architectures & first models that are commonly used in image tasks, initially imagenet
 % missä on relevantteja. näitä arkkitehtuureita käytetään handwritten character classification tasks
 This section presents layer types used in handwritten character classification 
-solutions along with neural networks that first introduced them.
-The layer types relevant in this work include convolutional layers, autoencoders, and the multi-head self-attention operation used in transformer 
-architectures, and are presented next.
+along with model architectures that first introduced them.
+These are convolutional layers, residual connections, autoencoders, and the multi-head self-attention operation used in transformer architectures, and are presented next.
 
 \subsection{Convolutional layers}
 % % why convolve
@@ -852,10 +847,9 @@ architectures, and are presented next.
 % and cpu, get as good model as you can requires constraining the problem by making assumptions~\cite{alexnet}
 % practical use: less parameters required -> less computational complexity
 
-The primary motivation for the introduction of convolutional layers was to find a way to encode prior information 
-on images in general to the network architecture: force the network, by adjusting its computational 
-algorithm, to pay attention to particular aspects while ignoring others. Constraining the problem with 
- prior assumptions allows reducing the network parameter count per layer, which frees up 
+The primary motivation for the introduction of convolutional layers was to find a way to encode general prior information 
+on images  to the network architecture: force the network, by adjusting its computational 
+algorithm, to pay attention to particular aspects while ignoring others. Constraining the problem with priors allows reducing parameter count per layer, which frees up 
 computational resources to training further and with more data~\cite{alexnet}.
 
 % prior encoded: move image a bit and it is still an image of the same object (translation invariance)
@@ -868,44 +862,42 @@ computational resources to training further and with more data~\cite{alexnet}.
 % that order of pixels does matter. read prince: how fc layers treat locality and explain here. maybe a figure:
 % translation invariance and smoothness (snowfall and an image, m and 1 pixel shifted m)
 
-The two main pieces of prior knowledge encoded to the convolutional layer computation
- are invariance to transformations and local relatedness of pixels~\cite{princebook}.
-Transformation invariance refers to the fact that morphing an image usually keeps the semantic meaning: for instance
+The two pieces of prior knowledge encoded to the convolutional layer computation
+ are invariance to geometric and pointwise transformations and local relatedness of pixels~\cite{princebook}.
+Transformation invariance states that morphing an image keeps the semantic meaning: for instance,
  moving a letter A in an image, 
 rotating it, coloring it red, or squishing it still preserves the fact of it being a letter A. Local relatedness 
-encodes the fact that pixels that are next to each other are much more likely to have same intensity values than any other 
-values, and that the pixels cannot be shuffled without losing meaning. A visualization of these assumptions can be found in 
-Figure~\ref{fig:conv_assumptions}.
+encodes that most pixels next to each other have similar intensity values and that pixels cannot be shuffled without losing meaning. A visualization of these assumptions can be found in Figure~\ref{fig:conv_assumptions}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \resizebox{0.6\linewidth}{!}{%
+    \resizebox{0.7\linewidth}{!}{%
         \begin{minipage}[b]{0.45\linewidth}
             \centering
             \includegraphics[width=\textwidth]{images/snowfall.png}
             \subcaption{An image with no nearby pixel similarity, such as this image made up of random numbers, is assumed to never occur among real-world images.}
             \label{fig:snowfall}
         \end{minipage}
-        \hspace{0.5cm}
+        \hspace{0.4cm}
         \begin{minipage}[b]{0.45\linewidth}
             \centering
             \includegraphics[width=\textwidth]{images/cataloguesample.png}
-            \subcaption{In a real image, most pixel colors are almost equal to neighboring pixel values. Segment from 
+            \subcaption{In a real image, most pixel colors are almost equal to neighboring pixels. Segment from 
             the Fort Tenan Catalogue of the National Museum of Kenya.}
             \label{fig:snowfall2}
         \end{minipage}
     }
 
-        \vspace{0.5cm}
+        \vspace{0.4cm}
 
-    \resizebox{0.6\linewidth}{!}{%
+    \resizebox{0.7\linewidth}{!}{%
         \begin{minipage}[b]{0.45\linewidth}
             \centering
             \includegraphics[width=\textwidth]{images/molar.png}
             \subcaption{Transform invariance: the original tooth notation sample...}
             \label{fig:snowfall3}
         \end{minipage}
-        \hspace{0.5cm}
+        \hspace{0.4cm}
         \begin{minipage}[b]{0.45\linewidth}
             \centering
             \includegraphics[width=\textwidth]{images/rotated_molar.png}
@@ -925,75 +917,36 @@ Figure~\ref{fig:conv_assumptions}.
 % result is the dot product of the pixels in equal positions, eq 10.6
 % if the image is rgb, kernel is 3d with depth 3. (bike fig 10.10 here)
 The layer output computation on a convolutional layer is similar to the fully connected layer computation
-presented in Equation~\cite{eq:fc_layer}, but takes as input only a small region around each pixel instead of 
-the whole input, and uses same weight parameters on all input positions. To achieve this, the weights of the 
-layer only consist of a kernel, a small 
-matrix of weights with uneven-numbered size in both the width and height dimensions~\cite{princebook}. During the computation, the kernel 
-acts as a sliding window, moving through every possible position on the input image. For each kernel position, an output 
-value is produced by computing the dot product between the kernel and the kernel-sized input region around the processed position, and as usual, a bias term is added and the result is passed through the nonlinear activation function.
-An example of this basic convolution operation on a grayscale image with kernel size 3x3 is given in Equation~\cite{eq:convolution}. 
-For a colored image with three color channels, the kernel becomes three-dimensional. An illustration 
-of such case is found in Figure~\ref{image:3dkernel}.
+presented in Equation~\ref{eq:fc_layer}, but takes as input only a small region around each pixel and uses same weight parameters on all input positions. To achieve this, the layer weights form a small matrix called kernel~\cite{princebook}. During the computation, the kernel 
+acts as a sliding window, producing the output for each position by computing the dot product between the kernel and the kernel-sized input region around the processed position, and as usual, a bias term is added and the result passed  through a nonlinear activation function. An illustration of a convolution in the color image case, where the kernel is three-dimensional,
+is found in Figure~\ref{image:3dkernel}.
 
-\begin{align}
-    h_{ij} = a \left[ \beta + \sum_{m=1}^{3} \sum_{n=1}^{3} \omega_{mn} x_{i+m-2, j+n-2} \right],
-    \label{eq:convolution}
-\end{align}
-
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.4]{images/3dkernel.png}
-    \caption{An illustration of a convolution computation in the case of a color image, from~\cite{princebook}.}
+    \caption{An illustration of a convolution computation in the case of a color image, from Prince~\cite{princebook}.}
     \label{image:3dkernel}
 \end{figure}
 
-% % variants of the convolution: design decisions
-% aspects: borders, channels, convolution size, dilation and stride
-% default variant reduces size because border pixels cannot be used
-% to combat that:
-% zero or reflective, padding to keep output and input sizes equal, or valid convolution: dont compute positions where there are not enough previous inputs to use the whole kernel
-% channels: run many convolutions in parallel -> more convolution kernel weights to learn
-% size stride and dilation, figure 10.3
-% size = kernel size
-% stride = step between kernel computation
-% dilation = kernel is interleaved with zeros, large region but less weights
-% stride dilation size fig here
-In implementing a convolutional layer, a few design decisions need to be made: how to handle border 
-pixels, choosing a channel count, and the shape of the convolution kernel~\cite{princebook}.
-For the bordering pixels, where some kernel pixels fall outside of the 
-input matrix, the options are to skip these computations, pad the input with zeros, or to pad the input 
-by mirroring bordering pixels, the main difference of these being that not padding the input creates a 
-result smaller than the input matrix. For the channel count, it has been found that sometimes 
-running multiple convolutions side by side creates better results, and the optimal choice of channel count is 
-application-dependent. The resulting channels are much like the familiar red, green and blue in an image, but do not 
-have any human-decipherable meaning. Lastly, considering the kernel, three aspects need to be chosen: size, stride and dilation.
-Size refers to, intuitively, the height and width of the kernel. The stride, commonly 1, controls by how many pixels the 
-kernel is slid forward after each activation computation shown in Equation~\cite{eq:convolution}. With dilation, the kernel itself 
-is sparse: the weights are interleaved with a desired count of zeros. This allows for larger kernels without increasing parameter counts~\cite{princebook}.
-
-% % pooling
-% usually conv layer followed by pooling layer
 % pooling
-% usually networks are constructed so that  layer by layer layer width decreases and has more depth (more channels, like red green and blue but not with this meaning)
-% changing size more than by the few pixels present at image edges: max pooling. take maximum of 2x2 area, collect these values as the output activations. other, less popular variants: mean and average pooling
-Usually, a convolutional layer is followed by a pooling layer. The pooling layer adds more nonlinearity to the network, 
-and allows halving the layer size. The most common operation is the max pooling operation, where each output pixel is the maximum of
-a 2x2 are in the input. Other, less popular operations include the mean and average pooling operations, where the output naturally 
-is the mean and average of the small area, respectively. These operations allow for the common structure of convolutional networks, 
-where the layer width and height progressively decrease as the computation proceeds~\cite{princebook}.
+% usually conv layer followed by pooling layer
+% usually networks are constructed so that layer by layer layer width decreases
+% changing layer: max pooling. take maximum of 2x2 area, collect these values as the output activations. other, less popular variants: mean and average pooling
+Usually, a convolutional layer is followed by a pooling layer~\cite{princebook}. The pooling layer adds more nonlinearity to the network, and allows reducing layer sizes. The most common operation is the max pooling operation, where each output pixel is the maximum of
+a 2x2 area in the input. Other, less popular operations include using mean or average in the pooling operation. These operations allow for the common structure of convolutional networks, where the layer output size progressively decreases as the computation proceeds.
 
 % relevant here: present the ImageNet competition that has initiated many new architectures.
 % % history bit: imageNet breakthrough models alexnet, googlelenet, vgg
 % the what models. most influential
 % historical scetch: alexnet~\cite{alexnet} brought this to mainstream in 2012, imagenet 2014 saw GoogleLeNet~\cite{googlelenet} and VGG~\cite{vgg}.
 % these highlighted because the architectures are utilized in handwritten character classification.
-Many advances in convolutional networks have been motivated by the ImageNet image classification competition~\cite{imagenet},
- that ranks models by their capacity of classifying images retrieved from the web to 1,000 distinct classes.
+Many advances in convolutional networks have been motivated by the ImageNet image classification competition~\cite{imagenet}
+ that ranks models by their capacity of classifying images retrieved from the web to 1\,000 distinct classes.
  The results are presented as top-1 and top-5 error rates, the percentage of samples 
 where the correct class is not among the one or five most likely classes according to the network. Convolutional architectures
 that have performed well in the competition have been found valuable in handwritten character classification, thus the 
 breakthrough models presented next are experimented with in later parts of this work.
-These most influential convolutional models in the history of the ImageNet challenge,  that
+These most influential convolutional models in the history of the ImageNet challenge  that
 only rely on the basic convolution operation, are AlexNet~\cite{alexnet}, 
 the VGG model family~\cite{vgg}, and
 the Inception architecture used in GoogLeNet~\cite{googlelenet}.
@@ -1004,16 +957,14 @@ the Inception architecture used in GoogLeNet~\cite{googlelenet}.
 % normalization of convolution results, overlapping pooling (areas of pooling for each pixel overlap)
 % impact: brought deep learning to center of ml research, deep nets seem to outperform humans in feature engineering.
 The AlexNet convolutional neural network is perhaps the most influential deep learning model of all time, 
-popularizing deep learning as a superior feature extractor compared to human-performed feature engineering (ref?).
+popularizing deep learning as a superior feature extractor compared to human-performed feature engineering~\cite{princebook}.
 % what was different
-The breakthrough was achieved mainly by speeding up the training process by utilizing graphical processing units (GPU)
-in training, a novel idea at the time, and simplifying the feed forward computation by replacing the previously popular 
-hyperbolic tangent activation with the ReLU function (Equation~\ref{eq:relu})~\cite{alexnet}.
+The breakthrough was mainly achieved by speeding up the training process with graphical processing units, a novel idea at the time, and simplifying the feed forward computation by replacing the
+hyperbolic tangent activation popular at the time with the ReLU function (Equation~\ref{eq:relu})~\cite{alexnet}.
  This allowed training a larger, deeper network
-with convolutional kernels up to the size 11x11, leading to nearly halving the best top-5 error rate with the score of
+with convolutional kernels up to the size of 11x11, leading to nearly halving the best top-5 error rate with the score of
 17,0\%. Other, more minor but still highly influential innovations were the normalization of convolution results, 
-overlap in the pooling areas, and using dropout regularization, a regularization heuristic where connections are 
-randomly dropped to avoid over-reliance on certain connections~\cite{dropout}.
+overlap in pooling areas, and using dropout regularization, a heuristic where connections are randomly dropped to avoid over-reliance on certain connections~\cite{dropout}.
 
 % googlelenet~\cite{googlelenet} won 2014 with top 5 error rate  6,75\%.
 % method: fixed number of allowed multiple-adds in forward pass, 
@@ -1023,16 +974,24 @@ randomly dropped to avoid over-reliance on certain connections~\cite{dropout}.
 % to save compute. Also inspired by biological visual systems. allowed
 % for deeper and wider network, turned out to be great in imagenet and 
 % object detection.
-The ImageNet competition of 2014 saw the next breakthrough innovation with the winning architecture of the GoogLeNet,
-introducing the idea that smaller convolutional kernels with highly optimized training computation allows deeper,
-and therefore more capable networks~\cite{googlelenet}. The layer architecture, named Inception after the 'We 
-need to go deeper' internet meme (see Figure~\ref{image:meme}), only used kernels of size 3x3 and 5x5, and
-employed dimension reduction with 1x1 convolutional kernels. They also introduced sparsity by omitting connections on 
-dense layers inspired by knowledge on the structure of biological visual systems. While these ideas were motivated
-by performance-related reasons, the main aim of the study being to fix multiple-add operations available for training 
-and to reach as high accuracy as possible, the resulting model ended up reaching a new best top-5\% error rate of 6,75\%
+The ImageNet competition of 2014 saw the next breakthrough innovation with the winning architecture GoogLeNet~\cite{googlelenet}. The authors
+introduced smaller convolutional kernels with highly optimized training computation that allow deeper,
+and therefore more capable networks. The layer architecture, named Inception after the ``We 
+need to go deeper'' internet meme~\cite{we_need_to_go_deeper}, only used kernels of size 3x3 and 5x5, and
+employed layer channel count reduction with 1x1 convolutional kernels. Sparsity by omitting connections was introduced on dense layers, inspired by knowledge on the structure of biological visual systems. While these ideas were motivated
+by performance-related reasons, to reach as high accuracy as possible with a fixed count multiple-add operations in training, the resulting model ended up reaching a new best top-5 error rate of 6,75\%
 in ImageNet classification.
-% sitten spesifiä. 3x3, 5x5 kernels only 1x1 kernels usage in dimension reduction, sparse dense layers to imitate human visual system
+% s3x3, 5x5 kernels only 1x1 kernels usage in dimension reduction, sparse dense layers to imitate human visual system
+
+The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Figure~\ref{image:famouscnns}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics*[scale=0.6]{images/famouscnns.png}
+    \caption{Architectures of AlexNet~\cite{alexnet}, GoogLeNet~\cite{googlelenet}, and VGG-16~\cite{vgg}, the 
+    VGG model variant with 16 layers, from~\cite{zhangImagebasedMethodsDietary2023}.}
+    \label{image:famouscnns}
+\end{figure}
 
 % vgg~\cite{vgg}. achieved 6,8\% with imagenet 2014 postsubmission, submitted 7,3\% thus 
 % second in competition. method: simple 3x3 convolutions, tested different depths. best depth 19.
@@ -1040,30 +999,11 @@ in ImageNet classification.
 % the simplicity + the paper included in appendix that demonstrated vgg as a feature extractor to 
 % be used in transfer learning.
 A close runner-up in the 2014 competition, the VGG model family again proved that deep networks 
-with smaller kernels tend to outperform shallow, larger-kernel approaches~\cite{vgg}. The approach 
-of the experiments was to fix all kernels to 3x3 size, and to benchmark classification accuracy between 
-different model depths. The deepest model with 19 layers was found to be most accurate, and additionally 
-to be highly competitive as a feature extractor: an appendix of experiments reached new-best results on a variety of 
+with small kernels outperform shallow, larger-kernel approaches~\cite{vgg}. The experiments included fixing all kernels to 3x3 size, and benchmarking classification accuracy between 
+different model depths. The deepest model with 19 layers was found to be most accurate, and highly competitive as a feature extractor: an appendix of experiments reached new-best results on a variety of 
 further classification tasks. While the 
 best top-5 accuracy of 7,3\% ended up with a second place in the ImageNet 2014 competition, the structural simplicity
 and diverse learning capacity of the VGG models had a major influence on later deep learning research.
-
-The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Figure~\ref{image:famouscnns}.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics*[scale=0.2]{images/ebd.png}
-    \caption{The meme that inspired the Inception architecture in GoogLeNet~\cite{googlelenet}, from~\cite{we_need_to_go_deeper}.}
-    \label{image:meme}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics*[scale=0.6]{images/famouscnns.png}
-    \caption{Architectures of AlexNet~\cite{alexnet}, GoogLeNet~\cite{googlelenet}, and VGG-16~\cite{vgg}, the 
-    VGG model variant with 16 layers, from~\cite{zhangImagebasedMethodsDietary2023}.}
-    \label{image:famouscnns}
-\end{figure}
 
 \subsection{Residual connections}
 
@@ -1075,18 +1015,15 @@ The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Fig
 % another problem: degradation of accuracy
 %     deepen deepen the network -> peak accuracy then it reduces
 %         so there is something dysfunctional about the standard computation that makes training deep hard 
-After the success of the very deep networks (VGG)~\cite{vgg}, the question arised of whether 
+Following the success of increasingly deep networks~\cite{vgg,googlelenet}, the question arised of whether 
 achieving better approximation capacity with a neural network simply was about stacking more layers~\cite{resnet}.
-The previous major problem of vanishing and exploding gradients had largely been solved by input and between-layer 
+The previous major problem of vanishing and exploding gradients had been solved by input and between-layer 
 normalization operations. The vanising gradient problem refers to when the gradient of the loss with respect to 
-some parameters becomes zero, these parameters can no longer be updated with the weight update rule presented in 
-Algorithm~\cite{alg:net_training} on line 9 for the duration of the entire training process. Exploding 
-gradients, on the other hand, lead to numerical instability as adding a very large number to the weight is 
-generally undesirable; the optimum is best approached gradually. Normalization solves these problems by 
-updating the activations to a consistent distribution, thus avoiding gradients getting stuck to very large or very small values~\cite{batchnorm}.
+some parameters becomes zero, these parameters can no longer be updated by adding any learning rate multiplied with the gradient. Exploding 
+gradients lead to numerical instability as the optimum is best approached gradually rather than adding very large numbers to weights. Normalization solves these problems by updating activations to a consistent distribution, avoiding gradients getting stuck to extreme values~\cite{batchnorm}.
 However, after stacking even more layers with the help of normalization operations, another issue, the degradation 
 problem occurred. This refers to the phenomenon where when iteratively training deeper networks, the accuracy 
-reaches a peak and then starts degrading quickly~\cite{resnet}. This suggested that there was something dysfunctional in 
+reaches a peak and then starts degrading~\cite{resnet}. This suggested that there was something dysfunctional in 
 the conventional deep network computations that started showing symptoms when a sufficiently deep network was trained.
 
 % solution, he et al
@@ -1098,35 +1035,31 @@ the conventional deep network computations that started showing symptoms when a 
 %     hypothesized: the deeper the network the harder it is to learn the identity mapping 
 %         this is the cause of the degradation problem and bc residual connection solves it, degradation problem vanishes 
 % and indeed the resulting network won many competitions including imagenet challenge with a net 8x deeper than previous deepst, the VGG
-As a solution to the degradation problem, He et al.~\cite{resnet} presented the residual connections.
-The premise was that if you add a skip connection that can pass any layer computation in the network, 
-the deeper network contains in itself all the shallower variants, and the resulting accuracy can never 
-be worse than in shallower networks. The skip connection was implemented by adding the input to the conventional 
-layer computation, thus the layer computation becomes, expressing the layer without skip connection as $F(x)$, 
-$F(x) + x$.
+As a solution to the degradation problem, He et al.~\cite{resnet} presented residual connections.
+The premise was that if you add a skip connection that can bypass any layer computation, 
+the deeper network contains in itself all the shallower variants, and thus the resulting accuracy can never 
+be worse than in a shallower network. The skip connection was implemented by adding the input to the layer output, the full computation becoming
+$F(x) + x$ when expressing the layer without skip connection as $F(x)$.
 Empirical results showed that this solved the degradation issue, and lead to a 
-vast improvement to overall accuracy. It was hypothesized that the reason for the degradation problem 
-was that the deeper the network is, the harder it is for the network to approximate identity mappings, and when 
+vast improvement in classification accuracy. It was hypothesized that the reason for the degradation problem 
+was that the deeper the network, the harder it is for the highly nonlinear network to approximate identity mappings, and when 
 the depth passes a certain threshold, this drawback outweighs the added benefit of more layers. As the skip 
-connection makes approximating the identity mapping very easy, all weights in the nonlinear computation can 
-be set to zero, the identity mapping problem is completely eliminated. The end results were impressive: 
+connection makes approximating the identity mapping very easy by simply setting all parameters but the skip connection to zero, the problem is completely eliminated. The end results were impressive: 
 the ResNet architecture won multiple image detection and segmentation competitions, including the ImageNet challenge 
 of 2015, where the new best top-5 error of 3,57\% was reached with a network eight times deeper than the deepest VGG architecture~\cite{resnet}.
 
 \subsection{Autoencoders}
-
+\label{sect:autoencoders}
 % most of this from~\cite{goodfellow}
 % labeling costs -> unsupervised learning
 % 1. labeling cost eli unsupervised or selfsupervised, which is learning without any labels. x is input and output is latent variable of x, z. if input is an image z is obtained from x somehow eg add noise to image, add 1 to all intensity values, etc. no matter if it makes sense just that there is an algo for getting the latent variable.
-As one of the main ways for improving neural network accuracies is to obtain larger training data 
-sets, various methods have been developed to increase dataset sizes without adding more manual labeling 
-effort, which significantly constraints available data sizes. As the best way to increase dataset 
-size without adding labeling effort is to not use labels at all, unsupervised deep learning has been proposed 
-as a solution. In unsupervised or self-supervised learning, the desired output for the network to learn is 
-derived from the input with a deterministic algorithm. This output is called a \textit{latent variable}~\cite{goodfellow}.
-Latent variables can be obtained, for example in the image case, by hiding part of the image given to the input 
-and using the whole input as the desired output, or by adding noise to the input~\cite{princebook}.
-Due to the nonlinearities in neural network computations, learning the latent variable 
+As one of the main ways for improving neural network accuracies is to obtain larger labeled datasets, various methods have been developed to increase dataset sizes without adding more manual labeling effort. As the best way to increase dataset 
+size without adding labeling effort is to not use labels at all, self-supervised deep learning has been proposed 
+as a solution~\cite{goodfellow}. In self-supervised learning, the correct output of the network is
+derived from the input with a deterministic algorithm. This output is called a \textit{latent variable}.
+Latent variables can be obtained, for example for images by hiding part of the image given to the network
+and using the whole input as the output, or by adding noise to the input~\cite{princebook}.
+The learning setting is constrained so that learning the latent variable 
 based on the input remains a nontrivial task for the model.
 
 % what is an autoencoder
@@ -1135,14 +1068,13 @@ based on the input remains a nontrivial task for the model.
 % 	trick: constrain
 % 		variants: less hidden units than input (undercomplete autoencoders), regularizing encourages smaller parameters or sparsity
 % 	most basic: input to hidden (encoder) hidden to input (decoder)
-Autoencoders are neural networks trained in an unsupervised manner to learn the identity function: the latent 
-variable is the same as the input. To avoid situations where the network would simply copy the values from 
-the input layer to the output, the network is constrained. The most common way for this is to use an undercomplete
-autoencoder, that has hidden layer sizes smaller than the input, forcing the network to find a way to distill 
-the input data so that as much of the original is recoverable on the output layer.
+Autoencoders are neural networks trained in a self-supervised manner to learn the identity function: the latent 
+variable is the input~\cite{goodfellow}. To avoid situations where the network could simply copy the values from 
+the input layer to the output, the network is constrained. The most common way for this is to implement an undercomplete
+autoencoder that has hidden layer sizes smaller than the input, forcing the network to find a way to distill 
+the input data in a way that keeps as much of the original as possible recoverable on the output layer.
 Another way of constraining the model is to add regularization parameters to the 
-loss function, encouraging for instance small-valued or sparse parameters as more 
-ideal than the trivial solution.
+loss function, encouraging for instance small-valued or sparse parameters, rather than the trivial solution.
 		
 % 3. why this is useful / interesting?
 % introduce probs the architecture, x h x here
@@ -1151,16 +1083,14 @@ ideal than the trivial solution.
 % 	- use features also in character recognition: eg shoponbangla
 The natural follow-up question to ask on autoencoders is why bother; what the utility 
 of learning identity functions is. For the undercomplete autoencoder, the computation 
-can be seen as a mapping from the input to a compressed representation $h$, and 
-another computation from $h$ to the input, thus an autoencoder is a mapping $x\to h\to x$~\cite{goodfellow}.
+can be interpreted as a mapping from the input to a compressed representation $h$, and 
+another computation from $h$ to the input, thus an autoencoder is a function $x\to h\to x$~\cite{goodfellow}.
 The utility lies in this hidden unit $h$ and that one can take out only the 
 computation from $x$ to $h$, called the \textit{encoder}, or from $h$ to $x$, the \textit{decoder}.
-The decoder, when trained for generative tasks, can be utilized as a data generator by giving a seed 
-sequence as the input.
-From the perspective of image classification, the encoder is more useful as it serves 
+From the perspective of image classification, the encoder is most useful as it serves 
 as a powerful feature extractor: one approach for creating a character-recognizing model 
 is to first train an autoencoder and then train a classifier by appending 
-fully connected layers to the encoder. This approach has been successfully implemented for the Bangla language~\cite{6shoponBangla}.
+fully connected layers to the encoder, an approach successfully implemented for the Bangla language~\cite{6shoponBangla}.
 Thus, autoencoders can be used as the source 
 task in transfer learning, as discussed in Section~\ref{sect:transfer_learning}.
 
@@ -1171,58 +1101,43 @@ task in transfer learning, as discussed in Section~\ref{sect:transfer_learning}.
 % words reference to one another that are sometimes far far away in the sequence, conv pays attention only close up with the filter, what is relevant depends on a this word b the other word
 % large embedding vectors -> fc layer won't do really, you have to share parameters
 The multi-head self-attention layer present in transformer architectures was
-originally motivated by natural language processing tasks, as other architectures
-encode prior knowledge on language poorly. Words in sentences sometimes refer to 
-other words very far from each other in the sentence, which is impossible to model with a 
-convolutional layer that only uses the immediate neighborhood as the input for activation computations.
-As sequences are processed as splitting the sequence to tokens, for instance words, and generating 
-longer embedding descriptors for describing the tokens and their position in the sequence, input sizes become insurmountably large 
-to be processed with fully connected layers~\cite{princebook}.
+originally motivated by natural language processing tasks, as other layer types
+encode prior knowledge on language poorly.
+Convolutional layers can only use the immediate neighborhood of the input for activation computations, making it impossible to attend to other words far in a sequence, which would be necessary in text processing. Fully connected layers would cause parameter counts to become insurmountable large as inputs sizes for language models are huge: sequences are processed by splitting the sequence to tokens, for instance words, and generating \textit{embeddings}, long numeric vectors describing tokens and their positions~\cite{princebook}.
 
 %  2 paragraph: search engine analogue for attention
-% embed again a prior by embedding how words relating to each other works.
-% search engine analogue.
 % query is what we want to find out in the sequence (search query)
 % key is a descriptor of the thing (page content for a simple engine)
 % value is the search result (page contents ranked)
 To construct the self-attention operation, the nature of language was studied 
-as an information retrieval problem. The activation value for each input token should be computed 
-using relevant parts of the rest of the input, thus one needs a method for ranking the other tokens 
-in the sequence by relevance from the perspective of the input token. Using a search engine as an analogue, 
-the token can be seen as a query, the input given to a search engine prompt. The alternatives to rank, 
-web pages in the search engine case, are the other tokens. The end result, called the value, are the 
-available web pages in the search engine case or tokens in the transformer case, ranked according to relevance.
+as an information retrieval problem: a primitive search engine is used as an analogue to construct a way to rank content by relevance.
+The \textit{query}, a string of characters, is used to rank \textit{keys}, web pages. This is done by computing a similarity metric: checking how many words in the query appear on each web page. The
+end result is a list of \textit{values}, web pages ordered by their relevance ranking.
 
 % 3 'the search engine within a phrase' -> dot product self attention
 % similarity can be computed with cosine similarity that measures vector direction difference, vec1 dot prod vec2 divided by magnitude (length) vec1 times magnitude (length)vec 2. 
 % (give equation for cosine similarity)
 % attention with the text sequence between words so self attention
-% transformer the query key and value is all the same because we (a sequence and its parts) are paying attention to ourselves (he same sequence), so same embedding multiplied with key query value weight vectors to get key matrix k query matrix q value matrix v
-% so then you have the query the key and the value
-% query and key is computed cosine similarity qkt/sqrt(dk), scaling factor not quite cosine similarity but similar (lol). you get attention: how much each word pays attention to other words
-% softmax to put all attention values between 0 and 1
-% second vec needs transpose to avoid dimension errors (matmul takes col from one row from other and we want col from both
-% so you have the original sequence and how much attention each word pays to each word (attention filter). multiply original by attention you get the original weighted by how much attention it is sensible to pay between parts
-% so this is one head
-To find the relevance ranking, the keys (all tokens or all web pages) and the query (a search prompt or an input token)
-need to be compared. A rudimentary search engine implements this by computing a similarity metric:
-a single value describing how much of the words on the query appear on each web page. This is computed for token embeddings
-between the query and key vectors with the cosine similarity, given in Equation~\cite{eq:cos-similarity}. This similarity metric computes the 
-cosine of the angle between two vectors, and scales it by vector magnitudes,
- giving a scalar metric with one denoting perfect similarity and -1 perfect dissimilarity.
- In the self-attention operation, as all activations are computed at once, the queries and keys form matrices $Q$ and $K$. 
- To compute the dot product with matrix multiplication, the other matrix is transposed, and the scaling is 
- sligtly varied from cosine similarity by dividing by the square root of the number of tokens, denoted $d_k$. The 
- result is passed through the softmax function (see Equation~\cite{eq:softmax}), to construct an attention matrix where 
- each element describes how much attention should be paid between each token pair. Finally, to get the end result of 
- tokens ranked by relevance, the token embeddings, forming the value matrix $V$, are multiplied with the attention matrix. To include learnable parameters to the layer, 
- the key, query and value matrices are computed by multiplying 
- the token embedding matrices with parameter matrices $W_k$, $W_ q$ and $W_v$. This forms the dot-product self-attention computation, summarized in Equation~\cite{eq:self-attention}.
- 
+The process for constructing the output for each input token embedding follows a similar process.
+For the input, one embedding vector, the similarity to all other token embeddings is computed with cosine similarity, given in Equation~\ref{eq:cos-similarity}. This similarity metric computes the cosine of the angle between two vectors using the dot product and scales it by vector magnitudes,
+ giving a scalar metric with one denoting perfect similarity and -1 perfect dissimilarity. As the similarity is also computed between the input and itself, this \textit{attention} value becomes 1.
+The name \textit{self-attention} stems from this phenomenon of parts of a sequence attending to themselves. Finally, the \textit{attention} value obtained for each embedding pair is combined to a representation of a relevance-ranked list by multiplying the attention by the token embedding creating output values with larger values representing how much attention should be paid between each pair.
+
 \begin{align}
     \text{Cosine similarity}(\mathbf{k}, \mathbf{q}) = \frac{\mathbf{k} \cdot \mathbf{q}}{\|\mathbf{k}\| \|\mathbf{q}\|}
     \label{eq:cos-similarity}
 \end{align}
+
+% 4. technical adjustments for the multi head dot product self attention (word monster)
+% vectors to matrices notational trick: all inputs form X. matrix Q, all keys matrix K, all values matrix V (Q=K=V). 
+% one more thing: learnable params. K V and Q are used as they become different after adding learnable params Wq Wk Wv
+% compute all similarities at once: multiply matrix Q by matrix K and divide by sqrt of the token length. numerator is different than in cos similarity, but this change preserves the order between tokens
+% similarities are passed through softmax to make them between 0 and 1
+% get all relevance ranking representations (values) by multiplying attention matrix with value matrix
+% aaand yet one more: multihead to pay attention to many aspects at once. split and concatenate to not increase parameter counts
+A few technical adjustments to the aforementioned process are made for the self-attention layer to summarize notation and add learnable parameters. To represent the whole computation with one equation, all token vectors are collected in input matrix $X$. Three copies of this matrix is created for the queries, matrix $Q$, keys, $K$, and values, $V$, by introducing learnable parameter matrices $W_K, W_Q$ and $W_V$ and multiplying the input matrix $X$ by each. The similarity values are computed by multiplying the query and key matrices, and dividing the result by the square root of the token length. The denominator differs from cosine similarity, but this avoids the need to compute vector norms and preserves the ordering between attention values. The attention matrix is obtained by passing the similarities through the softmax function (Equation~\ref{eq:softmax}) to scale them to values between zero and one. Finally, the relevance-ordering representation is constructed by multiplying the attention matrix with the value matrix $V$. This forms the dot-product self-attention computation, summarized in Equation~\ref{eq:self-attention}.
+ 
+
 
 \begin{align}
     \text{Self-attention}(\mathbf{X}) &= \text{softmax} \left[ \frac{\mathbf{Q}\mathbf{K}^T }{\sqrt{d_k}} \right] \mathbf{V}, \label{eq:self-attention} \\
@@ -1235,14 +1150,12 @@ cosine of the angle between two vectors, and scales it by vector magnitudes,
 % this is the multihead self attention block. here you go a summarizing figure
 % each head can focus on different aspects
 With the self-attention operation, one limitation remains: one attention layer is only able to focus on one aspect of the 
-input sequence at a time. To allow multiple interpretations, many self-attention operations are run in parallel, which is 
-called multi-head self-attention. To not increase computation, the token embeddings are divided across the heads, and the 
-results from the value matrix multiplied with the attention matrix are concatenated back together, creating a result of 
-equal dimension as the one-head version. The self-attention operation with multiple heads is summarized in Figure~\ref{fig:multi-head-self-attention}.
+input sequence at a time. To allow multiple interpretations, in \textit{multi-head self-attention}, many self-attention operations are run in parallel. To preserve the weight matrix sizes, each token embedding is split across the heads and the 
+results from the value matrix multiplied with the attention matrix are concatenated back together. The self-attention operation with multiple heads is summarized in Figure~\ref{fig:multi-head-self-attention}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \includegraphics*[scale=0.6]{images/multiheadattention.png}
+    \includegraphics*[scale=0.57]{images/multiheadattention.png}
     \caption{Multi-head self-attention with two heads, from~\cite{princebook}.}
     \label{fig:multi-head-self-attention}
 \end{figure}
@@ -1255,24 +1168,23 @@ equal dimension as the one-head version. The self-attention operation with multi
 % teach the network to continue sentence with the next word, selfsupervised eg hide last word'
 % this model was amazing at what check original paper attention is all you need
 % tadaa you get a model that can continue the prompt with valid text, add some features and you have a LLM
-The main premise of the transformer architecture~\cite{attention_is_all_you_need} is that the multi-head self-attention 
-is the only architecture required to successfully learn nature language processing tasks. The first transformer model,
-an autoencoder with both the encoder and decoder parts consisting of transformer blocks with a multi-head self-attention and 
-a fully connected layer, both followed by batch normalization and with a residual connection, achieved a new best 
+The main premise of the transformer architecture is that the multi-head self-attention 
+is the only operation required to successfully learn nature language processing tasks~\cite{attention_is_all_you_need}. The first transformer model,
+an autoencoder only using transformer blocks with a multi-head self-attention and 
+a fully connected layer both followed by batch normalization and with a residual connection, achieved a new best 
 result in machine translation from English to German by a significant margin~\cite{attention_is_all_you_need}.
 The most famous application of attention-based models is, however, a model taught to continue a sentence fragment with the next most 
-likely character. The chat-style variants of these models, most famous being ChatGPT by OpenAI, has become very well known among the general public and 
-has even been speculated to show signs of general artificial intelligence.
+likely character. The chat-style variants of these models, most famous being ChatGPT by OpenAI, has become well-known among the general public and 
+has been speculated to show signs of general artificial intelligence.
 
 % 6. paragraph: vision transformer for image classification
 % vision application: divide the image to 16x16 patches, interpret those as "words". a transformer architecture that has as output the class probabilities for imagenet. good results but lots of training because transformer does not encode the vision priors of translation and pointwise function invariance
 In computer vision, transformer architectures have been successfully implemented.
-The most notable of these is the Vision Transformer (ViT)~\cite{vit}, that achieved a top-1 error rate of
+The most notable of these is the Vision Transformer (ViT)~\cite{vit} that achieved a top-1 error rate of
 11.45\% on the ImageNet challenge, an impressive result yet less accurate than the best convolutional networks of the time.
-Falling behind convolutional networks likely was the result of the transformer architecture lacking prior knowledge on images,
-translation and pointwise transformation invariance, leading to larger requirements of data and computational resources 
-to reach high accuracies. Still, transformer architectures are actively experimented with in many computer vision tasks, 
-including handwritten character classification~\cite{9thuonPalm}.
+Falling behind convolutional networks was likely due to lacking prior knowledge on images encoded in the convolution operation, nearby pixel similarity and
+translation invariance, leading to larger requirements of data and computational resources 
+to reach high accuracies. Still, transformer architectures are actively experimented with in many computer vision tasks, including handwritten character classification~\cite{9thuonPalm}.
 
 % end of section, back to why i presented these architectures
 % these are building blocks that are used for models that classify images. these can be then used for any image 
@@ -1371,7 +1283,7 @@ with deep neural networks and transfer learning with limited target domain data.
 % Search strategy: few seed papers and snowball search. Related conferences: 
 % Frontiers in Handwriting Recognition
 
-The literature search was conducted with a snowball search, proceeding with relevant forward and backward citations 
+Literature to review was selected for with a snowball search, proceeding with forward and backward citations 
 of key articles. Additionally, last five to ten years of conference proceedings most relevant for this problem area were 
 scanned. For related work on fossil digitization, any found work touching on the subject area will be commented on due to their 
 limited amount. For work conducting a similar analysis of handwritten character recognition, more strict conditions were placed. 
@@ -1380,8 +1292,8 @@ mentioning the size of the training dataset, number of characters within the cla
  The source of the base model had to be given along with its source task, training data
 and network architecture. The exact method of conducting the model fine-tuning had to be explicit enough to be reproducable,
 work simply stating they used transfer learning or leaving gaps in the training process were omitted. Additionally, 
-publication venue reputation and acceptable presentation quality were taken into account, and some work had to be
-omitted because of undecipherable or missing detail.
+presentation quality was taken into account by omitting some work due to
+ undecipherable or missing details.
 
 % lists best accuracy clearly (percent, which dataset, number of classes)
 % specifies the base model used (architecture and source domain dataset)
@@ -1482,7 +1394,7 @@ scripts, due to following similarities.
 Firstly, available data is small. While on first thought, languages where characters compound of
  multiple smaller units such as  Chinese or Korean would be more applicable, these are not
   generally solved with transfer learning as the datasets are sufficiently large to train from scratch.
-Several of these languages contain modifiers \cite{2limbachiyaGujarati,3chatterjeeBengali,5rasheedHandwrittenUrduWAlexNet},
+Several of the South Asian languages contain modifiers \cite{2limbachiyaGujarati,3chatterjeeBengali,5rasheedHandwrittenUrduWAlexNet},
 recognizing which can be seen as analogous to under- or overlinings in the dental markings.
 Many characters are cursive in nature~\cite{5rasheedHandwrittenUrduWAlexNet}, which makes
  especially character segmentation 
@@ -1498,9 +1410,9 @@ contain far more characters than modern languages, making the problem more chall
 
 To note on all articles reviewed in this section is that the analytical basis was incomplete: reasons for why a technique 
 was chosen to be implemented over reasonable alternatives was largely missing, and transfer distance considerations were 
-mostly omitted. This has a myriad of consequences. The reasoning behind method selection could not be evaluated. The rationale 
+mostly omitted. This has a number of consequences. The reasoning behind method selection could not be evaluated. The rationale 
 behind some decisions, such as flipping characters as a data augmentation technique~\cite{9thuonPalm}, optimizing the hyperparameter for character
- rotation angle in data augmentation~\cite{7rizkybasicCnnTransfer} or using data augmentation on the test set~\cite{11zunairUnconventionalWisdom}, is not entirely clear and could benefit from 
+ rotation angle in data augmentation~\cite{7rizkybasicCnnTransfer} or using data augmentation on the test set~\cite{11zunairUnconventionalWisdom}, could benefit from 
  further clarification. Not clearly defined metrics are used, such as positive-to-negative rates~\cite{10goelGujarati, 5rasheedHandwrittenUrduWAlexNet}, which lack a definition for 
  the multi-class case and an explanation of the cost differences between the error types. For specifications, the lack of analytical
   basis results in missing necessary details, such as the implementation of layer freezing~\cite{8goelGujarati2023}, and the inclusion of redundant information,
@@ -1584,8 +1496,8 @@ For Bangla character classification, Chatterjee et al. reported 96,12\% accuracy
 by fine-tuning a ResNet model. The work employed highly sophisticated transfer
  learning and learning rate scheduling algorithms, aiming to converge training in as 
  little epochs as possible, an aspect already discussed not to be as significant as a high test accuracy.
-  Another concern was the concluding statement, "if those misclassified points were 
-  removed from the dataset, the accuracy will improve further", which raises questions about the experimentation practices.
+  Another concern was the concluding statement, ``if those misclassified points were 
+  removed from the dataset, the accuracy will improve further'', which raises questions about the experimentation practices.
 
   % 6. shopon bangla handwritten digit recognition using autoencoder and deep cnn
 
@@ -1595,8 +1507,7 @@ by fine-tuning a ResNet model. The work employed highly sophisticated transfer
 In Bangla digit classification, Shopon et al.~\cite{6shoponBangla} implemented unsupervised 
 pretraining and found a new best accuracy in Bangla digits,
 and best accuracy among all articles reviewed, of 99,5\% by chaining an autoencoder
-with a deep convolutional network. This proves that while less popular, unsupervised pretraining
-based approaches are worth experimenting with.
+with a deep convolutional network. This proves that while less popular, approaches based on unsupervised pretraining  are worth experimenting with.
 
 % 11. zunair unconventional wisdom
 
@@ -1637,7 +1548,7 @@ generalization capability. In a later article~\cite{8goelGujarati2023}, the auth
 their experimentation to other architectures, created several transfer learning settings informed 
 by analysis on source and target task similarity, fixed the data leakage issue, and reported an 
 improved accuracy of 97,92\%, again with the EfficientNet architecture. Additionally, adding a fully
-connected layer is again found to outperform using a support vector machine as the downstream classifier.
+connected layer is found to outperform using a support vector machine as the downstream classifier.
 Limbachiya et al.~\cite{2limbachiyaGujarati} implemented digits and letters detection by comparing various convolutional architectures,
  achieving the best accuracy of 97,03\% with the MobileNet architecture. Transfer learning was implemented with a
   less usual top layer architecture: dropout was added between the two new fully connected layers.
@@ -1707,13 +1618,13 @@ various approaches can give valuable insight to inform choices in designing the 
 % - maybe state number of params for each base model to give a vague sense of how many there are in each
 % - directly state which variant of the model was used bc i also need to pick a variant (eg vgg16 or vgg19)
 
-Lastly, a very interesting application case of reading characters used in ancient historical scripts written 
+Lastly, a very interesting application domain of reading characters used in ancient historical scripts written 
 on palm leaves, Thuon et al.~\cite{9thuonPalm} achieved a very impressive accuracy of 93,55\% on more than 100 
 classes from challenging palm leaf scan images. The work includes many valuable parts: image enhancement,
-data augmentation and dataset expansion insight, and comparison of multiple convolutional and attention based 
+data augmentation and dataset expansion ideas, and comparison of multiple convolutional and attention based 
 architectures. As the main result it is concluded that convolutional networks tend to outperform transformer architectures.
 
-Details on all the works presented above are summarized on Tables~\cite{tab:dataset-info} and~\cite{tab:model-info}. Where multiple settings 
+Details on all the works presented above are summarized on Tables~\ref{tab:dataset-info} and~\ref{tab:model-info}. Where multiple settings 
 were experimeted with, the class count producing the highest accuracy score and the three best 
 base model variants are listed for brevity. The Tibetan detection article~\cite{4zhaoTibetan}
 is omitted due to transfer setting being very different to the other works. Replacing the last layer with a 
@@ -1726,15 +1637,15 @@ stated in the table as it is done in every case. The shorthand 'FC' is used to d
 \begin{tabular}{|c|l|c|c|}
 \hline
 \textbf{Article} & \textbf{Language} & \textbf{Number of Classes} & \textbf{Samples per Class} \\ \hline
-\cite{1akhlaghiFarsi}                & Farsi             & 10                         & 8,800                       \\ \hline
-\cite{2limbachiyaGujarati}                & Gujarati          & 54                         & 1,400                       \\ \hline
-\cite{3chatterjeeBengali}                & Bangla            & 84                         & 1,977                       \\ \hline
-\cite{5rasheedHandwrittenUrduWAlexNet}                & Urdu              & 10                         & 840                        \\ \hline
-\cite{6shoponBangla}                & Bangla            & 10                         & 2,922                       \\ \hline
-\cite{7rizkybasicCnnTransfer}                & English           & 36                         & 2,055                       \\ \hline
-\cite{8goelGujarati2023}                & Gujarati          & 10                         & 800                        \\ \hline
-\cite{9thuonPalm}                & Ancient Balinese (1), Sundanese (2), Khmer (3) & 100 (1), 111 (2), 60 (3) & 193 (1), 1,836 (2), 122 (3) \\ \hline
-\cite{10goelGujarati}               & Gujarati          & 10                         & 250                        \\ \hline
+\cite{1akhlaghiFarsi}                & Farsi             & 10                         & 8,800                       \\
+\cite{2limbachiyaGujarati}                & Gujarati          & 54                         & 1,400                       \\ 
+\cite{3chatterjeeBengali}                & Bangla            & 84                         & 1,977                       \\ 
+\cite{5rasheedHandwrittenUrduWAlexNet}                & Urdu              & 10                         & 840                        \\ 
+\cite{6shoponBangla}                & Bangla            & 10                         & 2,922                       \\ 
+\cite{7rizkybasicCnnTransfer}                & English           & 36                         & 2,055                       \\ 
+\cite{8goelGujarati2023}                & Gujarati          & 10                         & 800                        \\
+\cite{9thuonPalm}                & Ancient Balinese (1), Sundanese (2), Khmer (3) & 100 (1), 111 (2), 60 (3) & 193 (1), 1,836 (2), 122 (3) \\
+\cite{10goelGujarati}               & Gujarati          & 10                         & 250                        \\
 \cite{11zunairUnconventionalWisdom}               & Bangla            & 10                         & ~8,500                     \\ \hline
 \end{tabular}
 }
@@ -1749,15 +1660,15 @@ stated in the table as it is done in every case. The shorthand 'FC' is used to d
 \begin{tabular}{|c|c|l|l|}
 \hline
 \textbf{Article} & \textbf{Best Accuracy} & \textbf{Base Model(s)} & \textbf{Transfer Method} \\ \hline
-\cite{1akhlaghiFarsi}                & 99.37\%                & New Architecture       & -                        \\ \hline
-\cite{2limbachiyaGujarati}                & 97.03\%                & MobileNet, DenseNet, VGG16 & Train new FC layer + dropout + output \\ \hline
-\cite{3chatterjeeBengali}                & 96.12\%                & ResNet50               & Train all layers, increase learning rate for later layers \\ \hline
-\cite{5rasheedHandwrittenUrduWAlexNet}                & 98.21\%                & AlexNet                & Train all layers but last layer most \\ \hline
-\cite{6shoponBangla}                & 99.5\%                 & Autoencoder (trained on Bangla) & Append small deep CNN to autoencoder, no freezing \\ \hline
-\cite{7rizkybasicCnnTransfer}                & 98.16\%                & VGG16, DenseNet121, ResNet18 & Train all layers        \\ \hline
-\cite{8goelGujarati2023}                & 97.92\%                & EfficientNetV2S, Xception, ResNet101                    & Train all fully connected layers \\ \hline
-\cite{9thuonPalm}                & 91.85\%                & EfficientNetB0, EfficientNetB1, ResNet101 & Freeze first layers \\ \hline
-\cite{10goelGujarati}               & 96.5\%                 & EfficientNetV2S, InceptionV3, ResNet101 & Add 2 FC layers + output layer, no freezing \\ \hline
+\cite{1akhlaghiFarsi}                & 99.37\%                & New Architecture       & -                        \\
+\cite{2limbachiyaGujarati}                & 97.03\%                & MobileNet, DenseNet, VGG16 & Train new FC layer + dropout + output \\
+\cite{3chatterjeeBengali}                & 96.12\%                & ResNet50               & Train all layers, increase learning rate for later layers \\
+\cite{5rasheedHandwrittenUrduWAlexNet}                & 98.21\%                & AlexNet                & Train all layers but last layer most \\
+\cite{6shoponBangla}                & 99.5\%                 & Autoencoder (trained on Bangla) & Append small deep CNN to autoencoder, no freezing \\
+\cite{7rizkybasicCnnTransfer}                & 98.16\%                & VGG16, DenseNet121, ResNet18 & Train all layers        \\
+\cite{8goelGujarati2023}                & 97.92\%                & EfficientNetV2S, Xception, ResNet101                    & Train all fully connected layers \\
+\cite{9thuonPalm}                & 91.85\%                & EfficientNetB0, EfficientNetB1, ResNet101 & Freeze first layers \\
+\cite{10goelGujarati}               & 96.5\%                 & EfficientNetV2S, InceptionV3, ResNet101 & Add 2 FC layers + output layer, no freezing \\
 \cite{11zunairUnconventionalWisdom}               & 97.09\%                & VGG16                  & Freeze layers 16-20 (3 convolutional, 1 pooling layer) \\ \hline
 \end{tabular}
 }
@@ -1841,7 +1752,7 @@ loses information of upper or lower jaw and sometimes
 erroneously recognizes tooth type letters and index numbers.
 The aim of the experiments in this work is to fix these errors.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.5]{images/cataloguesample3.png}
     \caption{A sample from the fossil catalogue sheets of the National Museum of Kenya}
@@ -1864,7 +1775,7 @@ created by hand-annotating, is presented in Figure~\ref{image:goal}.
 As can be seen from the dataset sample, the other data in the end result is far from perfect, thus
  much remains to be done after this work.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.5]{images/goal.png}
     \caption{The goal: teeth are listed in tooth records column and the description column contains correct markings.}
@@ -2055,7 +1966,7 @@ for since it seemed like the only one that correctly encoded all similarities an
 Next, the end-to-end pipeline for getting the tooth markings out of the catalogues using these classifiers is presented.
 
 \subsection{The proposed pipeline}
-
+\label{sect:pipeline}
 % chain of models, inspired by~\cite{tibetan_ocr}: take in image, tooth or not
 %     (tibetan: classify which script style, then recognize so classifier chaining)
 %     if tooth give to tooth classifier 
@@ -2088,7 +1999,7 @@ To summarize the problem formulation discussion above, the end-to-end dental fos
 illustrated in Figure~\ref{fig:pipeline}, has 
 the following components. 
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
 \begin{tikzpicture}[node distance=1.5cm]
     \node (imagelabel) [textcontainer] {Image segment};
@@ -2225,7 +2136,7 @@ bringing even parts of the catalogue scans available for researchers and machine
  
 A small sample of the training dataset of premolars is presented in Figure~\ref{image:samples}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=.5]{images/trainingsamples.png}
     \caption{Samples from the training dataset for tooth type classification of premolar markings.}
@@ -2247,7 +2158,7 @@ No further preprocessing was implemented to keep the images alike the source dom
  A catalogue sample before and after preprocessing can 
 be found in Figure~\ref{image:noise}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \resizebox{\linewidth}{!}{%
         \begin{minipage}[b]{0.45\linewidth}
@@ -2316,7 +2227,7 @@ with white after rotation when necessary to match the other background as closel
  A batch of training images after augmentation
 is presented in Figure~\ref{image:augmented}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=.2]{images/augmented.png}
     \caption{Samples of the training dataset after data augmentation.}
@@ -2558,7 +2469,7 @@ seemed to not hold.
     \label{table:results}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.7]{images/train_val_error_difference_histogram.png}
     \caption{Histogram of percentage-point differences in training and validation accuracies within each experiment}
@@ -2643,7 +2554,7 @@ more trainable parameters did not increase accuracy. To interpret the correlatio
 extractor as is, inspired by the Tibetan glyph classification solution~\cite{4zhaoTibetan}, did not result in the 
 best model in the fossil domain; additional feature tuning was needed.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.8]{images/accuracy_against_freezing.png}
     \caption{Line plots of accuracy scores with different freezing setups reveal the positive correlation of accuracy and count of layers trained}
@@ -2704,13 +2615,13 @@ and re-using the previously learned as much as possible.
 % - class imbalance thing
 % class imbalance was severe in some cases so the less common classes had to be augmented 
 % a lot, so could overfit to the small amount of samples, also causes that test err is not necessarily that representative.
-Returning to the higher level task, all models presented in Section \ref{sect:pipeline} were constructed, evaluated and used 
+Returning to the higher level task, all models presented in Section~\ref{sect:pipeline} were constructed, evaluated and used 
 in building the inference pipeline. For evaluation, test error was measured on a new set not used in previous experiments 
-to prevent data leakage; data used to inform the model building process should never be used to report final accuracies \cite{engbook}.
+to prevent data leakage; data used to inform the model building process should never be used to report final accuracies~\cite{engbook}.
 A certainty score was constructed to measure what fraction of images was classified with above-human accuracy of 99,7\% to measure 
-how much manual verifying labor can be saved with the system. The evaluation metrics are presented in Table \ref{tab:task_accuracy_certainty}.
+how much manual verifying labor can be saved with the system. The evaluation metrics are presented in Table~\ref{tab:task_accuracy_certainty}.
 The results align with intuition from the labeling process; labeling images 
-where Azure AI Vision \cite{azurevision} had made a mistake felt easiest 
+where Azure AI Vision~\cite{azurevision} had made a mistake felt easiest 
 with the letter and hardest for the number, largely due to bounding box errors 
 cutting of parts of the digit, often the bottom. Also judging on the labeling experimence,
 the results with custom-made models outperforms the generalist, although no 
@@ -2720,7 +2631,7 @@ be taken with caution as varying the random seed caused fluctuations of
 up to 10\% also in evaluation. The test accuracies can also be unaccurate because 
 of severe class imbalance especially for the index numbers, where the digit 1 was so few
 in number that it is possible that the model has overfit to these examples.
-Finally, as seen in Figure \ref{image:misclassifications_uplow_in_test},
+Finally, as seen in Figure~\ref{image:misclassifications_uplow_in_test},
 the upper and lower jaw classifier struggled to classify canines correctly;
 only seven instances like these were present in the test set, five of 
 which were misclassified. On the other hand, this also means that other upper 
@@ -2747,14 +2658,14 @@ Upper/Lower         & 92.31                  & 71.79                   \\ \hline
 \label{tab:task_accuracy_certainty}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.8]{images/misclassified_uplow.png}
     \caption{Samples from the test set falsely classified by the best classifier. The letter C with a line on top or bottom is detected poorly; seven of these were present in the test set.}
     \label{image:misclassifications_uplow_in_test}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.8]{images/inference.png}
     \caption{Sample outputs of dental notation and associated confidence values. Only few of the samples exceed human-level classification accuracy of 99,7\%.}
@@ -2789,7 +2700,7 @@ such case is seen in Figure~\ref{image:hardsentence}: a segmenter with the knowl
 easily see that the $\text{dm}_{3-4}$ section is one word, which is difficult to a generalist model 
 due to the spacing between characters.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.8]{images/hardwordsegmentation.png}
     \caption{Example of a sentence hard to segment to words without context knowledge}
@@ -2817,7 +2728,8 @@ due to the spacing between characters.
 The problem of finding objects in images is much harder than image classification and has attracted attention 
 from the computer vision research community very recently. 
 Main reasons for the difficulty are the labour required to obtain ground truth bounding boxes and 
-the fact that object detection requires better image resolution to work well, therefore requiring more computational resources~\cite{ruotsalainen2024}.
+the fact that object detection requires better image resolution to work well, therefore requiring more computational resources.
+% TODO create footnote for CV lecture!
 One way to circumvent manual annotation for fossil catalogues could be to automatically detect correct bounding boxes 
 from commercial OCR engine output files for instance by regular expression matching the word readings with a vocabulary of words likely to be 
 present in fossil catalogues, much like the approach implemented in this work.
@@ -2854,7 +2766,7 @@ Still, the object detection problem should be given more attention since even th
 potential harder variants the dental marking classification task are relatively simple image classification problems when comparing 
 them to challenges such as basic ImageNet classification.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.3]{images/yoloresult.png}
     \caption{Preliminary object detection test with the YOLO-10 object detector using the Hugging Face inference API~\cite{OmouredYOLOv10DocumentLayoutAnalysisHugging2023}.}
