@@ -59,7 +59,7 @@
 \censors{}{}{}
 \keywords{Optical character recognition, Transfer learning, Paleontological databases}
 \depositeplace{}
-\additionalinformation{}
+\additionalinformation{Code and pre-trained models are available on \href{https://github.com/korolainenriikka/fine-tuned-ocr-for-dental-markings}{GitHub}.}
 
 
 \classification{\protect{\ \\
@@ -108,7 +108,7 @@
 
 \begin{abstract}
 
-Digitizing and uniformizing the structure of handwritten fossil catalogues exhibits a great 
+Uniformizing the structure of handwritten fossil catalogues maintained at natural history museums worldwide exhibits a great 
 potential for increasing the accuracy of paleontological data analysis by increasing sample sizes. 
 Approximately 90\,000 of such samples reside in the archives of the National Museums of Kenya, and 
 an ongoing effort is to store this data in a digital format for better accessibility.
@@ -117,14 +117,14 @@ handwriting detection model lacked the ability to detect special characters used
  leading to loss of information and detection mistakes.
 
 This thesis proposes a classifier chain approach for detecting which tooth is shown on an image of a tooth marking 
-and a pipeline for using this tool for uniformizing the dental notation present in 
-the bone or tooth type specifying column. The best base model is searched by comparing multiple convolutional and transformer architectures
-to classify notation to upper or lower jaw, with the best accuracy of 96\% using AlexNet. 
+and a pipeline for uniformizing the dental notation present in 
+the bone or tooth type specifying column. The best base model is searched for by comparing multiple convolutional and transformer architectures
+to classify notation to upper or lower jaw, with the best validation accuracy of 96.75\% using AlexNet. 
 In the experiments it is found that the quality of optimum found in training affects end results significantly,
 leading to margins of error up to 10\% for architecture comparisons in a small data case.
-The clearest result is that not freezing layers, without exception, leads to better result.
-Because of this it is theoretisized that the utility of transfer learning mostly comes from 
-being able to train more, rather than being able to re-use a feature extractor.
+The clearest result is that not freezing layers, without exception, leads to better results.
+Because of this it is theorized that the utility of transfer learning mostly stems from 
+being able to train more, rather than the ability to re-use a feature extractor.
 The pipeline with best-performing classifiers is used to
 to obtain an accurate reading of the catalogues of the National Museums of Kenya, and the tool is published to be used 
 by the paleontological community for further digitization efforts.
@@ -155,12 +155,12 @@ by the paleontological community for further digitization efforts.
 %     how ancient humans lived
 %     mass extinction events
 
-The field of paleoecology conducts data analysis on fossil specimens.
+The field of paleoecology conducts data analysis over the fossil record.
 Such analysis is quite literally started from the ground: after a fossil specimen has been found, it is 
-carefully measured and identified: which bone and species the fragment is from, and how old it is. On site, such information is logged on field slips, small thin sheets of 
+carefully measured and identified: which bone and species the fragment is from, which time period it is from. On site, such information has historically been logged on field slips, small thin sheets of 
 paper with a pre-printed form. The analysis has then been traditionally conducted by 
 collecting such entries, sometimes collected in handwritten tabular catalogues, and running statistical 
-tests on the sample set. With this analysis, facts from distant past, such as climate, habitats and 
+tests on the sample set. With this analysis, knowledge on the distant past, such as climate, habitats and 
 vegetation can be deduced~\cite{Faith_Lyman_2019}. Syntheses of such results consequently allow us to 
 answer larger questions, such as how ecosystems reacted to climate changes, how mass extinction events 
 came about, and what the living world could be like~\cite{Zliobaite2023}. Understandably, answering such 
@@ -174,17 +174,16 @@ questions has become ever more pressing.
 % the baking sheets contain weird characters that a normal reader cannot read.
 % my topic is to read them
 
-To find answers to large-scale problems, more sophisticated computational data analysis methods have come about,
-relying on large datasets. Due to the infeasibility of collecting stacks of fields slips across sometimes multiple 
-continents, specimens residing in archives of institutions have been converted to digital, public databases.
-One such institution is the National Museum of Kenya, holding a large fraction of data collected from one 
+To find answers to large-scale problems, computational methods requiring large datasets have come about. Due to the infeasibility of inspecting large numbers of specimens across sometimes multiple 
+continents, speciments residing in archives of institutions have been recorded to digital, public databases~\cite{uhenCardCatalogsComputers2013}.
+One such institution is the National Museums of Kenya, holding a large fraction of data collected from one 
 of the most valuable fossil sites globally, the lake Turkana. The sheer amount of physical samples in the museum storage
 makes keeping them safe a significant challenge, a risk to global heritage now attracting attention across continents,
  as reported by the Wall Street Journal~\cite{hotzMuseumOverflowingPrehistoric2024}.
- A project digitizing the handwritten catalogues hosted by the NMK was started by
-using commercial optical character recognition software, combined with heuristic and machine learning approaches, 
-resulting in satisfactory accuracy on conventional handwritten text. However, a large hurdle in the existing 
-approach were the special characters used to denote which teeth each specimen contains. The aim of this work is 
+ A project digitizing the handwritten catalogues hosted by the National Museums of Kenya was started by
+using commercial optical character recognition (OCR) software, Azure Vision~\cite{azurevision}, combined with heuristic and machine learning approaches, 
+resulting in satisfactory accuracy on conventional handwritten text. However this 
+approach was not able to recognize special characters that denote which teeth each specimen contains. The aim of this work is 
 to continue the project by digitizing these markings accurately.
 
 % explanation of the specific problem
@@ -195,9 +194,9 @@ to continue the project by digitizing these markings accurately.
 %the topic of my work is creating a tool that inputs cropped images from the sheets containing
 %handwritten specifications of fossil bones and outputs what the text says
 
-Specifically, this work uses as input data both scan images of the fossil slips and catalogues, 
-and outputs from the Azure AI Vision software~\cite{azurevision}.
-The existing outputs consist of sentence and word-level readings, along with bounding boxes defining 
+Specifically, this work uses as input data both scan images of tablular fossil catalogues
+and outputs from Azure Vision~\cite{azurevision}.
+The output consists of sentence and word-level readings, along with bounding boxes defining 
 the location of each word or sentence. The main research question is the following: 
 
 How, given scan images, bounding boxes and generalist OCR outputs, can the accuracy of the readings of the tooth markings be improved?
@@ -213,32 +212,29 @@ How, given scan images, bounding boxes and generalist OCR outputs, can the accur
 % best is alexnet, no freezing with test acc ... in uplow.
 % fraction of teeth class confidence over 99.7 so no manual verifying for each submodel: x-y%
 % take min less certainty is limitation but still is found that this approach works, classifier accuracies are worst 88 best 100
-This thesis proposes a univariate classifier chain approach for 
-uniformizing the dental notation. Each element description is processed 
-word-by-word and for each word only those recognized as tooth markings, 
-by using a regular expression on the Azure reading, are given to the tooth 
+This thesis proposes a univariate classifier chain for
+uniformizing dental notation. Each element description is processed 
+word-by-word, and for each word, only those recognized as tooth markings
+by using a regular expression on the Azure reading are given to tooth marking
 classifiers. This way, more complex cases are left unprocessed, a desirable
 approach as this is one of the first works attempting automated cleaning 
-of digitized fossil data. The images recognized as tooth notation are given 
-to three classifiers: first one detects the letter on the image to a 
-tooth type, second detects whether the tooth is from the upper or lower jaw,
-and third recognizes the index number. Finally, all these inferences can 
-be combined to tooth notation and concatenated to a corrected element 
+of digitized fossil data. The chain consists of three classifiers: first one detects the tooth type specifying letter on the image, second detects whether the tooth is from the upper or lower jaw,
+and third recognizes the index number. Finally, all these inferences are combined to tooth notation and concatenated to a corrected element 
 description. 
 
-In the experiments for building the univariate classifiers, various base models and training configurations are compared, and 
+In the experiments for building the univariate classifiers, various base models and training configurations are compared.
 AlexNet with no layer freezing is found to result in best test accuracy of 92.31\% on the 
-upper or lower jaw classification task. However, it is found that different hyperparmeter 
+upper or lower jaw classification task, however, it is found that different hyperparameter 
 configurations influence the scores by up to 10\%. 
 Fractions of test images classified correctly with above-99.7\% confidence are 
-counted to estimate the amount of saved manual verifying effort with these scores ranging 
+counted to estimate the amount of saved manual verifying effort, these scores ranging 
 from 58\% to 94.5\% depending on the classification task.
 The approach of annotating a dental marking with the minimum 
 confidence of all classifiers causes most of the final confidence scores 
-to be too low to bypass manual verifying, thus it is possible that little manual labor is 
+to be too low to bypass manual verifying, and therefore it is possible that little manual labor is 
 saved with this initial solution. Still, it is proved that the proposed approach works and that 
 accurate classifiers with test accuracies ranging from 88.0\% to 100.0\% can be built 
-with the techniques implemented.
+with the techniques presented.
 
 % relevance for other work: why was this specific problem? how can this be concretely used?
 % relevance of this work: KNM is able to have way more precise dental element markings
@@ -248,25 +244,22 @@ with the techniques implemented.
 % - ocr where each character has a multivariate output (eg. this is an a. it is underlined could be letter and underlined /not underlined)
 
 The direct impact of this work is an improved precision of the tooth element entries in the digitized 
-fossil catalogues of the National Museum of Kenya, but the results are applicable to a wider domain of problems.
-Intuitively the results are directly applicable to other fossil archives using similar notation: only a fine-tuning of the 
-models to the new archival data is necessary.
-For other handwritten archives, the results presented can be used to improve recognition accuracy, especially in cases 
-where the data contains characters other than latin letters or arabic numerals. Additionally, this work presents
-a potential solution for when the target character set can be expressed with multivariate output data. This could, for 
-instance, be handwriting with occasional underlinings, where the bivariate output could be the letter and a boolean variable for 
-whether the character was underlined.
+fossil catalogues of the National Museum of Kenya, but the results are applicable to a wider domain.
+Intuitively, the results are directly applicable to other fossil archives using similar notation: only a fine-tuning of the 
+models to the data is necessary.
+For other handwritten archives, the results presented can be used to improve recognition accuracy, especially when the target character set can be expressed with multivariate output data. This could, for 
+instance, be handwriting with occasional underlinings, where the bivariate output could be the letter and a boolean variable for if underlining was detected.
 
 % organization
 The rest of this thesis is organized as follows. First, the necessary background theory is 
 presented. For paleoecology, the background covers 
-foundational ecological laws followed by a brief introduction to methods used in
-paleoenvironmental reconstruction, especially focusing on inferences from tooth data,
+foundational ecological theory followed by a brief introduction to methods used in
+paleoenvironmental reconstruction, especially focusing on inferences from tooth data. This is
 followed by a presentation of the mammal tooth row.
 For deep neural networks, the following concepts are introduced:
-the basic network structure, how training is conducted, basic building blocks of character-recognizing network architectures, and transfer learning. 
+the basic network structure, how training is conducted, building blocks of character-recognizing network architectures, and transfer learning. 
 Second, related work is presented, both on
-handwritten archive digitization and transfer learning with character-recognizer models.
+handwritten archive digitization and transfer learning with character-recognizing models.
 Next, the experimental setup is introduced, covering dataset creation, labeling and data 
 preprocessing, followed by base model and transfer learning method selection. After this, 
 results of the experiments are presented and discussed. Finally, the work is concluded.
@@ -290,24 +283,20 @@ changes they have undergone~\cite{Faith_Lyman_2019}.
 %we need correlations but even those are hard: something correlates in present might not correlate in past
 %Nature is highly complicated -> models and assumptions enable drawing conclusions from animal communities
 %one needs to be super careful to draw conclusions, lots of evidence always needed
-The high-level process for reconstructing paleoenvironments is to find a relationship between traits of an 
-animal or plant community living in an area in the present time, and use this 
-relationship to map sets of species in a fossil assemblage to paleoenvironmental variables.
-Traditionally, these relationships are constructed with expert knowledge on each species: The environmental conditions of
-each species is studied independently and limits known as tolerances are learned. These sets of tolerances form niches,
+The high-level process for reconstructing paleoenvironments is to find a relationship between the traits of an animal or plant community in the present and use this 
+relationship to estimate paleoenvironmental variables based on species found in a fossil assemblage.
+Traditionally, these relationships are constructed with expert knowledge on each species: the environmental conditions of
+each species is studied and limits known as tolerances are learned. These sets of tolerances form niches,
 the set of possible environmental conditions a species can live in~\cite{Faith_Lyman_2019}. Finally, these insights are aggregated to 
-draw conclusions on past enviroments based on which species occur in fossil finds in a given location and time.
-Naturally, there are multitudes of variants for drawing environmental conclusions from fossil data based on 
-tolerances and niches, and the methods have many caveats, thoroughly overviewed in~\cite{Faith_Lyman_2019}. The most major ones of these are that one always has to 
-make assumptions, such as assuming that tolerances will not change over time, and aggregate information by for instance 
-disregarding individual adaptations. Additionally, with a set of species and a big set of environmental signals provided 
-by each species, drawing conclusions on multitudes of often partially conflicting signals is a challenge.
+draw conclusions on past environments based on which species occur in fossil records in a given location and time.
+Naturally, there are multitudes of methods for drawing environmental conclusions from fossil data based on 
+tolerances and niches, and the methods have many caveats, thoroughly surveyed by Faith and Lyman~\cite{Faith_Lyman_2019}. One of the most major limitations is that with a big set of environmental signals provided by the niches of each species, drawing conclusions from multitudes of often partially conflicting signals is a challenge.
 
 %chapter intro 
 %sect 1 highlights dental ecometrics as a method for paleoenvironmental reconstruction
 %to motivate the need for representative and accurate dental fossil datasets. As further background on the data, sect 2 presents the
 %mammal teeth row along with relevant terminology.
-This chapter overviews relevant background on paleoenvironmental reconstruction from the perspective of this thesis.
+In this chapter, background on paleoenvironmental reconstruction is overviewed, focusing on methods for dental fossil data.
 Section~\ref{sect:ecometrics} highlights dental ecometrics, a method for constructing mappings from dental elements to environmental traits to motivate the 
 need for representative and accurate tooth fossil datasets. As further background on the data, Section~\ref{sect:mammal_teeth} presents the mammal teeth 
 row along with related terminology.
@@ -322,8 +311,8 @@ row along with related terminology.
 Dental ecometrics is a method for constructing transfer functions, mappings from species occurences to environmental traits.
 These can be learned using statistical models, such as regression, or classic machine learning methods.
 Using transfer functions is considered more accurate than expert analysis on tolerances and niches: the latter
-can contain subjective interpretations, and transfer functions allow analyzing much larger sets of species occurences than would 
-ever be possible for a human analyst~\cite{Faith_Lyman_2019}.
+can contain subjective interpretations, and transfer functions allow analyzing larger sets of species occurences than would 
+ be possible for a human analyst~\cite{Faith_Lyman_2019}.
 
 %%what dental ecometrics is specifically, lophs and hypsodontry
 %dental ecometrics = inference of transfer functions given dental data (ch9 liu et al 2012),~\cite{oksanenHumboldtianApproachLife2019}
@@ -340,26 +329,26 @@ ever be possible for a human analyst~\cite{Faith_Lyman_2019}.
 %        use mapping to fossil teeth in the past -> get past temperature variables.~\cite{oksanenHumboldtianApproachLife2019} for instance got temperature, fortelius precipitation
 %relevance to present eg find how much loss of tree cover affects temperature (fortelius)
 %super relevant for forecasting whats to come with climate change
-Dental ecometrics constructs transfer functions where the input variables are dental traits~\cite{Faith_Lyman_2019, oksanenHumboldtianApproachLife2019}.
-The method is a subtype of ecomorphology; the study of the relation of functional traits of animals and plants with their livelihood
+Dental ecometrics constructs transfer functions with dental traits as input variables~\cite{Faith_Lyman_2019, oksanenHumboldtianApproachLife2019}.
+The method is a subfield of ecomorphology; the study of the relation of functional traits of animals and plants with their livelihood
 \cite{oksanenHumboldtianApproachLife2019}. The high-level reasoning behind the method is that teeth evolve to 
 shapes that are most suitable for processing vegetation in the habitat, thus one can infer vegetation based on tooth shapes, 
 which then serves as a good proxy for environmental conditions~\cite{oksanenHumboldtianApproachLife2019}. 
-When the environment changes, animals have to move to habitats where the vegetation is digestible with their teeth, thus 
-analysis on environmental change can be performed even on a smaller timescale than evolution would allow~\cite{fortelius}. As an example, both precipitation~\cite{fortelius}
-and temperature~\cite{oksanenHumboldtianApproachLife2019} can be learned based on dental lophs, number of cutting blade shapes, and hypsodontry, the height of 
+When the environment changes, animals have to move to habitats where the vegetation is digestible with their teeth, and therefore
+analysis on environmental change can be performed even on smaller timescales than evolution would allow~\cite{fortelius}. For example, both precipitation~\cite{fortelius}
+and temperature~\cite{oksanenHumboldtianApproachLife2019} can be learned based on dental lophs, number of cutting blade shapes, and hypsodontry, the height of the
 molar crown, with the following analysis. One can roughly divide available plants as grass, which has more water and is easier to chew, and 
-browse, drier and rougher plants. The dominant molars are primarily used to chew these plants and it is known that to digest grass, a high 
+browse, drier and rougher plants. Dominant molars are primarily used to chew these plants, and it is known that to digest grass, a high 
 crown is required due to tooth erosion and that to digest browse, cutting blades in teeth are required to cut the fibrous plants to pieces.
-One can therefore find statistical relationships between these tooth measurements and environmental conditions that are favorable 
-for the growth of grass or browse. Then, one can collect a large number of fossilized molars, measure the crown heights and blade shapes to construct a data set of 
-tooth types found in a region during a set geological time period. The previously learned function can then be applied to this data set
- to get knowledge on environmental conditions. These insights on 
+Therefore, one can find statistical relationships between these tooth measurements and environmental conditions favorable 
+for the growth of grass or browse. Then, a large number of fossilized molars can be collected, the crown heights and blade shapes measured, and a dataset of 
+tooth types constructed. The previously learned function can then be applied to this data set
+ to estimate environmental variables. These insights on 
  past environments and how habitats interacted with their changes can 
- in turn be used to inform the present situation: for example, it can 
- be predicted how much local ground temperature rises when tree cover is lost~\cite{fortelius},
- and information like this is crucial in understanding the processes occurring with climate change.
-  Again, the true relationships are naturally much more complicated 
+ in turn be used to inform the present: for example, it is possible to predict how much local ground temperature rises when tree cover is lost~\cite{fortelius} and
+information like this is crucial in understanding the processes occurring with climate
+change.
+  Again, the true relationships are much more complicated 
  than the straightforward thought process presented here, but the rough idea is accurate.
 
 % data precision/availability considerations
@@ -379,16 +368,15 @@ tooth types found in a region during a set geological time period. The previousl
 Many studies on paleoenvironmental reconstruction list data availability as one of the most major limitations~\cite{oksanenHumboldtianApproachLife2019,fortelius}.
 As geoglogical time spans are huge, studies have to 
 resort to time resolutions of hundreds of thousands of years (eg.~\cite{fortelius}) because of a lack 
-of sufficient sample sizes. It seems that one of the major hurdles in verifying a hypothesis on 
+of sufficient sample sizes. One of the greatest challenges in verifying a hypothesis on 
 paleoenvironments is the effort required to collect and curate a dataset; for instance, some ecometric
 analysis works start by measuring the dental traits~\cite{fortelius}, an effort that could be saved 
 if measurements were collected once and then stored in a structured manner. For this reason, the 
-creation and maintenance of paleontological databases is of central importance, and this is accentuated 
-in the case of the Turkana basin, for which most of the data points are stored in catalogues processed in 
-this work: it is suspected that
+creation and maintenance of paleontological databases is of central importance. This is accentuated 
+in the case of the catalogues processed in this work, which store most of fossils found from the Turkana basin: it is suspected that
 important steps in human evolution occurred there, the mammal record is especially dense~\cite{fortelius}, and the area has undergone many environmental transitions in the past~\cite{Zliobaite2023}.
 
-The goal of this work is to advance automated curation of paleontological databases, 
+The goal of this work is to advance automated curation of paleontological databases
 with the primary aim that the structured, digital data would allow for 
 more accurate analysis thanks to larger samples and less tedium in 
 setting up experiments. The terminology special to fossils present in 
@@ -405,12 +393,9 @@ the curated data is presented next.
 %specimen can be either one tooth or fragments of the jaw bone where there are multiple teeth (markings like M1-3)
 % present teeth here
 
-Since geological events tend to erode organic remains the faster the remain decomposes, the hardest materials in 
-the corpse represent largest fractions of fossil datasets. These hard materials include shells, bones and especially teeth, and 
-the last is prominent in fossil data analysis also due to the fact that they encode a diverse set of information on 
-the livelihood of the organism~\cite{Faith_Lyman_2019}. The identification of the fossil remain is done at the finest resolution possible,
-preferring taxon information over just identifying the genus, for instance. Finest-resolution information 
-derived from dental fossils are the taxon the tooth is from, and which tooth or teeth are found in the specimen.
+Since geological events erode fast-decomposing organic remains first, hardest materials in 
+the corpse represent most of fossil collections. These hard materials include shells, bones and especially teeth, the last being prominent in fossil data analysis also because they encode a diverse clues on 
+the livelihood of the organism~\cite{Faith_Lyman_2019}.
 This section presents the naming and indexing system for mammal teeth commonly used in paleontological datasets,
 as described by Hillson~\cite{Hillson_2005}, and some common shorthand versions present in the dataset digitized in this work.
 
@@ -418,13 +403,13 @@ as described by Hillson~\cite{Hillson_2005}, and some common shorthand versions 
 % the jaw bones
 %lower jaw bones: mandibles, upper jaw: maxilla, premaxilla
 % permanent and deciduous (D), nonpermanent "milk" teeth (laita vaan jos löytyy d-hampaita)
-Specimens including more complete fragments of the jaw are described with terminology related 
+Specimens including fragments of the jaw are described with terminology related 
 to the jaw bones. All mammals share the same bone structure around the mouth: the lower jaw consists 
-of two bones called \textit{mandibles}, joining in the middle, whereas the upper jaw consists of bones called 
+of two bones called \textit{mandibles}, whereas the upper jaw consists of bones called 
 \textit{maxilla} and \textit{premaxilla}, that also form large parts of the face.
-A common trait across many mammals is also that the permanent teeth erupt in the 
+A common trait across many mammals is also that permanent teeth erupt in the 
 youth of the animal, replacing the 'milk' or \textit{decidous} teeth. Shorthands commonly used for these 
-terms are 'mand' for mandibles, and capital letter 'D' for the decidous teeth.
+terms are 'mand' for mandibles, and letter 'D' for decidous teeth.
 
 % types of mammal teeth
 %four classes, front to back: three incisors (I), one canine (C), four premolars (P), three molars (M). top bottom left right. top/bottom noting upper jaw as superscript lower jaw as lower script, 
@@ -432,14 +417,13 @@ terms are 'mand' for mandibles, and capital letter 'D' for the decidous teeth.
 % between taxa including holding, cutting and chewing. also form and number of each present changes between taxa.
 %sometimes lower jaw as line on top and upper jaw as line on bottom, sometimes both are used: upper script number with line on bottom. Line is "the other jaw"
 %if there are less of a type of teeth eg two premolars, they might be no 1 and 2 or no 3 and 4
-The tooth rows of mammals are classified to four classes; \textit{incisor}, \textit{canine}, \textit{premolar}
-and \textit{molar} and indexed with a numbering system. Moving from the middle of the tooth row
+Mammals have four tooth types: \textit{incisor}, \textit{canine}, \textit{premolar}
+and \textit{molar}, and tooth positions are indexed with a numbering system. Moving from the middle of the tooth row
 towards the side, there are up to three 
-incisors, used for catching food and denoted with the letter 'i'. Behind them is the canine tooth, used for cutting, and 
-in case of predators, killing. This tooth is denoted with the letter 'c'. Behind the canine are up to four premolars, noted with 'p'. These 
-teeth vary most between taxa in form and function with functions including cutting, holding and chewing food.
+incisors, used for catching food and denoted with the letter 'i'. Behind them is the canine tooth, denoted with the letter 'c'. Behind the canine are typically up to four premolars, noted with 'p'. These 
+teeth vary most between taxa in form with functions including cutting, holding and chewing food.
 The teeth at the back of the row are called molars, 'm', and are primarily used for chewing. Molars, like the other tooth types, 
-vary in number between taxa, and are at most three. The numbers are always increasing when moving back in the tooth row, but in
+vary in number between taxa, and are typically at most three. The numbers are always increasing when moving back in the tooth row, but in
  the case of missing teeth in a taxon, the numbers do not necessarily start from one: instead, the number is chosen to 
 have teeth with same numbers as alike each other as possible. Thus, a taxon with only two premolars might only have the teeth P3 and P4.
 
@@ -447,19 +431,24 @@ have teeth with same numbers as alike each other as possible. Thus, a taxon with
 % directional terminology
 % distal "far from center of body", proximal "close to center of body", mesial "close to mouth opening"
 %right and left sides are always symmetrical, denoted simply L or R or Lt or Rt or left or right. left is left looking from the animal, not the observers perspective
-Location of the tooth present in the fossil is described with directional terms specifying the side, jaw and the location on the jaw.
-The most
-intuitive are left and right describing the side, where one needs to note that each denotes the side from the viewpoint of the 
-animal, not the observer. Mammal teeth are always symmetrical, thus every tooth always has the 
-equivalent other-jaw counterpart. The distance of a tooth from the throat 
+Location of the tooth in the fossil is described with directional terms specifying the side, jaw and the location on the jaw.
+Intuitively, left and right describe the side, and one needs to note that each denotes the side from the viewpoint of the 
+animal, not the observer. Mammal teeth are always symmetrical from one side to the other, thus every tooth always has the equivalent other-jaw counterpart. Conversely, upper and lower jaw teeth are not always symmetric. The distance of a tooth from the throat 
 is described with the terms \textit{distal}, 'far from to the mouth' and \textit{mesial}, 'close to the mouth'. For skeletal bones, the term \textit{proximal}, 
-'close to the center of the body' is often used instead of 'mesial'.
+'close to the center of the body' is used instead.
 Short-form versions for these terms include capital 'L' or 'Lt' for left, capital 'R' or 'Rt' for right, 'dist.' 
-for distal and 'prox' for proximal.
+for distal, and 'prox' for proximal.
+
 The jaw, upper or lower, has three dominant notation styles: one is to sub- or superscript tooth index numbers, other is to 
-over- or underline tooth markings, and the last style, prominent in digital fossil data, is to set the tooth type letter to upper- or lowercase.
-In each of these systems, a superscipt, underline, or capital letter denotes upper jaw, and conversely subscript, overline or lowercase letter denotes the lower jaw.
+over- or underline tooth markings, and the last style, prominent in digital fossil data, is to upper- or lowercase the tooth type letter.
+In each of these systems, a superscipt, underline, or capital letter denotes upper jaw, and conversely subscript, overline or lowercase letter denotes the lower jaw. The line can be thus interpreted to picture the other jaw bone and the number the bone the tooth is from.
 An illustration of the mammal tooth system is presented in Figure~\ref{image:mammal_teeth}. Terminology with corresponding shorthands are summarized in Table~\ref{table:terminology} and jaw notation styles in Table~\ref{table:jaw_notation}.
+
+% main challenges from ocr perspective?
+% - overline and underline are uncommon.
+% - classes are uncommon (usually set of letters now types, sides, jaws)
+The dental markings have a few specialties as a marking system compared to regular languages. One tooth marking contains many parts, letters, numbers and over- or underlines, each describing different types of information. Recognizing the marking is not a simple task of choosing one letter from alternatives; multiple pieces of information about type and position of the tooth need to be inferred. This presents new challenges for optical character recognition with deep neural networks, background of 
+which is presented next.
 
 \begin{figure}[ht]
     \centering
@@ -500,22 +489,15 @@ An illustration of the mammal tooth system is presented in Figure~\ref{image:mam
     \label{table:jaw_notation}
 \end{table}
 
-% summary of chapter ???
-This chapter overviewed background on paleoenvironmental 
-reconstruction to motivate the necessity for structured paleontological 
-databases. Additionally, terminology present in the data processed was presented.
-The next chapter presents background theory on deep learning, which is required for data 
-uniformizing processes completed in this work.
-
 \chapter{Deep Neural Networks for Optical Character Recognition}
 
 % introduction to chapter
 % point of this section: present relevant deep learning theory
 % running example: reading characters from images (optical character recognition, OCR)
 
-This chapter presents relevant background on deep neural networks (DNN), also known 
-in literature as artificial neural networks (ANN) or, for historical reasons, multilayer perceptrons (MLP).
-The aspects presented are constrained to those relevant to the problem at hand, optical character recognition (OCR),
+This chapter presents background on deep neural networks, also known 
+in literature as artificial neural networks or, for historical reasons, multilayer perceptrons.
+The aspects presented are those relevant to optical character recognition,
 that is also used as a running example.
 
 \section{Deep neural networks}
@@ -526,17 +508,12 @@ that is also used as a running example.
 % activations: connections between weights, nonlinear scalar to scalar functions 
 
 Neural networks are multivariate functions that share a specific form.
-The function parameters, usually floating-point numbers, are called weights and are organized in groups called layers.
+The function parameters are called weights and are organized in groups called layers.
 The first layer is called the input layer, after which there are multiple hidden layers, followed by the output layer.
-Weights of adjacent layers are combined by activation functions, that are constrained to nonlinear functions with 
+Weights of adjacent layers are combined by activation function that are nonlinear functions with 
 scalar inputs and outputs~\cite{princebook}. Simplest of the activation functions is the rectified
-linear unit ReLU, shown in Equation~\ref{eq:relu}. A neural network is usually visualized with a graph structure, as seen in Figure~\ref{image:neuralnet}, where a node represents a 
+linear unit ReLU, that sets negative input values to zero and otherwise keeps the input as is. A neural network is usually visualized with a graph structure, as seen in Figure~\ref{image:neuralnet}, where a node represents a 
 weight, and an edge denotes that the value on the first layer is used to compute the value on the latter.
-
-\begin{align}
-    \text{ReLU}(x) = \max(0, x)
-    \label{eq:relu}
-\end{align}
 
 \begin{figure}[ht]
     \centering
@@ -565,7 +542,7 @@ weight, and an edge denotes that the value on the first layer is used to compute
             \draw (h\i') -- (y);
         }
     \end{tikzpicture}
-\caption{Visualization of a neural network with scalar input and output, and two fully connected layers, redrawn after~\cite{princebook}.}
+\caption{Visualization of a neural network with scalar input and output, and two fully connected layers, redrawn after Prince~\cite{princebook}.}
 \label{image:neuralnet}
 \end{figure}
 
@@ -575,9 +552,9 @@ weight, and an edge denotes that the value on the first layer is used to compute
 % then, you compute a linear combination and pass that through an activation function 
 
 The computation of an output based on an input in the network is called the 
-feed-forward, as the computation runs forward layer by layer through the 
-network. The process starts from the input layer, which is simply the input 
-organized as a vector. Each intermediate value on the first hidden layer, noted $h_d$ below,
+feed-forward, as the computation runs layer by layer through the 
+network. The process starts from the input layer, the input 
+organized as a vector. Each intermediate value on a hidden layer, noted $h_d$ below,
 is computed by taking a linear combination of the layer weight vector $\mathbf{\theta}$ and 
 the input vector $\mathbf{x}$ of size $N$, adding the 
 bias term $\theta_0$, and passing the result through the activation function $a$:
@@ -591,19 +568,9 @@ bias term $\theta_0$, and passing the result through the activation function $a$
 Different types of layers, such as convolutional or transformer layers 
 denote that this single-layer computation process is performed differently from 
 the standard form. When many layer types are present, layers using the computation
-in Equation~\ref{eq:fc_layer} are called fully connected or dense layers.
-
-% a is any nonlinear funtion, simplest is the rectified linear unit relu, x=x if x>0, x=0 if x<0.
-% hidden units are taken as inputs to next layer and next and next. thetas = weights
-% largest, deepest: hundreds of layers, hundreds of millions of weights 
-% then last hidden unit output it the output of the network. tadaa.
-The computation proceeds from the first hidden layer in a similar manner: 
-the next layer values, also called activations, are computed using the weights of 
-the layer and the previous layer activations with Equation~\ref{eq:fc_layer}.
-The activations of the output layer is the output of the network.
-More complex networks are generally constructed by increasing the network size to up to 
-hundreds of layers with hundreds of millions of parameters, and by using
-different types of layers.
+in Equation~\ref{eq:fc_layer} are called fully connected or dense layers. The full computation of 
+the feed forward consists of performing this computation on each layer, finally producing the 
+network output after up to hundreds of layers.
 
 % - universal function approximator
 % the theory of the universal approximation capacity: this algebraic construct, 
@@ -612,57 +579,24 @@ different types of layers.
 The universal function approximator theorem states that functions belonging to the 
 neural network family are capable of approximating any mapping from any type or shape of input
 to any output with arbitrary precision~\cite{princebook}. Naturally, due to high computational 
-costs of finding the optimal weights and the large search space of possible networks, 
+costs of finding the optimal weights,
 this theoretical optimum is rarely reached.
 
 % examples from ocr relevant in this case
 % input is always image ie 2d matrix if grayscale or 3d tensor if rgb image.
-Examples of input-output mappings relevant in this work are the following, 
-ordered from simplest to most complex: tooth type classification, constrained multilabel classification, 
-and sequence-to-sequence learning. The problem of tooth type classification takes in an input image of a dental marking
-% this figure: see first all background & what samples are needed from tooth data...
- and decides which tooth the image denotes.
-As mammals have up to eleven teeth on each side of two jaws, the classes would be 
-these 44 teeth, such as 'rm1', 'lP4' or 'li2', using the computational notation presented in
-Section~\ref{sect:mammal_teeth}. The network would output a 44-element discrete probability distribution 
-obtained by using the softmax function (Equation~\ref{eq:softmax}), that takes as input the last layer output
-values and returns an output layer vector of the same length but with values between zero and one and summing to one, 
-thus a valid probability distribution.
-Here, like in other classification tasks, each value notes the probability that the image contains 
-the tooth this value is chosen to represent. The final output would then be the largest probability
-found in this vector.
+Examples of input to output mappings that can be approximated with a neural network to solve a character recognition task are the following. The problem of character classification takes in an input image of a character, and outputs which character is found on the image. The output is a probability vector, where each value notes the probability that the image contains the character this value is chosen to represent. The softmax activation function, found in Equation~\ref{eq:softmax}, is used before the output layer to force the output to contain valid probability values that sum to one. Generalizing the mapping problem further, one can also use as input an image 
+with a text sequence, and teach a neural network to output the text on the image.
+Due to the variable output length, a technique called sequence-to-sequence learning 
+is employed~\cite{sutskever2014sequence}. This encodes the fixed-length output layer to variable-length 
+output text. Even though the main problem of this work is to recognize characters, 
+generally the term optical character recognition' is used for detecting longer text sequences.
 
 \begin{align}
     \text{softmax}_k[\mathbf{z}] = \frac{\exp[z_k]}{\sum_{k'=1}^{K} \exp[z_{k'}]},
     \label{eq:softmax}
 \end{align}
 
-% multilabel classification problem:
-% image of tooth sample. output: first MIPC, second if it is upper or lower jaw
-% output can be two arrays, one like before, other a 0-1 probability for upper jaw. upper if this > 0.5 
-A better approach that could encode the fact that all teeth of same type share a similar input feature
-, a letter in the image, could be formulating the problem as a multilabel
-problem~\cite{multilabel_classification}: the output would be three of the aforementioned 
-probability vectors, one with four elements representing 'M', 'P', 'C' or 'I', one with four elements 
-for tooth indices, and two two-element vectors for left-right and upper-lower jaw. As this 
-formulation lacks the notion that some tooth-type pairs never exist, such as the 4th canine,
-this is a case of constrained multiclass classification, where some label pairs are marked 
-as impossible combinations.
-
-% present sequence to sequence learning:
-% more complex case: image of sentence
-% output: text on image, variable length. here output layer is a more complex 
-% structure of probabilities for each position in the result sequence.
-Generalizing the mapping problem further, one could also input a variable-length image 
-of the entire dental marking comprising of multiple words, and outputting the text on this image.
-Due to the variable output length, a special technique called sequence-to-sequence learning 
-is employed~\cite{sutskever2014sequence}. This encodes the fixed-length output layer to variable-length 
-output text. Even though all of the problems presented in this section recognize characters, 
-generally the term 'optical character recognition' is used for this type of mapping. Models
-for solving these problems accurately are very large, for instance the Microsoft TrOCR has approximately 
-500,000 parameters~\cite{li2021trocr}.
-
-Finding the best network weights for any of these types of input/output mapping problems, training 
+Finding the best network weights for any of these types of input-to-output mapping problems, training 
 a network, is conducted with the same process.
 The general recipe for training a neural network is the subject of the next section.
 
