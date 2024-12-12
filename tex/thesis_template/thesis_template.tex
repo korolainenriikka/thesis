@@ -56,7 +56,7 @@
 \date{\thesisdate}
 \prof{Professor Indr{\.e} \v{Z}liobait{\.e}}
 %\censors{Professor A}{Dr. B}{}
-\censors{}{}{}
+\censors{Associate Professor Arto Klami}{}{}
 \keywords{Optical character recognition, Transfer learning, Paleontological databases}
 \depositeplace{}
 \additionalinformation{Code and pre-trained models are available on \href{https://github.com/korolainenriikka/fine-tuned-ocr-for-dental-markings}{GitHub}.}
@@ -140,6 +140,7 @@ by the paleontological community for further digitization efforts.
 % STEP 4: Write the thesis.
 % Your actual text starts here. You shouldn't mess with the code above the line except
 % to change the parameters. Removing the abstract and ToC commands will mess up stuff.
+
 \chapter{Introduction}
 
 % outline of an introduction
@@ -195,7 +196,7 @@ to continue the project by digitizing these markings accurately.
 %handwritten specifications of fossil bones and outputs what the text says
 
 Specifically, this work uses as input data both scan images of tabular fossil catalogues
-and outputs from Azure Vision~\cite{azurevision}.
+and outputs from Azure Vision.
 The output consists of sentence and word-level readings, along with bounding boxes defining 
 the location of each word or sentence. The main research question is the following: 
 
@@ -273,7 +274,7 @@ results of the experiments are presented and discussed. Finally, the work is con
 %    underwent at which times (ch2)
 Paleoecology is a field that conducts data analysis on fossil specimens. The most common type of 
 this analysis is paleoenvironmental reconstruction: deducing what past habitats were like and which 
-changes they have undergone~\cite{Faith_Lyman_2019}.
+changes they have undergone~\cite{Faith_Lyman_2019_ch2}.
 
 %abstract how analysis is done (species to env map w present apply to past)
 %basic process: learn fossil data to environment statistical relationship in present
@@ -287,7 +288,7 @@ The high-level process for reconstructing paleoenvironments is to find a relatio
 relationship to estimate paleoenvironmental variables based on species found in a fossil assemblage.
 Traditionally, these relationships are constructed with expert knowledge on each species: the environmental conditions of
 each species is studied and limits known as tolerances are learned. These sets of tolerances form niches,
-the set of possible environmental conditions a species can live in~\cite{Faith_Lyman_2019}. Finally, these insights are aggregated to 
+the set of possible environmental conditions a species can live in~\cite{Faith_Lyman_2019_ch2}. Finally, these insights are aggregated to 
 draw conclusions on past environments based on which species occur in fossil records in a given location and time.
 Naturally, there are multitudes of methods for drawing environmental conclusions from fossil data based on 
 tolerances and niches, and the methods have many caveats, thoroughly surveyed by Faith and Lyman~\cite{Faith_Lyman_2019}. One of the most major limitations is that with a big set of environmental signals provided by the niches of each species, drawing conclusions from multitudes of often partially conflicting signals is a challenge.
@@ -312,7 +313,7 @@ Dental ecometrics is a method for constructing transfer functions, mappings from
 These can be learned using statistical models, such as regression, or classic machine learning methods.
 Using transfer functions is considered more accurate than expert analysis on tolerances and niches: the latter
 can contain subjective interpretations, and transfer functions allow analyzing larger sets of species occurrences than would 
- be possible for a human analyst~\cite{Faith_Lyman_2019}.
+ be possible for a human analyst~\cite{Faith_Lyman_2019_ch9}.
 
 %%what dental ecometrics is specifically, lophs and hypsodontry
 %dental ecometrics = inference of transfer functions given dental data (ch9 liu et al 2012),~\cite{oksanenHumboldtianApproachLife2019}
@@ -329,7 +330,7 @@ can contain subjective interpretations, and transfer functions allow analyzing l
 %        use mapping to fossil teeth in the past -> get past temperature variables.~\cite{oksanenHumboldtianApproachLife2019} for instance got temperature, fortelius precipitation
 %relevance to present eg find how much loss of tree cover affects temperature (fortelius)
 %super relevant for forecasting whats to come with climate change
-Dental ecometrics constructs transfer functions with dental traits as input variables~\cite{Faith_Lyman_2019, oksanenHumboldtianApproachLife2019}.
+Dental ecometrics constructs transfer functions with dental traits as input variables~\cite{Faith_Lyman_2019_ch9, oksanenHumboldtianApproachLife2019}.
 The method is a subfield of ecomorphology; the study of the relation of functional traits of animals and plants with their livelihood
 \cite{oksanenHumboldtianApproachLife2019}. The high-level reasoning behind the method is that teeth evolve to 
 shapes that are most suitable for processing vegetation in the habitat, thus one can infer vegetation based on tooth shapes, 
@@ -394,7 +395,7 @@ the curated data is presented next.
 % present teeth here
 
 Since geological events erode fast-decomposing organic remains first, hardest materials in 
-the corpse represent most of fossil collections. These hard materials include shells, bones and especially teeth, the last being prominent in fossil data analysis also because they encode a diverse clues on 
+the corpse represent most of fossil collections. These hard materials include shells, bones and especially teeth, the last being prominent in fossil data analysis also because they encode diverse clues on 
 the livelihood of the organism~\cite{Faith_Lyman_2019}.
 This section presents the naming and indexing system for mammal teeth commonly used in paleontological datasets,
 as described by Hillson~\cite{Hillson_2005}, and some common shorthand versions present in the dataset digitized in this work.
@@ -921,7 +922,7 @@ The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Fig
     \centering
     \includegraphics*[scale=0.6]{images/famouscnns.png}
     \caption{Architectures of AlexNet~\cite{alexnet}, GoogLeNet~\cite{googlelenet}, and VGG-16~\cite{vgg}, the 
-    VGG model variant with 16 layers, from~\cite{zhangImagebasedMethodsDietary2023}.}
+    VGG model variant with 16 layers, from Zhang~\cite{zhangImagebasedMethodsDietary2023}.}
     \label{image:famouscnns}
 \end{figure}
 
@@ -1088,7 +1089,7 @@ results from the value matrix multiplied with the attention matrix are concatena
 \begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.57]{images/multiheadattention.png}
-    \caption{Multi-head self-attention with two heads, from~\cite{princebook}.}
+    \caption{Multi-head self-attention with two heads, from Prince~\cite{princebook}.}
     \label{fig:multi-head-self-attention}
 \end{figure}
 
@@ -2117,7 +2118,7 @@ be found in Figure~\ref{image:noise}.
 % do any deterministic binarization
 More heavy preprocessing steps of binarization and extracting only the letter or number from the image were 
 attempted but not implemented.
-Binarizing the images was considered as evidence was found for that to increase result accuracy~\cite{9thuonPalm},
+Binarizing the images was considered as evidence was found for binarization to increase result accuracy~\cite{9thuonPalm},
 but was not implemented since the noise, in many cases
  parts of neighboring characters due to bounding box errors, are occasionally of darker 
 color than the correct text, making thresholding difficult. Additionally,
@@ -2190,11 +2191,11 @@ The ImageNet classifier base models used in this the experiments are selected
 according to results from related work, reviewed in Section~\ref{sect:same_solution}.
 The models were chosen by checking which base models 
 occurred multiple times when listing the top three models in terms of accuracy. 
-Analyzing Table~\ref{tab:model-info}, EfficientNet models \cite{efficientnetv2} consistently outperform 
+Analyzing Table~\ref{tab:model-info}, EfficientNet models~\cite{efficientnetv2} consistently outperform 
 other architectures, most often with the V2S variant, closely followed by the 16-layer variant of the VGG architecture~\cite{vgg},
-DenseNet121 \cite{densenet}, and ResNet101 \cite{resnet}.
+DenseNet121~\cite{densenet}, and ResNet101~\cite{resnet}.
 Therefore, these four architectures were chosen as base models.
-Additionally, the Vision Transformer \cite{vit} and AlexNet \cite{alexnet} were included, the former to test 
+Additionally, the Vision Transformer~\cite{vit} and AlexNet~\cite{alexnet} were included, the former to test 
 transformer architectures on the fossil domain and latter
 as proof-of-concept experiments suggested high accuracy scores.
 The shortcoming in this base model selection is that as previous work did not give much
@@ -2352,7 +2353,7 @@ The experiment outcomes are collected to Table~\ref{table:results}, and
 the most important findings are the following. Using AlexNet as the base model results in the highest 
 validation accuracy with the Vision Transformer as a close second. Having the transformer 
 architecture not as the best but still a competitive accuracy verifies the result 
-from Thuon et al.~\cite{9thuonPalm}, that stated convolutional networks to outperform transformers, but suggests 
+from Thuon et al.~\cite{9thuonPalm} that stated convolutional networks to outperform transformers, but suggests 
 that transformer architectures are worth testing for in building various OCR
 solutions. Another interesting point is that EfficientNet accuracies were the worst of all, 
 which strongly contradicts results of the reviewed works in Section~\ref{sect:same_solution},
@@ -2704,22 +2705,35 @@ them to challenges such as basic ImageNet classification.
 \chapter{Conclusions}
 
 Returning from the problem of digitizing handwritten fossil specimens to the larger picture, several thoughts arose on the potential of centralized, structured databases for paleontological research from short conversations with practitioners.
-These ideas can be viewed as a reiteration on what was attempted in this thesis, or toward which goal a tiny step was made. For any large endeavor one needs a north star, a guiding goal, to inform the direction of developing the methods. Looking from a data management perspective, it seems that the north star for paleontological databases is obtainable and holds a large potential for avoiding routine work for more meaningful activities. To conclude this work, these ideas are explored; what could be possible, what the utility of such advancements would be, and what it would take.
+These ideas can be viewed as a reiteration on what was attempted in this thesis, or toward which goal a tiny step was made. For any large endeavor one needs a guiding goal to inform the direction of developing methods, and looking from a data management perspective, it seems that the best-case goal for paleontological databases is obtainable and holds a large potential for avoiding routine work for more meaningful activities. To conclude this work, these ideas are explored: what could be possible, what the utility of such advancements would be, what has been already done within these domains, and what further work is required to achieve the goals.
 
-To see what could be, a good analogue to start from is that of scientific journals. If those were what fossil data largely is like today, journals would be scattered around the world, some saved digitally, some in paper form. Should someone want to study a subject, the work would start from finding where interesting material could reside, traveling to the location and saving photocopies of physical and copies of digital work. The possible future scenario for fossil data would be like Google Scholar is for research: one search box, where a researcher wishing to analyze a subject could write, for instance, ``all lower third molars globally, with all loph counts, dated and with location'', and a dataset could be created in seconds. The English-accepting search box is more of a fancy feature, an ordinary SQL database with querying access globally would do much of the same job, requiring users just to learn a few SQL commands. With a bit less simple database, a multimodal database could store 3D images of the physical samples along with each data entry. Setting specific features aside, the main point is that a dramatically more convenient data storage is not utopian; the technological tools exists and are routinely used in other domains.
+To see what could be, a good analogue to start from is that of scientific journals. If those were what fossil data largely is like today, journals would be scattered around the world, some saved digitally, some in paper form. Should someone want to study a subject, the work would start from finding where interesting material could reside, traveling to the location and saving photocopies of physical and copies of digital work. The best-case future scenario for fossil data would be like Google Scholar is for research: one search box, where a researcher wishing to analyze a subject could write, for instance, ``all lower third molars globally, with all loph counts, dated and with location'' using some query language, and a dataset could be created in seconds. With a multimodal database, 3D images of the physical samples could be stored along with each data entry. Setting specific features aside, the main premise is that the technological tools for creating an all-encompassing dataset are not utopian, that it is possible to dramatically increase the efficiency of data acquisition.
 
-The NOW database~\cite{Zliobaite2023} is perhaps the closest example of a structured fossil database, but upon a quick look still has improvements to be made. The most obvious is to collect more specimens there, and expanding from mammals to all other forms of life as well. The data scheme, without seeing the backend, seems to be built with a species as the main data unit. A more suitable one could be logging each specimen find as one data point, as these represent the smallest 'atom' of data in this context. These could then be linked to a species. The user interface of the NOW database is clear, but in this use case a text interface would be much more suitable than a graphical one: a database has so many commands that constructing a form and buttons for each leads to a cluttered and inevitably limited-capability interface. A textual interface with a single command prompt and some data browsing functionalities would simplify the interface to what most search engines look like, while providing every imaginable database function. Of course, the user interface or data scheme design of a paleontological database service could be the topic of another thesis, and cannot be covered in depth here.
+The Google Scholar analogue likely highlighted already what the utility of a global, all-encompassing paleontological database could be, but several more benefits should be covered. To state the obvious, huge amounts of tedious and boring data acquisition and uniforming effort could be saved, and this saved time could then be spent conducting more research, thinking deeply about the analytical problems, or not working at all. Another type of work that could be saved significantly is that of data creation: if every measurement and taxon identification, after completed, could be saved indefinitely and for everyone to access, no measuring would be done twice. Additionally, when saving new measurements, the result tractability could be improved with metadata: the person completing the measurement, date, and any thoughts regarding the measurement could be saved. Should any doubts of the correctness of a measure or taxon identification arise, this data or the person could be consulted, and the entry corrected if necessary. Versioning schemes could be designed to save a history of these corrections. Should one want to see the physical samples, the database still had an utility of serving as a search engine for finding where relevant specimens reside. Lastly, this much more standardized approach to fossil data would allow much better reproducibility: the database query to get the dataset used in each study could be published, and the data could be obtained by anyone evaluating the study to re-run or further experiment with the analysis conducted. With these changes in habits of data management, the thing that matters, the quality of knowledge on the distant past, could be dramatically improved.
 
-The Google Scholar analogue likely highlighted already what the utility of a global, all-encompassing paleontological database could be, but several more benefits should be covered. To state the obvious, huge amounts of tedious and boring data acquisition and uniforming effort could be saved, and this saved time could then be spent conducting more research, thinking deeply about the analytical problems, or not working at all. Another type of work that could be saved significantly is that of data creation: if every measurement and taxon identification, after completed, could be saved indefinitely and for everyone to access, no measuring would be done twice. Additionally, when saving new measurements, the result tractability could be improved with metadata: the person completing the measurement, date, and any thoughts regarding the measurement could be saved. Should any doubts of the correctness of a measure or taxon identification arise, this data or the person could be consulted, and the entry corrected if necessary. Versioning schemes could be designed to save a history of these corrections. Should one want to see the physical samples, the database still had an utility of serving as a search engine for finding where relevant specimens reside. Lastly, this much more standardized approach to fossil data would allow much better reproducibility: the database query to get the dataset used in each study could be published, and the data could be obtained by anyone evaluating the study to re-run or further experiment with the analysis conducted. With these changes in habits of data management, the actual thing that matters, the quality of knowledge on the distant past, could be dramatically improved.
-
-What it would take to get to this state of data quality would mostly be just to work; much of the technological tools already exist. For digitizing, as completed in this thesis, well-established practices go a long way. Fossil data has its specialties as an optical character recognition problem, but is relatively easy due to small numbers of classes.
-What would be required from paleontologists is a standard of measurement: what should be measured, and in which units, which should then be used in studies working with these traits. For the database creation, as already brushed on, software design, data versioning and management aspects need to be considered. Still, a large practical challenge is the amount of work and collaboration required for storing all data globally in one database. There needs to be an incentive for someone, who already conducted the analysis, to undergo the additional effort of sending out the measurements collected for the study for further use, as this effort does not directly benefit the sender in any way. As is known by all natural scientists, species that collaborate flourish, and it is in the interest of everyone to do what one can to advance the whole field.
+What it would take to get to this state of data quality is mostly to continue work already underway, by standardizing and increasing the size of globally available structured data.
+For digitizing, when comparing to traditional annotation by hand, automated digitization holds potential by being able to increase the capacity of data creation, although the challenge remains that perfect correctness is needed to avoid manual verification. However, as seen in this thesis, the accuracies achieved with well-established character recognition methods seem promising.
+To unify data formats, standards of measurement are required: what should be measured, and in which units. For these, standardization projects such as Darwin Core~\cite{darwincore} or the Ecological Trait-data Standard~\cite{ets-trait-data-standard} are well-established, but conforming to these standards is not universal~\cite{groomImprovedStandardizationTranscribed2019}.
+Lastly, one of the main efforts is to collect data, for which several ambitious projects with a long history, such as the GBIF repository~\cite{gbif}, exist.
+ Still, what is required is an incentive to contribute to global databases: after 
+conducting an analysis, undergoing the additional effort of sending out the measurements is currently not required. As is known by all natural scientists, species that collaborate flourish, and it is in the interest of everyone to do what one can to advance the whole field.
 
 % STEP 5:
 % Uncomment the following lines and set your .bib file and desired bibliography style
 % to make a bibliography with BibTeX.
 % Alternatively you can use the thebibliography environment if you want to add all
 % references by hand.
+\chapter{Acknowledgements}
+
+I am sending thanks to the following people for help with the thesis process.
+To my supervisor Professor Professor Indr{\.e} \v{Z}liobait{\.e}, for quick replies to messages, the invitations to group meetings, and help with most relevant research aspects rather than overfocusing on presentation style.
+To PhD Kari Lintulaakso from LUOMUS, for acting as the spring project contact, help with forming the thesis topic, and several comment rounds on the work.
+To ICT Officer Stephen Maikweki from the National Museums of Kenya for making the whole project possible by initiating the digitization effort and completing the most laborous part of the whole: scanning the 4\,200 pages of catalogues and numerable specimen cards, and to taking the time to meeting us to while visiting Finland.
+To the Data Science Project group, Max V\"{a}ist\"{o}, Axel Wester, Yinong Li and Janne Tuukkanen for the successful project that made this thesis topic possible: implementing digitization to an extent after which building one's own OCR engine was a sensible next step to do. Additionally, the re-usable coding style saved hours of programming in experimentation for the thesis.
+To Emeritus Professor Mikael Fortelius for showing interest in my work, shedding light on the significance of advancing automated data curation for paleontological data and giving ideas why the main focus of paleontologists tends to be on analysis rather than data management.
+To PhD student Shayan Gharib for serving as an ad-hoc research tutor by email; the help with code errors I was blind to and understanding new concepts was of great aid at the start of the work.
+To the Kurt\'{e}n club members, for the welcoming attitude and symposium invitation, which allowed me to talk to people more freely and get a better impression on what the practicalities of doing paleontological analysis are like.
+Lastly, for final comments and proofreading help, thanks to.
 
 \cleardoublepage %fixes the position of bibliography in bookmarks
 \phantomsection
