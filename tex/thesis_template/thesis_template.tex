@@ -833,14 +833,13 @@ in this area is highly limited, Section~\ref{sect:same_solution} presents work u
 to ones used here: publications aiming to recognize individual handwritten characters 
 with deep neural networks and transfer learning with limited target domain data.
 
-Literature to review was selected for with a snowball search, proceeding with forward and backward citations 
-of key articles. Additionally, last five to ten years of conference proceedings most relevant for this problem area were 
-scanned. For related work on fossil digitization, any found work touching on the subject area are commented on due to their 
+Literature to review was selected with a snowball search, proceeding with forward and backward citations 
+of key articles. Additionally, the last five to ten years of conference proceedings most relevant for this problem area were 
+scanned. For related work on fossil digitization, any found work touching on the subject area is commented on due to their 
 limited amount. For work conducting a similar analysis of handwritten character recognition, more strict conditions were placed. 
 For results, to be considered, the work had to be explicit about the best accuracy score achieved,
-mentioning the size of the training dataset, number of characters within the classification problem, and accuracy on the test set.
- The source of the base model had to be given along with its source task, training data
-and network architecture. The exact method of conducting the model fine-tuning had to be explicit enough to be reproducible,
+mentioning the size of the training dataset, the number of characters within the classification problem, and accuracy on the test set.
+ The source of the base model had to be given along with its source task, training data, and network architecture. The exact method of conducting the model fine-tuning had to be explicit enough to be reproducible,
 work only stating they used transfer learning or leaving gaps in the training process were omitted. Additionally, 
 presentation quality was taken into account by omitting some work due to
  undecipherable or missing details.
@@ -849,15 +848,15 @@ presentation quality was taken into account by omitting some work due to
 \label{sect:related_same_problem}
 
 While digitizing handwritten fossil catalogues holds,
-should all state of the art optical character recognition and data management methods 
+should all state-of-the-art optical character recognition and data management methods 
 be in full use for solving the problem, perhaps a dramatic potential for improving 
 the quality of paleoecological research, little has as of now been done in this area.
 Likely due to the problem having attracted little attention, 
 most current work assumes the most rudimentary method: a person sitting down, and transcribing.
 
 Due to large amounts of transcription work already done, there are digital repositories of fossil data.
-Uhen et al.~\cite{uhenCardCatalogsComputers2013} reviews such databases and encourages further 
-digitization of unpublished data, but does not take a stand on how one should complete such work.
+Uhen et al.~\cite{uhenCardCatalogsComputers2013} review such databases and encourage further 
+digitization of unpublished data, but do not take a stand on how one should complete such work.
 Another more extensive review, a whole chapter on digitization methods in paleontology has been written~\cite{mallisonDigitizingMethodsPaleontology2011},
 but the chapter exclusively considers digitizing physical bone and plant pieces with various 3D imaging methods.
 
@@ -874,13 +873,13 @@ the next big line of work would be how to structure and manage the digital paleo
 The only found work solving the exact same challenge as this work is the article by Shanmugavel et al.~\cite{shanmugavelHandwrittenOpticalCharacter2018}.
 While the task is exactly the same, the methods only contain basic computer 
 vision processes, edge and contour detection, and a lack of results reveals that not much was achieved in 
-this project. However, it serves as a proof that such attempts have taken place in previous years.
+this project. However, it serves as proof that such attempts have taken place in previous years.
 
 Concluding the review of research articles on digitizing handwritten fossil data, it seems that no successful projects
 have as of now been completed outside of the Data Science student project in spring 2024 for the National 
 Museums of Kenya, for which this work is a continuation. Therefore, the experiments in this thesis
-start out with the simplest problem reductions and only present more advanced techniques as ideas for future work.
-The rationale behind this decision is that since not much has yet been done, it is best to start out from 
+start with the simplest problem reductions and only present more advanced techniques as ideas for future work.
+The rationale behind this decision is that since not much has yet been done, it is best to start from 
 simple and established implementations to verify simple hypotheses before proceeding to more recently developed methods.
 
 \section{Approaches to handwritten character recognition with small target domain datasets}
@@ -890,8 +889,8 @@ Due to the limited amount of work on optical character recognition on fossil cat
 domains were chosen to draw inspiration from for constructing the model training setting. 
 Interestingly, the nature of the fossil catalogue digitization problem has much in common with 
 reading regional Sanskrit-based South Asian languages, and with certain historical 
-scripts, due to following similarities.
-Firstly, available data is small. While on first thought, languages where characters compound of
+scripts, due to the following similarities.
+Firstly, the available data is small. While on first thought, languages where characters compound of
  multiple smaller units such as  Chinese or Korean would be more applicable, these are not
   generally solved with transfer learning as the datasets are sufficiently large to train from scratch.
 Several of the South Asian languages contain modifiers \cite{2limbachiyaGujarati,3chatterjeeBengali,5rasheedHandwrittenUrduWAlexNet},
@@ -899,15 +898,15 @@ recognizing which can be seen as analogous to under- or overlines in the dental 
 Many characters are cursive in nature~\cite{5rasheedHandwrittenUrduWAlexNet}, which makes
  especially character segmentation 
 solutions more applicable as both the Asian languages and fossil catalogues face similar challenges.
-The last trait making recognizing characters in these languages similar to dental markings is that character sizes vary~\cite{6shoponBangla},
-which is also the case with the  smaller upper and lower script characters in fossil catalogues.
+The last trait that makes recognizing characters in these languages similar to dental markings is that character sizes vary~\cite{6shoponBangla},
+which is also the case with the smaller upper and lower script characters in fossil catalogues.
 For the historical scripts, a study on machine reading historical manuscripts written on palm leaves was 
 included as the scanning of these scripts is more challenging due to the old leaves, and the 
 study therefore contained valuable insight on image quality enhancement techniques~\cite{9thuonPalm}. Additionally, historical scripts 
 contain far more characters than modern languages, making the problem more challenging and therefore more interesting.
 
 To note on all articles reviewed in this section is that the analytical basis was incomplete: reasons for why a technique 
-was chosen to be implemented over reasonable alternatives was largely missing, and transfer distance considerations were 
+was chosen to be implemented over reasonable alternatives were largely missing, and transfer distance considerations were 
 mostly omitted. This has a number of consequences. The reasoning behind method selection could not be evaluated. The rationale 
 behind some decisions, such as flipping characters as a data augmentation technique~\cite{9thuonPalm}, optimizing the hyperparameter for character
  rotation angle in data augmentation~\cite{7rizkybasicCnnTransfer} or using data augmentation on the test set~\cite{11zunairUnconventionalWisdom}, could benefit from 
@@ -920,7 +919,7 @@ behind some decisions, such as flipping characters as a data augmentation techni
     thesis as previous work cannot invalidate their viability.
 
 While not directly analogous, a few works acted as major inspirations on aspects of the solution implemented in this work.
-Zhao et al.~\cite{4zhaoTibetan} achieved new state of the art accuracy in multi-style Tibetan glyph classification
+Zhao et al.~\cite{4zhaoTibetan} achieved new state-of-the-art accuracy in multi-style Tibetan glyph classification
 with a model chain approach that first classifies glyphs by style and then recognizes the glyph with a style-specific model. As these downstream
  residual learning models are trained with transfer learning with a Tibetan 
  recognition base model, the similarity of source and target data domains makes the transfer setting more simple than with
@@ -929,18 +928,18 @@ the fossil catalogues. However, the approach of
    the pipeline approach implemented in this thesis.
 
 As another pipeline approach for detecting characters out of a longer sequence, Akhlaghi et al.~\cite{1akhlaghiFarsi} implemented 
-a reading system for Farsi phone catalogues by chaining a gradient histogram based segmentation 
+a reading system for Farsi phone catalogues by chaining a gradient histogram-based segmentation 
 algorithm with a digit classifier. While the segmentation task is due to uniform character
- sizes much simpler than the catalogue case, the work has an useful literature review on
+ sizes much simpler than the catalogue case, the work has a useful literature review on
   character segmentation. For classification, a small convolutional network was trained
    from scratch to a satisfactory accuracy of 94.6\%, proving that with careful architecture design,
     even small models can learn to accurately classify digits.
 
 The rest of the literature reviewed in this section is directly analogous 
-to the fossil case: a ImageNet or autoencoder base model is trained with transfer learning to detect a new set of characters.
+to the fossil case: an ImageNet or autoencoder base model is trained with transfer learning to detect a new set of characters.
 
 Rasheed et al.~\cite{5rasheedHandwrittenUrduWAlexNet} created an AlexNet-based Urdu recognition 
-model, achieving 98.12\% accuracy in digit recognition. The common last layer replacement 
+model, achieving 98.12\% accuracy in digit recognition. The common last-layer replacement 
 with a fully connected layer with softmax activation was benchmarked against using AlexNet as 
 a feature extractor before support vector 
 machine classification, the former giving the best result.
@@ -948,21 +947,21 @@ machine classification, the former giving the best result.
 For Bangla character classification, Chatterjee et al. reported 96.12\% accuracy 
 by fine-tuning a ResNet model. The work employed highly sophisticated transfer
  learning and learning rate scheduling algorithms, aiming to converge training in as 
- little epochs as possible, an aspect already discussed not to be as significant as a high test accuracy.
+ few epochs as possible, an aspect already discussed not to be as significant as a high test accuracy.
   Another concern was the concluding statement, ``if those misclassified points were 
   removed from the dataset, the accuracy will improve further'', which raises questions about the experimentation practices.
 
 In Bangla digit classification, Shopon et al.~\cite{6shoponBangla} implemented self-supervised 
 pretraining and found a new best accuracy in Bangla digits,
-and best accuracy among all articles reviewed, of 99.5\% by chaining an autoencoder
-with a deep convolutional network. This proves that while less popular, approaches based on self-supervised pretraining  are worth experimenting with.
+and the best accuracy among all articles reviewed, of 99.5\% by chaining an autoencoder
+with a deep convolutional network. This proves that while less popular, approaches based on self-supervised pretraining are worth experimenting with.
 
 Lastly for the Bangla language, Zunair et al.~\cite{11zunairUnconventionalWisdom} experimented 
 with unconventional transfer learning approaches to classify digits.
 The authors experiment with freezing layers below not frozen layers, a counterintuitive 
 technique as later layer computation is dependent on the output of the previous ones.
 Another unconventional approach involved immediately freezing the last fully connected layer, 
-hindering any updates to the randomly initialized weights. The end result of 97.09\% is stated 
+hindering any updates to the randomly initialized weights. The result of 97.09\% is stated 
 to prove that these unusual approaches are worth experimenting with further, but due to this 
 result being only found with one data set and one base model, and in the absence of solid 
 theoretical basis, more evidence is required to justify the effectiveness of this method.
@@ -970,7 +969,7 @@ theoretical basis, more evidence is required to justify the effectiveness of thi
 Several articles detected characters from the Gujarati language.
 Goel et al.~\cite{10goelGujarati} were the first to attempt deep learning for Gujarati digits, 
 achieving 96.5\% accuracy with the EfficientNet architecture. However, the authors utilized 
-validation error on the test set as a training stopping condition and then reported accuracies 
+validation error on the test set as a stopping condition and then reported accuracies 
 on the same set, leading to data leakage and a result not necessarily representative of true
 generalization capability. In a later article~\cite{8goelGujarati2023}, the authors expanded 
 their experimentation to other architectures, created several transfer learning settings informed 
@@ -983,22 +982,22 @@ Limbachiya et al.~\cite{2limbachiyaGujarati} implemented digits and letters dete
 
 As the only work reading characters from a benchmark dataset of handwriting, Rizky et al.~\cite{7rizkybasicCnnTransfer}
 first compared various architectures and then used the best model, VGG16, to compare multiple transfer learning 
-approaches. the final accuracy of 98.16\% was reached by fine-tuning the whole network. However, to achieve this accuracy, the exact best data augmentation parameters of 
-rotation angle, image scale, and blur style are searched for, raising concerns on the real-world generalizability of this result.
+approaches. The final accuracy of 98.16\% was reached by fine-tuning the whole network. However, to achieve this accuracy, the exact best data augmentation parameters of 
+rotation angle, image scale, and blur style are searched for, raising concerns about the real-world generalizability of this result.
  While the dataset is likely to be easier than fossil catalogues, the relative accuracy of
 various approaches can give valuable insight to inform choices in designing the dental marking recognition system.
 
 Lastly, an interesting application domain of reading characters used in ancient historical scripts written 
 on palm leaves, Thuon et al.~\cite{9thuonPalm} achieved an impressive accuracy of 93,55\% on more than 100 
 classes from challenging palm leaf scan images. The work includes many valuable parts: image enhancement,
-data augmentation, and dataset expansion ideas, and comparison of multiple convolutional and attention based 
-architectures. As the main result it is concluded that convolutional networks tend to outperform transformer architectures.
+data augmentation, and dataset expansion ideas, and comparison of multiple convolutional and attention-based 
+architectures. As the main result, it is concluded that convolutional networks tend to outperform transformer architectures.
 
-Details on all the works presented above are summarized on Tables~\ref{tab:dataset-info} and~\ref{tab:model-info}. Where multiple settings 
+Details on all the works presented above are summarized in Tables~\ref{tab:dataset-info} and~\ref{tab:model-info}. Where multiple settings 
 were experimented with, the class count producing the highest accuracy score and the three best 
 base model variants are listed for brevity. The Tibetan detection article~\cite{4zhaoTibetan}
-is omitted due to transfer setting being different to the other works. Replacing the last layer with a 
-softmax layer with output size equal to target class count is not 
+is omitted due to the transfer setting being different from the other works. Replacing the last layer with a 
+softmax layer with an output size equal to the target class count is not 
 stated in the table as it is done in every case. The shorthand 'FC' is used to denote a fully connected layer.
 
 \begin{table}[h!]
@@ -1058,13 +1057,13 @@ The goal of this thesis is to recognize tooth type,
 jaw, and index number markings to increase the accuracy of the element description in
 the digitized fossil dataset of the National Museums of Kenya, ultimately aiming to improve the quality of paleoecological data analysis by improving the precision of the digitized catalogues. This 
 chapter presents an end-to-end system that achieves this goal and gives reasoning 
-for the training setups tested to build  the required deep learning models.
+for the training setups tested to build the required deep learning models.
 
 The main hypothesis is that accurately recognizing tooth notation in catalogue images 
 is best completed with a divide-and-conquer approach: by decomposing the main problem into small
 subproblems of simple univariate classification, and chaining these to a tooth detection pipeline,
 the subproblems become easy enough to be solved with perfect accuracy on limited data.
-The aim of the experiments is to verify the plausibility of this approach and find the most accurate deep 
+The experiments aim to verify the plausibility of this approach and find the most accurate deep 
 learning models to solve the subproblems involved.
 
 This chapter is organized as follows. In Section~\ref{sect:problem-formulation}, the tooth recognition problem is formulated as a set of $X\to y$ 
@@ -1085,14 +1084,14 @@ as accession identifiers, localities, and element descriptions. The element desc
 column specifies which part of the skeleton the fossil is from and therefore is the only 
 column with tooth notation.
 As no exact standard was required, perhaps because only a few people 
-created the markings, there are inconsistencies in notation style. Additionally,
+created the markings, there are inconsistencies in the notation style. Additionally,
 ad-hoc symbols such as fractions are used with only a few occurrences in the whole set of catalogues. 
 A sample of the catalogues is presented in Figure~\ref{image:cataloguesample}.
 The previous project managed to digitize most of the contents of the table, but since 
 the generalist Azure Vision model~\cite{azurevision} was used, tooth notation recognition
 loses information of upper or lower jaw and sometimes
 erroneously recognizes tooth type letters and index numbers.
-The aim of the experiments in this work is to fix these errors.
+The experiments aim to fix these errors.
 
 \begin{figure}[ht]
     \centering
@@ -1102,45 +1101,44 @@ The aim of the experiments in this work is to fix these errors.
 \end{figure}
 
 The aim is to augment the digitized dataset with a tuple of all teeth in the 
-element description, and to correct the erroneously read tooth markings in the element column.
-The digital notation, presented in Table~\ref{table:jaw_notation}, is used in the end result.
+element description and to correct the erroneously read tooth markings in the element column.
+The digital notation, presented in Table~\ref{table:jaw_notation}, is used in the result.
 The recognition is built assuming that bounding boxes for cropping out individual words in the 
 catalogues are available; for this purpose, Azure Vision output files with bounding boxes
 are used. An example of the desired output,
 created by hand-annotating, is presented in Figure~\ref{image:goal}. 
-As can be seen from the dataset sample, the other data in the end result is far from perfect, much remains to be done after this work.
+As can be seen from the dataset sample, the other data in the result is far from perfect, much remains to be done after this work.
 
 \begin{figure}[ht]
     \centering
     \includegraphics*[scale=0.5]{images/goal.png}
-    \caption{The goal: teeth are listed in tooth records column and the description column contains correct markings.}
+    \caption{The goal: teeth are listed in the tooth records column and the description column contains correct markings.}
     \label{image:goal}
 \end{figure}
 
 The guiding trade-off to discuss when choosing the neural networks that could aid in correcting
 tooth notation is between accuracy and generality. The more prior information one gives to 
-the model, or the more constrained the task is, the better the results are. On the other hand, a too
-constrained model is poor at handling the inevitable variability in human-written text.
+the model, or the more constrained the task is, the better the results are. On the other hand, a too-constrained model is poor at handling the inevitable variability in human-written text.
 The implemented approach aims to start from more constrained models for multiple reasons. 
-As fossil datasets are a relatively unexplored domain in character recognition, starting out from simple
+As fossil datasets are a relatively unexplored domain in character recognition, starting from simple
 solutions is reasonable. As one can always filter for and recognize the easiest 
-cases, for instance teeth where the segmentation result is best,
-simple cases present a low-hanging fruit worth starting out from. As more generalist 
-models are usually less accurate on all samples, they make more mistakes even on
+cases, for instance, teeth where the segmentation result is best,
+simple cases present a low-hanging fruit worth starting from. As more generalist 
+models are usually less accurate on all samples, they make more mistakes even in
 easier cases. Additionally, as the aim of automated digitization is to avoid tedious manual verification,
  only models with near-perfect accuracy are usable, since even in a case of minor insecurity the sample needs to be checked.
 As sample sizes in paleontological studies are relatively small, the cost of a data mistake
 can be severe and is amplified by these errors propagating to every study that uses the data point.
 
-With the end goal of correcting tooth notation and guiding design principle of starting out simple in mind, the next sections discuss two major questions 
+With the end goal of correcting tooth notation and the guiding design principle of starting simple in mind, the next sections discuss two major questions 
 in how to set up the tooth recognition system: whether to give the whole element description cell content
  or only a word to the model, and how to set up target classes for the classification tasks.
 
 \subsection{By-sequence or by-word recognition}
 
 To choose the inputs for models, one needs to choose whether to keep the
-element cell contents as one image or split it to words. As the segmentation 
-data is only available up to word level, the character option is not available in this work.
+element cell contents as one image or split it into words. As the segmentation 
+data is only available up to the word level, the character option is not available in this work.
 
 Sequence learning is a machine learning paradigm where both input and output lengths vary~\cite{sutskever2014sequence}.
 The clear benefit is its flexibility; more difficult cases such as many teeth noted together (eg. $\text{M}_{1-3}$),
@@ -1156,11 +1154,11 @@ and the task, the character set to recognize, changed, the transfer distance bec
 that significant training data and computational resources are required to teach the new problem to the model.
 
 Recognizing the markings word by word becomes character classification in 
-the tooth marking case if one constrains the input images be samples with one letter and 
+the tooth marking case if one constrains the input images to be samples with one letter and 
 one number, leaving out the multi-tooth markings with a number interval (eg. $\text{p}_{2-4}$).
 This has the benefit that after rather easy binary classification of a word to 
 tooth marking to other word, priors on the dental row can be encoded in the classification
-task. By having, for instance, one class for each tooth type, count of target classes becomes
+task. By having, for instance, one class for each tooth type, the count of target classes becomes
 relatively small, making the problem solvable even with small amounts of data.
 The drawback is a lack of flexibility, propagation of 
 bounding box detection errors and that left and right jaw information has to be left out from 
@@ -1182,14 +1180,14 @@ interdependencies, like the index number range depending on the tooth type.
 
 The simplest formalization would be to have one class per tooth, the classes becoming for lower jaw m1-m3, p1-p4, c, and i1-i3,
 totaling 22 classes when including both jaws. This, however, encodes prior information falsely: univariate classification would 
-mean that all classes are equally dissimilar to one another, which clearly is not the case as some inputs share same letters or digits.
+mean that all classes are equally dissimilar to one another, which is not the case as some inputs share the same letters or digits.
 Put more accurately, there are three separate problems; which jaw, which tooth type, and which index number is found in the image, 
 and the univariate formalization does not encode this fact.
 
 The natural variation would be multivariate classification with the classes m, p, i, c, up, low, 1, 2, 3, and 4. However, 
 the general multivariate setting does not constrain these classes to any groups with one class required to be chosen from 
 each~\cite{multilabel_classification}, consequently other works would present approaches not applying these restrictions.
-For example, in the unconstrained case the correct classes m, p, 3, and 4 all at 
+For example, in the unconstrained case, the correct classes m, p, 3, and 4 all at 
 once are possible, which is clearly wrong for a dental marking. Additionally, even with correctly enforced class group constraints of one class always being correct, the tooth could be classified with an impossible index number, such as the third canine.
 The possible classes would need to be constrained to encode the specialties, leading to an unusual classification problem for which it could be difficult to 
 find solutions. Added to this, the work on Tibetan glyph recognition identified complex multivariate formalization of 
@@ -1198,13 +1196,13 @@ accuracies were not as good as in univariate classification~\cite{4zhaoTibetan}.
 
 These shortcomings, along with the successful pipeline approach implemented for Tibetan recognition~\cite{4zhaoTibetan}
 lead to the univariate classifier chaining approach used in this work: first, one gives the image to a type recognition 
-model that outputs one probability vector of four classes, molar, premolar, canine or incisor, and a upper or lower jaw 
+model that outputs one probability vector of four classes, molar, premolar, canine or incisor, and an upper or lower jaw 
 binary classifier. Then, given the tooth type, the image is given to the index number classifier that classifies the marking 
 to either index to one to three or one to four. Building separate classifiers for indices one to three for incisors and molars
 or separate upper or lower classifiers for all tooth types 
-could have been more accurate as the model could not falsely learn based on letter characteristics, but data for more rare indices 
+could have been more accurate as the model could not falsely learn based on letter characteristics, but data for the rarer indices 
 one and four was not sufficient in amount to facilitate this.
-This approach was not directly found in any other previous work, but was decided 
+This approach was not directly found in any other previous work but was decided 
 for since it seemed like the only one that correctly encoded all similarities and impossible class combinations. 
 
 Next, the end-to-end pipeline for getting the tooth markings out of the catalogues using these classifiers is presented.
@@ -1250,19 +1248,19 @@ the following components.
     \label{fig:pipeline}
 \end{figure}
 
-For all words, bounding boxes, and reading results detected by Azure Vision on the element column, the word is first classified to tooth marking or other word.
+For all words, bounding boxes, and reading results detected by Azure Vision on the element column, the word is first classified as tooth marking or other word.
 To constrain the input data to the downstream model, this is completed 
 with a regular expression checking whether the reading result of the word consists of a letter and number, or only the 
 letter C. Once more robust classifiers are built, this part can be replaced with another deciding 
-heuristic, allowing a more variety in tooth notation images to be cleaned. The regular expression 
+heuristic, allowing more variety in tooth-notation images to be cleaned. The regular expression 
 only recognizes a small fraction due to frequent errors in bounding box detection.
 
 The images of the words recognized as tooth markings are given to a binary image classifier deciding whether the tooth 
-is upper or lower jaw and then to a model recognizing if the tooth type is molar, premolar or incisor: as 
+is upper or lower jaw and then to a model recognizing if the tooth type is molar, premolar, or incisor: as 
 canines lack the number and are recognized as teeth only when the Azure Vision result is a letter C, there is 
 no need to re-classify the tooth marking as a canine. It should be noted that as soon as the regular expression
 heuristic is replaced with anything more complex, the fourth class has most likely to be added to the tooth type classifier.
-Once type is decided, the tooth marking image is given to the appropriate index number model. Finally, 
+Once the type is decided, the tooth marking image is given to the appropriate index number model. Finally, 
 the three pieces of information obtained, jaw, type, and number, are combined as the digital tooth marking 
 notation. As the final step, all words in the element column are concatenated, and all found teeth are 
 collected as a tuple to the tooth records column.
@@ -1272,7 +1270,7 @@ to each tooth marking. As each classifier produces the probability of the image 
 chosen class as a side result, this probability can be saved as a confidence score. The confidence is taken 
 per element description phrase (such as ``much of R. mandible ($\text{P}_4$ - $\text{M}_3$)'') by taking the minimum over all 
 model confidence scores obtained during inference for the tooth records. For example, if in the 
-example description every other decision would be of 100\% confidence but the second tooth being a molar 
+example description, every other decision would be of 100\% confidence but the second tooth being a molar 
 would only have 70\% confidence, the confidence of the entire row would be 70\%. This conservative approach is 
 due to the costliness of errors: one needs to be absolutely certain before data can be left without manual 
 verification.
@@ -1285,28 +1283,28 @@ Next, details related to building the classifiers presented in this section are 
 For the dental marking recognition pipeline, four classifiers are needed: upper or lower jaw, 
 tooth type, and two downstream index number classifiers. The experimental 
 section considers design decisions for setting up experiments to build these models with maximal accuracy:
- data preprocessing and augmentation along with base model,
-transfer learning method and hyperparameter selection. After a presentation of  how the training dataset was created, these aspects are considered.
+ Data preprocessing and augmentation along with base model,
+transfer learning method and hyperparameter selection. After a presentation of how the training dataset was created, these aspects are considered.
 
 \subsection{Creating the training dataset}
 
 The dataset with a total of 1\,105 images was extracted from the fossil 
 catalogues using the first two steps on the pipeline in Figure~\ref{fig:pipeline}:
-for each word under the element describing header, the Azure Vision output was classified 
+for each word under the element-describing header, the Azure Vision output was classified 
 to tooth or other with the regular expression, and 
 images with tooth notation were cropped out from the catalogue. Along with the image, the 
 Azure Vision \cite{azurevision} reading result was saved. To have as versatile notation as possible, images were 
 extracted from several catalogues.
 
-After extraction, data balancing, and splitting to training, testing, and validation sets 
+After extraction, data balancing, and splitting into training, testing, and validation sets 
 was completed.
-Because incisors and canines were much more rare 
+Because incisors and canines were much rarer 
 than molars and premolars in the catalogues, some of the former were manually cropped out 
 of catalogues to achieve more variety. After this, sample count differences 
- between the most frequent class and others was computed, and augmented 
+ between the most frequent class and others were computed, and augmented 
 images were saved for other classes to make sample counts per class equal. The augmentation 
-was implemented using a random rotation of -5 to 5 degrees and a random crop with scale 0.9 to 1.0.
-Train, validation, and test split was selected by creating a validation dataset of roughly 200 samples to
+was implemented using a random rotation of -5 to 5 degrees and a random crop with a scale from 0.9 to 1.0.
+Train, validation, and test splits were selected by creating a validation dataset of roughly 200 samples to
  not change test error by more than 0.5\% with one sample classification
 change. For the test set, 100 samples were kept. This resulted in 
 train set sizes, including the images generated to balance classes, of 905 samples for upper or lower, 
@@ -1321,8 +1319,8 @@ was completed manually with a ternary label, zero noting lower, one upper, and -
 The undecipherable class was included as there were images where the jaw could not be decided by a human annotator, 
 and therefore the correct answer for such an instance would be 'unknown'. Forcing these to be either upper or lower jaw 
 would distort the classification task: perfect accuracy would be an undesirable result as the model should 
-make mistakes with the undecipherable samples, and the undecipherables would confuse the model as it is required to find signals on why 
-the notation is either jaw when none are to be found. Therefore, images with undecipherable jaw side were not given 
+make mistakes with the undecipherable samples, and these would confuse the model as it is required to find signals on why 
+the notation is either jaw when none are to be found. Therefore, images with undecipherable jaw were not given 
 to the classifier.
 
 As the work was completed under a non-disclosure agreement, the training datasets were not 
@@ -1341,7 +1339,7 @@ A small sample of the training dataset of premolars is presented in Figure~\ref{
 
 \subsection{Data preprocessing}
  
-Preprocessing of training, validation and, test images was completed by grayscaling, denoising, and resizing.
+Preprocessing of training, validation, and test images was completed by grayscaling, denoising, and resizing.
 As color channels in images have no meaning for the text on the image, grayscaling was implemented by
  stacking three identical grayscale images
 to match the three-channel input size required by the base models.
@@ -1376,8 +1374,8 @@ Binarizing the images was considered as evidence was found for binarization to i
 but was not implemented since the noise, in many cases
  parts of neighboring characters due to bounding box errors, are occasionally of darker 
 color than the correct text, making thresholding difficult. Additionally,
- initial experiments with a MNIST base model suggested the resulting
-accuracies were decreasing when using binary input images. However, binarization scheme was not designed carefully 
+ initial experiments with an MNIST base model suggested the resulting
+accuracies were decreasing when using binary input images. However, the binarization scheme was not designed carefully 
 and the experimentation was not exhaustive.
 Another aspect considered after binarizing was to try to segment out the letter for the tooth type recognizer 
 and the number to the index number recognizer, but it was found that there was so much variability 
@@ -1389,7 +1387,7 @@ heavier preprocessing operations were not used.
 \subsection{Data augmentation}
 \label{sect:aug}
 
-Data augmentation operations were chosen according to variation that can 
+Data augmentation operations were chosen according to variations that can 
 occur among scans of documents with handwriting.
 Due to paper and pen color differences, functions on pixel intensity
 values were applied to adjust brightness and contrast by using the 
@@ -1420,11 +1418,11 @@ Another potential source task would have been the identity mapping task given to
 but it was not implemented due to lesser popularity and the small size of the dental marking image dataset.
 As the source domain, there are two datasets used in previous work: the classification of digits in the MNIST dataset, 
 and the ILSVRC classification challenge with the ImageNet dataset. The popular 
-assumption that ImageNet is a better source domain was verified with a short experiment by training a MNIST classifier~\cite{jamilemnist}
-to classify tooth types with best accuracy of 89\%, which was clearly outperformed by the ImageNet-based classifiers. This verifies the commonly assumed hypothesis that real-world images of any objects is a more 
-similar domain than the MNIST dataset of handwritten digits that is known to contain ideal-case images with little noise.
+assumption that ImageNet is a better source domain was verified with a short experiment by training an MNIST classifier~\cite{jamilemnist}
+to classify tooth types with the best accuracy of 89\%, which was clearly outperformed by the ImageNet-based classifiers. This verifies the commonly assumed hypothesis that the domain of real-world images of any objects is a more 
+similar one than the MNIST dataset of handwritten digits that is known to contain ideal-case images with little noise.
 
-The ImageNet classifier base models used in this the experiments are selected 
+The ImageNet classifier base models used in the experiments are selected 
 according to results from related work, reviewed in Section~\ref{sect:same_solution}.
 The models were chosen by checking which base models 
 occurred multiple times when listing the top three models in terms of accuracy. 
@@ -1433,11 +1431,11 @@ other architectures, most often with the V2S variant, closely followed by the 16
 DenseNet121~\cite{densenet}, and ResNet101~\cite{resnet}.
 Therefore, these four architectures were chosen as base models.
 Additionally, the Vision Transformer~\cite{vit} and AlexNet~\cite{alexnet} were included, the former to test 
-transformer architectures on the fossil domain and latter
+transformer architectures on the fossil domain and the latter
 as proof-of-concept experiments suggested high accuracy scores.
 The shortcoming in this base model selection is that as previous work did not give much
  reasoning for their base model selection, it is possible that some high-performing architectures were not included 
-because  they were not chosen to be experimented with. As one has to limit the 
+because they were not chosen to be experimented with. As one has to limit the 
 search space of architectures in some way, previous success was kept as the main deciding heuristic 
 even when acknowledging these limitations.
 
@@ -1448,35 +1446,35 @@ the only common trend being that freezing less seems to be beneficial.
 However, how much to freeze is dependent on transfer distance and target data size;
 freezing more should work in cases similar as the features should be more useful 
 and in cases of small target data, where overfitting is avoided.
-For these reasons it is argued that transfer method selection should be
+For these reasons, it is argued that transfer method selection should be
 based on experimentation rather than previous results.
 
 For the choice of which layers to freeze, layers are only frozen so that a frozen layer never 
 occurs after a trainable layer. This is because of the assumption that high-level layers 
 encode generic and lower layers more specific features, and the generic features are assumed to be most transferable among tasks.
  Additionally, as specific features build on the generic ones, freezing layers 
-below ones modified is assumed to confuse the model. Therefore, all experiments consist of some layers 
+below the ones modified is assumed to confuse the model. Therefore, all experiments consist of some layers 
 at the start of the network being frozen and others at the end being open for updates.
 The number of trained layers is used to specify the transfer method 
 for each experiment, and these are always the last layers of the network.
 
-As another experimentation principle, the trials start out from settings where more layers are frozen, proceeding to
+As another experimentation principle, the trials start from settings where more layers are frozen, proceeding to
 cases where more parameters can be updated. This is because more freezing saves 
 computational effort, and is less likely to overfit to the training set as there is a lesser degree of freedom 
-available for updating parameters. Therefore, it is sensible to look for the model that re-uses as 
-much parameters as possible but still has enough flexibility to find a good optimum for the target problem:
-this is assumed to result in the best generalization capability.
+available for updating parameters. Therefore, it is sensible to look for a model that re-uses as 
+many parameters as possible but still has enough flexibility to find a good optimum for the target problem:
+This is assumed to result in the best generalization capability.
 
 \subsection{Hyperparameter selection}
 
 As for hyperparameters, values are selected according to well-performing 
 options in reviewed literature to scope down the experimentation search space.
 Hyperparameter tuning was not implemented to keep experimentation 
-between approaches fair; if the optimization is better for some case than other, one can no 
+between approaches fair; if the optimization is better for some cases than others, one can no 
 longer deduce whether the difference in result accuracy was due to hyperparameter or base model and 
 transfer approach optimality. Therefore, hyperparameters are fixed between experiments to common values 
 used previously in similar tasks. The selected hyperparameters, most chosen mostly by popularity 
-with the only exceptions of reducing number of epochs as experiments converged early
+with the only exceptions of reducing the number of epochs as experiments converged early
 and adding learning rate scheduling to aid optimization,
 are summarized in Table~\ref{table:hyperparameters}.
 
@@ -1497,12 +1495,12 @@ are summarized in Table~\ref{table:hyperparameters}.
     \label{table:hyperparameters}
 \end{table}
 
-In this chapter, the experimental setup along with reasoning for design decisions were given.
+In this chapter, the experimental setup along with reasoning for design decisions was given.
 In the problem formulation, classifying words with a chain of univariate classifiers was opted for to 
 maximize the accuracy by simplifying the problem as far as possible.
 Preprocessing was kept minimal with denoising and grayscaling, 
-and augmentation was set up to variations that might occur in the scanning process. Base models were mostly
-chosen according to previous success, resulting in selecting the EfficientNetV2S, VGG16, DenseNet121, ResNet101, ViT, and AlexNet architectures.
+and augmentation was set up according to variations that might occur in the scanning process. Base models were mostly
+chosen according to previous success, resulting in the selection of the EfficientNetV2S, VGG16, DenseNet121, ResNet101, ViT, and AlexNet architectures.
 Transfer methods are compared by experimentation: the model with most layers frozen while still being able to find a good optimum 
 for the target task is searched for. In the next chapter, 
 results from these experiments are presented and evaluated.
@@ -1510,28 +1508,28 @@ results from these experiments are presented and evaluated.
 \chapter{Results and Discussion}
 
 This chapter presents the results of the experiments. The base models were compared by
-upper and lower jaw classification accuracy, since initial experiments suggested it to be the most challenging task. The experimentation was limited to testing different base models, AlexNet, EfficientNetV2S, 
+upper and lower jaw classification accuracy since initial experiments suggested it to be the most challenging task. The experimentation was limited to testing different base models, AlexNet, EfficientNetV2S, 
 DenseNet121, Vision Transformer, and ResNet101, and freezing setups: training 1, 5, 10, or all layers.
 The results of these experiments highlighted three major results. First, the best architectures were AlexNet and the Vision 
 Transformer with best validation accuracies of 92.21 and 91.56, respectively, while EfficientNet performed poorly. Second, tests on changes in results 
 when adjusting hyperparameters suggested that comparisons of model architectures should be taken with caution since one can never know 
-if the differences in end accuracy were due to differences in model architecture or in how good the found optimum was. Lastly, as the strongest result it is found that freezing less 
+if the differences in end accuracy were due to differences in model architecture or in how good the found optimum was. Lastly, as the strongest result, it is found that freezing less 
 always increases result accuracy, and it is discussed whether this suggests that it is better to interpret transfer learning as extended 
 training rather than a re-use of feature extraction. These aspects are discussed in more detail in this chapter. After this, future work suggestions are presented.
 
-The experiment outcomes are collected to Table~\ref{table:results}, and 
+The experiment outcomes are collected in Table~\ref{table:results}, and 
 the most important findings are the following. Using AlexNet as the base model results in the highest 
 validation accuracy with the Vision Transformer as a close second. Having the transformer 
 architecture not as the best but still a competitive accuracy verifies the result 
-from Thuon et al.~\cite{9thuonPalm} that stated convolutional networks to outperform transformers, but suggests 
+from Thuon et al.~\cite{9thuonPalm} that stated that convolutional networks outperform transformers, but suggests 
 that transformer architectures are worth testing for in building various OCR
 solutions. Another interesting point is that EfficientNet accuracies were the worst of all, 
-which strongly contradicts results of the reviewed works in Section~\ref{sect:same_solution},
-suggesting that a model found to be better in one study can inform little on its performance on another target task.
+which strongly contradicts the results of the reviewed works in Section~\ref{sect:same_solution},
+suggesting that a model found to be better in one study can inform little on its performance in another target task.
 The generalization capability of all models seems to be good, as seen in Figure~\ref{image:diff_hist}:
-the difference between training and validation accuracies is in the majority of 
+The difference between training and validation accuracies is in the majority of 
 experiments below 4\%. As there is little correlation between the magnitude of this difference, 
-a metric for degree of overfitting, and layers trained, the initial hypothesis on freezing more to prevent overfitting
+a metric for the degree of overfitting, and layers trained, the initial hypothesis on freezing more to prevent overfitting
 seemed to not hold.
 
 \begin{table}[ht]
@@ -1565,7 +1563,7 @@ ResNet101 ~\cite{resnet}  & all  &            64.75 & 65.58  \\
            & 5  & 64.09 & 64.29  \\
           & 1   &   54.59 & 54.55  \\\hline
         \end{tabular}
-    \caption{Training and Validation Accuracy for Different Base Models and Layer Freezing setups for upper or lower jaw classification}
+    \caption{Training and validation accuracy for different base models and layer freezing setups for upper or lower jaw classification}
     \label{table:results}
 \end{table}
 
@@ -1580,21 +1578,21 @@ To estimate how much the results depended on the optimum found in training and h
 the best architecture AlexNet was retrained with one hyperparameter changed. The resulting 
 change in accuracy suggests that comparing architectures when target data is small is highly inaccurate. 
 A change in the random seed from 15 to 2, both randomly chosen, was done to check how much the result changes 
-when the only thing changed is the order of training samples in batches. This changes which initial examples are shown to the model,
+when the only thing that changed is the order of training samples in batches. This changes which initial examples are shown to the model,
 changing the initial steps of the learning trajectory, which is important in neural network training~\cite{transferlearning_survey}.
  As seen in Table~\ref{table:random_seed_sensitivity}, the largest difference occurred with one layer 
 trained, and the second seed had the validation accuracy increased by 9.09 percentage points. This shows that initial examples 
 are important and can initialize much better or worse learning trajectories. Then, hyperparameter change 
 by changing batch size from 64 to 32, also a random choice, was tested with the AlexNet architecture, and the results 
 changed by at most 6.49\%, as seen in Table~\ref{table:hyperparameter_sensitivity}. Notably, the best accuracy was outperformed by as much as 4.54 percentage points 
-in this setting, more than halving the count of errors. These large variances serve as a good example on the caveats of comparing 
+in this setting, more than halving the count of errors. These large variances serve as a good example of the caveats of comparing 
 base models in a small data setting: since there is no objective metric for the quality of an optimum, there 
 is practically no way of knowing what the true reason for accuracy differences between experiments is. In this case, the 
 margin of error can be approximated at 10\%, that is, only when validation accuracies differ by more than that one can be 
 somewhat confident that the better result actually has a superior architecture. Taking this into account, AlexNet, ViT, and VGG16 
 can all be considered best-performing architectures in this study. Having access to more validation data or more computational 
 resources to repeat the experiments with different hyperparameter settings would be required to draw more fine-grained conclusions on the 
-superiority of an architecture over another.
+superiority of one architecture over another.
 
 \begin{table}[ht]
     \centering
@@ -1629,7 +1627,7 @@ superiority of an architecture over another.
 The clearest result from the experiments is that freezing never improved the resulting accuracy. This result was 
 also the only larger consensus among studies reviewed in Section~\ref{sect:same_solution}.
 As is highlighted in the plot of layers trained against resulting accuracy in Figure~\ref{image:accuracy_vs_freezing},
-there were no exceptions to this relationship. Accuracy of DenseNet121 and ResNet101 plateauing can be seen as 
+there were no exceptions to this relationship. The accuracy of DenseNet121 and ResNet101 plateauing can be seen as 
 the model having enough freedom to encode all information present in the training data and therefore adding 
 more trainable parameters did not increase accuracy. To interpret the correlation, the hypothesis that using a feature 
 extractor as is, inspired by the Tibetan glyph classification solution~\cite{4zhaoTibetan}, did not result in the 
@@ -1642,13 +1640,13 @@ best model in the fossil domain; additional feature tuning was needed.
     \label{image:accuracy_vs_freezing}
 \end{figure}
 
-To analyze transfer distances, less rigorous experiments were implemented on a MNIST base model~\cite{jamilemnist}.
-This was implemented to check the hypothesis that transfer distance from MNIST to fossil data is larger than that where 
+To analyze transfer distances, less rigorous experiments were implemented on an MNIST base model~\cite{jamilemnist}.
+This was implemented to check the hypothesis that the transfer distance from MNIST to fossil data is larger than that where 
 the base task is ImageNet: even though the former contains characters, the ideal-case benchmark images are more dissimilar 
 as they contain no clutter or noise prominent in real-world images~\cite{alexnet}. This was found to be true; 
 initial experimentation, although not as rigorous as the ImageNet-based experiments, never achieved above-90\% accuracies.
-This result was shared by the handwritten Gujarati detection study~\cite{8goelGujarati2023}, where ImageNet as base task 
-outperformed MNIST in all layer freezing scenarios. 
+This result was shared by the handwritten Gujarati detection study~\cite{8goelGujarati2023}, where ImageNet as the base task 
+outperformed MNIST in all layer-freezing scenarios. 
 
 To draw an analogue from neural networks to learning in general, the central lesson learned in these experiments 
 is that there is no trickery to learning. To learn something, there are two avenues: one is to learn principles, which in 
@@ -1664,22 +1662,22 @@ due to the transfer distance being shorter or if the reason is the sheer size of
 can be boiled down to one phrase, much alike the GoogLeNet inspiring meme~\cite{we_need_to_go_deeper}: one can say ``we need to go further'', that the way forward is only about exposing the model to more examples, 
 and re-using the previously learned as much as possible.
 
-Returning to the higher level task of correcting dental markings, all models presented in Section~\ref{sect:pipeline} were constructed, evaluated and used 
+Returning to the higher-level task of correcting dental markings, all models presented in Section~\ref{sect:pipeline} were constructed, evaluated, and used 
 in building the inference pipeline. For evaluation, test error was measured on a new set not used in previous experiments 
-to prevent data leakage; data used to inform the model building process should never be used to report final accuracies~\cite{engbook}.
+to prevent data leakage; data used to inform the model-building process should never be used to report final accuracies~\cite{engbook}.
 A certainty score was constructed to measure what fraction of images was classified with above-human accuracy of 99,7\% to measure 
 how much manual verifying labor can be saved with the system. The evaluation results are presented in Table~\ref{tab:task_accuracy_certainty}.
 The results align with intuition from the labeling process; labeling images 
 where Azure Vision~\cite{azurevision} had made a mistake felt easiest 
 with the letter and hardest for the number, largely due to bounding box errors 
-cutting off parts of the digit. Often, the bottom was cut off, causing digits two and three becoming indistinguishable. Also judging on the labeling experience,
-the results with custom-made models outperforms the generalist, although no 
+cutting off parts of the digit. Often, the bottom was cut off, causing digits two and three to become indistinguishable. Also judging on the labeling experience,
+the results with custom-made models outperform the generalist, although no 
 correctness metrics were counted for the Azure Vision readings. 
 As for limitations for these results, results need to 
 be taken with caution as varying the random seed caused fluctuations of 
 up to 10\% also in evaluation. The test accuracies can also be inaccurate because 
-of severe class imbalance especially for the index numbers, where the digit 1 was so few
-in number that it is possible that the model has overfit to these examples.
+of severe class imbalance, especially for the index numbers, where the digit 1 was so few
+that the model may have overfit to these examples.
 Finally, as seen in Figure~\ref{image:misclassifications_uplow_in_test},
 the upper and lower jaw classifier struggled to classify canines correctly;
 only seven instances like these were present in the test set, five of 
@@ -1688,7 +1686,7 @@ and lower jaw classifications were learned well. This is suggested by
 the pipeline outcomes: all images tested, albeit a small sample, were 
 assigned a correct dental marking. In the aggregated confidence score, 
 high individual subtask confidences were undermined by some lower confidences, 
-causing most of final confidence scores to be below human-level accuracy, leading 
+causing most of the final confidence scores to be below human-level accuracy, leading 
 to possibly only a small amount of saved manual verifying effort. 
 A snapshot of dental markings constructed can be seen in Figure \ref{image:inference}.
 
@@ -1729,7 +1727,7 @@ being improving the quality of word-location defining bounding boxes. The main p
 by Azure Vision~\cite{azurevision} was that the dental marking words were often cut across many words or were present 
 as a part of a longer word. This is likely due to the space width varying greatly between different pieces of 
 handwriting, and sub- or superscripts being unfamiliar to the model. To improve the correctness of handwriting segmentation, developing a fine-tuned word detector 
-could improve the result: a specialist model encoded with knowledge on what kinds of words are more likely to be 
+could improve the result: a specialist model encoded with knowledge of what kinds of words are more likely to be 
 present in the data would likely be better at finding a correct segmentation. An example of 
 such case is seen in Figure~\ref{image:hardsentence}: a segmenter with the knowledge of tooth marking notation could 
 easily see that the $\text{dm}_{3-4}$ section is one word, which is difficult to a generalist model 
@@ -1743,28 +1741,28 @@ due to the spacing between characters.
 \end{figure}
 
 The problem of finding objects in images is much harder than image classification and has attracted attention 
-from the computer vision research community recently\footnote{These were surveyed at the lecture ``Computer Vision Applications with CNNs'' on the course Computer Vision, presented at the University of Helsinki, Faculty of Science by professor Laura Ruotsalainen on 11th October, 2024.}. 
-Main reasons for the difficulty are the labor required to obtain ground truth bounding boxes and object detection requiring better image resolution to work well, therefore requiring more computational resources.
+from the computer vision research community recently\footnote{These were surveyed at the lecture ``Computer Vision Applications with CNNs'' on the course Computer Vision, presented at the University of Helsinki, Faculty of Science by professor Laura Ruotsalainen on 11th October 2024.}. 
+The main reasons for the difficulty are the labor required to obtain ground truth bounding boxes and object detection requiring better image resolution to work well, therefore requiring more computational resources.
 One way to circumvent manual annotation for fossil catalogues could be to automatically detect correct bounding boxes 
 from commercial OCR engine outputs, for instance by regular expression matching the word readings with a vocabulary of words likely to be 
 present in fossil catalogues, much like the approach implemented in this work.
 For the segmentation model, several recent advances seem promising, but might not be directly applicable without fine-tuning 
-due to the standard problem of object detection being the detection of three-dimensional objects in scenes, a
-quite different problem from word detection on a flat, scanned document. This is likely the reason an initial experiment 
+due to the standard problem of object detection being the detection of three-dimensional objects in scenes,
+quite a different problem from word detection on a flat, scanned document. This is likely the reason an initial experiment 
 ran on the Hugging Face API version~\cite{OmouredYOLOv10DocumentLayoutAnalysisHugging2023} of YOLO-10~\cite{wang2024yolov10}, a variant of the highly influential object detector YOLO~\cite{redmonYouOnlyLook2016},
 resulted in a poor segmentation found in Figure~\ref{image:yolo}: the entire image was segmented as one object.
 Some possibly more applicable models, however not as easily testable due to lesser popularity, 
 are the open-vocabulary version of YOLO~\cite{YOLOWorldRealTimeOpenVocabulary},
  the hierarchical text spotter~\cite{longHierarchicalTextSpotter2024}, and the Detectron from Meta~\cite{Detectron}.
- However, due to the catalogue-specific problem illustrated in Figure~\ref{image:hardsentence}, it is likely that these 
- models would require well-optimized fine-tuning to work. It is also possible that the transfer distance from three-dimensional scene to scan image is 
+ However, due to the catalogue-specific problem illustrated in Figure~\ref{image:hardsentence}, these 
+ models would likely require well-optimized fine-tuning to work. It is also possible that the transfer distance from a three-dimensional scene to a scan image is 
  too large and OCR-specific object detectors need to be found. Experimenting with such implementations is a 
  substantial effort and was omitted from this work to keep the scope reasonable.
 
 Another possible line of extending the work would be improving the accuracy of the dental marking classification. 
 Some ideas include to extend the model with capabilities of detecting markings with multiple teeth,
 a rather unusual case of multi-class character classification, and to experiment with more recent ImageNet classifiers with better top-5 and top-1 error rates.
-However, using the newer models would require more effort since good pretrained weights are 
+However, using the newer models would require more effort since good pre-trained weights are 
 more difficult to find for the less established models, and there is less evidence of their applicability to downstream tasks. Improving the model would still be useful, since a more sophisticated word segmenter would result in a more 
 variable set of tooth marking images to be given to the classifiers, making the classification problems more difficult. 
 Still, the object detection problem should be given more attention since even the 
@@ -1781,13 +1779,13 @@ them to challenges such as basic ImageNet classification.
 \chapter{Conclusions}
 
 Returning from the problem of digitizing handwritten fossil specimens to the larger picture, several thoughts arose on the potential of centralized, structured databases for paleontological research from short conversations with practitioners.
-These ideas can be viewed as a reiteration on what was attempted in this thesis, or toward which goal a tiny step was made. For any large endeavor one needs a guiding goal to inform the direction of developing methods, and looking from a data management perspective, it seems that the best-case goal for paleontological databases is obtainable and holds a large potential for avoiding routine work for more meaningful activities. To conclude this work, these ideas are explored: what could be possible, what the utility of such advancements would be, what has been already done within these domains, and what further work is required to achieve the goals.
+These ideas can be viewed as a reiteration of what was attempted in this thesis, or toward which goal a tiny step was made. For any large endeavor one needs a guiding goal to inform the direction of developing methods, and looking from a data management perspective, it seems that the best-case goal for paleontological databases is obtainable and holds a large potential for avoiding routine work for more meaningful activities. To conclude this work, these ideas are explored: what could be possible, what the utility of such advancements would be, what has been already done within these domains, and what further work is required to achieve the goals.
 
-To see what could be, a good analogue to start from is that of scientific journals. If those were what fossil data largely is like today, journals would be scattered around the world, some saved digitally, some in paper form. Should someone want to study a subject, the work would start from finding where interesting material could reside, traveling to the location, and saving photocopies of physical and copies of digital work. The best-case future scenario for fossil data would be like Google Scholar is for research: one search box, where a researcher wishing to analyze a subject could write, for instance, ``all lower third molars globally, with all loph counts, dated and with location'' using some query language, and a dataset could be created in seconds. With a multimodal database, 3D images of the physical samples could be stored along with each data entry. Setting specific features aside, the main premise is that the technological tools for creating an all-encompassing dataset are not utopian, that it is possible to dramatically increase the efficiency of data acquisition.
+To see what could be, a good analogue to start from is that of scientific journals. If those were what fossil data largely is like today, journals would be scattered around the world, some saved digitally, some in paper form. Should someone want to study a subject, the work would start from finding where interesting material could reside, traveling to the location, and saving photocopies of physical and copies of digital work. The best-case future scenario for fossil data would be like Google Scholar is for research: one search box, where a researcher wishing to analyze a subject could write, for instance, ``all lower third molars globally, with all loph counts, dated and with location'' using some query language, and a dataset could be created in seconds. With a multimodal database, 3D images of the physical samples could be stored along with each data entry. Setting specific features aside, the main premise is that the technological tools for creating an all-encompassing dataset are not utopian and that it is possible to dramatically increase the efficiency of data acquisition.
 
-The Google Scholar analogue likely highlighted already what the utility of a global, all-encompassing paleontological database could be, but several more benefits should be covered. To state the obvious, huge amounts of tedious and boring data acquisition and uniforming effort could be saved, and this saved time could then be spent conducting more research, thinking deeply about the analytical problems, or not working at all. Another type of work that could be saved significantly is that of data creation: if every measurement and taxon identification, after completed, could be saved indefinitely and for everyone to access, no measuring would be done twice. Additionally, when saving new measurements, the result tractability could be improved with metadata: the person completing the measurement, date, and any thoughts regarding the measurement could be saved. Should any doubts of the correctness of a measure or taxon identification arise, this data or the person could be consulted, and the entry corrected if necessary. Versioning schemes could be designed to save a history of these corrections. Should one want to see the physical samples, the database still had an utility of serving as a search engine for finding where relevant specimens reside. Lastly, this much more standardized approach to fossil data would allow much better reproducibility: the database query to get the dataset used in each study could be published, and the data could be obtained by anyone evaluating the study to re-run or further experiment with the analysis conducted. With these changes in habits of data management, the thing that matters, the quality of knowledge on the distant past, could be dramatically improved.
+The Google Scholar analogue likely highlighted already what the utility of a global, all-encompassing paleontological database could be, but several more benefits should be covered. To state the obvious, huge amounts of tedious data acquisition and uniforming effort could be saved, and this saved time could then be spent conducting more research, thinking deeply about the analytical problems, or not working at all. Another type of work that could be saved significantly is that of data creation: if every measurement and taxon identification, after completion, could be saved indefinitely and for everyone to access, no measuring would be done twice. Additionally, when saving new measurements, the result tractability could be improved with metadata: the person completing the measurement, the date, and any thoughts regarding the measurement could be saved. Should any doubts of the correctness of a measure or taxon identification arise, this data or the person could be consulted, and the entry corrected if necessary. Versioning schemes could be designed to save a history of these corrections. Should one want to see the physical samples, the database still had an utility of serving as a search engine for finding where relevant specimens reside. Lastly, this much more standardized approach to fossil data would allow much better reproducibility: the database query to get the dataset used in each study could be published, and the data could be obtained by anyone evaluating the study to re-run or further experiment with the analysis conducted. With these changes in habits of data management, the thing that matters, quality of knowledge of the distant past, could be dramatically improved.
 
-The automated correction of tooth markings implemented in this thesis can be viewed as a small step toward this goal. The most positive outcome was that the tooth type letter classification achieved perfect 100\% accuracy, most likely due to its dominant position in the dental marking images. More challenging turned out to be comparing different base models, due to large fluctuations in results with hyperparameter changes; and index number detection, due to bounding box errors and the less dominant position of the digit in the image. The largest limitation found was the quality of the word bounding boxes: the generalist segmentation algorithm had challenges with segmenting the tooth markings, which could be improved by creating a fine-tuned character segmentation model. The most important finding of all, however, was that automated correction of fossil data is a fairly unresearched area, and that much remains to be done until reliable-enough pipelines to bypass human supervision can be built. Therefore, it is encouraged that the first focus should be in the establishment of good data management practices for the data already available digitally, as this is the best way to save work in data acquisition and with that improve paleoecologcal research. This also allows that the data digitized later can be later saved in an easily accessible format, which is a pre-requisite for automated digitization to be of practical use.
+The automated correction of tooth markings implemented in this thesis can be viewed as a small step toward this goal. The most positive outcome was that the tooth type letter classification achieved perfect 100\% accuracy, most likely due to its dominant position in the dental marking images. More challenging turned out to be comparing different base models, due to large fluctuations in results with hyperparameter changes; and index number detection, due to bounding box errors and the less dominant position of the digit in the image. The largest limitation found was the quality of the word bounding boxes: the generalist segmentation algorithm had challenges with segmenting the tooth markings, which could be improved by creating a fine-tuned character segmentation model. The most important finding of all, however, was that automated correction of fossil data is a fairly unresearched area and that much remains to be done until reliable enough pipelines to bypass human supervision can be built. Therefore, it is encouraged that the first focus should be on the establishment of good data management practices for the data already available digitally, as this is the best way to save work in data acquisition and with that improve paleoecological research. This also allows the data digitized later to be saved in an easily accessible format, which is a prerequisite for automated digitization to be of practical use.
 
 What it would take to progress from the current state of the art is mostly to continue work already underway, by standardizing and increasing the size of globally available structured data.
 For digitizing, when comparing to traditional annotation by hand, automated digitization holds potential by being able to increase the capacity of data creation, although the challenge remains that perfect correctness is needed to avoid manual verification. However, as seen in this thesis, the accuracies achieved with well-established character recognition methods seem promising.
@@ -1799,13 +1797,13 @@ conducting an analysis, undergoing the additional effort of sending out the meas
 \chapter{Acknowledgements}
 
 I am sending thanks to the following people for help with the thesis process.
-To my supervisor Professor Professor Indr{\.e} \v{Z}liobait{\.e}, for quick replies to messages, the invitations to group meetings, and help with most relevant research aspects rather than overfocusing on presentation style.
-To PhD Kari Lintulaakso from LUOMUS, for acting as the spring project contact, help with forming the thesis topic, and several comment rounds on the work.
-To ICT Officer Stephen Maikweki from the National Museums of Kenya for making the whole project possible by initiating the digitization effort and completing the most laborous part of the whole: scanning the 4\,200 pages of catalogues and numerable specimen cards, and to taking the time to meeting us to while visiting Finland.
-To the Data Science Project group, Max V\"{a}ist\"{o}, Axel Wester, Yinong Li, and Janne Tuukkanen for the successful project that made this thesis topic possible: implementing digitization to an extent after which building one's own OCR engine was a sensible next step to do. Additionally, the re-usable coding style saved hours of programming in experimentation for the thesis.
-To Emeritus Professor Mikael Fortelius for showing interest in my work, shedding light on the significance of advancing automated data curation for paleontological data and giving ideas on what the reasons for the lack of research in paleontological data management might be.
+To my supervisor Professor Indr{\.e} \v{Z}liobait{\.e}, for quick replies to messages, the invitations to group meetings, and help with most relevant research aspects rather than overfocusing on presentation style.
+To PhD Kari Lintulaakso from LUOMUS, for acting as the spring project contact, helping with forming the thesis topic, and several comment rounds on the work.
+To ICT Officer Stephen Maikweki from the National Museums of Kenya for making the whole project possible by initiating the digitization effort and completing the most laborious part of the whole: scanning the 4\,200 pages of catalogues and numerable specimen cards, and taking the time to meet us to while visiting Finland.
+To the Data Science Project group, Max V\"{a}ist\"{o}, Axel Wester, Yinong Li, and Janne Tuukkanen for the successful project that made this thesis topic possible: implementing digitization to an extent after which building one's own OCR engine was a sensible next step to do. Additionally, the reusable coding style saved hours of programming in experimentation for the thesis.
+To Emeritus Professor Mikael Fortelius for showing interest in my work, shedding light on the significance of advancing automated data curation for paleontological data, and giving ideas on what the reasons for the lack of research in paleontological data management might be.
 To PhD student Shayan Gharib for serving as an ad-hoc research tutor by email; the help with code errors I was blind to and understanding new concepts was of great aid at the start of the work.
-To the Kurt\'{e}n club members, for the welcoming attitude and symposium invitation that allowed me to talk to people more freely and get a better impression on what the practicalities of doing paleontological analysis are like.
+To the Kurt\'{e}n club members, for the welcoming attitude and symposium invitation that allowed me to talk to people more freely and get a better impression of what the practicalities of doing paleontological analysis are like.
 %Lastly, for final comments and proofreading help, thanks to.
 
 \cleardoublepage
