@@ -1,42 +1,25 @@
-%% Final edits by Jussi Kangasharju and Pirjo Moen
-%% This file is modified by Veli Mäkinen from HY_fysiikka_LuKtemplate.tex authored by Roope Halonen ja Tomi Vainio.
-%% Some text is also inherited from engl_malli.tex by Kutvonen, Erkiö, Mäkelä, Verkamo, Kurhila, and Nykänen.
-
-
-% STEP 1: Choose oneside or twoside
 \documentclass[english,twoside,openright]{UH_DS_MSc}
-%finnish,swedish
 
-%\usepackage[utf8]{inputenc} % For UTF8 support. Use UTF8 when saving your file.
-\usepackage{lmodern} % Font package
-\usepackage{textcomp} % Package for special symbols
-\usepackage[pdftex]{color, graphicx} % For pdf output and jpg/png graphics
-\usepackage[pdftex, plainpages=false]{hyperref} % For hyperlinks and pdf metadata
-\usepackage{fancyhdr} % For nicer page headers
-%\usepackage{tikz} % For making vector graphics (hard to learn but powerful)
-%\usepackage{wrapfig} % For nice text-wrapping figures (use at own discretion)
-\usepackage{amsmath, amssymb} % For better math
-%\usepackage[square]{natbib} % For bibliography
-\usepackage[footnotesize,bf]{caption} % For more control over figure captions
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage[pdftex]{color, graphicx}
+\usepackage[pdftex, plainpages=false]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath, amssymb}
+\usepackage[footnotesize,bf]{caption}
 \usepackage{blindtext}
 \usepackage{titlesec}
 \usepackage[titletoc]{appendix}
 \usepackage{hyperref}
 \usepackage[nodayofweek,level]{datetime}
-%\usepackage[USenglish]{babel}
 \newcommand{\thesisdate}{\formatdate{19}{12}{2024}}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{subcaption}
 
-\onehalfspacing %line spacing
-%\singlespacing
-%\doublespacing
+\onehalfspacing
 
-%\fussy 
-\sloppy % sloppy and fussy commands can be used to avoid overlong text lines
-
-% tikz styles
+\sloppy
 \usepackage[dvipsnames]{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows}
@@ -48,14 +31,10 @@
 \tikzstyle{arrow} = [thick, ->, >=stealth, draw=Maroon, shorten <= 2, shorten >= 2]
 \tikzstyle{nonactivearrow} = [thick, ->, >=stealth, draw=Maroon!30, shorten <= 2, shorten >= 2]
 
-% STEP 2:
-% Set up all the information for the title page and the abstract form.
-% Replace parameters with your information.
 \title{Fine-tuned Optical Character Recognition for Dental Fossil Markings}
 \author{Riikka Korolainen}
 \date{\thesisdate}
 \prof{Professor Indr{\.e} \v{Z}liobait{\.e}}
-%\censors{Professor A}{Dr. B}{}
 \censors{Associate Professor Arto Klami}{}{}
 \keywords{Optical character recognition, Transfer learning, Paleontological databases}
 \depositeplace{}
@@ -68,43 +47,28 @@
 \  Applied computing $\rightarrow$ Physical sciences and engineering $\rightarrow$ Earth and atmospheric sciences \  \\
 }}
 
-% if you want to quote someone special. You can comment this line and there will be nothing on the document.
-%\quoting{Bachelor's degrees make pretty good placemats if you get them laminated.}{Jeph Jacques} 
-
-
-% OPTIONAL STEP: Set up properties and metadata for the pdf file that pdfLaTeX makes.
-% But you don't really need to do this unless you want to.
 \hypersetup{
-    %bookmarks=true,         % show bookmarks bar first?
-    unicode=true,           % to show non-Latin characters in Acrobat’s bookmarks
-    pdftoolbar=true,        % show Acrobat’s toolbar?
-    pdfmenubar=true,        % show Acrobat’s menu?
-    pdffitwindow=false,     % window fit to page when opened
-    pdfstartview={FitH},    % fits the width of the page to the window
-    pdftitle={},            % title
-    pdfauthor={},           % author
-    pdfsubject={},          % subject of the document
-    pdfcreator={},          % creator of the document
-    pdfproducer={pdfLaTeX}, % producer of the document
-    pdfkeywords={something} {something else}, % list of keywords for
-    pdfnewwindow=true,      % links in new window
-    colorlinks=true,        % false: boxed links; true: colored links
-    linkcolor=black,        % color of internal links
-    citecolor=black,        % color of links to bibliography
-    filecolor=magenta,      % color of file links
-    urlcolor=cyan           % color of external links
+    unicode=true,
+    pdftoolbar=true,
+    pdfmenubar=true,
+    pdffitwindow=false,
+    pdfstartview={FitH},
+    pdftitle={},
+    pdfauthor={},
+    pdfsubject={},
+    pdfcreator={},
+    pdfproducer={pdfLaTeX},
+    pdfnewwindow=true,
+    colorlinks=true,
+    linkcolor=black, 
+    citecolor=black,
+    filecolor=magenta,
+    urlcolor=cyan
 }
 
 \begin{document}
 
-% Generate title page.
 \maketitle
-
-% STEP 3:
-% Write your abstract (of course you really do this last).
-% You can make several abstract pages (if you want it in different languages),
-% but you should also then redefine some of the above parameters in the proper
-% language as well, in between the abstract definitions.
 
 \begin{abstract}
 
@@ -120,7 +84,7 @@ a tooth marking and a pipeline for Uniforming the dental notation present in the
 type specifying column. The best base model is searched for by comparing multiple convolutional
 and transformer architectures to classify notation to upper or lower jaw, with the best validation
 accuracy of 96.75\% using AlexNet. In the experiments it is found that the quality of optimum found
-in training affects results significantly, leading to margins of error up to 10% for architecture
+in training affects results significantly, leading to margins of error up to 10\% for architecture
 comparisons in a small data case. The clearest result is that not freezing layers, without exception,
 leads to better results. Because of this, it is theorized that the utility of transfer learning mostly
 stems from being able to train more, rather than the ability to re-use a feature extractor. The
@@ -130,15 +94,9 @@ community for further digitization efforts.
 
 \end{abstract}
 
-% Place ToC
 \mytableofcontents
 
 \mynomenclature
-
-% -----------------------------------------------------------------------------------
-% STEP 4: Write the thesis.
-% Your actual text starts here. You shouldn't mess with the code above the line except
-% to change the parameters. Removing the abstract and ToC commands will mess up stuff.
 
 \chapter{Introduction}
 
@@ -155,7 +113,7 @@ questions has become ever more pressing.
 
 To find answers to large-scale problems, computational methods requiring large datasets have come about. Due to the infeasibility of inspecting large numbers of specimens across sometimes multiple 
 continents, specimens residing in archives of institutions have been recorded to digital, public databases~\cite{uhenCardCatalogsComputers2013}.
-One such institution is the National Museums of Kenya, which holds a large fraction of data collected from one 
+One such institution is the National Museums of Kenya that holds a large fraction of data collected from one 
 of the most valuable fossil sites globally, Lake Turkana. The sheer amount of physical samples in the museum storage
 makes keeping them safe a significant challenge, a risk to global heritage now attracting attention across continents,
  as reported by the Wall Street Journal~\cite{hotzMuseumOverflowingPrehistoric2024}.
@@ -255,7 +213,7 @@ which then serves as a good proxy for environmental conditions~\cite{oksanenHumb
 When the environment changes, animals have to move to habitats where the vegetation is digestible with their teeth, and therefore
 analysis on environmental change can be performed even on smaller timescales than evolution would allow~\cite{fortelius}. For example, both precipitation~\cite{fortelius}
 and temperature~\cite{oksanenHumboldtianApproachLife2019} can be learned based on dental lophs, number of cutting blade shapes, and hypsodonty, the height of the
-molar crown, with the following analysis. One can roughly divide available plants as grass, which has more water and is easier to chew, and 
+molar crown, with the following analysis. One can roughly divide available plants as grass, that has more water and is easier to chew, and 
 browse, drier and rougher plants. Dominant molars are primarily used to chew these plants, and it is known that to digest grass, a high 
 crown is required due to tooth erosion and that to digest browse, cutting blades in teeth are required to cut the fibrous plants to pieces.
 Therefore, one can find statistical relationships between these tooth measurements and environmental conditions favorable 
@@ -277,7 +235,7 @@ paleoenvironments is the effort required to collect and curate a dataset; for in
 analysis works start by measuring the dental traits~\cite{fortelius}, an effort that could be saved 
 if measurements were collected once and then stored in a structured manner. For this reason, the 
 creation and maintenance of paleontological databases is of central importance. This is accentuated 
-in the case of the catalogues processed in this work, which store most of the fossils found from the Turkana basin: it is suspected that
+in the case of the catalogues processed in this work that store most of the fossils found from the Turkana basin: it is suspected that
 important steps in human evolution occurred there, the mammal record is especially dense~\cite{fortelius}, and the area has undergone many environmental transitions in the past~\cite{Zliobaite2023}.
 
 The goal of this work is to recognize dental markings to increase the accuracy of the element descriptions in
@@ -299,7 +257,7 @@ as described by Hillson~\cite{Hillson_2005}, and some common shorthand versions 
 Specimens including fragments of the jaw are described with terminology related 
 to the jaw bones. All mammals share the same bone structure around the mouth: the lower jaw consists 
 of two bones called \textit{mandibles}, whereas the upper jaw consists of bones called 
-\textit{maxilla} and \textit{premaxilla}, that also form large parts of the face.
+\textit{maxilla} and \textit{premaxilla} that also form large parts of the face.
 A common trait across many mammals is also that permanent teeth erupt in the 
 youth of the animal, replacing the 'milk' or \textit{deciduous} teeth. Shorthands commonly used for these 
 terms are 'mand' for mandibles and the letter 'D' for deciduous teeth.
@@ -370,28 +328,19 @@ Dental markings have a few specialties as a marking system compared to regular l
 
 \chapter{Deep Neural Networks for Optical Character Recognition}
 
-% introduction to chapter
-% point of this section: present relevant deep learning theory
-% running example: reading characters from images (optical character recognition, OCR)
-
 This chapter presents background on deep neural networks, also known 
 in literature as artificial neural networks or, for historical reasons, multilayer perceptrons.
 The aspects presented are those relevant to optical character recognition,
-that is also used as a running example.
+which is also used as a running example.
 
 \section{Deep neural networks}
-
-% what is a neural net
-% yes what is a neural network? function?
-% weights in layers: floating point numbers, grouped in groups 
-% activations: connections between weights, nonlinear scalar to scalar functions 
 
 Neural networks are multivariate functions that share a specific form.
 The function parameters are called weights and are organized in groups called layers.
 The first layer is called the input layer, after which there are multiple hidden layers, followed by the output layer.
-Weights of adjacent layers are combined by activation function that are nonlinear functions with 
-scalar inputs and outputs~\cite{princebook}. Simplest of the activation functions is the rectified
-linear unit ReLU, that sets negative input values to zero and otherwise keeps the input as is. A neural network is usually visualized with a graph structure, as seen in Figure~\ref{image:neuralnet}, where a node represents a 
+Weights of adjacent layers are combined by activation functions that are nonlinear functions with 
+scalar inputs and outputs~\cite{princebook}. The simplest of the activation functions is the rectified
+linear unit ReLU that sets negative input values to zero and otherwise keeps the input as is. A neural network is usually visualized with a graph structure, as seen in Figure~\ref{image:neuralnet}, where a node represents a 
 weight, and an edge denotes that the value on the first layer is used to compute the value on the latter.
 
 \begin{figure}[ht]
@@ -409,7 +358,6 @@ weight, and an edge denotes that the value on the first layer is used to compute
 
         \node[main node] (y) [right of=h2', xshift=1cm] {$y'$};
 
-        % Edges
         \foreach \i in {1, 2, 3} {
             \draw (x) -- (h\i);
             \draw (h\i) -- (h1');
@@ -425,11 +373,6 @@ weight, and an edge denotes that the value on the first layer is used to compute
 \label{image:neuralnet}
 \end{figure}
 
-% - feed forward
-% network computes output from input with the feed forward.
-% you have an input, bunch of numbers
-% then, you compute a linear combination and pass that through an activation function 
-
 The computation of an output based on an input in the network is called the 
 feed-forward, as the computation runs layer by layer through the 
 network. The process starts from the input layer, the input 
@@ -443,27 +386,20 @@ bias term $\theta_0$, and passing the result through the activation function $a$
 \label{eq:fc_layer}
 \end{align}
 
-% mean that this computation is done in a different manner (conv, transformer)
 Different types of layers, such as convolutional or transformer layers 
 denote that this single-layer computation process is performed differently from 
 the standard form. When many layer types are present, layers using the computation
 in Equation~\ref{eq:fc_layer} are called fully connected or dense layers. The full computation of 
-the feed forward consists of performing this computation on each layer, finally producing the 
+the feed-forward consists of performing this computation on each layer, finally producing the 
 network output after up to hundreds of layers.
 
-% - universal function approximator
-% the theory of the universal approximation capacity: this algebraic construct, 
-% given correct weights, activation functions and structure, could approximate 
-% any mapping from input to output. note: input/output dimension can be anything
 The universal function approximator theorem states that functions belonging to the 
 neural network family are capable of approximating any mapping from any type or shape of input
 to any output with arbitrary precision~\cite{princebook}. Naturally, due to high computational 
 costs of finding the optimal weights,
 this theoretical optimum is rarely reached.
 
-% examples from ocr relevant in this case
-% input is always image ie 2d matrix if grayscale or 3d tensor if rgb image.
-Examples of input to output mappings that can be approximated with a neural network to solve a character recognition task are the following. The problem of character classification takes in an input image of a character, and outputs which character is found on the image. The output is a probability vector, where each value notes the probability that the image contains the character this value is chosen to represent. The softmax activation function, found in Equation~\ref{eq:softmax}, is used before the output layer to force the output to contain valid probability values that sum to one. Generalizing the mapping problem further, one can also use as input an image 
+Examples of input-to-output mappings that can be approximated with a neural network to solve a character recognition task are the following. The problem of character classification takes in an input image of a character and outputs which character is found on the image. The output is a probability vector, where each value notes the probability that the image contains the character this value is chosen to represent. The softmax activation function, found in Equation~\ref{eq:softmax}, is used before the output layer to force the output to contain valid probability values that sum to one. Generalizing the mapping problem further, one can also use as input an image 
 with a text sequence, and teach a neural network to output the text on the image.
 Due to the variable output length, a technique called sequence-to-sequence learning 
 is employed~\cite{sutskever2014sequence}. This encodes the fixed-length output layer to variable-length 
@@ -482,56 +418,38 @@ The general recipe for training a neural network is the subject of the next sect
 \section{Training neural networks}
 \label{sect:training}
 
-% u have encoded the structure, starting weights. data, input/output pairs.
-% training = process that adjusts weights so that network becomes a good 
-% approximator
 After one has defined a neural network structure, initialized the weights of the network 
-to some initial values and obtained a sufficiently large set of input-output pairs from the problem at hand,
+to some initial values, and obtained a sufficiently large set of input-output pairs from the problem at hand,
 one can start training the network. Training is an iterative process where inputs are used to 
-predict the output, which is then compared to the ground truth. A more detailed account of these iterations
+predict the output that is then compared to the ground truth. A more detailed account of these iterations
 is presented next.
 
-% 1. take part of data as training data
-% 3 divide to batches, common batch sizes are exponents of 2, 2-32 usually 
-% 4. pass a batch through the network. get output 
-% 5. pass output and correct to loss function: map from output, correct to scalar,
-% 0 is good, large value bad.
-% 6. Compute loss function gradient with respect to network weights using automatic differentiation.
-% algorithm to get this in code is called backpropagation because it moves backward in the network
 At the start of training, a small fraction, commonly 10-20\%, is reserved as test data. The remainder, 
 the training set, is divided into small chunks called batches.
 In an iteration of neural network training, a batch, stacked in a tensor of dimension one larger than the dataset, 
-is passed through the network: outputs are computed based on the training inputs with the feed forward process.
+is passed through the network: outputs are computed based on the training inputs with the feed-forward process.
 After this, a loss function is used to evaluate the quality of the output: the loss function maps the network output and 
-the correct output recorded in the training batch and outputs a scalar value, small value denoting a good 
+the correct output recorded in the training batch and outputs a scalar value, a small value denoting a good 
 match. Loss functions used in optical character recognition are presented in Section~\ref{sect:loss_funcs}.
 After this follows a step called backpropagation: the gradient of the loss function with respect 
-to the neural network weights is computed. The algorithm used in this computation is called automatic differentiation,
-and is able to compute gradients with equal computational complexity as the feed forward by utilizing 
+to the neural network weights is computed. The algorithm used in this computation is called automatic differentiation
+and is able to compute gradients with equal computational complexity as the feed-forward by utilizing 
 a variant of the chain rule and by proceeding backward in the network~\cite{princebook}.
 
-% 7. gradient informs how to adjust weights so that loss should decrease. 
-% adjust weights in this direction by preset amount called learning rate. Optimizers
-% are algorithms that determine the specifics of "moving in the direction of decreasing loss"
-% most common stochastic gradient descent (inserts randomness to movement) and 
-% adam (uses previous iteration movements known as momentum in process to make movements more smooth)
 Once the gradient is computed, the next step is to choose how to adjust the network weights 
 based on the gradient information. The simplest approach is, given a predefined step size 
 known as the learning rate, to adjust the weights by the magnitude of the learning rate 
-in the direction of fastest decreasing gradient, a heuristic called gradient descent. Different options for this approach 
+in the direction of the fastest decreasing gradient, a heuristic called gradient descent. Different options for this approach 
 are generally called optimizers and finding a suitable one is a fairly complex problem.
-Other optimizers are stochastic gradient descent (SGD), that inserts randomness 
-to the weight-adjusting steps, and Adam (Adaptive Moment Estimation), that 
+Other optimizers are stochastic gradient descent (SGD) that inserts randomness 
+to the weight-adjusting steps, and Adam (Adaptive Moment Estimation) that 
 uses moments or gradients obtained in previous steps to add smoothness to the 
 movement trajectory~\cite{princebook}. After a weight-adjusting step is completed 
 with the optimizer, the training iteration is completed.
 
-% 8. run  batches until out of data  = epoch. run many epochs, stop according to 
-% stopping condition that is known to be a state when the network weights are good.
-% goal: reach global minimum of loss function, difficult! would be perfect approximation
 The training process consists of repeatedly performing the aforementioned training 
 iterations. Once all batches of the whole dataset are used for training,
-a training step known as epoch is completed, common training process 
+a training step known as an epoch is completed, with common training processes 
 completing dozens or hundreds of epochs. The training is terminated once a predefined 
 stopping condition, such as a number of epochs or a sufficiently small gradient 
 magnitude, is met. The goal of the training process is to find the global minimum of the loss 
@@ -539,20 +457,17 @@ function with respect to the network weights, as this setting would correspond t
 the optimal approximation of the input-output mapping. Like with optimizers, 
 determining optimal stopping conditions is a difficult problem area within neural network optimization.
 
-% 8. test on unseen test data to see generalization performance
 After the training is completed, the test dataset laid to the side at the start of 
 training is used to evaluate the predictive power of the network on unseen data.
-At this point the model should be considered frozen, as adjusting it would 
+At this point, the model should be considered frozen, as adjusting it would 
 optimize the model to the small test set, not the general problem. This pitfall is 
 known as \textit{data leakage}~\cite{engbook}.
 
-% lots of details on this process, rest is about that
-% summarize: pseudocode of neural network training process
 As is evident from the generality of the previous description, there are numerous 
 aspects to consider when designing accurate neural networks. The 
 rest of this chapter presents a snapshot of this problem area, focusing on those 
 relevant to our problem of recognizing handwritten characters, and the rest of the 
-work will experiment with parts of these aspects. A summarizing pseudocode of the 
+work experiments with parts of these aspects. A summarizing pseudocode of the 
 neural network training process with gradient descent is presented in Algorithm~\ref{alg:net_training}.
 
 \begin{algorithm}
@@ -580,10 +495,6 @@ neural network training process with gradient descent is presented in Algorithm~
 \subsection{Loss functions}
 \label{sect:loss_funcs}
 
-% more specific: how do you map output and label to scalar value describing how good the output was?
-% ocr point of view
-% Loss function is a function from model predictions and ground truth labels that describes with a single 
-% scalar value how good the match was, low number describing a good match~\cite{princebook}.
 Loss functions are needed within the neural network training process to evaluate the model output 
 quality in each training iteration. These functions map two equally shaped inputs, the predicted 
 and true labels, to a scalar value describing match quality, a low value representing a good match~\cite{princebook}. 
@@ -591,24 +502,14 @@ For instance, the simple function $f: x,y \rightarrow |x-y|$  would qualify as a
 The most commonly used loss functions in character classification for optical character recognition is 
 the cross-entropy loss.
 
-% These functions are constructed to be equivalent with maximum likelihood solution, think the model would 
-% output a conditional distribution of outputs, p(y|x).
-% each ground truth label in the training set should have a high probability in this distribution. Product of all 
-% these probabilities is called likelihood.
-% Loss functions are derived so that parameters bringing loss to zero is equivalent to the parameters with maximum likelihood.
-% Derivations are out of scope.
 Loss functions are constructed using maximum likelihood estimation. When one frames the neural network as outputting 
-a conditional distribution $P(y|X)$, $y$ being the network output and $X$ the input, each correct label in the 
+a conditional distribution $P(y|X)$, $y$ being the network output, and $X$ the input, each correct label in the 
 training set should have a high probability in this distribution. The likelihood is obtained by taking the product of 
 all ground truth label occurrence probabilities, and the training goal becomes maximizing this value. Loss functions are derived 
-from the maximum likelihood formalization, so that the network parametrization associated with zero loss is equivalent to 
-the maximum likelihood parametrization. These derivations are out of scope of this work, but can be found in Prince's book
+from the maximum likelihood formalization so that the network parametrization associated with zero loss is equivalent to 
+the maximum likelihood parametrization. These derivations are out of the scope of this work but can be found in Prince's book
 Section 5.7~\cite{princebook} for the cross-entropy loss function.
 
-% - cross-entropy loss 
-% kullback-leibler divergence of correct conditional probability and conditional probability parametrized by current model parameters.
-% (show formula, 5.27), correct is not dependent on parameters so is omitted. show 5.29, what is left from that 
-% (until here from~\cite{princebook})
 The cross-entropy loss function maps pairs of class probability vectors 
 to a loss value. The model output vector describes the probabilities 
 of the input belonging to each of the possible classes, while the ground
@@ -630,48 +531,25 @@ As the distributions are discrete, the loss reduces to
     L(\mathbf{\theta})=-\sum_{i=1}^{N}\log[Pr(y_i|f(x_i,\mathbf{\theta}))],
 \end{align}
 
-where $N$ denotes dataset size, $y_i$ the correct label, and $f(x_i, \mathbf{\theta})$ is the neural network output. This is computed as the negative sum over all logarithms of the probability of the input being of the correct class according to the model. As all correct label probabilities being one, the perfect solution, sets all logarithms to zero, the loss value zero is equivalent with the maximum likelihood solution.
+where $N$ denotes dataset size, $y_i$ the correct label, and $f(x_i, \mathbf{\theta})$ is the neural network output. This is computed as the negative sum over all logarithms of the probability of the input being of the correct class according to the model. As all correct label probabilities are one, the perfect solution sets all logarithms to zero, making the loss value zero equivalent to the maximum likelihood solution.
 
-% word detection models: have a predefined vocabulary, layer for probability of each word.
-% loss is cross entropy for these probabilities compared to target probability distribution, where correct word has probability 1 and 
-% all other have probability 0
 Before training a neural network can be started, the network structure needs to be decided. The alternatives are called \textit{architectures}, most relevant of which for character recognition are presented next.
 
 \section{Architectures}
-% different ways of constructing layers, makes model pay more attention to desired things
-% and reduces parameter count from fully connected layers, ie. encode priors~\cite{alexnet}
 
 Neural network architectures are alternative ways of constructing the network structure for cases where the standard variant presented in Equation~\ref{eq:fc_layer} is not ideal. Alternative layer types are used to make the model pay more attention to desired 
 aspects~\cite{alexnet}, such as image structures ignoring their position in image processing, or features most usable for summarizing data in autoencoders.
-%character sequences only before a specified position in the sequence in language models.
 
-% outline of section
-% topic of paragraph: this section presents architectures & first models that are commonly used in image tasks, initially imagenet
-% missä on relevantteja. näitä arkkitehtuureita käytetään handwritten character classification tasks
 This section presents layer types used in handwritten character classification 
 along with model architectures that first introduced them.
 These are convolutional layers, residual connections, autoencoders, and the multi-head self-attention operation used in transformer architectures, and are presented next.
 
 \subsection{Convolutional layers}
-% % why convolve
-% encode a prior reduces the need to learn parameters. limit is cpu resources and data so given data 
-% and cpu, get as good model as you can requires constraining the problem by making assumptions~\cite{alexnet}
-% practical use: less parameters required -> less computational complexity
 
 The primary motivation for the introduction of convolutional layers was to find a way to encode general prior information 
-on images  to the network architecture: force the network, by adjusting its computational 
+on images to the network architecture: force the network, by adjusting its computational 
 algorithm, to pay attention to particular aspects while ignoring others. Constraining the problem with priors allows reducing parameter count per layer, which frees up 
 computational resources to training further and with more data~\cite{alexnet}.
-
-% prior encoded: move image a bit and it is still an image of the same object (translation invariance)
-% and nearby pixels are usually like each other (have a statistical relationship) fully connected nets 
-% do not consider input value positions in input vector, how near or far from each other they are, in any way.
-%~\cite{princebook}
-% which fact
-% think of space of all images, random numbers. the "snowfall" bug of old televisions. only small subset 
-% could ever be valid images. common to these is that nearby pixels are most of the time of the same color. also
-% that order of pixels does matter. read prince: how fc layers treat locality and explain here. maybe a figure:
-% translation invariance and smoothness (snowfall and an image, m and 1 pixel shifted m)
 
 The two pieces of prior knowledge encoded to the convolutional layer computation
  are invariance to geometric and pointwise transformations, and local relatedness of pixels~\cite{princebook}.
@@ -682,7 +560,7 @@ encodes that most pixels next to each other have similar intensity values and th
 
 \begin{figure}[ht]
     \centering
-    \resizebox{0.7\linewidth}{!}{%
+    \resizebox{0.7\linewidth}{!}{
         \begin{minipage}[b]{0.45\linewidth}
             \centering
             \includegraphics[width=\textwidth]{images/snowfall.png}
@@ -701,7 +579,7 @@ encodes that most pixels next to each other have similar intensity values and th
 
         \vspace{0.4cm}
 
-    \resizebox{0.7\linewidth}{!}{%
+    \resizebox{0.7\linewidth}{!}{
         \begin{minipage}[b]{0.45\linewidth}
             \centering
             \includegraphics[width=\textwidth]{images/molar.png}
@@ -721,15 +599,9 @@ encodes that most pixels next to each other have similar intensity values and th
     \label{fig:conv_assumptions}
 \end{figure}
 
-%the basic convolution
-% convolution (cross-correlation)
-% you have input and kernel. input: image matrix (2d) kernel: 2n+1 sized matrix (uneven to make it center around the input pixel processed)
-% kernel slides like a sliding window through the input. for each middle position of the kernel:
-% result is the dot product of the pixels in equal positions, eq 10.6
-% if the image is rgb, kernel is 3d with depth 3. (bike fig 10.10 here)
 The layer output computation on a convolutional layer is similar to the fully connected layer computation
-presented in Equation~\ref{eq:fc_layer}, but takes as input only a small region around each pixel and uses same weight parameters on all input positions. To achieve this, the layer weights form a small matrix called kernel~\cite{princebook}. During the computation, the kernel 
-acts as a sliding window, producing the output for each position by computing the dot product between the kernel and the kernel-sized input region around the processed position, and as usual, a bias term is added and the result passed  through a nonlinear activation function. An illustration of a convolution in the color image case, where the kernel is three-dimensional,
+presented in Equation~\ref{eq:fc_layer}, but takes as input only a small region around each pixel and uses the same weight parameters on all input positions. To achieve this, the layer weights form a small matrix called kernel~\cite{princebook}. During the computation, the kernel 
+acts as a sliding window, producing the output for each position by computing the dot product between the kernel and the kernel-sized input region around the processed position, and as usual, a bias term is added and the result passed through a nonlinear activation function. An illustration of convolution in the color image case, where the kernel is three-dimensional,
 is found in Figure~\ref{image:3dkernel}.
 
 \begin{figure}[ht]
@@ -739,18 +611,9 @@ is found in Figure~\ref{image:3dkernel}.
     \label{image:3dkernel}
 \end{figure}
 
-% pooling
-% usually conv layer followed by pooling layer
-% usually networks are constructed so that layer by layer layer width decreases
-% changing layer: max pooling. take maximum of 2x2 area, collect these values as the output activations. other, less popular variants: mean and average pooling
-Usually, a convolutional layer is followed by a pooling layer~\cite{princebook}. The pooling layer adds more nonlinearity to the network, and allows reducing layer sizes. The most common operation is the max pooling operation, where each output pixel is the maximum of
+Usually, a convolutional layer is followed by a pooling layer~\cite{princebook}. The pooling layer adds more nonlinearity to the network and allows reducing layer sizes. The most common operation is the max pooling operation, where each output pixel is the maximum of
 a 2x2 area in the input. Other, less popular operations include using mean or average in the pooling operation. These operations allow for the common structure of convolutional networks, where the layer output size progressively decreases as the computation proceeds.
 
-% relevant here: present the ImageNet competition that has initiated many new architectures.
-% % history bit: imageNet breakthrough models alexnet, googlelenet, vgg
-% the what models. most influential
-% historical scetch: alexnet~\cite{alexnet} brought this to mainstream in 2012, imagenet 2014 saw GoogleLeNet~\cite{googlelenet} and VGG~\cite{vgg}.
-% these highlighted because the architectures are utilized in handwritten character classification.
 Many advances in convolutional networks have been motivated by the ImageNet image classification competition~\cite{imagenet}
  that ranks models by their capacity of classifying images retrieved from the web to 1\,000 distinct classes.
  The results are presented as top-1 and top-5 error rates, the percentage of samples 
@@ -762,51 +625,31 @@ only rely on the basic convolution operation, are AlexNet~\cite{alexnet},
 the VGG model family~\cite{vgg}, and
 the Inception architecture used in GoogLeNet~\cite{googlelenet}.
 
-% alexnet, top5 error: 17\% best so far
-% whats new regularization with dropout, large model, large conv kernels (11x11-3x3 kernels), 
-% relu instead of previously popular tanhs sped up training, multiple GPUs used when training,
-% normalization of convolution results, overlapping pooling (areas of pooling for each pixel overlap)
-% impact: brought deep learning to center of ml research, deep nets seem to outperform humans in feature engineering.
 The AlexNet convolutional neural network is perhaps the most influential deep learning model of all time, 
 popularizing deep learning as a superior feature extractor compared to human-performed feature engineering~\cite{princebook}.
-% what was different
-The breakthrough was mainly achieved by speeding up the training process with graphical processing units, a novel idea at the time, and simplifying the feed forward computation by replacing the
+The breakthrough was mainly achieved by speeding up the training process with graphical processing units, a novel idea at the time, and simplifying the feed-forward computation by replacing the
 hyperbolic tangent activation popular at the time with the ReLU function~\cite{alexnet}.
  This allowed training a larger, deeper network
 with convolutional kernels up to the size of 11x11, leading to nearly halving the best top-5 error rate with the score of
 17.0\%. Other, more minor but still highly influential innovations were the normalization of convolution results, 
-overlap in pooling areas, and using dropout regularization, a heuristic where connections are randomly dropped to avoid over-reliance on certain connections~\cite{dropout}.
+overlap in pooling areas, and dropout regularization, a heuristic where connections are randomly dropped to avoid over-reliance on certain connections~\cite{dropout}.
 
-% googlelenet~\cite{googlelenet} won 2014 with top 5 error rate  6,75\%.
-% method: fixed number of allowed multiple-adds in forward pass, 
-% used inception (named after we need to go deeper meme) layer: 1x1 3x3 and 5x5 s, also 
-% sparse fully connected layers ie not all weights are connected.
-% dimension reduction with 1x1 kernels
-% to save compute. Also inspired by biological visual systems. allowed
-% for deeper and wider network, turned out to be great in imagenet and 
-% object detection.
 The ImageNet competition of 2014 saw the next breakthrough innovation with the winning architecture GoogLeNet~\cite{googlelenet}. The authors
 introduced smaller convolutional kernels with highly optimized training computation that allow deeper,
 and therefore more capable networks. The layer architecture, named Inception after the ``We 
 need to go deeper'' internet meme~\cite{we_need_to_go_deeper}, only used kernels of size 3x3 and 5x5, and
-employed layer channel count reduction with 1x1 convolutional kernels. Sparsity by omitting connections was introduced on dense layers, inspired by knowledge on the structure of biological visual systems. While these ideas were motivated
+employed layer channel count reduction with 1x1 convolutional kernels. Sparsity by omitting connections was introduced on dense layers, inspired by knowledge of the structure of biological visual systems. While these ideas were motivated
 by performance-related reasons, to reach as high accuracy as possible with a fixed count multiple-add operations in training, the resulting model ended up reaching a new best top-5 error rate of 6.75\%
 in ImageNet classification.
-% s3x3, 5x5 kernels only 1x1 kernels usage in dimension reduction, sparse dense layers to imitate human visual system
 
-% vgg~\cite{vgg}. achieved 6,8\% with imagenet 2014 postsubmission, submitted 7,3\% 
-% second in competition. method: simple 3x3 convolutions, tested different depths. best depth 19.
-% new that previous best models did big kernels and shallower nets. also good model because of 
-% the simplicity + the paper included in appendix that demonstrated vgg as a feature extractor to 
-% be used in transfer learning.
 A close runner-up in the 2014 competition, the VGG model family again proved that deep networks 
 with small kernels outperform shallow, larger-kernel approaches~\cite{vgg}. The experiments included fixing all kernels to 3x3 size, and benchmarking classification accuracy between 
-different model depths. The deepest model with 19 layers was found to be most accurate, and highly competitive as a feature extractor: an appendix of experiments reached new-best results on a variety of 
+different model depths. The deepest model with 19 layers was found to be the most accurate, and highly competitive as a feature extractor: an appendix of experiments reached new-best results on a variety of 
 further classification tasks. While the 
-best top-5 accuracy of 7.3\% ended up with a second place in the ImageNet 2014 competition, the structural simplicity
+best top-5 accuracy of 7.3\% ended up with second place in the ImageNet 2014 competition, the structural simplicity
 and diverse learning capacity of the VGG models had a major influence on later deep learning research.
 
-The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Figure~\ref{image:famouscnns}.
+The architectures of the AlexNet, GoogLeNet, and VGG models are summarized in Figure~\ref{image:famouscnns}.
 
 \begin{figure}[ht]
     \centering
@@ -818,53 +661,34 @@ The architectures of the AlexNet, GoogLeNet and VGG models are summarized in Fig
 
 \subsection{Residual connections}
 
-% there was the inspo that it might be that being better at approximating arbitrary functions ie 
-% building accurate nns for anything would just be about stacking layers 
-% the vanishing exploding gradients problem
-%     update a weight parameter w lr*gradient, if gradient is huge you shift parameter a lot, numerically unstable training. if gradient goes to zero, the weight can no longer change 
-%     this was already solved with input and batch normalization layers: gradients dont get stuck to some specific values
-% another problem: degradation of accuracy
-%     deepen deepen the network -> peak accuracy then it reduces
-%         so there is something dysfunctional about the standard computation that makes training deep hard 
 Following the success of increasingly deep networks~\cite{vgg,googlelenet}, the question arose of whether 
 achieving better approximation capacity with a neural network solely was about stacking more layers~\cite{resnet}.
 The previous major problem of vanishing and exploding gradients had been solved by input and between-layer 
 normalization operations. The vanishing gradient problem refers to when the gradient of the loss with respect to 
-some parameters becomes zero, these parameters can no longer be updated by adding any learning rate multiplied with the gradient. Exploding 
+some parameters becomes zero, these parameters can no longer be updated by adding any learning rate multiplied by the gradient. Exploding 
 gradients lead to numerical instability as the optimum is best approached gradually rather than adding very large numbers to weights. Normalization solves these problems by updating activations to a consistent distribution, avoiding gradients getting stuck to extreme values~\cite{batchnorm}.
 However, after stacking even more layers with the help of normalization operations, another issue, the degradation 
 problem occurred. This refers to the phenomenon where when iteratively training deeper networks, the accuracy 
 reaches a peak and then starts degrading~\cite{resnet}. This suggested that there was something dysfunctional in 
 the conventional deep network computations that started showing symptoms when a sufficiently deep network was trained.
 
-% solution, he et al
-% if you add identity connection (kinda any layer can be used as the output),
-% there are shallower subnetworks in the deeper network -> accuracy can never be worse than 
-% in the shallower networks.
-%     quick formula and figure here
-% turned out to be much better than in the shallower networks
-%     hypothesized: the deeper the network the harder it is to learn the identity mapping 
-%         this is the cause of the degradation problem and bc residual connection solves it, degradation problem vanishes 
-% and indeed the resulting network won many competitions including imagenet challenge with a net 8x deeper than previous deepst, the VGG
 As a solution to the degradation problem, He et al.~\cite{resnet} presented residual connections.
 The premise was that if you add a skip connection that can bypass any layer computation, 
 the deeper network contains in itself all the shallower variants and the resulting accuracy can never 
 be worse than in a shallower network. The skip connection was implemented by adding the input to the layer output, the full computation becoming
 $F(x) + x$ when expressing the layer without skip connection as $F(x)$.
-Empirical results showed that this solved the degradation issue, and lead to a 
+Empirical results showed that this solved the degradation issue, and led to a 
 vast improvement in classification accuracy. It was hypothesized that the reason for the degradation problem 
 was that the deeper the network, the harder it is for the highly nonlinear network to approximate identity mappings, and when 
 the depth passes a certain threshold, this drawback outweighs the added benefit of more layers. As the skip 
-connection makes approximating the identity mapping very easy by setting all parameters but the skip connection to zero, the problem is completely eliminated. The end results were impressive: 
-the ResNet architecture won multiple image detection and segmentation competitions, including the ImageNet challenge 
+connection makes approximating the identity mapping very easy by setting all parameters but the skip connection to zero, the problem is eliminated. The results were impressive: 
+The ResNet architecture won multiple image detection and segmentation competitions, including the ImageNet challenge 
 of 2015, where the new best top-5 error of 3.57\% was reached with a network eight times deeper than the deepest VGG architecture~\cite{resnet}.
 
 \subsection{Autoencoders}
 \label{sect:autoencoders}
-% most of this from~\cite{goodfellow}
-% labeling costs -> self-supervised learning
-% 1. labeling cost = selfsupervised, which is learning without any labels. x is input and output is latent variable of x, z. if input is an image z is obtained from x somehow eg add noise to image, add 1 to all intensity values, etc. no matter if it makes sense just that there is an algo for getting the latent variable.
-As one of the main ways for improving neural network accuracies is to obtain larger labeled datasets, various methods have been developed to increase dataset sizes without adding more manual labeling effort. As the best way to increase dataset 
+
+As one of the main ways to improve neural network accuracies is to obtain larger labeled datasets, various methods have been developed to increase dataset sizes without adding more manual labeling effort. As the best way to increase dataset 
 size without adding labeling effort is to not use labels at all, self-supervised deep learning has been proposed 
 as a solution~\cite{goodfellow}. In self-supervised learning, the correct output of the network is
 derived from the input with a deterministic algorithm. This output is called a \textit{latent variable}.
@@ -873,25 +697,14 @@ and using the whole input as the output, or by adding noise to the input~\cite{p
 The learning setting is constrained so that learning the latent variable 
 based on the input remains a nontrivial task for the model.
 
-% what is an autoencoder
-% 2. autoencoder=input x latent is also x.
-% 	normal net: just copy. eg shallow network no hidden units: output at poistion i is input at position j, no learning
-% 	trick: constrain
-% 		variants: less hidden units than input (undercomplete autoencoders), regularizing encourages smaller parameters or sparsity
-% 	most basic: input to hidden (encoder) hidden to input (decoder)
 Autoencoders are neural networks trained in a self-supervised manner to learn the identity function: the latent 
 variable is the input~\cite{goodfellow}. To avoid situations where the network could trivially copy the values from 
 the input layer to the output, the network is constrained. The most common way for this is to implement an undercomplete
 autoencoder that has hidden layer sizes smaller than the input, forcing the network to find a way to distill 
 the input data in a way that keeps as much of the original as possible recoverable on the output layer.
 Another way of constraining the model is to add regularization parameters to the 
-loss function, encouraging for instance small-valued or sparse parameters, rather than the trivial solution.
-		
-% 3. why this is useful / interesting?
-% introduce probs the architecture, x h x here
-% encoder and decoder nets are mini nets in a net that you take out and use for interesting things.
-% - dimensionality reduction/feature engineering by getting the hidden unit
-% 	- use features also in character recognition: eg shoponbangla
+loss function, encouraging, for instance, small-valued or sparse parameters, rather than the trivial solution.
+
 The natural follow-up question to ask on autoencoders is why bother; what the utility 
 of learning identity functions is. For the undercomplete autoencoder, the computation 
 can be interpreted as a mapping from the input to a compressed representation $h$, and 
@@ -907,28 +720,16 @@ task in transfer learning, as discussed in Section~\ref{sect:transfer_learning}.
 
 \subsection{Transformers and the multi-head self-attention}
 
-% 1 paragraph: motivation for a new method
-% nn motivation for a new thing is needed
-% words reference to one another that are sometimes far far away in the sequence, conv pays attention only close up with the filter, what is relevant depends on a this word b the other word
-% large embedding vectors -> fc layer won't do really, you have to share parameters
 The multi-head self-attention layer present in transformer architectures was
 originally motivated by natural language processing tasks, as other layer types
-encode prior knowledge on language poorly.
-Convolutional layers can only use the immediate neighborhood of the input for activation computations, making it impossible to attend to other words far in a sequence, which would be necessary in text processing. Fully connected layers would cause parameter counts to become insurmountable large as inputs sizes for language models are huge: sequences are processed by splitting the sequence to tokens, for instance words, and generating \textit{embeddings}, long numeric vectors describing tokens and their positions~\cite{princebook}.
+encode prior knowledge of language poorly.
+Convolutional layers can only use the immediate neighborhood of the input for activation computations, making it impossible to attend to other words far in a sequence, which would be necessary for text processing. Fully connected layers would cause parameter counts to become insurmountable large as input sizes for language models are huge: sequences are processed by splitting the sequence into tokens, such as words, and generating \textit{embeddings}, long numeric vectors describing tokens and their positions~\cite{princebook}.
 
-%  2 paragraph: search engine analogue for attention
-% query is what we want to find out in the sequence (search query)
-% key is a descriptor of the thing (page content for a simple engine)
-% value is the search result (page contents ranked)
 To construct the self-attention operation, the nature of language was studied 
 as an information retrieval problem: a primitive search engine is used as an analogue to construct a way to rank content by relevance.
 The \textit{query}, a string of characters, is used to rank \textit{keys}, web pages. This is done by computing a similarity metric: checking how many words in the query appear on each web page. The
-end result is a list of \textit{values}, web pages ordered by their relevance ranking.
+the result is a list of \textit{values}, web pages ordered by their relevance ranking.
 
-% 3 'the search engine within a phrase' -> dot product self attention
-% similarity can be computed with cosine similarity that measures vector direction difference, vec1 dot prod vec2 divided by magnitude (length) vec1 times magnitude (length)vec 2. 
-% (give equation for cosine similarity)
-% attention with the text sequence between words so self attention
 The process for constructing the output for each input token embedding follows a similar process.
 For the input, one embedding vector, the similarity to all other token embeddings is computed with cosine similarity, given in Equation~\ref{eq:cos-similarity}. This similarity metric computes the cosine of the angle between two vectors using the dot product and scales it by vector magnitudes,
  giving a scalar metric with one denoting perfect similarity and -1 perfect dissimilarity. As the similarity is also computed between the input and itself, this \textit{attention} value becomes 1.
@@ -939,27 +740,13 @@ The name \textit{self-attention} stems from this phenomenon of parts of a sequen
     \label{eq:cos-similarity}
 \end{align}
 
-% 4. technical adjustments for the multi head dot product self attention (word monster)
-% vectors to matrices notational trick: all inputs form X. matrix Q, all keys matrix K, all values matrix V (Q=K=V). 
-% one more thing: learnable params. K V and Q are used as they become different after adding learnable params Wq Wk Wv
-% compute all similarities at once: multiply matrix Q by matrix K and divide by sqrt of the token length. numerator is different than in cos similarity, but this change preserves the order between tokens
-% similarities are passed through softmax to make them between 0 and 1
-% get all relevance ranking representations (values) by multiplying attention matrix with value matrix
-% aaand yet one more: multihead to pay attention to many aspects at once. split and concatenate to not increase parameter counts
-A few technical adjustments to the aforementioned process are made for the self-attention layer to summarize notation and add learnable parameters. To represent the whole computation with one equation, all token vectors are collected in input matrix $X$. Three copies of this matrix is created for the queries, matrix $Q$, keys, $K$, and values, $V$, by introducing learnable parameter matrices $W_K, W_Q$, and $W_V$, and multiplying the input matrix $X$ by each. The similarity values are computed by multiplying the query and key matrices, and dividing the result by the square root of the token length. The denominator differs from cosine similarity, but this avoids the need to compute vector norms and preserves the ordering between attention values. The attention matrix is obtained by passing the similarities through the softmax function (Equation~\ref{eq:softmax}) to scale them to values between zero and one. Finally, the relevance-ordering representation is constructed by multiplying the attention matrix with the value matrix $V$. This forms the dot-product self-attention computation, summarized in Equation~\ref{eq:self-attention}.
- 
-
+A few technical adjustments to the aforementioned process are made for the self-attention layer to summarize notation and add learnable parameters. To represent the whole computation with one equation, all token vectors are collected in the input matrix $X$. Three copies of this matrix are created for the queries, matrix $Q$, keys, $K$, and values, $V$, by introducing learnable parameter matrices $W_K, W_Q$, and $W_V$, and multiplying the input matrix $X$ by each. The similarity values are computed by multiplying the query and key matrices and dividing the result by the square root of the token length. The denominator differs from cosine similarity, but this avoids the need to compute vector norms and preserves the ordering between attention values. The attention matrix is obtained by passing the similarities through the softmax function (Equation~\ref{eq:softmax}) to scale them to values between zero and one. Finally, the relevance-ordering representation is constructed by multiplying the attention matrix with the value matrix $V$. This forms the dot-product self-attention computation, summarized in Equation~\ref{eq:self-attention}.
 
 \begin{align}
     \text{Self-attention}(\mathbf{X}) &= \text{softmax} \left[ \frac{\mathbf{Q}\mathbf{K}^T }{\sqrt{d_k}} \right] \mathbf{V}, \label{eq:self-attention} \\
     \nonumber\text{where} \quad \mathbf{V} &= \mathbf{X} \mathbf{W}_v, \; \mathbf{K} = \mathbf{X} \mathbf{W}_k \; \text{and} \; \mathbf{Q} = \mathbf{X} \mathbf{W}_q.
 \end{align}
 
-% 4 multi head self attention
-% to be able to pay attention to multiple things at a time you construct multiple attention filters, so do that many times in parallel -> multi-head self attention
-% multihead: divide query and key embeddings by splitting embedding matrix, do many self-attention oeprations on those in parallel, concateneate result
-% this is the multihead self attention block. here you go a summarizing figure
-% each head can focus on different aspects
 With the self-attention operation, one limitation remains: one attention layer is only able to focus on one aspect of the 
 input sequence at a time. To allow multiple interpretations, in \textit{multi-head self-attention}, many self-attention operations are run in parallel. To preserve the weight matrix sizes, each token embedding is split across the heads and the 
 results from the value matrix multiplied with the attention matrix are concatenated back together. The self-attention operation with multiple heads is summarized in Figure~\ref{fig:multi-head-self-attention}.
@@ -971,120 +758,74 @@ results from the value matrix multiplied with the attention matrix are concatena
     \label{fig:multi-head-self-attention}
 \end{figure}
 
-% 5 the transformer architecture
-% transformer architecture uses this and fc layers like so
-% transformer is the first architecture to only utilize the attention mechanism (no other layers but multihead self attention and fc layers)
-% transformer has an encoder and decoder part (so is a variant of an autoencoder)
-% transformer block: multihead self attention and fc layer, both have batch norm after and both have residual connection
-% teach the network to continue sentence with the next word, selfsupervised eg hide last word'
-% this model was amazing at what check original paper attention is all you need
-% tadaa you get a model that can continue the prompt with valid text, add some features and you have a LLM
 The main premise of the transformer architecture is that the multi-head self-attention 
 is the only operation required to successfully learn nature language processing tasks~\cite{attention_is_all_you_need}. The first transformer model,
 an autoencoder only using transformer blocks with a multi-head self-attention and 
 a fully connected layer both followed by batch normalization and with a residual connection, achieved a new best 
 result in machine translation from English to German by a significant margin~\cite{attention_is_all_you_need}.
 The most famous application of attention-based models is, however, a model taught to continue a sentence fragment with the next most 
-likely character. The chat-style variants of these models, most famous being ChatGPT by OpenAI, has become well-known among the general public and 
-has been speculated to show signs of general artificial intelligence.
+likely character. The chat-style variants of these models, the most famous being ChatGPT by OpenAI, have become well-known among the general public and 
+have been speculated to show signs of general artificial intelligence.
 
-% 6. paragraph: vision transformer for image classification
-% vision application: divide the image to 16x16 patches, interpret those as "words". a transformer architecture that has as output the class probabilities for imagenet. good results but lots of training because transformer does not encode the vision priors of translation and pointwise function invariance
 In computer vision, transformer architectures have been successfully implemented.
 The most notable of these is the Vision Transformer (ViT)~\cite{vit} that achieved a top-1 error rate of
 11.45\% on the ImageNet challenge, an impressive result yet less accurate than the best convolutional networks of the time.
-Falling behind convolutional networks was likely due to lacking prior knowledge on images encoded in the convolution operation, nearby pixel similarity and
+Falling behind convolutional networks was likely due to lacking prior knowledge of images encoded in the convolution operation, nearby pixel similarity, and
 translation invariance, leading to larger requirements of data and computational resources 
 to reach high accuracies. Still, transformer architectures are actively experimented with in many computer vision tasks, including handwritten character classification~\cite{9thuonPalm}.
 
-% end of section, back to why i presented these architectures
-% these are building blocks that are used for models that classify images. these can be then used for any image 
-% classification task like OCR when you use transfer learning which is presented next.
 The layer computation variants presented in this section; convolution, residual connection, encoder-decoder chain, and 
-the multi-head self attention form the set of alternatives commonly used for image classification. Models built with these mechanisms 
-have achieved impressive accuracies on classifying the ImageNet samples according to what can be seen in each image.
-To utilize these models in handwritten character recognition, a mechanism for applying this knowledge on a new task is required.
+the multi-head self-attention form the set of alternatives commonly used for image classification. Models built with these mechanisms 
+have achieved impressive accuracies in classifying the ImageNet samples according to what can be seen in each image.
+To utilize these models in handwritten character recognition, a mechanism for applying this knowledge to a new task is required.
 This is called transfer learning and is presented next.
 
 \section{Transfer learning}
 \label{sect:transfer_learning}
 
-% relation to neural net training: select good param initialization
-% human analogue
 Much of transfer learning is about what happens before training a neural network is started: using an architecture and starting training from a parametrization already successful at a related task
-is known to result in a better model~\cite{transferlearning_survey}. As an analogue to human learning, teaching a human transcriber to read fossil specimen markings is easier if the person already knows how to to read.
+is known to result in a better model~\cite{transferlearning_survey}. As an analogue to human learning, teaching a human transcriber to read fossil specimen markings is easier if the person already knows how to read.
 
-
-% why transfer learning
-% early example gradient trap to better region -> generalist early examples lead to a better region
-% better generalization (model has seen more)
-% computational cost is saved by reusing low level features -> freeze early layers --> less data & labeling needed, but also helps when data is abundant
 Transfer learning benefits constructing neural networks 
 by aiding in optimization, generalization, and regularization, and saving computational resources and labeling effort~\cite{erhanWhyDoesUnsupervised2010, transferlearning_survey}.
 Erhan et al.~\cite{erhanWhyDoesUnsupervised2010} found a theoretical explanation for these benefits: they
 experimented with ordering the training data and found 
 that early examples have a significant influence on the learning trajectory trapping the optimizer in a parameter region that is later hard, 
-if not impossible, to escape. Therefore, seeing examples from another learning task prevents overfitting by avoiding the optimizer getting trapped in undesirable parameter regions. As the model also sees more versatile examples, it is known that the end result generalizes better~\cite{transferlearning_survey}.
+if not impossible, to escape. Therefore, seeing examples from another learning task prevents overfitting by preventing the optimizer from getting trapped in undesirable parameter regions. As the model also sees more versatile examples, it is known that the result generalizes better~\cite{transferlearning_survey}.
 The practical implementation of transfer learning is better understood when one views a neural network as a hierarchical feature extractor:
-first layers learn low-level features of the input, and downstream layers combine these to higher-level concepts.
+The first layers learn low-level features of the input, and downstream layers combine these to higher-level concepts.
 In the letter-recognition case, a low-level feature could be noticing edges, and a higher-level feature that the edges curve and intersect in 
-specific ways. As lower level features are common between tasks, they can be reused by fixing first layers, also called \textit{freezing} layers,
+specific ways. As lower-level features are common between tasks, they can be reused by fixing the first layers, also called \textit{freezing} layers,
 and adjusting only the lower layer parameters during training.
-Freezing parameters reduces the search space for optimal configuration of the remaining parameters, saving computational resources. Additionally, required quantity of labeled training data is reduced, saving on one of the most laborious aspects of creating deep networks~\cite{engbook}.
-A way to circumvent even more labeling is using a self-supervised learning task, such as an autoencoder, as discussed in \ref{sect:autoencoders}. Taking this a step further, source models trained in an self-supervised manner on huge data sets and being usable for almost any target task are called \textit{foundation models} and have gained significant research attention lately. However, even in cases where labeled training data is abundant, pretraining on another dataset is beneficial likely due to the generalization and early example influence aspects~\cite{erhanWhyDoesUnsupervised2010}.
+Freezing parameters reduces the search space for optimal configuration of the remaining parameters, saving computational resources. Additionally, the required quantity of labeled training data is reduced, saving on one of the most laborious aspects of creating deep networks~\cite{engbook}.
+A way to circumvent even more labeling is using a self-supervised learning task, such as an autoencoder, as discussed in \ref{sect:autoencoders}. Taking this a step further, source models trained in a self-supervised manner on huge data sets and being usable for almost any target task are called \textit{foundation models} and have gained significant research attention lately. However, even in cases where labeled training data is abundant, pretraining on another dataset is beneficial likely due to the generalization and early example influence aspects~\cite{erhanWhyDoesUnsupervised2010}.
 
-% this sect from~\cite{transferlearning_survey}. they initially formalized the problem and uniform the terminology, present relevant here
-% source & target task
-% transfer distance
-% classification to kinds of transfer by if source/target task/domain changes
-% formalizing dental ocr with transfer learning terms
-While the principle of transfer learning was known with a variety of names before, the first survey on  the topic~\cite{transferlearning_survey} collected all these ideas under the term transfer learning and established further terminology related to the paradigm. The first problem solved by the model is called the source;
+While the principle of transfer learning was known by a variety of names before, the first survey on the topic~\cite{transferlearning_survey} collected all these ideas under the term transfer learning and established further terminology related to the paradigm. The first problem solved by the model is called the source;
 the mapping $X\to y$ is termed the \textit{source task}, and the input and output pair distribution $P(y|X)$ is termed the \textit{source domain}.
 Similarly, the next task solved is called the target, with mapping being the \textit{target task} and the data distribution the \textit{target domain}.
-A less rigorously defined term for referring to the similarity of the source and the target is \textit{transfer distance}. Transfer learning is further divided to subcategories according to if source and target tasks or domains differ. In our task, where the source is image classification and target is character classification, tasks differ, which is a problem of \textit{inductive transfer}.
-As both features and hyperparameters are re-used, both \textit{feature representation transfer} and \textit{parameter transfer} is implemented. Should one in the future want to fine-tune the models 
+A less rigorously defined term for referring to the similarity of the source and the target is \textit{transfer distance}. Transfer learning is further divided into subcategories according to whether source and target tasks or domains differ. In our task, where the source is image classification and the target is character classification, tasks differ, which is a problem of \textit{inductive transfer}.
+As both features and hyperparameters are re-used, both \textit{feature representation transfer} and \textit{parameter transfer} are implemented. Should one in the future want to fine-tune the models 
 developed in this work with catalogues from another institution, only the domains would differ, creating a \textit{transductive transfer} setting with a much shorter transfer distance than in our case.
 
-% basically nowadays it is usually insensible to ever train from scratch~\cite{cs231n_transfer_learning}
-% therefore previous work that does not transfer learn is dismissed
 In the literature review and experiments, it is assumed that starting training from a random parameter initialization, \textit{from scratch}, in no case works 
 better than transfer learning, a consensus largely shared among the machine learning community~\cite{cs231n_transfer_learning}.
 For this reason, research works implementing new character set recognition by training from scratch are omitted from the literature search.
 
 \bigskip
-% end of section
-% this section presented relevant background on neural networks
-% what you should remember from this chapter
-% you have a network that can approximate any input to output mapping
-% the network structure is set up in a way that is known to result in a good approximation
-% convolution is good with images, self-attention with text but also images, autoencoders 
-% with learning the identity mapping
-% training is conducted by constructing output from input with the network
-% computing difference of output and correct output with the loss function,
-% and adjusting the network to a direction that reduces this difference.
-% transfer learning means that you start this process from a network state
-% that can map some related mapping well, so the optimal network for the new 
-% state is closer.
-% how to do this in the image to dental element describing phrase case is our topic
-\noindent This chapter presented background on neural network training relevant for the task 
+\noindent This chapter presented background on neural network training relevant to the task 
 of classifying handwritten digits. The coarse principles to remember for the following chapters 
 are that a neural network essentially is a function approximator. The different structures are 
 used to aid in this approximation by encoding prior knowledge; the convolution operation encodes these 
-for images, the self-attention for text sequences. Autoencoders are used to conduct self-supervised
+for images, and the self-attention for text sequences. Autoencoders are used to conduct self-supervised
 learning, where output equals the input. Neural network training refers to finding the best 
 parameters to approximate the given mapping, and is conducted iteratively by creating 
 an output, comparing it with the correct output, and adjusting the parameters in the direction 
-of better output producing parameters. Transfer learning means that this process is started with a 
- parameters that is assumed to be closer to the best parametrization than an average 
-random initialization. The following chapters will review previous experiments implementing 
-neural network training with transfer learning to solve the task of character image classification, and experiment with previously successful approaches to correctly classify handwritten tooth fossil markings.
+of better output-producing parameters. Transfer learning means that this process is started with a 
+ parametrization that is assumed to be closer to the best parametrization than an average 
+random initialization. The following chapters review previous experiments implementing 
+neural network training with transfer learning to solve the task of character image classification and experiment with previously successful approaches to correctly classify handwritten tooth fossil markings.
 
 \chapter{Related Work}
-
-% intro
-% this chapter presents related work from two angles
-% angle 1: neural nets & transfer learning on similar problems
-% angle 2: solutions to digitization of historical documents
 
 This chapter presents related work from two viewpoints. First, in Section~\ref{sect:related_same_problem},
 work on digitizing handwritten fossil catalogues is reviewed. As the work 
@@ -1092,12 +833,9 @@ in this area is highly limited, Section~\ref{sect:same_solution} presents work u
 to ones used here: publications aiming to recognize individual handwritten characters 
 with deep neural networks and transfer learning with limited target domain data.
 
-% Search strategy: few seed papers and snowball search. Related conferences: 
-% Frontiers in Handwriting Recognition
-
 Literature to review was selected for with a snowball search, proceeding with forward and backward citations 
 of key articles. Additionally, last five to ten years of conference proceedings most relevant for this problem area were 
-scanned. For related work on fossil digitization, any found work touching on the subject area will be commented on due to their 
+scanned. For related work on fossil digitization, any found work touching on the subject area are commented on due to their 
 limited amount. For work conducting a similar analysis of handwritten character recognition, more strict conditions were placed. 
 For results, to be considered, the work had to be explicit about the best accuracy score achieved,
 mentioning the size of the training dataset, number of characters within the classification problem, and accuracy on the test set.
@@ -1107,16 +845,9 @@ work only stating they used transfer learning or leaving gaps in the training pr
 presentation quality was taken into account by omitting some work due to
  undecipherable or missing details.
 
-% lists best accuracy clearly (percent, which dataset, number of classes)
-% specifies the base model used (architecture and source domain dataset)
-% specifies how transfer learning was conducted (not just used transfer learning)
-% then reputable venue and acceptable quality of text and presentation,
-%super subpar text was a frequent reason to skip a paper, they also often lacked relevant details
-
 \section{Approaches to digitization of handwritten fossil catalogues}
 \label{sect:related_same_problem}
 
-% opening: the obvious solution: sit down and type is pretty much what is done now
 While digitizing handwritten fossil catalogues holds,
 should all state of the art optical character recognition and data management methods 
 be in full use for solving the problem, perhaps a dramatic potential for improving 
@@ -1124,19 +855,12 @@ the quality of paleoecological research, little has as of now been done in this 
 Likely due to the problem having attracted little attention, 
 most current work assumes the most rudimentary method: a person sitting down, and transcribing.
 
-%~\cite{uhenCardCatalogsComputers2013} reviews various digital paleo data portals. encourages further digitization but 
-% does not really mention how one should go about doing that
-%~\cite{mallisonDigitizingMethodsPaleontology2011} review of digitizing fossil data. only considers digitizing 
-% physical bone pieces to various 3d images. does not take any stand on digitizing handwritten notes on the samples 
 Due to large amounts of transcription work already done, there are digital repositories of fossil data.
 Uhen et al.~\cite{uhenCardCatalogsComputers2013} reviews such databases and encourages further 
 digitization of unpublished data, but does not take a stand on how one should complete such work.
 Another more extensive review, a whole chapter on digitization methods in paleontology has been written~\cite{mallisonDigitizingMethodsPaleontology2011},
 but the chapter exclusively considers digitizing physical bone and plant pieces with various 3D imaging methods.
 
-%~\cite{groomImprovedStandardizationTranscribed2019} does identify my problem here: most fossil data is in handwritten paper 
-% format with many things already known such as taxon. gives suggestions on data format and management but mostly assuming 
-% that there is a human transcriber. presents ocr reading as a possibly one day possible option. Notes that especially cleaning of automated ocr read data is a hard problem.
 For automated handwriting recognition, a few mentions exist in previous work. The data management themed 
 article by Groom et al.~\cite{groomImprovedStandardizationTranscribed2019} identifies the primary 
 problem of this thesis: it is mentioned that most fossil data exists as handwritten records with sufficient information 
@@ -1147,56 +871,20 @@ by a human. This review is still relevant for automated digitization as many imp
 standardization, and quality management are presented - revealing the new challenge that should large-scale automated digitization succeed,
 the next big line of work would be how to structure and manage the digital paleontological data.
 
-% only work doing the exact same thing:~\cite{shanmugavelHandwrittenOpticalCharacter2018}, but quality of the work is poor, only 
-% presents rudimentary basic general aspects of image processing such as canny edge detection or contour detection from characters, 
-% which is far away from working ocr. the paper lists absolutely no results but is an evidence that someone has somewhere at least 
-% attempted this.
 The only found work solving the exact same challenge as this work is the article by Shanmugavel et al.~\cite{shanmugavelHandwrittenOpticalCharacter2018}.
 While the task is exactly the same, the methods only contain basic computer 
 vision processes, edge and contour detection, and a lack of results reveals that not much was achieved in 
 this project. However, it serves as a proof that such attempts have taken place in previous years.
 
-% So: to the best of my knowledge there is no other work successfully reading handwritten fossil scans or cleaning 
-% already automatically read systems outside of 2024 spring data science project for KNM, for which this is the 
-% continuation. therefore also here i will do the simplest things first, since it is a good idea to start with simple and 
-% once successful, proceed to harder problems that would digitize and clean more data.
 Concluding the review of research articles on digitizing handwritten fossil data, it seems that no successful projects
 have as of now been completed outside of the Data Science student project in spring 2024 for the National 
-Museums of Kenya, for which this work is a continuation. Therefore, the experiments in this thesis will 
+Museums of Kenya, for which this work is a continuation. Therefore, the experiments in this thesis
 start out with the simplest problem reductions and only present more advanced techniques as ideas for future work.
 The rationale behind this decision is that since not much has yet been done, it is best to start out from 
 simple and established implementations to verify simple hypotheses before proceeding to more recently developed methods.
 
 \section{Approaches to handwritten character recognition with small target domain datasets}
 \label{sect:same_solution}
-% - since there is no old work on fossil i consider other cases and cases that are on abstract level similar
-% % 1. PARAGRAPH indian / sanskrit family and why I went for that
-
-% why sanskrit based Indian languages are a good inspo field for KNM
-
-% small languages
-% lots of transfer there because languages are small -> small datasets -> transfer needed~\cite{2limbachiyaGujarati}
-% major languages have sufficient data to train from scratch (and haven't realized transfer can help even then?~\cite{5rasheedHandwrittenUrduWAlexNet}~\cite{4zhaoTibetan}
-% most relevant is how many samples are available per class
-% but for knm, asian characters like chinese / korean / kanji could be more applicable because eg kanji contain subcharacter sections (radicals) that have distinct meaning. knm 'radicals': letter number underline. 
-
-% modifiers
-% modifiers like knm has the top and low line in: gujarati~\cite{2limbachiyaGujarati} bengali~\cite{3chatterjeeBengali} urdu~\cite{5rasheedHandwrittenUrduWAlexNet}
-
-% cursive~\cite{5rasheedHandwrittenUrduWAlexNet}
-% (where it is hard to do connected components based image processing) 
-
-% character sizes vary in bangla~\cite{6shoponBangla}
-% also knm with small numbers
-
-% general applicability: bounding box error setting
-% also did first bounding boxes (with way easier case tho)-> similar part of character cut off / too much background problems maybe~\cite{1akhlaghiFarsi}~\cite{7rizkybasicCnnTransfer}
-% why ancient things could be
-% from~\cite{9thuonPalm}
-% more than one character per writing unit -> knm also has letter and number
-% images + scans are more difficult to read because of old 'paper' -> focus on preprocessing -> similar to knm (but harder than knm probs)
-% also pages where you extract characters -> maybe similar ish bounding box extraction mistakes
-% huge amount of classes so hardest problem
 
 Due to the limited amount of work on optical character recognition on fossil catalogues, other 
 domains were chosen to draw inspiration from for constructing the model training setting. 
@@ -1218,33 +906,18 @@ included as the scanning of these scripts is more challenging due to the old lea
 study therefore contained valuable insight on image quality enhancement techniques~\cite{9thuonPalm}. Additionally, historical scripts 
 contain far more characters than modern languages, making the problem more challenging and therefore more interesting.
 
-% 2. on quality
-
 To note on all articles reviewed in this section is that the analytical basis was incomplete: reasons for why a technique 
 was chosen to be implemented over reasonable alternatives was largely missing, and transfer distance considerations were 
 mostly omitted. This has a number of consequences. The reasoning behind method selection could not be evaluated. The rationale 
 behind some decisions, such as flipping characters as a data augmentation technique~\cite{9thuonPalm}, optimizing the hyperparameter for character
  rotation angle in data augmentation~\cite{7rizkybasicCnnTransfer} or using data augmentation on the test set~\cite{11zunairUnconventionalWisdom}, could benefit from 
- further clarification. Not clearly defined metrics are used, such as positive-to-negative rates~\cite{10goelGujarati, 5rasheedHandwrittenUrduWAlexNet}, which lack a definition for 
+ further clarification. Not clearly defined metrics are used, such as positive-to-negative rates~\cite{10goelGujarati, 5rasheedHandwrittenUrduWAlexNet} that lack a definition for 
  the multi-class case and an explanation of the cost differences between the error types. For specifications, the lack of analytical
   basis results in missing necessary details, such as the implementation of layer freezing~\cite{8goelGujarati2023}, and the inclusion of redundant information,
    such as hardware specifications when runs are not timed~\cite{9thuonPalm}. Even the goal of the study was occasionally not as well motivated: one 
    study justified compromised result accuracy by training for fewer epochs~\cite{3chatterjeeBengali}, even though training with transfer learning can typically 
    be completed in order of minutes, even on a CPU. For these reasons, some unexplored alternatives are used in this
     thesis as previous work cannot invalidate their viability.
-
-% 4. incremental recognition of tibetan
-
-% contribution: outperform from scartch single model detects all tibetan by creating styles classifier, training resenet 50 from scratch with tibetan and transferring from that to different styles
-
-% relation to my case: they also need to learn many things: style and what character it is. take the high level approach from here
-% 	simplify problem by dividing it so that each model has a single task. This eases need for data samples in quantity + makes collecting them easier
-
-% miscellaneous probably extra info
-% base model resnet (only generic reasoning why), two layers added in finetuning
-% 	script classifying base model was vgg16 because of robustness
-% data is not well balanced
-% they saved large amount of compute percentage wise (2/3), but not much in absolute running time (40 minutes)
 
 While not directly analogous, a few works acted as major inspirations on aspects of the solution implemented in this work.
 Zhao et al.~\cite{4zhaoTibetan} achieved new state of the art accuracy in multi-style Tibetan glyph classification
@@ -1254,20 +927,6 @@ with a model chain approach that first classifies glyphs by style and then recog
 the fossil catalogues. However, the approach of 
   chaining simple classifiers as a solution to a more complex problem served as an inspiration for
    the pipeline approach implemented in this thesis.
-
-% 1. farsi handwritten phone numbers
-
-% what
-% image of phone number -> segment to individual digits -> train digit classifier from scratch
-% especially chosen because they have this pipeline approach like I do
-
-% good/bad about this paper analysis
-% 	much simpler approach
-% 		tiny network (only 3 conv layers), no transfer learning, still 99,37% accuracy
-% 		finding a smaller architecture + training with domain dataset could result in smaller model (but: more likely to overfit because of no source data, would not work that well with small datasets like KNM). 
-% 			but reasoning why people do imagenet transfer is so good it does not necessarily pay off to do this. they did not say how long they searched until they found this architecture. humanity has spent a long time to find best imagenet architecture so maybe rather not redo the effort. also archival digitization inference is never real-time so save energy for other problems that matter (shrinking model size has no real benefits and finding it would be more work so work with no benefit)
-
-% this is another work with not entirely identical setting but otherwise inspiring traits: they also did segmentation and then classification so another full pipeline implementation
 
 As another pipeline approach for detecting characters out of a longer sequence, Akhlaghi et al.~\cite{1akhlaghiFarsi} implemented 
 a reading system for Farsi phone catalogues by chaining a gradient histogram based segmentation 
@@ -1279,30 +938,12 @@ algorithm with a digit classifier. While the segmentation task is due to uniform
 
 The rest of the literature reviewed in this section is directly analogous 
 to the fossil case: a ImageNet or autoencoder base model is trained with transfer learning to detect a new set of characters.
-% 5. rasheed, handwritten urdu characters
-
-% what 
-% urdu digit/character ocr with transfer learning on alexnet.
-% svm used, but is outperformed by finetuning
-
-% my approach selection / the why + lack of quality problem
-% the paper quality was so low and many details not given
 
 Rasheed et al.~\cite{5rasheedHandwrittenUrduWAlexNet} created an AlexNet-based Urdu recognition 
 model, achieving 98.12\% accuracy in digit recognition. The common last layer replacement 
 with a fully connected layer with softmax activation was benchmarked against using AlexNet as 
 a feature extractor before support vector 
 machine classification, the former giving the best result.
-
-
-% 3. chatterjee bengali handwritten character classification
-% what
-% 	most (but not all) bengali character classification with finetuned resnet. 
-% 	superfancy tinetuning process, aims to converge in small number (48 so not even that small) of epochs, no reason this is important, why simple ordinary finetuning wont do
-% critique on (transfer) method
-% 	transfer method is complex, not quickly decipherable. Point of this seems to optimize for less epochs, which is not really necessary imo. so don’t do this unless simple things take forever (which never happens so don’t do this)
-% major WTF
-% ”if we remove misclassified data points, accuracy would increase”
 
 For Bangla character classification, Chatterjee et al. reported 96.12\% accuracy 
 by fine-tuning a ResNet model. The work employed highly sophisticated transfer
@@ -1311,30 +952,10 @@ by fine-tuning a ResNet model. The work employed highly sophisticated transfer
   Another concern was the concluding statement, ``if those misclassified points were 
   removed from the dataset, the accuracy will improve further'', which raises questions about the experimentation practices.
 
-  % 6. shopon bangla handwritten digit recognition using autoencoder and deep cnn
-
-% what
-% autoencoder based outperforms basic cnn things in bangla, new best
-
 In Bangla digit classification, Shopon et al.~\cite{6shoponBangla} implemented self-supervised 
 pretraining and found a new best accuracy in Bangla digits,
 and best accuracy among all articles reviewed, of 99.5\% by chaining an autoencoder
 with a deep convolutional network. This proves that while less popular, approaches based on self-supervised pretraining  are worth experimenting with.
-
-% 11. zunair unconventional wisdom
-
-% contribution: test different transfer approaches w vgg base model for best performance
-% best one has much more parameters (more thatn 1000x more) than 'conventional' transfer approach
-% first to use transfer on bengali numerals
-
-% critique/quality issues
-% freezing intermediate layers does not make sense from the low to high level features perspective... you cannot really freeze layers that have unfrozen layers ahead because later layer is always based on the previous one -> frozen layer computations don't make sense anymore 
-% better than "conventional transfer learning" bc less epochs and parameters -> are you assuming conventional transfer is the fine tune whole model approach? that is not correct? if you assume eg train fc layers as conventional then the less epochs/parameters statement is incorrect.
-% 	they state that only last layer is trained is the conventional transfer learning approach. then i don't understand how freezing less than this would reduce count of trainable parameters
-% lack of understanding: an experimetn where they froze the last layer! it was randomly initialized!
-% they are like weeeel! it works! wtfff
-% test set augmentation > test setting is not realistic real world data. based on figs also train and test data look different
-% overall presentation/quality not great
 
 Lastly for the Bangla language, Zunair et al.~\cite{11zunairUnconventionalWisdom} experimented 
 with unconventional transfer learning approaches to classify digits.
@@ -1345,11 +966,6 @@ hindering any updates to the randomly initialized weights. The end result of 97.
 to prove that these unusual approaches are worth experimenting with further, but due to this 
 result being only found with one data set and one base model, and in the absence of solid 
 theoretical basis, more evidence is required to justify the effectiveness of this method.
-
-% 2. identification of handwritten gujarati alphanumeric
-
-% what
-% create gujarati alphanumeric dataset + transfer cnn to build a classifier
 
 Several articles detected characters from the Gujarati language.
 Goel et al.~\cite{10goelGujarati} were the first to attempt deep learning for Gujarati digits, 
@@ -1364,36 +980,6 @@ connected layer is found to outperform using a support vector machine as the dow
 Limbachiya et al.~\cite{2limbachiyaGujarati} implemented digits and letters detection by comparing various convolutional architectures,
  achieving the best accuracy of 97.03\% with the MobileNet architecture. Transfer learning was implemented with a
   less usual top layer architecture: dropout was added between the two new fully connected layers.
-% 10. goel a prettrained cnn based framework for handwritten gujarati
-% what
-% test dl + transfer learning for gujarati digit classification (first one to do that)
-% whys / quality things
-% transfer method is chosen based on transfer distance but transfer method is so
-% vaguely described + no code published u cannot know really how it was implemented (training form the starch etc)
-% they seem to not understand stuff properly
-% data leakage: only train and test sets +
-%training stopping condition is according to ’best validation error’ -> apparently no validation set -> training is informed by test error -> data leakage -> accuracy is not generizable
-
-% 8. handwritten gujarati numerals goel
-
-% what
-% publish a data set
-% test 10 models 3 transfer methods, find how to implement transfer for gujarati (devanagari language from india, maybe sanskrit based idk) digit recognition accuracy
-% best paper so far, gives reasons for some (not all!!) decisions, considers transferability
-% methods are: feature extractor w svm or fc layer classifier, finetuning half of the base model. basic fc layer approach best of all. tested mnist as base, did not work as well
-% also bounding box extraction to get digits with usual smoothing filter then threshold then contour detect method. big problems with discontinuities in characters -> will not work in fossil
-
-% 7. text recognition on images using pretrained cnn, rizky
-
-% contribution: prove that using imagenet weights makes sense (which was kinda known already), surprising result: freezing is worse than not freezing (state on well dataset size was this and this big so maybe thats why). uses benchmark dataset so maybe easier problem than in the wild but dataset that tries to have more ’difficult’ ocr. handwriting and typed
-% first: compare models. then: compare freezing layers with the best model
-
-% data leakage/limitations
-% hyperparam optimizaton for best rotation angle etc. they have train test val datasets but did not say if they used test set to inform decisions. this smells like fitting to test set: eg range of roatation angle could make generalization sense: images are by this n this much rotated, but always rotated the same angle does not have a sensible interpretation. also they did not spec why they optimized this, they just did it
-% test set size on the iit5k dataset is only 30 images (with many characters in each image but still about 150 samples)
-
-% why
-% they gave a why for why cnn, but said that its because cnn ’works’. but 2022 and many new methods exist that tend to outperform cnn. what abt them?
 
 As the only work reading characters from a benchmark dataset of handwriting, Rizky et al.~\cite{7rizkybasicCnnTransfer}
 first compared various architectures and then used the best model, VGG16, to compare multiple transfer learning 
@@ -1401,34 +987,6 @@ approaches. the final accuracy of 98.16\% was reached by fine-tuning the whole n
 rotation angle, image scale, and blur style are searched for, raising concerns on the real-world generalizability of this result.
  While the dataset is likely to be easier than fossil catalogues, the relative accuracy of
 various approaches can give valuable insight to inform choices in designing the dental marking recognition system.
-
-% 9. palm
-
-% what-contribution
-% investigate effect of preprocessing/augmentation/dataset expansion, compare cnn and transformers. do ocr w transformer / cnn in this case - not done before much. big image quality focus, much more than other papers
-% cnn better than vit, binary better than gray/rgb (my: interesting: maybe benefit of less meaningless signal outperforms bad side of increasing transfer distance)
-% more data and preprocessing works better, pretty obvious. but nothing on if its the preprocessing or the more data that did the trick
-% why transformers worse: limited memory high computing requirements (no idea what limited memory means, only remembers recent training instances or whatt)
-
-% why
-% why for transformer: has lotsa attention (network effects...)
-% why resnet: less complex than vgg
-
-% quality things
-% no validation set, possibly data leakage
-
-% misc / maybe dont mention
-% some methods they used idk
-% dropout
-% stochastic depth regularization 
-
-% metadata for summary of papers table / table, how to do paper analyzing
-
-% 7.
-% - language + main country where its spoken to see geographical representation of  languages analyzed in the papers
-% 9.
-% - maybe state number of params for each base model to give a vague sense of how many there are in each
-% - directly state which variant of the model was used bc i also need to pick a variant (eg vgg16 or vgg19)
 
 Lastly, an interesting application domain of reading characters used in ancient historical scripts written 
 on palm leaves, Thuon et al.~\cite{9thuonPalm} achieved an impressive accuracy of 93,55\% on more than 100 
@@ -1488,27 +1046,20 @@ stated in the table as it is done in every case. The shorthand 'FC' is used to d
 \label{tab:model-info}
 \end{table}
 
-% summarizing chapter
-% what should the reader remember?
 This chapter presented work related to the problem of recognizing handwritten dental 
 fossil markings. Since little work on fossil catalogues exists, the attention 
 was turned to a related problem on an abstract level; recognizing handwritten letters
 and digits in South Asian languages. The insight gained from the 
-literature review will be used in creating the training setup for the dental marking detection models.
+literature review is used in creating the training setup for the dental marking detection models.
 
 \chapter{Experimental Setup}
 
-% consider the fossil case again.
-% my goal in this work is ...
 The goal of this thesis is to recognize tooth type,
 jaw, and index number markings to increase the accuracy of the element description in
 the digitized fossil dataset of the National Museums of Kenya, ultimately aiming to improve the quality of paleoecological data analysis by improving the precision of the digitized catalogues. This 
 chapter presents an end-to-end system that achieves this goal and gives reasoning 
 for the training setups tested to build  the required deep learning models.
 
-% the hypothesis: pipeline approach of classifying teeth to types with a series of models will result in highly accurate cleaned tooth data
-%     verify that this is possible
-%     experiment with base models and layer freezing to find best accuracy score
 The main hypothesis is that accurately recognizing tooth notation in catalogue images 
 is best completed with a divide-and-conquer approach: by decomposing the main problem into small
 subproblems of simple univariate classification, and chaining these to a tooth detection pipeline,
@@ -1516,12 +1067,6 @@ the subproblems become easy enough to be solved with perfect accuracy on limited
 The aim of the experiments is to verify the plausibility of this approach and find the most accurate deep 
 learning models to solve the subproblems involved.
 
-% overview of chapter
-%     sect 6.1 formulate the problem ie how to interpret the ambiguous goal of 
-%     "clean element description tooth markings" set of x to y mappings that can be taught to a deep neural network
-%     and how to build a system from the mappings that achieves the goal
-%     sect 6.2 the training settings attempted informed by literature
-%     for creating the models are chosen
 This chapter is organized as follows. In Section~\ref{sect:problem-formulation}, the tooth recognition problem is formulated as a set of $X\to y$ 
 mappings that achieve the goal of cleaning dental markings in the element description column.
 Then, training settings attempted to build the required models are chosen, informed by literature, in Section~\ref{sect:building-models}.
@@ -1529,27 +1074,12 @@ Then, training settings attempted to build the required models are chosen, infor
 \section{Problem formulation}
 \label{sect:problem-formulation}
 
-% point of this section:
-% what data we are talking about, what has been done, what is my goal on high level 
-% subsections formalize the high level problem to a problem that can be solved with a nn
 To give an exact task to a neural network, one needs to explicitly define 
-the inputs and outputs to the network, and determine how they will be obtained and used.
+the inputs and outputs to the network, and determine how they are obtained and used.
  As this work is a continuation of 
 a previous digitization project, this section first presents the starting point 
 from the project output and characteristics of the scan images. 
 
-% data and what has been done until now
-% what the catalogue is exactly: tabular handwritten log of fossils
-% element description column (which part of the animal)
-%     handwritten notation from time before standardized computers, so variable writing with no notation standard
-%         -> rare surprise characters occur (eg 1/2 as a one half of a tooth noter)
-%             old note on this: has been done by different but few annotators, no logs on who logged what, everyone 
-%             had a bit different style of notating. also no clearly defined standard 
-%             for notating specimens. so might be that actual data used will have 
-%             characters or words not present in training set
-% photo-to-tabular has been done but
-%     teeth have errors in ocr output (eg tooth types that are not m p i or c)
-%     upper lower jaw is unknown since ocr used in table (azure) cannot read up/low jaw notation
 The fossil catalogues are hand-drawn tables with specimen details such 
 as accession identifiers, localities, and element descriptions. The element description 
 column specifies which part of the skeleton the fossil is from and therefore is the only 
@@ -1571,16 +1101,10 @@ The aim of the experiments in this work is to fix these errors.
     \label{image:cataloguesample}
 \end{figure}
 
-% what i am doing now
-% with the catalogue is to take an element description (give sample image).
-% of this description, i should find what teeth are mentioned, and list them as a tuple 
-% in another column. (give what teeth there are) and put the cleaned teeth to 
-% the description instead of the not clean word
-% to aid in this i have also the generalist OCR ouputs from azure (bounding boxes are assumed)
 The aim is to augment the digitized dataset with a tuple of all teeth in the 
 element description, and to correct the erroneously read tooth markings in the element column.
 The digital notation, presented in Table~\ref{table:jaw_notation}, is used in the end result.
-The recognition will be built assuming that bounding boxes for cropping out individual words in the 
+The recognition is built assuming that bounding boxes for cropping out individual words in the 
 catalogues are available; for this purpose, Azure Vision output files with bounding boxes
 are used. An example of the desired output,
 created by hand-annotating, is presented in Figure~\ref{image:goal}. 
@@ -1593,26 +1117,6 @@ As can be seen from the dataset sample, the other data in the end result is far 
     \label{image:goal}
 \end{figure}
 
-% so: we have the vague goal of catalogue to cleaned element description with teeth tuple extracted.
-% general on goal to nn: the generality vs accuracy tradeoff and what i should aim for
-% different types of defining inputs and outputs, discussion on what to choose
-% generality ease trade off: constrain to simple input output relation causes model to be 
-% more accurate (it can be given more prior information on what is present), but less applicable 
-% to variability in data.
-% example of constrained setting
-%     input: perfect images of teeth letters
-%     output: letter
-% example of an unconstrained setting
-%     input: the whole catalogue image
-%     output: a tabular dataset of all text there perfectly cleaned no matter the anomalies
-% why we went for more simple approaches first
-%     because the part of data that can be digitized with the tightest constraints and the simplest models are most accurate. Do that first, deal with the remaining later
-%     better to clean small subset of data well than large amount of data badly.
-%         difference to other domains of big data:
-%             each fossil sample is expensive and human laborous to obtain, "big" sample is 
-%             small compared to other ml applications, 1000 is a lot 10k huge.~\cite{Faith_Lyman_2019}
-%             so get a clean sample that is small is still valuable because paleo samples are relatively small
-%         also: not much done before so it is better to start out simple and build from there
 The guiding trade-off to discuss when choosing the neural networks that could aid in correcting
 tooth notation is between accuracy and generality. The more prior information one gives to 
 the model, or the more constrained the task is, the better the results are. On the other hand, a too
@@ -1628,43 +1132,16 @@ easier cases. Additionally, as the aim of automated digitization is to avoid ted
 As sample sizes in paleontological studies are relatively small, the cost of a data mistake
 can be severe and is amplified by these errors propagating to every study that uses the data point.
 
-% first question: is the input the whole phrase, words or characters? sect sequence learning. 
-% since words are better, section tooth thinks about how to solve image of word to tooth type problem.
-% once we know how i show u how to use the models, how the system will work
-With the end goal of correcting tooth notation and guiding design principle of starting out simple in mind, the next sections will discuss two major questions 
+With the end goal of correcting tooth notation and guiding design principle of starting out simple in mind, the next sections discuss two major questions 
 in how to set up the tooth recognition system: whether to give the whole element description cell content
  or only a word to the model, and how to set up target classes for the classification tasks.
 
 \subsection{By-sequence or by-word recognition}
 
-% sequence definition: image to variable-length phrase (text in the image)
-% word per word approach, inspired by~\cite{tibetan_ocr}:
-%     input is image of one word
-%         one tooth = one word
-%     output is the text on the image, when the word is a tooth output is valid tooth notation so m1-3 p1-2 etc
-% character by character approach: input character image, output character 
-%     we cannot do this because there is no readily made segmentation of image to characters 
-%     would also not make much sense because tooth notation letter and number should be kept together
-%     -> choose between sequence and word
 To choose the inputs for models, one needs to choose whether to keep the
 element cell contents as one image or split it to words. As the segmentation 
 data is only available up to word level, the character option is not available in this work.
 
-% sequence benefits:
-%     adaptable to many kinds and lengths of input
-%     also clean the nontooth word outputs at the same time
-
-% sequence bad sides:
-%     finetuning just one layer on 80 training images for two epochs took about 15 minutes of~\cite{li2021trocr}
-%         -> all hyperparameter optimization etc is out of question with this heavy training.
-%     finetuning on images with tooth data caused errors on words that 
-%         (give a sample of confused reading attempts: leftleftleftleft)
-%     inductive transfer learning is the case here, target task differs from source task
-%         the target set of characters has changed
-%             Encoding this to the large encoder decoder transformers would 
-%             require rewriting parts of the preprocessor and model which is too complex given the level of this work.
-%                 only adequately accurate models are large collaboration efforts to create so code is complex 
-%                 eg trocr is by Microsoft employees
 Sequence learning is a machine learning paradigm where both input and output lengths vary~\cite{sutskever2014sequence}.
 The clear benefit is its flexibility; more difficult cases such as many teeth noted together (eg. $\text{M}_{1-3}$),
 where segmentation to words frequently fails, could be recognized. A fine-tuned sequence learning 
@@ -1678,17 +1155,6 @@ A theoretical description of this is that because both the domain, from general 
 and the task, the character set to recognize, changed, the transfer distance becomes so large 
 that significant training data and computational resources are required to teach the new problem to the model.
 
-% word by word benefits
-% feasible given available data and computing resources
-% possible to encode the tooth type classes, eg have a class "third molar"
-% classifying characters has been essentially solved, easy problem 
-% also classifying to tooth or not tooth should be easy 
-
-% word by word bad sides
-%     not as flexible. but we started with the easier anyway to have something thats working
-%     left right cannot be put to tooth markings sometimes in other formats like "left mandibular frag with m1-2"
-
-% so, word by word. next: formulate image of word to correct output more precisely
 Recognizing the markings word by word becomes character classification in 
 the tooth marking case if one constrains the input images be samples with one letter and 
 one number, leaving out the multi-tooth markings with a number interval (eg. $\text{p}_{2-4}$).
@@ -1707,10 +1173,6 @@ number, the classification problem is formulated next.
 
 \subsection{Tooth marking classification: multi-label classification or classifier chaining}
 
-% approach: tooth or not tooth. then classify teeth. 
-% not tooth straightforward: use azure output
-% tooth less straightforward, topic here: x is the image of the marking, y is tooth type, but what is the 
-% softmaxed probability vector the model should output? so what are the target classes?
 Given the choices that processing is completed word by word and leaving more variable inputs like 
 notation marking multiple teeth for future work, the output still requires to formalizing.
 Processing non-tooth words is straightforward; as the Azure Vision results are accurate, they
@@ -1718,41 +1180,12 @@ can be reused. Less straightforward is which classes to set up for the
 tooth markings: the image has many points of information; tooth type, jaw, and index number with 
 interdependencies, like the index number range depending on the tooth type.
 
-% formulation of tooth image to tooth type
-%     univariate: m1,m2,m3,p1,p2,p3,p4,c,i1,i2,i3 up and low (22 classes)
-%         -: does not encode that all m's share letter m, all ups share traits
-%         we have kinda three separate problems: 123, updown, mpic. this does not encode that 
-%         but states we have one problem with 22 possible, separate solutions with no relations between solutions
-%             (all classes are equally dissimilar to each other) --> incorrect encoding of prior knowledge
-%     alternative multivariate: up/down, MPIC, 1234
-%         input image, output three vectors: updown, mpic, 1234
-%             -: multiclass classification general case does not work like this 
-%                 general case is like image can have a dog and a cat, but here an image cannot be m and i~\cite{multilabel_classification}
-%                     so this is special grouped classification -> less prior work as problem is more unusual 
-%             -: no such thing as a 3rd canine 
-%                 so not all variable combinations are possible. no easy well established way to encode that to the model 
-%                     what will we do if the model thinks its a 4th canine?
-%             -: even when it was easy~\cite{tibetan_ocr} kinda already argued the multilabel is a bad approach
 The simplest formalization would be to have one class per tooth, the classes becoming for lower jaw m1-m3, p1-p4, c, and i1-i3,
 totaling 22 classes when including both jaws. This, however, encodes prior information falsely: univariate classification would 
 mean that all classes are equally dissimilar to one another, which clearly is not the case as some inputs share same letters or digits.
 Put more accurately, there are three separate problems; which jaw, which tooth type, and which index number is found in the image, 
 and the univariate formalization does not encode this fact.
 
-%     model ensemble/ chained classifiers to the rescue
-%         separate models. mpic model, updown model, m1m2m3 model, i1i2i3 model, p1p2p3p4 model
-%             simplify the problem of each model
-%             encode equal likelihood for M to be lower or P to be lower
-%             problem is more alike the literature reviewed
-%             separate index model to encode
-%                 the no 4th molar prior
-%                 model does not learn index number based on what the letter is by keeping letter not changing
-
-% not inspired from any paper but my own idea, felt like a sensible way to formulate the problem, 
-% so we have for all models a well-solved well-defined basic classification problem. partly inspired by~\cite{tibetan_ocr}, though
-
-% reason for this choice: it encodes most prior knowledge in the output structure, use as much from azure as possible
-%     act according to premise of transfer learning: utilize all prior knowledge, fine tune your approach to problem as little as possible
 The natural variation would be multivariate classification with the classes m, p, i, c, up, low, 1, 2, 3, and 4. However, 
 the general multivariate setting does not constrain these classes to any groups with one class required to be chosen from 
 each~\cite{multilabel_classification}, consequently other works would present approaches not applying these restrictions.
@@ -1778,34 +1211,7 @@ Next, the end-to-end pipeline for getting the tooth markings out of the catalogu
 
 \subsection{The proposed pipeline}
 \label{sect:pipeline}
-% chain of models, inspired by~\cite{tibetan_ocr}: take in image, tooth or not
-%     (tibetan: classify which script style, then recognize so classifier chaining)
-%     if tooth give to tooth classifier 
-%     if not tooth give to basic word reader
-
-% summary: the pipeline
-% split catalogue to word segments by azure bounding boxes 
-% classify each word: tooth notation or not?
-% not means not tooth or too new n weird notation for models to recognize
-% -> recognize a big fraction even when there is surprise notation
-% if not tooth output azure output
-% if tooth   
-%     give to m p i c model
-%     give to upper lower model 
-%     if m
-%         give to m1 m2 m3 model 
-%     if p
-%         give to p1 p2 p3 p4 model
-%     if i
-%         give to i1 i2 i3 model
-%     return index type upperlower combined
-%     note: left right ignored for now as it is more complex (l lt left, not always right before word)
-%     take from all models min confidence of the top class pick and use that as confidence notation for 
-%     tooth classification. save it
-% then collect all teeth to tuple 
-%     confidence of teeth tuple is the minimum confidence among all tooth.
-%     threshold: if below x, mark the row for manual inspection, otherwise dont inspect (esim human level recognition like 99,7\% or smthn)
-% then concatenate description back      
+   
 To summarize the problem formulation discussion above, the end-to-end dental fossil marking recognition system,
 illustrated in Figure~\ref{fig:pipeline}, has 
 the following components. 
@@ -1876,9 +1282,6 @@ Next, details related to building the classifiers presented in this section are 
 \section{Building the models}
 \label{sect:building-models}
 
-% so now we know we need these models: restate models. now we choose what to try when building them
-% list subsubsections, these are the aspects
-
 For the dental marking recognition pipeline, four classifiers are needed: upper or lower jaw, 
 tooth type, and two downstream index number classifiers. The experimental 
 section considers design decisions for setting up experiments to build these models with maximal accuracy:
@@ -1887,11 +1290,6 @@ transfer learning method and hyperparameter selection. After a presentation of  
 
 \subsection{Creating the training dataset}
 
-% how i got the data
-% Data was extracted from scans by getting bounding boxes from Azure Vision API,
-% finding the correct column (nature of specimen or element), and cropping the image 
-% according to bounding boxes.
-% multiple catalogues used to create training set to get versatile notation
 The dataset with a total of 1\,105 images was extracted from the fossil 
 catalogues using the first two steps on the pipeline in Figure~\ref{fig:pipeline}:
 for each word under the element describing header, the Azure Vision output was classified 
@@ -1900,10 +1298,6 @@ images with tooth notation were cropped out from the catalogue. Along with the i
 Azure Vision \cite{azurevision} reading result was saved. To have as versatile notation as possible, images were 
 extracted from several catalogues.
 
-% dataset creation and data balancing
-% train and val from same catalogues, test set from new one to hopefully introduce concept drift
-%     train on train, model select on val, report accuracy on test set -> true not best but more so worse case generalization accuracy, get that high u real good
-% give sample counts after balancing
 After extraction, data balancing, and splitting to training, testing, and validation sets 
 was completed.
 Because incisors and canines were much more rare 
@@ -1918,13 +1312,6 @@ change. For the test set, 100 samples were kept. This resulted in
 train set sizes, including the images generated to balance classes, of 905 samples for upper or lower, 
 2\,071 for M, P or I, 1\,521 for index one to three, and 2\,026 for index number one to four.
 
-% labeling:
-% mpi, index number: assume that azure reading is correct where reading is a valid tooth notation
-% if incorrect, leave out label and handlabel (dont throw out since these are the hard cases and are valuable!)
-% up low: hand label with binary label 0 for low 1 for up, -1 for undecipherable
-%     why an undecipherable class:
-%     - undecipherable upper/lower: the correct answer is not any of the two, so false or correct classification is equally bad, so accuracy does not fully reflect if the model works perfectly or not.
-%     - forcing model to think something a human cannot classify should contain some traits where it could figure which one it is is false and will confuse the model -> worse results
 For data labeling, outputs from Azure Vision were heavily utilized. For 
 tooth types and index numbers, if the reading result was a valid class, it was assumed to 
 be correct and used as a label, saving a significant amount of labeling effort. As the 
@@ -1954,8 +1341,7 @@ A small sample of the training dataset of premolars is presented in Figure~\ref{
 
 \subsection{Data preprocessing}
  
-% 1 paragraph: denoising and grayscaling
-Preprocessing of training, validationm and test images was completed by grayscaling, denoising, and resizing.
+Preprocessing of training, validation and, test images was completed by grayscaling, denoising, and resizing.
 As color channels in images have no meaning for the text on the image, grayscaling was implemented by
  stacking three identical grayscale images
 to match the three-channel input size required by the base models.
@@ -1969,7 +1355,7 @@ be found in Figure~\ref{image:noise}.
 
 \begin{figure}[ht]
     \centering
-    \resizebox{\linewidth}{!}{%
+    \resizebox{\linewidth}{!}{
         \begin{minipage}[b]{0.45\linewidth}
             \centering
             \includegraphics*[scale=0.67]{images/noise.png}
@@ -1984,15 +1370,6 @@ be found in Figure~\ref{image:noise}.
     \label{image:noise}
 \end{figure}
 
-% 3. tested but not implemented things
-% segmenting out the letter: does not make sense since the premise of deep learning is 
-% to to feature extraction better than a human would do. to segment out the letter you would 
-% need to know which area is the letter and to know that you need to know what letter there 
-% is which is the problem in the first place, so unsolvable egg hen problem. show some example from preprocessing notebook
-
-% no binarizing: some letters are super weak text so theyd get lost and some background clutter might be dark.
-% popular was wan thresholding but im not confident in this case where intensities change so much you could 
-% do any deterministic binarization
 More heavy preprocessing steps of binarization and extracting only the letter or number from the image were 
 attempted but not implemented.
 Binarizing the images was considered as evidence was found for binarization to increase result accuracy~\cite{9thuonPalm},
@@ -2012,13 +1389,6 @@ heavier preprocessing operations were not used.
 \subsection{Data augmentation}
 \label{sect:aug}
 
-% paragraph 1: augmentation routines were chosen to mimic what could happen really
-% how i will augment: those that might happen in scanning process
-% intensity value change (idk scanner illuminates differently)
-% change background and letter contrast (some paper is lighter than other)
-% random cropping (to mimic bounding box detection errors, dont translate bc that creates the white background that never occur in test data)
-% minor rotation (up to 5 degrees, scanner does not turn that much and handwriting is generally pretty straight)
-% horizontal and vertical shear to mimic different handwriting styles
 Data augmentation operations were chosen according to variation that can 
 occur among scans of documents with handwriting.
 Due to paper and pen color differences, functions on pixel intensity
@@ -2045,25 +1415,15 @@ is presented in Figure~\ref{image:augmented}.
 
 \subsection{Base model selection}
 
-% 1. paragraph: verification of hypothesis that imagenet indeed was the best
-% According to~\cite{emnistclassifiersurvey}, this model was the best:~\cite{jamilemnist}, was chosen as the base model.
-% they trained on emnist-balanced, so no difference between upper -and lower case letters. not a problem for us since 
-% in the handwritten catalogues, upper or lowercase was not used to distinguish upper and lower jaw
-
-% mnist and real world fundamental difference: mnist is perfect world, real images vary much more~\cite{alexnet}
-% therefore: not e(mnist) as source problem, but imagenet classification.
-
 To select appropriate base models, one first needs to select the source task and domain. Since most reviewed work uses image classification as the source task, this is assumed to work best.
 Another potential source task would have been the identity mapping task given to the autoencoder,
 but it was not implemented due to lesser popularity and the small size of the dental marking image dataset.
 As the source domain, there are two datasets used in previous work: the classification of digits in the MNIST dataset, 
 and the ILSVRC classification challenge with the ImageNet dataset. The popular 
 assumption that ImageNet is a better source domain was verified with a short experiment by training a MNIST classifier~\cite{jamilemnist}
-to classify tooth types with best accuracy of 89\%, that was clearly outperformed by the ImageNet-based classifiers. This verifies the commonly assumed hypothesis that real-world images of any objects is a more 
-similar domain than the MNIST dataset of handwritten digits, which is known to contain ideal-case images with little noise.
+to classify tooth types with best accuracy of 89\%, which was clearly outperformed by the ImageNet-based classifiers. This verifies the commonly assumed hypothesis that real-world images of any objects is a more 
+similar domain than the MNIST dataset of handwritten digits that is known to contain ideal-case images with little noise.
 
-% 2 paragraph: selection of base models based on previous work
-% Chosen public dataset was EMNIST~\cite{emnist} because it is the closest to my problem: a large dataset of labeled letters and numbers.
 The ImageNet classifier base models used in this the experiments are selected 
 according to results from related work, reviewed in Section~\ref{sect:same_solution}.
 The models were chosen by checking which base models 
@@ -2081,31 +1441,8 @@ because  they were not chosen to be experimented with. As one has to limit the
 search space of architectures in some way, previous success was kept as the main deciding heuristic 
 even when acknowledging these limitations.
 
-% return to tables 3,4 which base models seemed to work in literature
-% those variants that occur many times in top3
-% efficientnet
-% vgg16
-% densenet121
-% resnet101
-% obvious flaw: no whys in prev work why they chose what they chose but 
-% one cannot test everything so we choose these.
-
 \subsection{Transfer method selection}
 
-% why i only always keep unfrozen layers after frozen layers
-% some papers did some first layer unfreezing, or middle layer unfreezing ie something else 
-% but not freezing last layers. dismiss that because 
-% they did not state why they did that. from the learn higher and higher level features point of view 
-% having an not frozen layer and then after that a frozen one does not make any sense; the later 
-% layer is based on the previous. so never in experiments have a frozen layer below a layer that is frozen
-
-% why i start from more frozen to less frozen
-% more frozen is less training effort, more generalizable (less is fit to specific data set)
-% this is overall better so therefore first this
-% if the search space of parameters is too small (model converges to low accuracy), freeze one layer by one 
-% until overfits: training error is much larger than test error. sign: we trained too many parameters / for too long
-
-% small dataset -> train less layers to not overfit to the target dataset
 For transfer method selection, the reviewed work in Table~\ref{tab:model-info} has a variety of approaches, 
 the only common trend being that freezing less seems to be beneficial. 
 However, how much to freeze is dependent on transfer distance and target data size;
@@ -2114,7 +1451,7 @@ and in cases of small target data, where overfitting is avoided.
 For these reasons it is argued that transfer method selection should be
 based on experimentation rather than previous results.
 
-For the choice of which layers to freeze, layers will be only frozen so that a frozen layer never 
+For the choice of which layers to freeze, layers are only frozen so that a frozen layer never 
 occurs after a trainable layer. This is because of the assumption that high-level layers 
 encode generic and lower layers more specific features, and the generic features are assumed to be most transferable among tasks.
  Additionally, as specific features build on the generic ones, freezing layers 
@@ -2123,7 +1460,7 @@ at the start of the network being frozen and others at the end being open for up
 The number of trained layers is used to specify the transfer method 
 for each experiment, and these are always the last layers of the network.
 
-As another experimentation principle, the trials will start out from settings where more layers are frozen, proceeding to
+As another experimentation principle, the trials start out from settings where more layers are frozen, proceeding to
 cases where more parameters can be updated. This is because more freezing saves 
 computational effort, and is less likely to overfit to the training set as there is a lesser degree of freedom 
 available for updating parameters. Therefore, it is sensible to look for the model that re-uses as 
@@ -2132,8 +1469,6 @@ this is assumed to result in the best generalization capability.
 
 \subsection{Hyperparameter selection}
 
-% fix hyperparameters: do not experiment with too much at a time.
-% Take hyperparameters that were most common among reviewed re.
 As for hyperparameters, values are selected according to well-performing 
 options in reviewed literature to scope down the experimentation search space.
 Hyperparameter tuning was not implemented to keep experimentation 
@@ -2162,36 +1497,6 @@ are summarized in Table~\ref{table:hyperparameters}.
     \label{table:hyperparameters}
 \end{table}
 
-% the hyperparameters
-
-% image normalization mean and std (for numerical stability of training (doublecheck this is the reason!))
-% batch size 
-% num epochs 
-% optimizer 
-% learning rate 
-% learning rate scheduling
-% loss function
-% many runs and final accuracy averaging; how many runs
-
-% For each: list what papers used generally, pick a nice average value
-% then i tested with the best model these to check sensitivity to hyperparameter choice, so 
-% robustness of optimization. esp change the random seed to see results dont depend on that
-%     but so the hyperparam sensitivity thing:
-%         if the experiment results hold across a population -> which method works best should work best in all 
-%             hyperparametrizations and not only in this one. vary hyperparameters and check if comparison 
-%                 (which was better than which) still holds
-%         differences in accuracy are due to the hyperparameters being more optimal in some cases than some 
-%             you can never really eliminate this 
-%             one should further verify how robust the experiments are to hyperparameter changes
-%             I can test around a little bit to check that my some better than some holds at least in most cases
-
-% % summary of chapter
-% this chapter gave an overview of how the experiments were set up and why they were set up in this way.
-% a sentence from all: sequence not done bc its complex. multiclass not done bc it is worse according to~\cite{tibetan_ocr}.
-% training setting: preprocessing by denoising only because nn premise is that the net is better at feature extraction than human.
-% augmentation: intensity change background contrast change random crop letter blur minor rotation because these can happen in catalogue scans
-% base models are: efficientnet vgg16 densenet121 resnet101 because they were popular and or won comparing benchmarks in previous work
-% freezing first more then less bc if more works its better, find sweet spot of most freezing that is still accurate.
 In this chapter, the experimental setup along with reasoning for design decisions were given.
 In the problem formulation, classifying words with a chain of univariate classifiers was opted for to 
 maximize the accuracy by simplifying the problem as far as possible.
@@ -2204,13 +1509,6 @@ results from these experiments are presented and evaluated.
 
 \chapter{Results and Discussion}
 
-% introduction to chapter
-% present the results from experiments
-% % start of section: reiterate what was experimented with
-% guidepost to discussion
-% first evaluation of result, its strengths and shortcomings
-% then discussion on if comparing architectures makes sense in a small data case
-% last discussion on what this might tell about transfer learning theory. why it works
 This chapter presents the results of the experiments. The base models were compared by
 upper and lower jaw classification accuracy, since initial experiments suggested it to be the most challenging task. The experimentation was limited to testing different base models, AlexNet, EfficientNetV2S, 
 DenseNet121, Vision Transformer, and ResNet101, and freezing setups: training 1, 5, 10, or all layers.
@@ -2221,11 +1519,6 @@ if the differences in end accuracy were due to differences in model architecture
 always increases result accuracy, and it is discussed whether this suggests that it is better to interpret transfer learning as extended 
 training rather than a re-use of feature extraction. These aspects are discussed in more detail in this chapter. After this, future work suggestions are presented.
 
-% GENERALIZATION CAPABILITY / QUALITY OF MY RESULTS
-% quickly refer the table
-% 	vit: 2nd, so don't forget about transformers, but don't forget about cnn's either. both seem to work almost equally well.
-% train test dirrecence max 8.59 but most in 0-3\% range. so: similar train test accs, so: generalizes well
-% initial hypo of freeze more to overfit less does not seem to hold: no larger train val acc differences with less freezing
 The experiment outcomes are collected to Table~\ref{table:results}, and 
 the most important findings are the following. Using AlexNet as the base model results in the highest 
 validation accuracy with the Vision Transformer as a close second. Having the transformer 
@@ -2283,21 +1576,6 @@ ResNet101 ~\cite{resnet}  & all  &            64.75 & 65.58  \\
     \label{image:diff_hist}
 \end{figure}
 
-% RANDOM SEED / HYPERPARAMETER SENSITIVITY: ON THE FLIMSEYNESS OF MODEL ARCHITECTURE COMPARISONS
-% sensitivity to hyperparams/random seed? tested by setting seed from 15 to 2 8 (random choice) and re running for alexnet.
-% 	there is room for hyperparameter optimization
-% 	it was still the case that more freezing worse result
-% 	random seed essentially determines how the data points are divided into batches. batch division that happens to be better for optimization can lead to a better optimum and a better model. emphasis: model comparison is hard, margin of error is up to 10\% where you should not be too sure the better model is actually better
-% 	so, if one does model comparisons then it is important that the hyperparameter search is actually exhaustive, you actually try every single seed so each model has the best seed used. practical thing is, you can never really do that. therefore model comparisons should be done with caution.
-% 	this also means that doing proper experimentation is expensive computationally, luckily small data transfer learning is not that cpu intensive.
-% theres no metric for quality of optimum found.
-% to actually compare architectures you'd nee
-% many h param setups, compare each and check if one is best in eeevery case
-% but: cpu intense.
-% we see here efficientnet was unsuitable -> architecture comparison paper contribution is not necessarily that relevant bc the information is not generalizable
-% 	best model in one is not the best in other is at least proven for sure.
-% random seed: shows that initial examples are important in finding a good optimum!
-
 To estimate how much the results depended on the optimum found in training and how much on the architecture, 
 the best architecture AlexNet was retrained with one hyperparameter changed. The resulting 
 change in accuracy suggests that comparing architectures when target data is small is highly inaccurate. 
@@ -2348,12 +1626,6 @@ superiority of an architecture over another.
     \label{table:hyperparameter_sensitivity}
 \end{table}
 
-% IS TRANSFER LEARNING JUST MORE TRAINING?
-%no freezing was best. observations.
-% no freezing was best (see the plots, this held in every single experiment so strong result)
-% result aligns with other ocr studies.
-% resnet and efficientnet: maybe all information on the training dataset was able to be encoded to the first five layers and therefore more unfreezing did not provide more value
-% train the last layer (inspo from~\cite{4zhaoTibetan}, hypothesis of reusing feature extractor as is seems false, training the whole network works better.
 The clearest result from the experiments is that freezing never improved the resulting accuracy. This result was 
 also the only larger consensus among studies reviewed in Section~\ref{sect:same_solution}.
 As is highlighted in the plot of layers trained against resulting accuracy in Figure~\ref{image:accuracy_vs_freezing},
@@ -2370,12 +1642,6 @@ best model in the fossil domain; additional feature tuning was needed.
     \label{image:accuracy_vs_freezing}
 \end{figure}
 
-% mnist or imagenet as a base model
-% initial phase experiments: mnist transfer to mpi since it was thought to be a similar problem. 
-% mnist had worse result 89\% with quick testing, above-90 never achieved w. mnist
-% imagenet is more similar than mnist: real world image classification is much more complex than digit classification~\cite{alexnet}
-% mnist shortcoming: benchmark images are ideal cases with eg perfectly even background. 
-% also~\cite{8goelGujarati2023} had the same result (that imagenet is better than mnist even though mnist data looks more like character images)
 To analyze transfer distances, less rigorous experiments were implemented on a MNIST base model~\cite{jamilemnist}.
 This was implemented to check the hypothesis that transfer distance from MNIST to fossil data is larger than that where 
 the base task is ImageNet: even though the former contains characters, the ideal-case benchmark images are more dissimilar 
@@ -2384,13 +1650,6 @@ initial experimentation, although not as rigorous as the ImageNet-based experime
 This result was shared by the handwritten Gujarati detection study~\cite{8goelGujarati2023}, where ImageNet as base task 
 outperformed MNIST in all layer freezing scenarios. 
 
-%"we need to go further"
-% two ways to study: learn principles (encode priors to models/ constrain the problem), show examples of special cases
-% transfer learning is good because part of the special case example "studying" was done for you. ofc u need to study something relevant so there transfer distance comes in so you reuse training, not features
-% no freezing: more trainable parameters so you can just train more?
-% base tasks: imagenet is much larger so more training was done? and therefore imagenet's better?
-% --> we need to go further (analogue to the meme)
-% --> pick your model, and throw data and compute at the problem as much as you can.
 To draw an analogue from neural networks to learning in general, the central lesson learned in these experiments 
 is that there is no trickery to learning. To learn something, there are two avenues: one is to learn principles, which in 
 neural networks occurs by encoding prior information with architectures or constraining the problem space. After that, the only 
@@ -2405,24 +1664,6 @@ due to the transfer distance being shorter or if the reason is the sheer size of
 can be boiled down to one phrase, much alike the GoogLeNet inspiring meme~\cite{we_need_to_go_deeper}: one can say ``we need to go further'', that the way forward is only about exposing the model to more examples, 
 and re-using the previously learned as much as possible.
 
-% back to the higher level task of constructing the pipeline: test 
-% errors and outcomes of the system
-% test errors and certainty scores.
-% x why test set
-% i don't list validation accuracy as one should not to describe generalization,
-% because val accuracy was used to do model selection -> there is data leakage in the validation accuracy
-% x what is certainty score.
-% a metric for what proportion of samples the model was more than human level ie 99,7 percent certain 
-% - c's are a struggle. on the other hand this suggests that the sub/superscript is learned well, only one such sample
-% comparison to generalist
-% x judging on how many things i corrected when labeling, this is far better than the generalist.
-% x random seed disclaimer: still many percentage points fluctuation
-% varied random seed mpi, lowest was bit below 90 so seed variance even here, acc was always 100
-% x task comparison follows how hard it felt to label.
-% ndex was hardest becuase often esp lower part of number gets cut out -> 2 and 3 distinguising is hard
-% - class imbalance thing
-% class imbalance was severe in some cases so the less common classes had to be augmented 
-% a lot, so could overfit to the small amount of samples, also causes that test err is not necessarily that representative.
 Returning to the higher level task of correcting dental markings, all models presented in Section~\ref{sect:pipeline} were constructed, evaluated and used 
 in building the inference pipeline. For evaluation, test error was measured on a new set not used in previous experiments 
 to prevent data leakage; data used to inform the model building process should never be used to report final accuracies~\cite{engbook}.
@@ -2482,20 +1723,6 @@ Index (1-4)                & 91.39                  & 62.92                   \\
 
 \section{Future work on digitizing fossil catalogues}
 
-% shortcomings; add to 1st paragraph. + add guiding part on what this sect is about
-% - i lose context between words ie. mandible with m1-3 we know is lower. sequence based analysis would help here
-% - vocabulary-based analysis, the set of words that can occur in a catalogue vs. all words in a
-%   language is a small subset -> good constraint but i did not find a way to encode it to the model
-% - best accuracy came from an experiment to test hyperparam sensitivity with a random hyperparam choice ->
-%   hyperparam tuning could result in a better accuracy.
-% - task dissimilarity to other ocr: extra info on image with character and number. idk if character classification 
-%   was the best technique. this needs adjustment anyway to eg. cope with M1-3 multiclass things. that is new in ocr in general: 
-%   marking that is many classes at the same time is like a character that would be a b and c at the same time, sign of maybe wrong formalization
-
-% why word bounding box worked badly and how it could be improved
-% how this could be continued
-% main problem in working with azure bounding boxes: incorrect identification of word bounding boxes.
-% encoding prior knowledge should work better: M1-3 is a word for instance, azure did stuff like m, 1-, 3
 While this work managed to accurately clean a part of dental markings present in the catalogues, 
 there are several potential directions to significantly improve the digitization of such catalogues in general, the main direction 
 being improving the quality of word-location defining bounding boxes. The main problem in the bounding boxes provided 
@@ -2515,28 +1742,9 @@ due to the spacing between characters.
     \label{image:hardsentence}
 \end{figure}
 
-% point of this paragraph: object detection is a harder task and has gotten attention from cv research in recent years.
-% on hardness. from computer vision lecture 11~\cite{ruotsalainen2024}
-% object bounding box detection requires higher resolution images and ground truth labels -> labeling effort is 
-% big, compute needed. one idea is to take premade bounding boxes by generalist ocr word detectors and for example
-% infer they are correct by matching with a vocabulary of known correct words to exist in fossil catalogues.
-% pointers to research work on computer vision object detection
-% on recent work. several new advances seem without testing promising, but unfortunately their main problem is differnet from ours so not directly applicable
-%I quickly tested a state of the art object detection model the yolo10, variant of popular object detector yolo\cite{redmonYouOnlyLook2016}
-%  untuned, on huggingface api, the yolo10~\cite{OmouredYOLOv10DocumentLayoutAnalysisHugging2023}. The performance 
-% was poor, see fig, probably since object detection usually does 3d object detection in a 3d scene, so one should either 
-% fine tune or find a ocr bounding box detector. then there is open-vocabulary object detector which you can tell what objects 
-% are present~\cite{YOLOWorldRealTimeOpenVocabulary}. we could just say there are teeth and words. 
-% then also a recent publication on detecting text on images~\cite{longHierarchicalTextSpotter2024}.
-% benefit of these is that they are fine-tunable which the commercial azure api is not. 
-% then also detectron~\cite{Detectron} from meta for object detection
-% one could also run more sophisticated 
-% tooth or not classification on azure output, which could work well but relying on a paid service is not ideal 
-% for open access solutions.
 The problem of finding objects in images is much harder than image classification and has attracted attention 
 from the computer vision research community recently\footnote{These were surveyed at the lecture ``Computer Vision Applications with CNNs'' on the course Computer Vision, presented at the University of Helsinki, Faculty of Science by professor Laura Ruotsalainen on 11th October, 2024.}. 
 Main reasons for the difficulty are the labor required to obtain ground truth bounding boxes and object detection requiring better image resolution to work well, therefore requiring more computational resources.
-% TODO create footnote for CV lecture!
 One way to circumvent manual annotation for fossil catalogues could be to automatically detect correct bounding boxes 
 from commercial OCR engine outputs, for instance by regular expression matching the word readings with a vocabulary of words likely to be 
 present in fossil catalogues, much like the approach implemented in this work.
@@ -2553,15 +1761,6 @@ are the open-vocabulary version of YOLO~\cite{YOLOWorldRealTimeOpenVocabulary},
  too large and OCR-specific object detectors need to be found. Experimenting with such implementations is a 
  substantial effort and was omitted from this work to keep the scope reasonable.
 
-% % improving MPI/upperlower classification (not as hard so not as relevant perhaps)
-% ways to improve the result of image classification obtained here 
-% test svm after feature extraction instead of the dense layers + softmax. My most recent model was from (insert year),
-% since then imagenet classification has advanced, so try using a newer base model. these can be harder to obtain 
-% since they are not as established, I could just fetch models from torchvision.models, newer ones are not present there.
-% with a good object detector probably we can get to more variaty of tooth marking images (maybe a fig of examples?)
-% so the classification task would become more complicated. Still, the downstream tooth marking image to tooth task 
-% is a relatively easy classification problem comparing to eg imagenet, so the main challenge is definitely finding words and
-% classifying them to tooth or not.
 Another possible line of extending the work would be improving the accuracy of the dental marking classification. 
 Some ideas include to extend the model with capabilities of detecting markings with multiple teeth,
 a rather unusual case of multi-class character classification, and to experiment with more recent ImageNet classifiers with better top-5 and top-1 error rates.
@@ -2588,7 +1787,7 @@ To see what could be, a good analogue to start from is that of scientific journa
 
 The Google Scholar analogue likely highlighted already what the utility of a global, all-encompassing paleontological database could be, but several more benefits should be covered. To state the obvious, huge amounts of tedious and boring data acquisition and uniforming effort could be saved, and this saved time could then be spent conducting more research, thinking deeply about the analytical problems, or not working at all. Another type of work that could be saved significantly is that of data creation: if every measurement and taxon identification, after completed, could be saved indefinitely and for everyone to access, no measuring would be done twice. Additionally, when saving new measurements, the result tractability could be improved with metadata: the person completing the measurement, date, and any thoughts regarding the measurement could be saved. Should any doubts of the correctness of a measure or taxon identification arise, this data or the person could be consulted, and the entry corrected if necessary. Versioning schemes could be designed to save a history of these corrections. Should one want to see the physical samples, the database still had an utility of serving as a search engine for finding where relevant specimens reside. Lastly, this much more standardized approach to fossil data would allow much better reproducibility: the database query to get the dataset used in each study could be published, and the data could be obtained by anyone evaluating the study to re-run or further experiment with the analysis conducted. With these changes in habits of data management, the thing that matters, the quality of knowledge on the distant past, could be dramatically improved.
 
-The automated correction of tooth markings implemented in this thesis can be viewed as a small step toward this goal. The most positive outcome was that the tooth type letter classification achieved perfect 100\% accuracy, most likely due to its dominant position in the dental marking images. More challenging turned out to be comparing different base models, due to large fluctuations in results with hyperparameter changes; and index number detection, due to bounding box errors and the less dominant position of the digit in the image. The largest limitation found was the quality of the word bounding boxes: the generalist segmentation algorithm had challenges with segmenting the tooth markings, which could be improved by creating a fine-tuned character segmentation model. The most important finding of all, however, was that automated correction of fossil data is a fairly unresearched area, and that much remains to be done until reliable-enough pipelines to bypass human supervision can be built. Therefore, it is encouraged that the first focus should be in the establishment of good data management practices for the data already available digitally, as this is the best way to save work in data acquisition and with that improve paleoecologcal research. This will also allow that the data digitized later can be later saved in an easily accessible format, which is a pre-requisite for automated digitization to be of practical use.
+The automated correction of tooth markings implemented in this thesis can be viewed as a small step toward this goal. The most positive outcome was that the tooth type letter classification achieved perfect 100\% accuracy, most likely due to its dominant position in the dental marking images. More challenging turned out to be comparing different base models, due to large fluctuations in results with hyperparameter changes; and index number detection, due to bounding box errors and the less dominant position of the digit in the image. The largest limitation found was the quality of the word bounding boxes: the generalist segmentation algorithm had challenges with segmenting the tooth markings, which could be improved by creating a fine-tuned character segmentation model. The most important finding of all, however, was that automated correction of fossil data is a fairly unresearched area, and that much remains to be done until reliable-enough pipelines to bypass human supervision can be built. Therefore, it is encouraged that the first focus should be in the establishment of good data management practices for the data already available digitally, as this is the best way to save work in data acquisition and with that improve paleoecologcal research. This also allows that the data digitized later can be later saved in an easily accessible format, which is a pre-requisite for automated digitization to be of practical use.
 
 What it would take to progress from the current state of the art is mostly to continue work already underway, by standardizing and increasing the size of globally available structured data.
 For digitizing, when comparing to traditional annotation by hand, automated digitization holds potential by being able to increase the capacity of data creation, although the challenge remains that perfect correctness is needed to avoid manual verification. However, as seen in this thesis, the accuracies achieved with well-established character recognition methods seem promising.
@@ -2597,11 +1796,6 @@ Lastly, one of the main efforts is to collect data, for which several ambitious 
  Still, what is required is an incentive to contribute to global databases: after 
 conducting an analysis, undergoing the additional effort of sending out the measurements is currently not required. As is known by all natural scientists, species that collaborate flourish, and it is in the interest of everyone to do what one can to advance the whole field.
 
-% STEP 5:
-% Uncomment the following lines and set your .bib file and desired bibliography style
-% to make a bibliography with BibTeX.
-% Alternatively you can use the thebibliography environment if you want to add all
-% references by hand.
 \chapter{Acknowledgements}
 
 I am sending thanks to the following people for help with the thesis process.
@@ -2611,14 +1805,14 @@ To ICT Officer Stephen Maikweki from the National Museums of Kenya for making th
 To the Data Science Project group, Max V\"{a}ist\"{o}, Axel Wester, Yinong Li, and Janne Tuukkanen for the successful project that made this thesis topic possible: implementing digitization to an extent after which building one's own OCR engine was a sensible next step to do. Additionally, the re-usable coding style saved hours of programming in experimentation for the thesis.
 To Emeritus Professor Mikael Fortelius for showing interest in my work, shedding light on the significance of advancing automated data curation for paleontological data and giving ideas on what the reasons for the lack of research in paleontological data management might be.
 To PhD student Shayan Gharib for serving as an ad-hoc research tutor by email; the help with code errors I was blind to and understanding new concepts was of great aid at the start of the work.
-To the Kurt\'{e}n club members, for the welcoming attitude and symposium invitation, which allowed me to talk to people more freely and get a better impression on what the practicalities of doing paleontological analysis are like.
+To the Kurt\'{e}n club members, for the welcoming attitude and symposium invitation that allowed me to talk to people more freely and get a better impression on what the practicalities of doing paleontological analysis are like.
 %Lastly, for final comments and proofreading help, thanks to.
 
-\cleardoublepage %fixes the position of bibliography in bookmarks
+\cleardoublepage
 \phantomsection
 
-\addcontentsline{toc}{chapter}{\bibname} % This lines adds the bibliography to the ToC
-\bibliographystyle{abbrv} % numbering alphabetic order
+\addcontentsline{toc}{chapter}{\bibname}
+\bibliographystyle{abbrv}
 \bibliography{bibliography}
 
 \end{document}
